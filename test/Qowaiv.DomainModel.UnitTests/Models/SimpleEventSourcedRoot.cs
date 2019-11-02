@@ -1,5 +1,4 @@
-﻿using System;
-using Qowaiv.DomainModel.EventSourcing;
+﻿using Qowaiv.DomainModel.EventSourcing;
 using Qowaiv.Validation.Abstractions;
 
 namespace Qowaiv.DomainModel.UnitTests.Models

@@ -48,6 +48,6 @@ namespace Qowaiv.DomainModel
         protected bool AreSame(TModel other) => ReferenceEquals(this, other);
 
         /// <summary>Returns true if the other value object is not null.</summary>
-        protected static bool NotNull(TModel other) => !(other is null);
+        protected static bool NotNull([ValidatedNotNull]TModel other) => !(other is null);
     }
 }

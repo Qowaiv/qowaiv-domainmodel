@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Qowaiv.Validation.Fluent;
 using System;
-using System.Linq;
 
 namespace Qowaiv.DomainModel.UnitTests
 {

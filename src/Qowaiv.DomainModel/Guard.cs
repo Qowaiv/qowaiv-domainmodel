@@ -452,13 +452,13 @@ namespace Qowaiv
             public const string ArgumentOutOfRangeException_Negative = "Argument should not be negative.";
             public const string ArgumentOutOfRangeException_NotPositive = "Argument should be positive.";
         }
-
-        /// <summary>Marks the NotNull argument as being validated for not being null, to satisfy the static code analysis.</summary>
-        /// <remarks>
-        /// Notice that it does not matter what this attribute does, as long as
-        /// it is named ValidatedNotNullAttribute.
-        /// </remarks>
-        [AttributeUsage(AttributeTargets.Parameter)]
-        sealed class ValidatedNotNullAttribute : Attribute { }
     }
+
+    /// <summary>Marks the NotNull argument as being validated for not being null, to satisfy the static code analysis.</summary>
+    /// <remarks>
+    /// Notice that it does not matter what this attribute does, as long as
+    /// it is named ValidatedNotNullAttribute.
+    /// </remarks>
+    [AttributeUsage(AttributeTargets.Parameter)]
+    internal sealed class ValidatedNotNullAttribute : Attribute { }
 }
