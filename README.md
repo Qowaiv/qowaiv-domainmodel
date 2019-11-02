@@ -1,0 +1,1 @@
+# qowaiv-domainmodel
