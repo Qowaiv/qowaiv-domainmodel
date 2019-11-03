@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using NUnit.Framework;
+using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.Fluent;
 using System;
 
@@ -344,14 +345,12 @@ namespace Qowaiv.DomainModel.UnitTests
 
     internal class ObjectParent : AggregateRoot<ObjectParent>
     {
-        public ObjectParent() : base(Guid.NewGuid(), new ObjectParentValidator())
+        public ObjectParent() : base(Guid.NewGuid(), Validator.Empty<ObjectParent>())
         {
             Objects = new ChildCollection<object>(Tracker);
         }
 
         public ChildCollection<object> Objects { get; }
-
-        private class ObjectParentValidator : FluentModelValidator<ObjectParent> { }
     }
 
 }
