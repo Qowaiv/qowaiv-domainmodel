@@ -3,7 +3,7 @@ using Qowaiv.Validation.DataAnnotations;
 
 namespace Qowaiv.DomainModel.UnitTests.Models
 {
-    public class EntityWithDefaultValue : AggregateRoot<EntityWithDefaultValue>
+    public sealed class EntityWithDefaultValue : AggregateRoot<EntityWithDefaultValue>
     {
         public EntityWithDefaultValue() : base(new AnnotatedModelValidator<EntityWithDefaultValue>()) 
         {

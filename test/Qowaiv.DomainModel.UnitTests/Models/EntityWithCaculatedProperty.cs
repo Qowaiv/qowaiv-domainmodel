@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Qowaiv.DomainModel.UnitTests.Models
 {
-    public class EntityWithCaculatedProperty : AggregateRoot<EntityWithCaculatedProperty>
+    public sealed class EntityWithCaculatedProperty : AggregateRoot<EntityWithCaculatedProperty>
     {
         public EntityWithCaculatedProperty()
             : base(Guid.NewGuid(), new AnnotatedModelValidator<EntityWithCaculatedProperty>()) { }

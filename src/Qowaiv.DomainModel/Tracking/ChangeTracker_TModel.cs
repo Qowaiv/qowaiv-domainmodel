@@ -15,7 +15,10 @@ namespace Qowaiv.DomainModel.Tracking
         /// <summary>Creates a new instance of an <see cref="ChangeTracker"/>.</summary>
         public void Init(TModel model, IValidator<TModel> validator)
         {
-            if (!(_model is null)) { throw new InvalidOperationException(QowaivDomainModelMessages.InvalidOperationException_ChangeTrackerNotInitialized); }
+            if (!(_model is null))
+            {
+                throw new InvalidOperationException(QowaivDomainModelMessages.InvalidOperationException_ChangeTrackerAlreadyInitialized);
+            }
             _model = Guard.NotNull(model, nameof(model));
             _validator = Guard.NotNull(validator, nameof(validator));
         }

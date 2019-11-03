@@ -4,7 +4,7 @@ using System;
 
 namespace Qowaiv.DomainModel.UnitTests.Models
 {
-    public class EntityWithInitScope : AggregateRoot<EntityWithInitScope>
+    public sealed class EntityWithInitScope : AggregateRoot<EntityWithInitScope>
     {
         public EntityWithInitScope(Guid id)
             : base(id, new AnnotatedModelValidator<EntityWithInitScope>()) { }

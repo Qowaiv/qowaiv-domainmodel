@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Qowaiv.DomainModel.UnitTests.Models
 {
-    internal class SimpleEntity : AggregateRoot<SimpleEntity>
+    internal sealed class SimpleEntity : AggregateRoot<SimpleEntity>
     {
         public SimpleEntity() : base(new AnnotatedModelValidator<SimpleEntity>()) { }
 

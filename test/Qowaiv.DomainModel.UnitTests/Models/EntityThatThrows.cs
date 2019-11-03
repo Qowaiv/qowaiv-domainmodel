@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Qowaiv.DomainModel.UnitTests.Models
 {
-    public class EntityThatThrows : AggregateRoot<EntityThatThrows>, IValidatableObject
+    public sealed class EntityThatThrows : AggregateRoot<EntityThatThrows>, IValidatableObject
     {
         public EntityThatThrows() : base(new AnnotatedModelValidator<EntityThatThrows>())
         {

@@ -62,6 +62,7 @@ namespace Qowaiv.DomainModel
             update((TAggrgate)this);
             return Tracker.Process();
         }
+        
         /// <inheritdoc />
         protected new ChangeTracker<TAggrgate> Tracker => (ChangeTracker<TAggrgate>)base.Tracker;
     }
