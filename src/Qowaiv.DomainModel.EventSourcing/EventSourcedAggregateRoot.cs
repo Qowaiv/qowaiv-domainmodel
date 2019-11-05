@@ -79,10 +79,7 @@ namespace Qowaiv.DomainModel.EventSourcing
                 });
                 if (result.IsValid)
                 {
-                    foreach (var @event in all)
-                    {
-                        EventStream.Add(@event);
-                    }
+                    EventStream.AddRange(all);
                 }
                 return result;
             }

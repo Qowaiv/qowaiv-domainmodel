@@ -27,6 +27,26 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         }
 
         [Test]
+        public void FromMessages_WithMultipleEventsPerVersion_CreatedSuccesfully()
+        {
+            var id = Guid.Parse("9BC1D708-77CD-11E9-8F9E-2A8678EF5A59");
+
+            var messages = new[]
+            {
+                new EventMessage(new EventInfo(1, id, Clock.UtcNow()), new DummyEvent()),
+                new EventMessage(new EventInfo(1, id, Clock.UtcNow()), new DummyEvent()),
+                new EventMessage(new EventInfo(2, id, Clock.UtcNow()), new DummyEvent()),
+            };
+
+            var stream = EventStream.FromMessages(messages);
+
+            Assert.IsNotNull(stream);
+            Assert.AreEqual(id, stream.AggregateId);
+            Assert.AreEqual(2, stream.Version);
+            Assert.AreEqual(3, stream.Count());
+        }
+
+        [Test]
         public void FromMessages_Null_Throws()
         {
             var x = Assert.Throws<ArgumentNullException>(() => EventStream.FromMessages(null));
