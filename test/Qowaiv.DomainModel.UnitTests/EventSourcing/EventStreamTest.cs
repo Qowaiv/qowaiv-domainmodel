@@ -27,7 +27,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         }
 
         [Test]
-        public void FromMessages_WithMultipleEventsPerVersion_CreatedSuccesfully()
+        public void FromMessages_WithMultipleEventsPerVersion_Throws()
         {
             var id = Guid.Parse("9BC1D708-77CD-11E9-8F9E-2A8678EF5A59");
 
@@ -38,12 +38,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
                 new EventMessage(new EventInfo(2, id, Clock.UtcNow()), new DummyEvent()),
             };
 
-            var stream = EventStream.FromMessages(messages);
-
-            Assert.IsNotNull(stream);
-            Assert.AreEqual(id, stream.AggregateId);
-            Assert.AreEqual(2, stream.Version);
-            Assert.AreEqual(3, stream.Count());
+            Assert.Throws<EventsOutOfOrderException>(() => EventStream.FromMessages(messages));
         }
 
         [Test]
@@ -101,7 +96,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
                 new DummyEvent(),
                 new DummyEvent()
             };
-            stream.MarkAllAsCommitted();
+            stream.MarkAllAsCommitted(true);
             stream.Add(new DummyEvent());
 
             var uncommited = stream.GetUncommitted().ToArray();
@@ -119,8 +114,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
                 new DummyEvent(),
                 new DummyEvent()
             };
-            stream.MarkAllAsCommitted();
-            stream.ClearCommitted();
+            stream.MarkAllAsCommitted(clearCommitted: true);
             stream.Add(new DummyEvent());
 
             var uncommited = stream.GetUncommitted().ToArray();
@@ -141,7 +135,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
             stream.MarkAllAsCommitted();
             stream.ClearCommitted();
             stream.Add(new DummyEvent());
-            stream.MarkAllAsCommitted();
+            stream.MarkAllAsCommitted(clearCommitted: false);
             stream.Add(new DummyEvent());
 
             var uncommited = stream.GetUncommitted().ToArray();

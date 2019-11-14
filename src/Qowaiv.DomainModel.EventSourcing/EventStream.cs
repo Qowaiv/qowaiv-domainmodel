@@ -34,7 +34,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         public Guid AggregateId { get; }
 
         /// <summary>The version of the event stream.</summary>
-        public int Version => messages.Count == 0 ? versionOffset : messages[messages.Count - 1].Info.Version;
+        public int Version => messages.Count + versionOffset;
         private int versionOffset;
 
         /// <summary>Gets the committed version of the event stream.</summary>
@@ -88,15 +88,28 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// <summary>Gets the uncommitted events of the event stream.</summary>
         public IEnumerable<EventMessage> GetUncommitted() => this.SkipWhile(message => message.Info.Version <= CommittedVersion);
 
+        /// <summary>Marks all events as being committed (and clears the committed).</summary>
+        public void MarkAllAsCommitted() => MarkAllAsCommitted(true);
+
         /// <summary>Marks all events as being committed.</summary>
-        public void MarkAllAsCommitted() => CommittedVersion = Version;
+        /// <param name="clearCommitted">
+        /// if true, the committed events are cleared.
+        /// </param>
+        public void MarkAllAsCommitted(bool clearCommitted)
+        {
+            CommittedVersion = Version;
+            if (clearCommitted)
+            {
+                ClearCommitted();
+            }
+        }
 
         /// <summary>Removes the committed events from the stream.</summary>
         public void ClearCommitted()
         {
-            var delta = messages.Count(message => message.Info.Version <= CommittedVersion);
+            var delta = CommittedVersion - versionOffset;
             messages.RemoveRange(0, delta);
-            versionOffset += CommittedVersion;
+            versionOffset += delta;
         }
 
         /// <summary>Returns a <see cref="string"/> that represents the event stream for debug purposes.</summary>
@@ -125,7 +138,6 @@ namespace Qowaiv.DomainModel.EventSourcing
             var eventArray = Guard.HasAny(events?.ToArray(), nameof(events));
             var first = eventArray[0].Info;
 
-            var version = 1;
 
             for (var i = 0; i < eventArray.Length; i++)
             {
@@ -135,18 +147,14 @@ namespace Qowaiv.DomainModel.EventSourcing
                 {
                     throw new ArgumentException(QowaivDomainModelMessages.ArgumentException_MultipleAggregates, nameof(events));
                 }
-                if (info.Version == version || info.Version == version + 1)
-                {
-                    version = info.Version;
-                }
-                else
+                if (info.Version != i + 1)
                 {
                     throw new EventsOutOfOrderException(nameof(events));
                 }
             }
             var stream = new EventStream(first.AggregateId);
             stream.messages.AddRange(eventArray);
-            stream.MarkAllAsCommitted();
+            stream.MarkAllAsCommitted(clearCommitted: false);
             return stream;
         }
     }
