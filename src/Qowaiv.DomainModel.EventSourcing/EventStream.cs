@@ -36,7 +36,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// <summary>The version of the event stream.</summary>
         public int Version => messages.Count == 0 ? versionOffset : messages[messages.Count - 1].Info.Version;
         private int versionOffset;
-        
+
         /// <summary>Gets the committed version of the event stream.</summary>
         public int CommittedVersion { get; private set; }
 
@@ -69,13 +69,16 @@ namespace Qowaiv.DomainModel.EventSourcing
         public void AddRange(object[] events)
         {
             Guard.HasAny(events, nameof(events));
+
             lock (locker)
             {
-                var info = new EventInfo(Version + 1, AggregateId, Clock.UtcNow());
+                var version = Version + 1;
+                var createdUtc = Clock.UtcNow();
 
                 for (var i = 0; i < events.Length; i++)
                 {
                     var @event = Guard.NotNull(events[i], $"events[{i}]");
+                    var info = new EventInfo(version + i, AggregateId, createdUtc);
                     var versioned = new EventMessage(info, @event);
                     messages.Add(versioned);
                 }
