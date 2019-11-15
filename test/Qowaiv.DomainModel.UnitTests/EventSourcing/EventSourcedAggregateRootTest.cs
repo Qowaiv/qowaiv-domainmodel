@@ -20,20 +20,6 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         }
 
         [Test]
-        public void FromEvents_AggregateShouldHaveIdOfEvents()
-        {
-            var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
-            var stream = EventStream.FromMessages(new[] { new EventMessage(new EventInfo(1, aggregateId, Clock.UtcNow()), new SimpleInitEvent()) });
-
-            var aggregate = AggregateRoot.FromEvents<SimpleEventSourcedRoot>(stream).Value;
-
-            Assert.AreEqual(aggregateId, aggregate.Id);
-            Assert.AreEqual(aggregateId, aggregate.EventStream.AggregateId);
-            Assert.AreEqual(1, aggregate.Version);
-            Assert.AreEqual(1, aggregate.EventStream.CommittedVersion);
-        }
-
-        [Test]
         public void Ctor_NoParameters_SetsId()
         {
             var aggregate = new SimpleEventSourcedRoot();

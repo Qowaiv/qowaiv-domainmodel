@@ -1,12 +1,13 @@
-﻿using Qowaiv.Validation.Abstractions;
-
-namespace Qowaiv.DomainModel.EventSourcing
+﻿namespace Qowaiv.DomainModel.EventSourcing
 {
     /// <summary>Factory to create <see cref="AggregateRoot{TAggregate}"/>s.</summary>
     public static class AggregateRoot
     {
         /// <summary>Loads an aggregate root from historical events.</summary>
-        public static Result<TAggregate> FromEvents<TAggregate>(EventStream stream)
+        /// <remarks>
+        /// When replaying historical events, validation is skipped.
+        /// </remarks>
+        public static TAggregate FromEvents<TAggregate>(EventStream stream)
              where TAggregate : EventSourcedAggregateRoot<TAggregate>, new()
         {
             Guard.NotNull(stream, nameof(stream));
@@ -16,7 +17,8 @@ namespace Qowaiv.DomainModel.EventSourcing
                 throw new EventStreamNoFullHistoryException(nameof(stream));
             }
             var aggregateRoot = new TAggregate();
-            return aggregateRoot.LoadEvents(stream);
+            aggregateRoot.LoadEvents(stream);
+            return aggregateRoot;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Qowaiv.DomainModel
 
             Tracker.Intialize();
             initialize();
-            Tracker.Mode = default;
+            Tracker.NoBuffering();
         }
 
         /// <summary>Sets multiple properties simultaneously.</summary>

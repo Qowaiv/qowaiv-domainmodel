@@ -14,13 +14,16 @@ namespace Qowaiv.DomainModel.Tracking
         private readonly List<ITrackableChange> _changes = new List<ITrackableChange>();
 
         /// <summary>Gets the mode of the change tracker.</summary>
-        public ChangeTrackerMode Mode { get; internal protected set; }
+        public ChangeTrackerMode Mode { get; private set; }
 
-        /// <summary>Sets the mode to buffering.</summary>
+        /// <summary>Sets the mode to <see cref="ChangeTrackerMode.Buffering"/>.</summary>
         public void BufferChanges() => Mode = ChangeTrackerMode.Buffering;
 
-        /// <summary>Sets the mode to initialization.</summary>
+        /// <summary>Sets the mode to <see cref="ChangeTrackerMode.Initialization"/>.</summary>
         public void Intialize() => Mode = ChangeTrackerMode.Initialization;
+
+        /// <summary>Sets the mode to <see cref="ChangeTrackerMode.None"/>.</summary>
+        public void NoBuffering() => Mode = ChangeTrackerMode.None;
 
         /// <summary>Gets the number of changes in the change tracker.</summary>
         public int Count => _changes.Count;

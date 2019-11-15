@@ -86,7 +86,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         }
 
         /// <summary>Loads the state of the aggregate root based on historical events.</summary>
-        internal Result<TAggrgate> LoadEvents(EventStream stream)
+        internal void LoadEvents(EventStream stream)
         {
             Tracker.Intialize();
             EventStream = new EventStream(stream.AggregateId, stream.Version);
@@ -95,7 +95,7 @@ namespace Qowaiv.DomainModel.EventSourcing
             {
                 AsDynamic().Apply(e.Event);
             }
-            return Tracker.Process();
+            Tracker.NoBuffering();
         }
 
         /// <summary>Represents the aggregate root as a dynamic.</summary>

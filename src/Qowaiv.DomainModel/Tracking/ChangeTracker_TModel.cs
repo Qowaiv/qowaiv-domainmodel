@@ -60,7 +60,7 @@ namespace Qowaiv.DomainModel.Tracking
         /// <summary>Validates all changed properties.</summary>
         private Result<TModel> Validate()
         {
-            Mode = ChangeTrackerMode.None;
+            NoBuffering();
 
             try
             {
