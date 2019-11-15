@@ -66,7 +66,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         }
 
         /// <summary>Adds an array of events to the event stream, all with the same version.</summary>
-        public void AddRange(object[] events)
+        public void AddRange(params object[] events)
         {
             Guard.HasAny(events, nameof(events));
 

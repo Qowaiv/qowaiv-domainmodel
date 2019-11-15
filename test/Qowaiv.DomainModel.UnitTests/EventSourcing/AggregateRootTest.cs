@@ -12,7 +12,9 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         public void FromEvents_AggregateShouldHaveIdOfEvents()
         {
             var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
-            var stream = EventStream.FromMessages(new[] { new EventMessage(new EventInfo(1, aggregateId, Clock.UtcNow()), new SimpleInitEvent()) });
+            var stream = new EventStream(aggregateId);
+            stream.Add(new SimpleInitEvent());
+            stream.MarkAllAsCommitted(clearCommitted: false);
 
             var aggregate = AggregateRoot.FromEvents<SimpleEventSourcedRoot>(stream);
 
@@ -26,11 +28,9 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         public void FromEvents_WithInvalidState_ShouldBeLoaded()
         {
             var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
-            var stream = EventStream.FromMessages(new[] 
-            { 
-                new EventMessage(new EventInfo(1, aggregateId, Clock.UtcNow()), new SimpleInitEvent()),
-                new EventMessage(new EventInfo(2, aggregateId, Clock.UtcNow()), new InvalidEvent())
-            });
+            var stream = new EventStream(aggregateId);
+            stream.AddRange(new SimpleInitEvent(), new InvalidEvent());
+            stream.MarkAllAsCommitted(clearCommitted: false);
 
             var aggregate = AggregateRoot.FromEvents<SimpleEventSourcedRoot>(stream);
 
