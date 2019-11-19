@@ -19,10 +19,10 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
     /// 
     /// It caches the available methods per type.
     /// </remarks>
-    internal class DynamicApplyEventObject : DynamicObject
+    internal class DynamicEventDispatcher : DynamicObject
     {
-        /// <summary>Creates a new instance of a <see cref="DynamicApplyEventObject"/>.</summary>
-        public DynamicApplyEventObject(object obj)
+        /// <summary>Creates a new instance of a <see cref="DynamicEventDispatcher"/>.</summary>
+        public DynamicEventDispatcher(object obj)
         {
             @object = Guard.NotNull(obj, nameof(obj));
             objectType = obj.GetType();

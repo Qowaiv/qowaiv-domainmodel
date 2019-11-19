@@ -107,7 +107,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         {
             if (_dynamic is null)
             {
-                _dynamic = new DynamicApplyEventObject(this);
+                _dynamic = new DynamicEventDispatcher(this);
             }
             return _dynamic;
         }
