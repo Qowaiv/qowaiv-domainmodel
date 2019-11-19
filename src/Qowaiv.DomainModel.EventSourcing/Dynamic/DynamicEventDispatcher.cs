@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Qowaiv.DomainModel.EventSourcing.Dynamic
 {
-    /// <summary>A dynamic apply event object, is a extremely limited dynamic object
+    /// <summary>A dynamic event dispatcher, is a extremely limited dynamic object
     /// that is capable of invoking instance methods with the signature Apply(@event). 
     /// </summary>
     /// <remarks>
