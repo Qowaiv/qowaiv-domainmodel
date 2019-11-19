@@ -32,18 +32,18 @@ namespace Qowaiv.DomainModel
         }
 
         /// <summary>Initializes multiple properties simultaneously, without triggering validation.</summary>
-        /// <param name="initialize">
+        /// <param name="initializeAction">
         /// The action trying to initialize the state of the properties.
         /// </param>
         /// <remarks>
         /// Should only be called via the constructor.
         /// </remarks>
-        protected void Initialize(Action initialize)
+        protected void Initialize(Action initializeAction)
         {
-            Guard.NotNull(initialize, nameof(initialize));
+            Guard.NotNull(initializeAction, nameof(initializeAction));
 
             Tracker.Intialize();
-            initialize();
+            initializeAction();
             Tracker.NoBuffering();
         }
 
