@@ -46,8 +46,7 @@ namespace Qowaiv.DomainModel
                 {
                     properties[desc.Name] = desc.PropertyType.IsValueType ? Activator.CreateInstance(desc.PropertyType) : null;
                 }
-                _collections.TryAdd(type, properties.Clone());
-                return properties;
+                _collections.TryAdd(type, properties);
             }
             return properties.Clone();
         }
