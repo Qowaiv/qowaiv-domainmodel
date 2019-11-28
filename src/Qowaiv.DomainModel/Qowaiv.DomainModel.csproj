@@ -28,4 +28,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
+  </ItemGroup>
+
 </Project>
