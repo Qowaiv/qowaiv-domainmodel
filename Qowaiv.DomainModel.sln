@@ -45,6 +45,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F74D9EF2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.EventSourcing", "src\Qowaiv.DomainModel.EventSourcing\Qowaiv.DomainModel.EventSourcing.csproj", "{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.DomainModel.TestTools", "src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj", "{8564A273-F643-4C6B-80E1-5D7DCB7F9767}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
