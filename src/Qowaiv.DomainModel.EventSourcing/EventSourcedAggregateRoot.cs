@@ -8,17 +8,17 @@ using System.Linq;
 namespace Qowaiv.DomainModel.EventSourcing
 {
     /// <summary>Represents an (domain-driven design) aggregate root that is based on event sourcing.</summary>
-    /// <typeparam name="TAggrgate">
+    /// <typeparam name="TAggregate">
     /// The type of the aggregate root itself.
     /// </typeparam>
-    public abstract class EventSourcedAggregateRoot<TAggrgate> : AggregateRoot<TAggrgate>
-        where TAggrgate : EventSourcedAggregateRoot<TAggrgate>
+    public abstract class EventSourcedAggregateRoot<TAggregate> : AggregateRoot<TAggregate>
+        where TAggregate : EventSourcedAggregateRoot<TAggregate>
     {
         /// <summary>Creates a new instance of an <see cref="EventSourcedAggregateRoot{TAggrgate}"/>.</summary>
         /// <param name="validator">
         /// A custom validator.
         /// </param>
-        protected EventSourcedAggregateRoot(IValidator<TAggrgate> validator) : this(Guid.NewGuid(), validator) { }
+        protected EventSourcedAggregateRoot(IValidator<TAggregate> validator) : this(Guid.NewGuid(), validator) { }
 
         /// <summary>Creates a new instance of an <see cref="EventSourcedAggregateRoot{TAggrgate}"/>.</summary>
         /// <param name="id">
@@ -27,7 +27,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// <param name="validator">
         /// A custom validator.
         /// </param>
-        protected EventSourcedAggregateRoot(Guid id, IValidator<TAggrgate> validator) : base(id, validator)
+        protected EventSourcedAggregateRoot(Guid id, IValidator<TAggregate> validator) : base(id, validator)
         {
             EventStream = new EventStream(id);
         }
@@ -42,7 +42,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         public int Version => EventStream.Version;
 
         /// <summary>Applies a change.</summary>
-        protected Result<TAggrgate> ApplyChange(object @event)
+        protected Result<TAggregate> ApplyChange(object @event)
         {
             Guard.NotNull(@event, nameof(@event));
 
@@ -61,10 +61,10 @@ namespace Qowaiv.DomainModel.EventSourcing
         }
 
         /// <summary>Applies the changes.</summary>
-        protected Result<TAggrgate> ApplyChanges(params object[] events) => ApplyChanges(events?.AsEnumerable());
+        protected Result<TAggregate> ApplyChanges(params object[] events) => ApplyChanges(events?.AsEnumerable());
 
         /// <summary>Applies the changes.</summary>
-        protected Result<TAggrgate> ApplyChanges(IEnumerable<object> events)
+        protected Result<TAggregate> ApplyChanges(IEnumerable<object> events)
         {
             var all = Guard.NotNull(events, nameof(events)).ToArray();
 
