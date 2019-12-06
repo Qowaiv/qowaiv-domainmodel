@@ -10,7 +10,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
     public class AggregateRootAssertTest
     {
         [Test]
-        public void HasUncommittedEvents_()
+        public void HasUncommittedEvents_IsTrue()
         {
             var stream = new EventStream();
             stream.Add(new EmptyEvent());
@@ -22,6 +22,16 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
                 new SimpleEvent { Value = 3 },
                 new OtherEvent { Value = 3 }
             );
+        }
+
+        [Test]
+        public void HasUncommittedEvents_EqualArrayValues_IsTrue()
+        {
+            var stream = new EventStream();
+            stream.Add(new ArrayEvent { Numbers = new[] { 17 } });
+
+            AggregateRootAssert.HasUncommittedEvents(stream,
+               new ArrayEvent { Numbers = new[] { 17 } });
         }
 
         [Test]
@@ -73,7 +83,6 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
             }
         }
 
-
         [Test]
         public void HasUncommittedEvents_WithExtraEvents_DisplayedInTheMessage()
         {
@@ -119,9 +128,27 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
 [3] Missing:  OtherEvent
 ", x.Message);
         }
-    }
 
+
+        [Test]
+        public void HasUncommittedEvents_DifferentArrayValues_DisplayedInTheMessage()
+        {
+            var stream = new EventStream();
+            stream.Add(new ArrayEvent { Numbers = new[] { 17 } });
+
+            var x = Assert.Catch<AssertException>(() =>
+               AggregateRootAssert.HasUncommittedEvents(stream,
+                   new ArrayEvent { Numbers = new[] { 18 } }
+               ));
+
+            Assert.AreEqual(@"Assertion failed:
+[0] Expected: { Numbers: { 18 } }
+    Actual:   { Numbers: { 17 } }
+", x.Message);
+        }
+    }
 }
+
 namespace TestEvents
 {
     internal class EmptyEvent { }
@@ -133,4 +160,5 @@ namespace TestEvents
         public string Message { get; set; }
         public DateTime Date { get; set; }
     }
+    internal class ArrayEvent { public int[] Numbers { get; set; } }
 }

@@ -45,96 +45,147 @@ namespace Qowaiv.DomainModel.TestTools
 
             var shared = Math.Min(expectedEvents.Length, uncomitted.Length);
 
-            var sb = new StringBuilder().AppendLine("Assertion failed:");
+            var sb = new StringBuilder();
 
             // if different lengths 
-            bool failure = expectedEvents.Length != uncomitted.Length;
+            bool failure = false;
 
             for (var i = 0; i < shared; i++)
             {
-                var act = uncomitted[i].Event;
-                var exp = expectedEvents[i];
-
-                if (EventEqualityComparer.Instance.Equals(act, exp))
-                {
-                    sb.AppendIdenticalEvent(offset + i, act);
-                }
-                else
-                {
-                    failure = true;
-                    sb.AppendDifferentEvents(offset + i, exp, act);
-                }
+                failure |= sb.AppendEvents(offset + i, expectedEvents[i], uncomitted[i].Event);
             }
 
-            sb.AppendExtraEvents(uncomitted.Select(m => m.Event), offset, shared, "Extra:  ");
-            sb.AppendExtraEvents(expectedEvents, offset, shared, "Missing: ");
+            failure |= sb.AppendExtraEvents(uncomitted.Select(m => m.Event), offset, shared, "Extra:  ");
+            failure |= sb.AppendExtraEvents(expectedEvents, offset, shared, "Missing: ");
 
             Console.WriteLine(sb);
 
             if (failure)
             {
+                sb.Insert(0, $"Assertion failed:{Environment.NewLine}");
                 Assert.Fail(sb.ToString());
             }
         }
 
-        private static void AppendIdenticalEvent(this StringBuilder sb, int index, object @event)
+        private static bool AppendEvents(this StringBuilder sb, int index, object exp, object act)
         {
-            sb.AppendLine($"[{index}] {@event.GetType().Name}");
+
+            if (sb.AppendDifferentTypes(index, exp, act))
+            {
+                return true;
+            }
+            if (sb.AppendDifferentEvents(index, exp, act))
+            {
+                return true;
+            }
+
+            return sb.AppendIdenticalEvents(index, act);
         }
 
-        private static void AppendDifferentEvents(this StringBuilder sb, int index, object exp, object act)
+        private static bool AppendDifferentTypes(this StringBuilder sb, int index, object exp, object act)
         {
             var actType = act.GetType();
             var expType = exp.GetType();
 
-            var prefix = $"[{index}] ";
-            var empty = new string(' ', prefix.Length);
-
-            sb.Append(prefix + "Expected: ");
-
             if (actType != expType)
             {
-                sb.AppendLine(expType.ToString());
-                sb.AppendLine($"{empty}Actual:   {actType}");
+                return sb.AppendExpectedActual(index, expType, actType);
             }
-            else
+            return false;
+        }
+
+        private static bool AppendDifferentEvents(this StringBuilder sb, int index, object exp, object act)
+        {
+            var failure = false;
+
+            var sbExp = new StringBuilder().Append("{ ");
+            var sbAct = new StringBuilder().Append("{ ");
+
+            var properties = exp.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (var prop in properties)
             {
-                var sbExp = new StringBuilder().Append("{ ");
-                var sbAct = new StringBuilder().Append("{ ");
+                var e = prop.GetValue(exp, Array.Empty<object>());
+                var a = prop.GetValue(act, Array.Empty<object>());
 
-                var properties = expType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-                foreach(var prop in properties)
+                if (prop.PropertyType.IsArray)
                 {
-                    var e = prop.GetValue(exp, Array.Empty<object>());
-                    var a = prop.GetValue(act, Array.Empty<object>());
+                    var arrayE = (Array)e;
+                    var arrayA = (Array)a;
 
+                    var e_ = new object[arrayE.Length];
+                    var a_ = new object[arrayA.Length];
+
+                    Array.Copy(arrayE, e_, e_.Length);
+                    Array.Copy(arrayA, a_, a_.Length);
+
+                    if (!Enumerable.SequenceEqual(e_, a_))
+                    {
+                        failure = true;
+
+                        sbExp.Append($"{prop.Name}: {{ {string.Join(", ", e_)} }}, ");
+                        sbAct.Append($"{prop.Name}: {{ {string.Join(", ", a_)} }}, ");
+                    }
+                }
+                else
+                {
                     if (!Equals(e, a))
                     {
+                        failure = true;
                         sbExp.Append($"{prop.Name}: {e}, ");
                         sbAct.Append($"{prop.Name}: {a}, ");
                     }
                 }
-
-                sbExp.Remove(sbExp.Length - 2, 2);
-                sbAct.Remove(sbAct.Length - 2, 2);
-
-                sbExp.Append(" }");
-                sbAct.Append(" }");
-                sb.AppendLine(sbExp.ToString());
-                sb.AppendLine($"{empty}Actual:   {sbAct}");
             }
+
+            sbExp.Remove(sbExp.Length - 2, 2);
+            sbAct.Remove(sbAct.Length - 2, 2);
+
+            sbExp.Append(" }");
+            sbAct.Append(" }");
+           
+
+            if (failure)
+            {
+                return sb.AppendExpectedActual(index, sbExp, sbAct);
+            }
+            return false;
         }
 
-        private static void AppendExtraEvents(this StringBuilder sb, IEnumerable<object> events, int offset, int skip, string prefix)
+
+        private static bool AppendIdenticalEvents(this StringBuilder sb, int index, object @event)
+        {
+            sb.AppendLine($"[{index}] {@event.GetType().Name}");
+            return false;
+        }
+
+        private static bool AppendExtraEvents(this StringBuilder sb, IEnumerable<object> events, int offset, int skip, string prefix)
         {
             var index = offset + skip;
+
+            var extra = false;
 
             foreach (var @event in events.Skip(skip))
             {
                 sb.AppendLine($"[{index}] {prefix} {@event.GetType().Name}");
                 index++;
+                extra = true;
             }
+
+            return extra;
         }
+
+        private static bool AppendExpectedActual(this StringBuilder sb, int index, object expected, object actual)
+        {
+            var prefix = $"[{index}] ";
+            var empty = new string(' ', prefix.Length);
+
+            sb.Append(prefix + "Expected: ");
+            sb.AppendLine(expected.ToString());
+            sb.AppendLine($"{empty}Actual:   {actual}");
+
+            return true;
+        }
+
     }
 }
