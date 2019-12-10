@@ -1,8 +1,8 @@
-﻿using Qowaiv.DomainModel.EventSourcing.Reflection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Qowaiv.DomainModel.EventSourcing.Dynamic
@@ -40,7 +40,7 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
         {
             if (binder?.Name == nameof(Apply) && args?.Length == 1)
             {
-                result = Apply(args);
+                result = Apply(args[0]);
                 return true;
             }
             return base.TryInvokeMember(binder, args, out result);
@@ -50,12 +50,13 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
         public IReadOnlyCollection<Type> SupportedEventTypes => Lookup[objectType].Keys;
 
         /// <summary>Invokes the Apply(@event) method.</summary>
-        private object Apply(object[] args)
+        private object Apply(object @event)
         {
-            var eventType = args[0].GetType();
-            if (Lookup[objectType].TryGetValue(eventType, out MethodInfo apply))
+            var eventType = @event.GetType();
+            if (Lookup[objectType].TryGetValue(eventType, out Action<object, object> apply))
             {
-                return apply.Invoke(@object, args);
+                apply(@object, @event);
+                return null;
             }
             throw new EventTypeNotSupportedException(eventType, objectType);
         }
@@ -69,7 +70,7 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
                 {
                     if (!Lookup.ContainsKey(objectType))
                     {
-                        var cache = new Dictionary<Type, MethodInfo>();
+                        var cache = new Dictionary<Type, Action<object, object>>();
 
                         const string name = nameof(Apply);
                         var methods = objectType
@@ -83,12 +84,12 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
                             {
                                 var parameterType = parameters[0].ParameterType;
 
-                                // Leave out object itself, primitives and enums.
+                                // Leave out object itself, primitives and enumerations.
                                 if (parameterType != typeof(object) &&
                                     !parameterType.IsPrimitive &&
                                     !parameterType.IsEnum)
                                 {
-                                    cache[parameterType] = new CompiledMethodInfo(method);
+                                    cache[parameterType] = Compile(method, objectType, parameterType);
                                 }
                             }
                         }
@@ -98,7 +99,21 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
             }
         }
 
+        private Action<object, object> Compile(MethodInfo method, Type dispatherType, Type eventType)
+        {
+            var dispatcher = Expression.Parameter(typeof(object), "dispatcher");
+            var @event = Expression.Parameter(typeof(object), "e");
+
+            var typedDispatcher = Expression.Convert(dispatcher, dispatherType);
+            var typedEvent = Expression.Convert(@event, eventType);
+            var body = Expression.Call(typedDispatcher, method, typedEvent);
+
+            var expression = Expression.Lambda<Action<object, object>>(body, dispatcher, @event);
+
+            return expression.Compile();
+        }
+
         private static readonly object Locker = new object();
-        private static readonly Dictionary<Type, Dictionary<Type, MethodInfo>> Lookup = new Dictionary<Type, Dictionary<Type, MethodInfo>>();
+        private static readonly Dictionary<Type, Dictionary<Type, Action<object, object>>> Lookup = new Dictionary<Type, Dictionary<Type, Action<object, object>>>();
     }
 }
