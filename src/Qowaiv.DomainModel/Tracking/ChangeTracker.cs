@@ -7,11 +7,12 @@ using System.Diagnostics.CodeAnalysis;
 namespace Qowaiv.DomainModel.Tracking
 {
     /// <summary>Tracks (potential) changes and fires validations and notification events.</summary>
-    [DebuggerDisplay("Count = {Count}"), DebuggerTypeProxy(typeof(CollectionDebugView))]
+    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerTypeProxy(typeof(CollectionDebugView))]
     public abstract class ChangeTracker : IEnumerable<ITrackableChange>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<ITrackableChange> _changes = new List<ITrackableChange>();
+        private readonly List<ITrackableChange> changes = new List<ITrackableChange>();
 
         /// <summary>Gets the mode of the change tracker.</summary>
         public ChangeTrackerMode Mode { get; private set; }
@@ -26,7 +27,7 @@ namespace Qowaiv.DomainModel.Tracking
         public void NoBuffering() => Mode = ChangeTrackerMode.None;
 
         /// <summary>Gets the number of changes in the change tracker.</summary>
-        public int Count => _changes.Count;
+        public int Count => changes.Count;
 
         /// <summary>Adds (and applies) a change to tracker.</summary>
         public void Add(ITrackableChange change)
@@ -35,7 +36,7 @@ namespace Qowaiv.DomainModel.Tracking
 
             if (Mode != ChangeTrackerMode.Initialization)
             {
-                _changes.Add(change);
+                changes.Add(change);
             }
             change.Apply();
             OnAddComplete();
@@ -51,21 +52,11 @@ namespace Qowaiv.DomainModel.Tracking
             {
                 change.Rollback();
             }
-            _changes.Clear();
+            changes.Clear();
         }
 
         /// <summary>Removes all changes from the change tracker.</summary>
-        protected void Clear() => _changes.Clear();
-
-        #region IEnumerable
-
-        private IEnumerable<ITrackableChange> LoopReversed()
-        {
-            for (var i = Count - 1; i >= 0; i--)
-            {
-                yield return _changes[i];
-            }
-        }
+        protected void Clear() => changes.Clear();
 
         /// <inheritdoc />
         public IEnumerator<ITrackableChange> GetEnumerator() => LoopReversed().GetEnumerator();
@@ -74,6 +65,12 @@ namespace Qowaiv.DomainModel.Tracking
         [ExcludeFromCodeCoverage/* Just to satisfy the none-generic interface. */]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        #endregion
+        private IEnumerable<ITrackableChange> LoopReversed()
+        {
+            for (var i = Count - 1; i >= 0; i--)
+            {
+                yield return changes[i];
+            }
+        }
     }
 }

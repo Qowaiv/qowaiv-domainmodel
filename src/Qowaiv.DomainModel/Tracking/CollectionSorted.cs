@@ -2,33 +2,43 @@
 
 namespace Qowaiv.DomainModel.Tracking
 {
-    /// <summary>Implements <see cref="ITrackableChange"/> 'sorting the elements of a <see cref="List{TChild}"/>.</summary>
+    /// <summary>Implements <see cref="ITrackableChange"/> sorting the elements of a <see cref="List{TChild}"/>.</summary>
+    /// <typeparam name="TChild">
+    /// The type of list that should be sorted.
+    /// </typeparam>
     public class CollectionSorted<TChild> : ITrackableChange
     {
-        /// <summary>Creates a new instance of a <see cref="ItemAdded{TChild}"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CollectionSorted{TChild}"/> class.</summary>
+        /// <param name="collection">
+        /// The collection that should be sorted.
+        /// </param>
+        /// <param name="comparer">
+        /// The comparer to use for sorting the collection.
+        /// </param>
+#pragma warning disable S3956 // "Generic.List" instances should not be part of public APIs
         public CollectionSorted(List<TChild> collection, IComparer<TChild> comparer)
+#pragma warning restore S3956 // "Generic.List" instances should not be part of public APIs
         {
-            _collection = Guard.NotNull(collection, nameof(collection));
-            _comparer = Guard.NotNull(comparer, nameof(comparer));
+            this.collection = Guard.NotNull(collection, nameof(collection));
+            this.comparer = comparer ?? Comparer<TChild>.Default;
         }
 
-        private readonly List<TChild> _collection;
-        private readonly IComparer<TChild> _comparer;
-        private TChild[] _original;
-
+        private readonly List<TChild> collection;
+        private readonly IComparer<TChild> comparer;
+        private TChild[] original;
 
         /// <inheritdoc />
         public void Apply()
         {
-            _original = _collection.ToArray();
-            _collection.Sort(_comparer);
+            original = collection.ToArray();
+            collection.Sort(comparer);
         }
 
         /// <inheritdoc />
         public void Rollback()
         {
-            _collection.Clear();
-            _collection.AddRange(_original);
+            collection.Clear();
+            collection.AddRange(original);
         }
     }
 }

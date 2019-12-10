@@ -4,6 +4,12 @@
     public static class AggregateRoot
     {
         /// <summary>Loads an aggregate root from historical events.</summary>
+        /// <param name="stream">
+        /// The event stream containing the full history.
+        /// </param>
+        /// <typeparam name="TAggregate">
+        /// The type of the aggregate.
+        /// </typeparam>
         /// <remarks>
         /// When replaying historical events, validation is skipped.
         /// </remarks>

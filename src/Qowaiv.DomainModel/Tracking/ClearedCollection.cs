@@ -4,27 +4,33 @@ using System.Linq;
 namespace Qowaiv.DomainModel.Tracking
 {
     /// <summary>Implements <see cref="ITrackableChange"/> for removing all elements from a <see cref="ICollection{TChild}"/>.</summary>
+    /// <typeparam name="TChild">
+    /// The type of the items of the collection.
+    /// </typeparam>
     public class ClearedCollection<TChild> : ITrackableChange
     {
-        /// <summary>Creates a new instance of a <see cref="ClearedCollection{TChild}"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ClearedCollection{TChild}"/> class.</summary>
+        /// <param name="collection">
+        /// The collection that should be cleared.
+        /// </param>
         public ClearedCollection(ICollection<TChild> collection)
         {
-            _collection = Guard.NotNull(collection, nameof(collection));
-            _items = _collection.ToArray();
+            this.collection = Guard.NotNull(collection, nameof(collection));
+            items = this.collection.ToArray();
         }
 
-        private readonly ICollection<TChild> _collection;
-        private readonly TChild[] _items;
+        private readonly ICollection<TChild> collection;
+        private readonly TChild[] items;
 
         /// <inheritdoc />
-        public void Apply() => _collection.Clear();
+        public void Apply() => collection.Clear();
 
         /// <inheritdoc />
         public void Rollback()
         {
-            foreach(var item in _items)
+            foreach (var item in items)
             {
-                _collection.Add(item);
+                collection.Add(item);
             }
         }
     }

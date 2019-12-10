@@ -11,14 +11,14 @@ namespace Qowaiv.DomainModel
     public abstract class AggregateRoot<TAggrgate> : Entity<TAggrgate>
         where TAggrgate : AggregateRoot<TAggrgate>
     {
-        /// <summary>Creates a new instance of an <see cref="AggregateRoot{TAggrgate}"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggrgate}"/> class.</summary>
         /// <param name="validator">
         /// A custom validator.
         /// </param>
         protected AggregateRoot(IValidator<TAggrgate> validator)
             : this(Guid.NewGuid(), validator) { }
 
-        /// <summary>Creates a new instance of an <see cref="AggregateRoot{TAggrgate}"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggrgate}"/> class.</summary>
         /// <param name="id">
         /// The identifier of the aggregate root.
         /// </param>
@@ -62,8 +62,8 @@ namespace Qowaiv.DomainModel
             update((TAggrgate)this);
             return Tracker.Process();
         }
-        
-        /// <inheritdoc />
+
+        /// <summary>Gets the change tracker.</summary>
         protected new ChangeTracker<TAggrgate> Tracker => (ChangeTracker<TAggrgate>)base.Tracker;
     }
 }

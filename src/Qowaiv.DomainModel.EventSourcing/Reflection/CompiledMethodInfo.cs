@@ -19,7 +19,7 @@ namespace Qowaiv.DomainModel.EventSourcing.Reflection
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly Func<object, object[], object> _func;
 
-        /// <summary>Creates a new instance of a <see cref="CompiledMethodInfo"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="CompiledMethodInfo"/> class.</summary>
         /// <param name="methodInfo">
         /// The underlying method info.
         /// </param>
@@ -35,57 +35,53 @@ namespace Qowaiv.DomainModel.EventSourcing.Reflection
             return _func(obj, parameters);
         }
 
-        #region Via underlying method.
-
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override string Name => _method.Name;
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override Type DeclaringType => _method.DeclaringType;
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override Type ReflectedType => _method.ReflectedType;
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override RuntimeMethodHandle MethodHandle => _method.MethodHandle;
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override MethodAttributes Attributes => _method.Attributes;
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override ICustomAttributeProvider ReturnTypeCustomAttributes => _method.ReturnTypeCustomAttributes;
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override MethodInfo GetBaseDefinition() => _method.GetBaseDefinition();
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override object[] GetCustomAttributes(bool inherit) => _method.GetCustomAttributes(inherit);
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override object[] GetCustomAttributes(Type attributeType, bool inherit) => _method.GetCustomAttributes(attributeType, inherit);
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override MethodImplAttributes GetMethodImplementationFlags() => _method.GetMethodImplementationFlags();
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override ParameterInfo[] GetParameters() => _method.GetParameters();
 
-        /// <inherrit />
+        /// <inheritdoc />
         [ExcludeFromCodeCoverage]
         public override bool IsDefined(Type attributeType, bool inherit) => _method.IsDefined(attributeType, inherit);
-
-        #endregion
 
         /// <summary>Compiles a <see cref="Func{T1, T2, TResult}"/> based on the method info.</summary>
         private static Func<object, object[], object> Compile(MethodInfo methodInfo)

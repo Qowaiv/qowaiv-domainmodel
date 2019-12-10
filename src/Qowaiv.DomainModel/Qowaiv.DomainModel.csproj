@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
-    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.0.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.0.3" />
   </ItemGroup>
 
   <ItemGroup>

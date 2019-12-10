@@ -11,10 +11,13 @@ namespace Qowaiv.DomainModel
     [Serializable]
     public class PropertyCollection : Dictionary<string, object>
     {
-        /// <summary>No public constructor</summary>
+        /// <summary>Initializes a new instance of the <see cref="PropertyCollection"/> class.</summary>
+        /// <remarks>
+        /// No publice empty constructor.
+        /// </remarks>
         protected PropertyCollection(int capacity) : base(capacity) { }
 
-        /// <summary>Initializes a new instance of a <see cref="PropertyCollection"/> with serialized data.</summary>
+        /// <summary>Initializes a new instance of the <see cref="PropertyCollection"/> class.</summary>
         protected PropertyCollection(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
 
@@ -34,7 +37,7 @@ namespace Qowaiv.DomainModel
         {
             Guard.NotNull(type, nameof(type));
 
-            if (!_collections.TryGetValue(type, out var properties))
+            if (!Collections.TryGetValue(type, out var properties))
             {
                 var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Where(IsEditableProperty)
@@ -46,20 +49,22 @@ namespace Qowaiv.DomainModel
                 {
                     properties[desc.Name] = desc.PropertyType.IsValueType ? Activator.CreateInstance(desc.PropertyType) : null;
                 }
-                _collections.TryAdd(type, properties);
+
+                Collections.TryAdd(type, properties);
             }
+
             return properties.Clone();
         }
-        
+
         private static bool IsEditableProperty(PropertyInfo prop)
         {
             // CanWrite only works on public set, but internal and private set are also needed.
             // Obviously, we don't want write only properies.
-            return prop.GetSetMethod(true) != null 
+            return prop.GetSetMethod(true) != null
                 && prop.CanRead;
         }
 
         /// <remarks>For performance, we cache the structure of the property collections.</remarks>
-        private static readonly ConcurrentDictionary<Type, PropertyCollection> _collections = new ConcurrentDictionary<Type, PropertyCollection>();
+        private static readonly ConcurrentDictionary<Type, PropertyCollection> Collections = new ConcurrentDictionary<Type, PropertyCollection>();
     }
 }

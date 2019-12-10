@@ -8,7 +8,7 @@ using System.Reflection;
 namespace Qowaiv.DomainModel.EventSourcing.Dynamic
 {
     /// <summary>A dynamic event dispatcher, is a extremely limited dynamic object
-    /// that is capable of invoking instance methods with the signature Apply(@event). 
+    /// that is capable of invoking instance methods with the signature Apply(@event).
     /// </summary>
     /// <remarks>
     /// The constraints on the method:
@@ -16,12 +16,12 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
     /// * Binding is on instance (both public and non-public)
     /// * One parameter with a type that is/could be an event.
     /// * Return type is ignored.
-    /// 
+    ///
     /// It caches the available methods per type.
     /// </remarks>
     internal class DynamicEventDispatcher : DynamicObject
     {
-        /// <summary>Creates a new instance of a <see cref="DynamicEventDispatcher"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="DynamicEventDispatcher"/> class.Cr.</summary>
         public DynamicEventDispatcher(object obj)
         {
             @object = Guard.NotNull(obj, nameof(obj));
@@ -47,15 +47,15 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
         }
 
         /// <summary>Gets the supported event types.</summary>
-        public IReadOnlyCollection<Type> SupportedEventTypes => lookup[objectType].Keys;
+        public IReadOnlyCollection<Type> SupportedEventTypes => Lookup[objectType].Keys;
 
         /// <summary>Invokes the Apply(@event) method.</summary>
         private object Apply(object[] args)
         {
             var eventType = args[0].GetType();
-            if (lookup[objectType].TryGetValue(eventType, out MethodInfo Apply))
+            if (Lookup[objectType].TryGetValue(eventType, out MethodInfo apply))
             {
-                return Apply.Invoke(@object, args);
+                return apply.Invoke(@object, args);
             }
             throw new EventTypeNotSupportedException(eventType, objectType);
         }
@@ -63,11 +63,11 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
         /// <summary>Initializes all Apply(@event) methods.</summary>
         private void InitApplyMethods()
         {
-            if (!lookup.ContainsKey(objectType))
+            if (!Lookup.ContainsKey(objectType))
             {
-                lock (locker)
+                lock (Locker)
                 {
-                    if (!lookup.ContainsKey(objectType))
+                    if (!Lookup.ContainsKey(objectType))
                     {
                         var cache = new Dictionary<Type, MethodInfo>();
 
@@ -92,13 +92,13 @@ namespace Qowaiv.DomainModel.EventSourcing.Dynamic
                                 }
                             }
                         }
-                        lookup[objectType] = cache;
+                        Lookup[objectType] = cache;
                     }
                 }
             }
         }
 
-        private static readonly object locker = new object();
-        private static readonly Dictionary<Type, Dictionary<Type, MethodInfo>> lookup = new Dictionary<Type, Dictionary<Type, MethodInfo>>();
+        private static readonly object Locker = new object();
+        private static readonly Dictionary<Type, Dictionary<Type, MethodInfo>> Lookup = new Dictionary<Type, Dictionary<Type, MethodInfo>>();
     }
 }

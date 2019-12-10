@@ -8,7 +8,7 @@ namespace Qowaiv.DomainModel.EventSourcing
     [Serializable]
     public class EventTypeNotSupportedException : NotSupportedException
     {
-        /// <summary>Creates a new instance of an <see cref="EventTypeNotSupportedException"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventTypeNotSupportedException"/> class.</summary>
         public EventTypeNotSupportedException(Type eventType, Type aggragateType)
             : this(GetMessage(eventType, aggragateType))
         {
@@ -24,10 +24,10 @@ namespace Qowaiv.DomainModel.EventSourcing
                 aggragateType ?? typeof(AggregateRoot<>));
         }
 
-        /// <summary>Creates a new instance of an <see cref="EventTypeNotSupportedException"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventTypeNotSupportedException"/> class.</summary>
         public EventTypeNotSupportedException(string message) : base(message) { }
 
-        /// <summary>Deserializes an <see cref="EventTypeNotSupportedException"/></summary>
+        /// <summary>Initializes a new instance of the <see cref="EventTypeNotSupportedException"/> class.</summary>
         protected EventTypeNotSupportedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
@@ -36,11 +36,11 @@ namespace Qowaiv.DomainModel.EventSourcing
             AggregateType = Type.GetType(info.GetString(nameof(AggregateType)));
         }
 
-        /// <summary>Creates a new instance of an <see cref="EventTypeNotSupportedException"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventTypeNotSupportedException"/> class.</summary>
         [ExcludeFromCodeCoverage/* Required Exception constructor for inheritance. */]
         public EventTypeNotSupportedException() { }
 
-        /// <summary>Creates a new instance of an <see cref="EventTypeNotSupportedException"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventTypeNotSupportedException"/> class.</summary>
         [ExcludeFromCodeCoverage/* Required Exception constructor for inheritance. */]
         public EventTypeNotSupportedException(string message, Exception innerException)
             : base(message, innerException) { }

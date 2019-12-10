@@ -9,23 +9,34 @@ using System.Linq;
 namespace Qowaiv.DomainModel.EventSourcing
 {
     /// <summary>An event stream.</summary>
-    [DebuggerDisplay("{DebuggerDisplay}"), DebuggerTypeProxy(typeof(CollectionDebugView))]
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerTypeProxy(typeof(CollectionDebugView))]
     public class EventStream : IEnumerable<EventMessage>
     {
         /// <summary>Underlying list.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<EventMessage> messages = new List<EventMessage>();
 
-        /// <summary>Creates a new instance of an <see cref="EventStream"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventStream"/> class.</summary>
         public EventStream() : this(Guid.NewGuid()) { }
 
-        /// <summary>Creates a new instance of an <see cref="EventStream"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventStream"/> class.</summary>
+        /// <param name="aggregateId">
+        /// The identifier of the aggregate root.
+        /// </param>
         public EventStream(Guid aggregateId) => AggregateId = Guard.NotEmpty(aggregateId, nameof(aggregateId));
 
-        /// <summary>Creates a new instance of an <see cref="EventStream"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventStream"/> class.</summary>
+        /// <param name="aggregateId">
+        /// The identifier of the aggregate root.
+        /// </param>
+        /// <param name="version">
+        /// The initial version (offset).
+        /// </param>
         internal EventStream(Guid aggregateId, int version) : this(aggregateId)
         {
             versionOffset = version;
+
             // Committed version can not be lower than the offset.
             CommittedVersion = version;
         }
@@ -35,6 +46,7 @@ namespace Qowaiv.DomainModel.EventSourcing
 
         /// <summary>The version of the event stream.</summary>
         public int Version => messages.Count + versionOffset;
+
         private int versionOffset;
 
         /// <summary>Gets the committed version of the event stream.</summary>
@@ -50,9 +62,13 @@ namespace Qowaiv.DomainModel.EventSourcing
 
         /// <summary>Gets a lock object to lock the event stream.</summary>
         public object Lock() => locker;
+
         private readonly object locker = new object();
 
         /// <summary>Adds an event to the event stream.</summary>
+        /// <param name="event">
+        /// The event to add.
+        /// </param>
         public void Add(object @event)
         {
             Guard.NotNull(@event, nameof(@event));
@@ -66,6 +82,9 @@ namespace Qowaiv.DomainModel.EventSourcing
         }
 
         /// <summary>Adds an array of events to the event stream, all with the same version.</summary>
+        /// <param name="events">
+        /// The events to add.
+        /// </param>
         public void AddRange(params object[] events)
         {
             Guard.HasAny(events, nameof(events));
@@ -121,8 +140,6 @@ namespace Qowaiv.DomainModel.EventSourcing
                 : $"Version: {Version} (Committed: {CommittedVersion}), Aggregate: {AggregateId:B}";
         }
 
-        #region IEnumerable
-
         /// <inheritdoc />
         public IEnumerator<EventMessage> GetEnumerator() => messages.GetEnumerator();
 
@@ -130,14 +147,14 @@ namespace Qowaiv.DomainModel.EventSourcing
         [ExcludeFromCodeCoverage/* Just to satisfy the none-generic interface. */]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        #endregion
-
         /// <summary>Initializes the event stream with an initial set of events.</summary>
+        /// <param name="events">
+        /// The events that represent an event stream.
+        /// </param>
         public static EventStream FromMessages(IEnumerable<EventMessage> events)
         {
             var eventArray = Guard.HasAny(events?.ToArray(), nameof(events));
             var first = eventArray[0].Info;
-
 
             for (var i = 0; i < eventArray.Length; i++)
             {

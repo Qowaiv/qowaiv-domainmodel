@@ -1,4 +1,4 @@
-﻿#pragma warning disable S4035 
+﻿#pragma warning disable S4035
 // Classes implementing "IEquatable<T>" should be sealed
 // It is left to actual implementations
 

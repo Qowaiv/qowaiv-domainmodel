@@ -10,7 +10,13 @@ namespace Qowaiv.DomainModel.EventSourcing
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class EventMessage
     {
-        /// <summary>Creates a new instance of a event message.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventMessage"/> class.</summary>
+        /// <param name="info">
+        /// The generic info about the event.
+        /// </param>
+        /// <param name="event">
+        /// The actual event (data).
+        /// </param>
         public EventMessage(EventInfo info, object @event)
         {
             Info = Guard.NotDefault(info, nameof(info));

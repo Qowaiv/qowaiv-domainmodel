@@ -5,7 +5,7 @@
     /// </summary>
     /// <remarks>
     /// Typical usage:
-    /// 
+    ///
     /// <code>
     /// public sealed class Address
     /// {
@@ -26,6 +26,9 @@
         /// <param name="value">
         /// The structure to get an hash from.
         /// </param>
+        /// <typeparam name="T">
+        /// The type of the structure.
+        /// </typeparam>
         /// <returns>
         /// A hash code.
         /// </returns>
@@ -41,6 +44,9 @@
         /// <param name="shift">
         /// The number of positions the hash is shifted/rotated (should be between [0, 31]).
         /// </param>
+        /// <typeparam name="T">
+        /// The type of the structure.
+        /// </typeparam>
         /// <returns>
         /// A hash code.
         /// </returns>
@@ -54,6 +60,9 @@
         /// <param name="obj">
         /// The object to get an hash from.
         /// </param>
+        /// <typeparam name="T">
+        /// The type of the object.
+        /// </typeparam>
         /// <returns>
         /// Zero if the object was null, otherwise a hash code.
         /// </returns>
@@ -70,6 +79,9 @@
         /// The number of positions the hash is shifted/rotated (should be between [0, 31]).
         /// </param>
         /// <returns>
+        /// <typeparam name="T">
+        /// The type of the object.
+        /// </typeparam>
         /// Zero if the object was null, otherwise a hash code.
         /// </returns>
         public static int HashObject<T>(T obj, int shift) where T : class

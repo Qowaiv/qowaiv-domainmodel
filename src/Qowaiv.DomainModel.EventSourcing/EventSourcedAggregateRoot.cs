@@ -14,13 +14,13 @@ namespace Qowaiv.DomainModel.EventSourcing
     public abstract class EventSourcedAggregateRoot<TAggregate> : AggregateRoot<TAggregate>
         where TAggregate : EventSourcedAggregateRoot<TAggregate>
     {
-        /// <summary>Creates a new instance of an <see cref="EventSourcedAggregateRoot{TAggrgate}"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventSourcedAggregateRoot{TAggregate}"/> class.</summary>
         /// <param name="validator">
         /// A custom validator.
         /// </param>
         protected EventSourcedAggregateRoot(IValidator<TAggregate> validator) : this(Guid.NewGuid(), validator) { }
 
-        /// <summary>Creates a new instance of an <see cref="EventSourcedAggregateRoot{TAggrgate}"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventSourcedAggregateRoot{TAggregate}"/> class.</summary>
         /// <param name="id">
         /// The identifier of the aggregate root.
         /// </param>
@@ -81,6 +81,7 @@ namespace Qowaiv.DomainModel.EventSourcing
                 {
                     EventStream.AddRange(all);
                 }
+
                 return result;
             }
         }
@@ -105,13 +106,14 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// </remarks>
         protected virtual dynamic AsDynamic()
         {
-            if (_dynamic is null)
+            if (@dynamic is null)
             {
-                _dynamic = new DynamicEventDispatcher(this);
+                @dynamic = new DynamicEventDispatcher(this);
             }
-            return _dynamic;
+            return @dynamic;
         }
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private dynamic _dynamic;
+        private dynamic @dynamic;
     }
 }

@@ -9,7 +9,16 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// <summary>Represents empty/not set event info.</summary>
         public static readonly EventInfo Empy;
 
-        /// <summary>Creates a new instance of <see cref="EventInfo"/>.</summary>
+        /// <summary>Initializes a new instance of the <see cref="EventInfo"/> struct.</summary>
+        /// <param name="version">
+        /// The version of the event.
+        /// </param>
+        /// <param name="aggregateId">
+        /// The identifier of the aggregate.
+        /// </param>
+        /// <param name="createdUtc">
+        /// The date time (UTC) that the event has been created.
+        /// </param>
         public EventInfo(int version, Guid aggregateId, DateTime createdUtc)
         {
             Version = version;
@@ -22,7 +31,7 @@ namespace Qowaiv.DomainModel.EventSourcing
 
         /// <summary>Gets the identifier of linked aggregate root.</summary>
         public Guid AggregateId { get; }
-        
+
         /// <summary>Gets the creation date time (in UTC).</summary>
         public DateTime CreatedUtc { get; }
 

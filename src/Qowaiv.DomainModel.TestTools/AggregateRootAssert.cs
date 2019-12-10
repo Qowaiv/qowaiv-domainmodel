@@ -39,16 +39,11 @@ namespace Qowaiv.DomainModel.TestTools
 
             Assert.IsNotNull(actualStream, nameof(actualStream));
 
-            var offset = actualStream.CommittedVersion;
-
-            var uncomitted = actualStream.GetUncommitted().ToArray();
-
-            var shared = Math.Min(expectedEvents.Length, uncomitted.Length);
-
             var sb = new StringBuilder();
-
-            // if different lengths 
-            bool failure = false;
+            var failure = false;
+            var offset = actualStream.CommittedVersion;
+            var uncomitted = actualStream.GetUncommitted().ToArray();
+            var shared = Math.Min(expectedEvents.Length, uncomitted.Length);
 
             for (var i = 0; i < shared; i++)
             {
@@ -69,11 +64,11 @@ namespace Qowaiv.DomainModel.TestTools
 
         private static bool AppendEvents(this StringBuilder sb, int index, object exp, object act)
         {
-
             if (sb.AppendDifferentTypes(index, exp, act))
             {
                 return true;
             }
+
             if (sb.AppendDifferentEvents(index, exp, act))
             {
                 return true;
@@ -91,6 +86,7 @@ namespace Qowaiv.DomainModel.TestTools
             {
                 return sb.AppendExpectedActual(index, expType, actType);
             }
+
             return false;
         }
 
@@ -143,15 +139,14 @@ namespace Qowaiv.DomainModel.TestTools
 
             sbExp.Append(" }");
             sbAct.Append(" }");
-           
 
             if (failure)
             {
                 return sb.AppendExpectedActual(index, sbExp, sbAct);
             }
+
             return false;
         }
-
 
         private static bool AppendIdenticalEvents(this StringBuilder sb, int index, object @event)
         {
@@ -186,6 +181,5 @@ namespace Qowaiv.DomainModel.TestTools
 
             return true;
         }
-
     }
 }

@@ -6,21 +6,25 @@ using System.Diagnostics;
 namespace Qowaiv.DomainModel.Tracking
 {
     /// <summary>Tracks (potential) changes and fires validations and notification events.</summary>
-    [DebuggerDisplay("Count = {Count}"), DebuggerTypeProxy(typeof(CollectionDebugView))]
+    /// <typeparam name="TModel">
+    /// The type of the model to check changes from.
+    /// </typeparam>
+    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerTypeProxy(typeof(CollectionDebugView))]
     public class ChangeTracker<TModel> : ChangeTracker where TModel : class
     {
-        private TModel _model;
-        private IValidator<TModel> _validator;
+        private TModel model;
+        private IValidator<TModel> validator;
 
         /// <summary>Creates a new instance of an <see cref="ChangeTracker"/>.</summary>
         public void Init(TModel model, IValidator<TModel> validator)
         {
-            if (!(_model is null))
+            if (!(this.model is null))
             {
                 throw new InvalidOperationException(QowaivDomainModelMessages.InvalidOperationException_ChangeTrackerAlreadyInitialized);
             }
-            _model = Guard.NotNull(model, nameof(model));
-            _validator = Guard.NotNull(validator, nameof(validator));
+            this.model = Guard.NotNull(model, nameof(model));
+            this.validator = Guard.NotNull(validator, nameof(validator));
         }
 
         /// <inheritdoc />
@@ -35,9 +39,9 @@ namespace Qowaiv.DomainModel.Tracking
         /// <summary>Applies all changes at once.</summary>
         public Result<TModel> Process()
         {
-            if (_model is null)
+            if (model is null)
             {
-                throw new InvalidOperationException(QowaivDomainModelMessages.InvalidOperationException_ChangeTrackerNotInitialized); 
+                throw new InvalidOperationException(QowaivDomainModelMessages.InvalidOperationException_ChangeTrackerNotInitialized);
             }
             lock (locker)
             {
@@ -64,8 +68,9 @@ namespace Qowaiv.DomainModel.Tracking
 
             try
             {
-                return _validator.Validate(_model);
+                return validator.Validate(model);
             }
+
             // if this fails, we want to rollback too.
             catch (Exception)
             {
