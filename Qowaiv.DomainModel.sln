@@ -45,7 +45,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F74D9EF2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.EventSourcing", "src\Qowaiv.DomainModel.EventSourcing\Qowaiv.DomainModel.EventSourcing.csproj", "{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.DomainModel.TestTools", "src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj", "{8564A273-F643-4C6B-80E1-5D7DCB7F9767}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.TestTools", "src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj", "{8564A273-F643-4C6B-80E1-5D7DCB7F9767}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{E9A5D722-EEAA-4BF5-BD0A-BDECA579275E}"
+	ProjectSection(SolutionItems) = preProject
+		design\package-icon.png = design\package-icon.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +89,7 @@ Global
 		{C036985A-F17D-405A-B3FD-37F30FA154FB} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
 		{8E1F869D-393B-4F6C-A3C0-1D1D336F9FA8} = {C036985A-F17D-405A-B3FD-37F30FA154FB}
 		{F74D9EF2-39B5-40EB-8C44-1D6015C38D70} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
+		{E9A5D722-EEAA-4BF5-BD0A-BDECA579275E} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B55A336-E2D3-4656-9840-D519B3E1159B}
