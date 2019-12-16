@@ -5,12 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Qowaiv.DomainModel.TestTools
+namespace Qowaiv.DomainModel.TestTools.EventSourcing
 {
     /// <summary>Assertions on the aggregate root.</summary>
     public static class AggregateRootAssert
     {
-        /// <summary>Verifies that the <see cref="EventSourcedAggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
+        /// <summary>Verifies that the <see cref="AggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
         /// <typeparam name="TAggregate">
         /// The type of the aggregate.
         /// </typeparam>
@@ -20,7 +20,7 @@ namespace Qowaiv.DomainModel.TestTools
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
-        public static void HasUncommittedEvents<TAggregate>(TAggregate actualAggregate, params object[] expectedEvents) where TAggregate : EventSourcedAggregateRoot<TAggregate>
+        public static void HasUncommittedEvents<TAggregate>(TAggregate actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate>
         {
             Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
             HasUncommittedEvents(actualAggregate.EventStream, expectedEvents);

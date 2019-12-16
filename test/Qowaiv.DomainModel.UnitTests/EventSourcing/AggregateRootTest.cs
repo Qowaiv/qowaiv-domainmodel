@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Qowaiv.DomainModel.EventSourcing;
 using Qowaiv.DomainModel.UnitTests.Models;
-using Qowaiv.Validation.Abstractions;
 using System;
 
 namespace Qowaiv.DomainModel.UnitTests.EventSourcing
@@ -39,13 +38,6 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
             Assert.AreEqual(aggregateId, aggregate.EventStream.AggregateId);
             Assert.AreEqual(2, aggregate.Version);
             Assert.AreEqual(2, aggregate.EventStream.CommittedVersion);
-        }
-
-        [Test]
-        public void SetProperty_ProofsThatValidatorWorks()
-        {
-            var aggregate = new SimpleEventSourcedRoot();
-            Assert.Throws<InvalidModelException>(() => aggregate.IsWrong = true);
         }
     }
 }

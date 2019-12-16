@@ -5,29 +5,17 @@ using Qowaiv.Validation.Fluent;
 
 namespace Qowaiv.DomainModel.UnitTests.Models
 {
-    public sealed class SimpleEventSourcedRoot : EventSourcedAggregateRoot<SimpleEventSourcedRoot>
+    public sealed class SimpleEventSourcedRoot : AggregateRoot<SimpleEventSourcedRoot>
     {
         public SimpleEventSourcedRoot() : base(new SimpleEventSourcedRootValidator()) { }
 
-        public bool Initialized
-        {
-            get => GetProperty<bool>();
-            private set => SetProperty(value);
-        }
+        public bool Initialized { get; private set; }
 
-        public string Name
-        {
-            get => GetProperty<string>();
-            private set => SetProperty(value);
-        }
+        public string Name { get; private set; }
 
-        public bool IsWrong
-        {
-            get => GetProperty<bool>();
-            internal set => SetProperty(value);
-        }
+        public bool IsWrong { get; private set; }
 
-        public Result<SimpleEventSourcedRoot> SetName(UpdateNameEvent command) => ApplyEvent(command);
+        public Result<SimpleEventSourcedRoot> SetName(string name) => ApplyEvent(new UpdateNameEvent { Name = name  });
 
         internal void Apply(UpdateNameEvent @event)
         {

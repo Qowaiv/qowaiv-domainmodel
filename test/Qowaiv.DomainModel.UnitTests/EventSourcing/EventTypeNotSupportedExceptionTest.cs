@@ -10,11 +10,11 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         [Test]
         public void Serialize_RoundTrip()
         {
-            var exception = new EventTypeNotSupportedException(typeof(int), typeof(SimpleEntity));
+            var exception = new EventTypeNotSupportedException(typeof(int), typeof(SimpleEventSourcedRoot));
             var actual = SerializationTest.SerializeDeserialize(exception);
 
             Assert.AreEqual(typeof(int), actual.EventType);
-            Assert.AreEqual(typeof(SimpleEntity), actual.AggregateType);
+            Assert.AreEqual(typeof(SimpleEventSourcedRoot), actual.AggregateType);
         }
     }
 }

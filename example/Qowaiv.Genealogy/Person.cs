@@ -6,47 +6,23 @@ using Qowaiv.Validation.Abstractions;
 
 namespace Qowaiv.Genealogy
 {
-    public class Person : EventSourcedAggregateRoot<Person>
+    public class Person : AggregateRoot<Person>
     {
         private static readonly PersonValidator _validator = new PersonValidator();
 
         public Person() : base(_validator) { }
 
-        public Gender Gender
-        {
-            get => GetProperty<Gender>();
-            private set => SetProperty(value);
-        }
+        public Gender Gender { get; private set; }
 
-        public string PersonalName
-        {
-            get => GetProperty<string>();
-            private set => SetProperty(value);
-        }
+        public string PersonalName { get; private set; }
 
-        public string FamilyName
-        {
-            get => GetProperty<string>();
-            private set => SetProperty(value);
-        }
+        public string FamilyName { get; private set; }
 
-        public Date DateOfBirth
-        {
-            get => GetProperty<Date>();
-            private set => SetProperty(value);
-        }
+        public Date DateOfBirth { get; private set; }
 
-        public Date? DateOfDeath
-        {
-            get => GetProperty<Date?>();
-            private set => SetProperty(value);
-        }
+        public Date? DateOfDeath { get; private set; }
 
-        public EmailAddress Email
-        {
-            get => GetProperty<EmailAddress>();
-            private set => SetProperty(value);
-        }
+        public EmailAddress Email { get; private set; }
 
         public Result<Person> Update(UpdatePerson cmd)
         {

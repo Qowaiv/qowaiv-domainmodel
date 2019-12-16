@@ -14,7 +14,7 @@
         /// When replaying historical events, validation is skipped.
         /// </remarks>
         public static TAggregate FromEvents<TAggregate>(EventStream stream)
-             where TAggregate : EventSourcedAggregateRoot<TAggregate>, new()
+             where TAggregate : AggregateRoot<TAggregate>, new()
         {
             Guard.NotNull(stream, nameof(stream));
 

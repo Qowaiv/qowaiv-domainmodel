@@ -11,29 +11,32 @@ namespace Qowaiv.DomainModel.EventSourcing
     /// <typeparam name="TAggregate">
     /// The type of the aggregate root itself.
     /// </typeparam>
-    public abstract class EventSourcedAggregateRoot<TAggregate> : AggregateRoot<TAggregate>
-        where TAggregate : EventSourcedAggregateRoot<TAggregate>
+    public abstract class AggregateRoot<TAggregate>
+        where TAggregate : AggregateRoot<TAggregate>
     {
-        /// <summary>Initializes a new instance of the <see cref="EventSourcedAggregateRoot{TAggregate}"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate}"/> class.</summary>
         /// <param name="validator">
         /// A custom validator.
         /// </param>
-        protected EventSourcedAggregateRoot(IValidator<TAggregate> validator) : this(Guid.NewGuid(), validator) { }
+        protected AggregateRoot(IValidator<TAggregate> validator) : this(Guid.NewGuid(), validator) { }
 
-        /// <summary>Initializes a new instance of the <see cref="EventSourcedAggregateRoot{TAggregate}"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate}"/> class.</summary>
         /// <param name="id">
         /// The identifier of the aggregate root.
         /// </param>
         /// <param name="validator">
         /// A custom validator.
         /// </param>
-        protected EventSourcedAggregateRoot(Guid id, IValidator<TAggregate> validator) : base(id, validator)
+        protected AggregateRoot(Guid id, IValidator<TAggregate> validator)
         {
             EventStream = new EventStream(id);
+            this.validator = Guard.NotNull(validator, nameof(validator));
         }
 
-        /// <inheritdoc />
-        public sealed override Guid Id => EventStream.AggregateId;
+        /// <summary>The identifier of the entity.</summary>
+        public Guid Id => EventStream.AggregateId;
+
+        private readonly IValidator<TAggregate> validator;
 
         /// <summary>Gets the event stream representing the state of the aggregate root.</summary>
         public EventStream EventStream { get; private set; }
@@ -48,10 +51,11 @@ namespace Qowaiv.DomainModel.EventSourcing
 
             lock (EventStream.Lock())
             {
-                var result = Update((self) =>
-                {
-                    self.AsDynamic().Apply(@event);
-                });
+                var self = AsDynamic();
+                self.Apply(@event);
+
+                var result = validator.Validate((TAggregate)this);
+
                 if (result.IsValid)
                 {
                     EventStream.Add(@event);
@@ -70,18 +74,19 @@ namespace Qowaiv.DomainModel.EventSourcing
 
             lock (EventStream.Lock())
             {
-                var result = Update((self) =>
+                var self = AsDynamic();
+
+                foreach (var @event in all)
                 {
-                    foreach (var @event in all)
-                    {
-                        self.AsDynamic().Apply(@event);
-                    }
-                });
-                if (result.IsValid)
-                {
-                    EventStream.AddRange(all);
+                    self.Apply(@event);
                 }
 
+                var result = validator.Validate((TAggregate)this);
+
+                if (result.IsValid)
+                {
+                    EventStream.Add(events);
+                }
                 return result;
             }
         }
@@ -89,14 +94,12 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// <summary>Loads the state of the aggregate root based on historical events.</summary>
         internal void LoadEvents(EventStream stream)
         {
-            Tracker.Intialize();
             EventStream = new EventStream(stream.AggregateId, stream.Version);
 
             foreach (var e in stream)
             {
                 AsDynamic().Apply(e.Event);
             }
-            Tracker.NoBuffering();
         }
 
         /// <summary>Represents the aggregate root as a dynamic.</summary>

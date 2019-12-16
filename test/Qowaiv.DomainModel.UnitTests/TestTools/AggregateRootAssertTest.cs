@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Qowaiv.DomainModel.EventSourcing;
 using Qowaiv.DomainModel.TestTools;
+using Qowaiv.DomainModel.TestTools.EventSourcing;
 using Qowaiv.Globalization;
 using System;
 using TestEvents;

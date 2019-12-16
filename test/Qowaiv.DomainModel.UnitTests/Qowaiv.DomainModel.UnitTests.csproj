@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Qowaiv.DomainModel.EventSourcing\Qowaiv.DomainModel.EventSourcing.csproj" />
     <ProjectReference Include="..\..\src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj" />
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
   </ItemGroup>
 
 </Project>

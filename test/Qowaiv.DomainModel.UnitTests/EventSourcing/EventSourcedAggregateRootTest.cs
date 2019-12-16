@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.DomainModel.TestTools.EventSourcing;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.Validation.Abstractions;
+using Qowaiv.Validation.TestTools;
 using System;
 
 namespace Qowaiv.DomainModel.UnitTests.EventSourcing
@@ -33,11 +35,9 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         public void ApplyEvent_SomeEvent_UpdatesAggregate()
         {
             var aggregate = new SimpleEventSourcedRoot();
-            aggregate = aggregate.SetName(new UpdateNameEvent { Name = "Nelis Bijl" }).Value;
 
-            Assert.AreEqual("Nelis Bijl", aggregate.Name);
-            Assert.AreEqual(0, aggregate.EventStream.CommittedVersion);
-            Assert.AreEqual(1, aggregate.Version);
+            ValidationMessageAssert.IsValid(aggregate.SetName("Jimi Hendrix"));
+            AggregateRootAssert.HasUncommittedEvents(aggregate.EventStream, new UpdateNameEvent { Name = "Jimi Hendrixl" });
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         }
 
 
-        private class TestApplyChangeAggregate : EventSourcedAggregateRoot<TestApplyChangeAggregate>
+        private class TestApplyChangeAggregate : AggregateRoot<TestApplyChangeAggregate>
         {
             public TestApplyChangeAggregate()
                 : base(Guid.NewGuid(), Validator.Empty<TestApplyChangeAggregate>()) { }
