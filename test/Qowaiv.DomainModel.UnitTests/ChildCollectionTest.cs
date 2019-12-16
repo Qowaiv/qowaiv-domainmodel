@@ -323,13 +323,13 @@ namespace Qowaiv.DomainModel.UnitTests
 
         public void Test(Action<NumberParent> test)
         {
-            Assert.IsTrue(TrackChanges(test).IsValid);
+            Assert.IsTrue(Update(test).IsValid);
         }
 
         public void TestWithRollback(Action<NumberParent> test)
         {
             Invalid = true;
-            Assert.IsFalse(TrackChanges(test).IsValid);
+            Assert.IsFalse(Update(test).IsValid);
         }
 
         private class NumberParentValidator : FluentModelValidator<NumberParent>

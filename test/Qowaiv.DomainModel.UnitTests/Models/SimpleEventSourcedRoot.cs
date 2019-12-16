@@ -27,7 +27,7 @@ namespace Qowaiv.DomainModel.UnitTests.Models
             internal set => SetProperty(value);
         }
 
-        public Result<SimpleEventSourcedRoot> SetName(UpdateNameEvent command) => ApplyChange(command);
+        public Result<SimpleEventSourcedRoot> SetName(UpdateNameEvent command) => ApplyEvent(command);
 
         internal void Apply(UpdateNameEvent @event)
         {

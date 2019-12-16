@@ -48,18 +48,18 @@ namespace Qowaiv.DomainModel
         }
 
         /// <summary>Sets multiple properties simultaneously.</summary>
-        /// <param name="update">
+        /// <param name="action">
         /// The action trying to update the state of the properties.
         /// </param>
         /// <returns>
         /// A <see cref="Result{T}"/> containing the entity or the messages.
         /// </returns>
-        public Result<TAggrgate> TrackChanges(Action<TAggrgate> update)
+        protected Result<TAggrgate> Update(Action<TAggrgate> action)
         {
-            Guard.NotNull(update, nameof(update));
+            Guard.NotNull(action, nameof(action));
 
             Tracker.BufferChanges();
-            update((TAggrgate)this);
+            action((TAggrgate)this);
             return Tracker.Process();
         }
 

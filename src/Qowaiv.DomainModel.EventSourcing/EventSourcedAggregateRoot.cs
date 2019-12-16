@@ -41,14 +41,14 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// <summary>Gets the version of the aggregate root.</summary>
         public int Version => EventStream.Version;
 
-        /// <summary>Applies a change.</summary>
-        protected Result<TAggregate> ApplyChange(object @event)
+        /// <summary>Applies an event.</summary>
+        protected Result<TAggregate> ApplyEvent(object @event)
         {
             Guard.NotNull(@event, nameof(@event));
 
             lock (EventStream.Lock())
             {
-                var result = TrackChanges((self) =>
+                var result = Update((self) =>
                 {
                     self.AsDynamic().Apply(@event);
                 });
@@ -60,17 +60,17 @@ namespace Qowaiv.DomainModel.EventSourcing
             }
         }
 
-        /// <summary>Applies the changes.</summary>
-        protected Result<TAggregate> ApplyChanges(params object[] events) => ApplyChanges(events?.AsEnumerable());
+        /// <summary>Applies the events.</summary>
+        protected Result<TAggregate> ApplyEvents(params object[] events) => ApplyEvents(events?.AsEnumerable());
 
-        /// <summary>Applies the changes.</summary>
-        protected Result<TAggregate> ApplyChanges(IEnumerable<object> events)
+        /// <summary>Applies the events.</summary>
+        protected Result<TAggregate> ApplyEvents(IEnumerable<object> events)
         {
             var all = Guard.NotNull(events, nameof(events)).ToArray();
 
             lock (EventStream.Lock())
             {
-                var result = TrackChanges((self) =>
+                var result = Update((self) =>
                 {
                     foreach (var @event in all)
                     {

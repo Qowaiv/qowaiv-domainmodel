@@ -10,7 +10,7 @@ namespace Qowaiv.DomainModel.UnitTests
         public void IsValid_CalculatedProperty_IsValid()
         {
             var model = new EntityWithCaculatedProperty();
-            var result = model.TrackChanges((m) =>
+            var result = model.TestUpdate((m) =>
             {
                 m.Repertitions = 5;
                 m.Value = 8;
@@ -24,7 +24,7 @@ namespace Qowaiv.DomainModel.UnitTests
         {
             var model = new EntityWithCaculatedProperty();
             
-            var result = model.TrackChanges((m) =>
+            var result = model.TestUpdate((m) =>
             {
                 m.Repertitions = 50;
                 m.Value = 8.17m;

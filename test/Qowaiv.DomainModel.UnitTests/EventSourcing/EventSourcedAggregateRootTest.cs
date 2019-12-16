@@ -56,7 +56,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
 
             public void TestApplyChange(object @event)
             {
-                ApplyChange(@event);
+                ApplyEvent(@event);
             }
         }
     }

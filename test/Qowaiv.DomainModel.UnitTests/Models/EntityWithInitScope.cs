@@ -27,7 +27,7 @@ namespace Qowaiv.DomainModel.UnitTests.Models
         {
             var entity = new EntityWithInitScope(id);
 
-            return entity.TrackChanges((e) =>
+            return entity.Update((e) =>
             {
                 e.Name = name;
                 e.StartDate = startDate;

@@ -1,4 +1,5 @@
-﻿using Qowaiv.Validation.DataAnnotations;
+﻿using Qowaiv.Validation.Abstractions;
+using Qowaiv.Validation.DataAnnotations;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,5 +23,10 @@ namespace Qowaiv.DomainModel.UnitTests.Models
 
         [Range(15, 150)]
         public decimal Total => Value * Repertitions;
+
+        public Result<EntityWithCaculatedProperty> TestUpdate(Action<EntityWithCaculatedProperty> action)
+        {
+            return Update(action);
+        }
     }
 }
