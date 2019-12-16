@@ -65,18 +65,15 @@ namespace Qowaiv.DomainModel.EventSourcing
         }
 
         /// <summary>Applies the events.</summary>
-        protected Result<TAggregate> ApplyEvents(params object[] events) => ApplyEvents(events?.AsEnumerable());
-
-        /// <summary>Applies the events.</summary>
-        protected Result<TAggregate> ApplyEvents(IEnumerable<object> events)
+        protected Result<TAggregate> ApplyEvents(params object[] events)
         {
-            var all = Guard.NotNull(events, nameof(events)).ToArray();
+            Guard.NotNull(events, nameof(events));
 
             lock (EventStream.Lock())
             {
                 var self = AsDynamic();
 
-                foreach (var @event in all)
+                foreach (var @event in events)
                 {
                     self.Apply(@event);
                 }
@@ -85,7 +82,7 @@ namespace Qowaiv.DomainModel.EventSourcing
 
                 if (result.IsValid)
                 {
-                    EventStream.Add(events);
+                    EventStream.AddRange(events);
                 }
                 return result;
             }

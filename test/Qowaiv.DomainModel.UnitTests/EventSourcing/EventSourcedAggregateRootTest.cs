@@ -16,7 +16,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
             var stream = new EventStream();
             stream.Add(new SimpleInitEvent());
             stream.MarkAllAsCommitted();
-            stream.Add(new UpdateNameEvent());
+            stream.Add(new NameUpdated());
 
             Assert.Throws<EventStreamNoFullHistoryException>(() => AggregateRoot.FromEvents<SimpleEventSourcedRoot>(stream));
         }
@@ -37,15 +37,26 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
             var aggregate = new SimpleEventSourcedRoot();
 
             ValidationMessageAssert.IsValid(aggregate.SetName("Jimi Hendrix"));
-            AggregateRootAssert.HasUncommittedEvents(aggregate.EventStream, new UpdateNameEvent { Name = "Jimi Hendrixl" });
+            AggregateRootAssert.HasUncommittedEvents(aggregate.EventStream, new NameUpdated { Name = "Jimi Hendrix" });
+        }
+
+        [Test]
+        public void ApplyEvents_SomeEvents_UpdatesAggregate()
+        {
+            var aggregate = new SimpleEventSourcedRoot();
+
+            ValidationMessageAssert.IsValid(aggregate.SetPerson("Jimi Hendrix", new Date(1942, 11, 27)));
+            AggregateRootAssert.HasUncommittedEvents(aggregate.EventStream, 
+                new NameUpdated { Name = "Jimi Hendrix" },
+                new DateOfBirthUpdated { DateOfBirth = new Date(1942, 11, 27) });
         }
 
         [Test]
         public void ApplyEvent_NotSupported()
         {
             var aggregate = new TestApplyChangeAggregate();
-            var exception = Assert.Throws<EventTypeNotSupportedException>(() => aggregate.TestApplyChange(new UpdateNameEvent()));
-            Assert.AreEqual(typeof(UpdateNameEvent), exception.EventType);
+            var exception = Assert.Throws<EventTypeNotSupportedException>(() => aggregate.TestApplyChange(new NameUpdated()));
+            Assert.AreEqual(typeof(NameUpdated), exception.EventType);
         }
 
 
