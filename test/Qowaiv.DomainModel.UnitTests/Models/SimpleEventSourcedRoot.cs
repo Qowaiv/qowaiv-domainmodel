@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.DomainModel.EventSourcing.Validation;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.Fluent;
 
@@ -52,6 +53,19 @@ namespace Qowaiv.DomainModel.UnitTests.Models
         public SimpleEventSourcedRootValidator()
         {
             RuleFor(m => m.IsWrong).Must(prop => !prop).WithMessage("Should not be wrong.");
+        }
+
+        internal DateOfBirthUpdatedValidator DateOfBirthUpdated
+        {
+            get => new DateOfBirthUpdatedValidator();
+        }
+
+        internal class DateOfBirthUpdatedValidator : FluentModelValidator<EventContext<SimpleEventSourcedRoot, DateOfBirthUpdated>>
+        {
+            public DateOfBirthUpdatedValidator()
+            {
+                RuleFor(c => c.Aggregate.DateOfBirth).Must((c, p) => p == default).WithMessage("A set Date of Birth can not be updated.");
+            }
         }
     }
 

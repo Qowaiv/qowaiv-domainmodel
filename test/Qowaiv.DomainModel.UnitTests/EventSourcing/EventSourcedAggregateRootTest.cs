@@ -52,6 +52,16 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         }
 
         [Test]
+        public void ApplyEvent_FailureOnPreDispatch_WithError()
+        {
+            var aggregate = new SimpleEventSourcedRoot();
+            aggregate = aggregate.SetPerson("Jimi Hendrix", new Date(1942, 11, 27)).Value;
+
+            ValidationMessageAssert.WithErrors(aggregate.SetPerson("Jimi Hendrix", new Date(1942, 11, 27)),
+                ValidationMessage.Error("A set Date of Birth can not be updated.", "DateOfBirth"));
+        }
+
+        [Test]
         public void ApplyEvent_NotSupported()
         {
             var aggregate = new TestApplyChangeAggregate();

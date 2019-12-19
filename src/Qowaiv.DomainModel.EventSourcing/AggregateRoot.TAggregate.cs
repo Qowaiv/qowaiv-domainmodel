@@ -1,9 +1,8 @@
 ﻿using Qowaiv.DomainModel.EventSourcing.Dynamic;
+using Qowaiv.DomainModel.EventSourcing.Validation;
 using Qowaiv.Validation.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Qowaiv.DomainModel.EventSourcing
 {
@@ -51,10 +50,10 @@ namespace Qowaiv.DomainModel.EventSourcing
 
             lock (EventStream.Lock())
             {
-                var self = AsDynamic();
-                self.Apply(@event);
-
-                var result = validator.Validate((TAggregate)this);
+                var result = validator
+                    .ValidateEvent((TAggregate)this, @event)
+                    .Act(m => Apply(m, @event))
+                    .Act(m => validator.Validate(m));
 
                 if (result.IsValid)
                 {
@@ -69,16 +68,18 @@ namespace Qowaiv.DomainModel.EventSourcing
         {
             Guard.NotNull(events, nameof(events));
 
+            var result = Result.For((TAggregate)this);
+
             lock (EventStream.Lock())
             {
-                var self = AsDynamic();
-
                 foreach (var @event in events)
                 {
-                    self.Apply(@event);
+                    result = result
+                        .Act(m => validator.ValidateEvent(m, @event))
+                        .Act(m => Apply(m, @event));
                 }
 
-                var result = validator.Validate((TAggregate)this);
+                result = result.Act(m => validator.Validate(m));
 
                 if (result.IsValid)
                 {
@@ -88,14 +89,25 @@ namespace Qowaiv.DomainModel.EventSourcing
             }
         }
 
+        private static Result Apply(TAggregate model, object @event)
+        {
+            model.AsDynamic().Apply(@event);
+            return Result.OK;
+        }
+
         /// <summary>Loads the state of the aggregate root based on historical events.</summary>
         internal void LoadEvents(EventStream stream)
         {
             EventStream = new EventStream(stream.AggregateId, stream.Version);
 
-            foreach (var e in stream)
+            lock (stream.Lock())
             {
-                AsDynamic().Apply(e.Event);
+                var self = AsDynamic();
+
+                foreach (var e in stream)
+                {
+                    self.Apply(e.Event);
+                }
             }
         }
 
@@ -104,7 +116,7 @@ namespace Qowaiv.DomainModel.EventSourcing
         /// By default, this dynamic is only capable of invoking Apply(@event).
         /// If more is wanted, this method should be overridden.
         /// </remarks>
-        protected virtual dynamic AsDynamic()
+        private dynamic AsDynamic()
         {
             if (@dynamic is null)
             {
