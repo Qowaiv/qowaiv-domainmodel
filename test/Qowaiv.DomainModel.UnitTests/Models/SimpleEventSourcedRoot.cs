@@ -48,18 +48,13 @@ namespace Qowaiv.DomainModel.UnitTests.Models
         }
     }
 
+    [EventValidators(typeof(DateOfBirthUpdatedValidator))]
     public class SimpleEventSourcedRootValidator : FluentModelValidator<SimpleEventSourcedRoot>
     {
         public SimpleEventSourcedRootValidator()
         {
             RuleFor(m => m.IsWrong).Must(prop => !prop).WithMessage("Should not be wrong.");
         }
-
-        internal DateOfBirthUpdatedValidator DateOfBirthUpdated
-        {
-            get => new DateOfBirthUpdatedValidator();
-        }
-
         internal class DateOfBirthUpdatedValidator : FluentModelValidator<EventContext<SimpleEventSourcedRoot, DateOfBirthUpdated>>
         {
             public DateOfBirthUpdatedValidator()

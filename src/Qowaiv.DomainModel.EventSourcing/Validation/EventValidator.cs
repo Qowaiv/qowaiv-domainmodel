@@ -26,17 +26,24 @@ namespace Qowaiv.DomainModel.EventSourcing.Validation
         public static Result<TAggregate> ValidateEvent<TAggregate>(this IValidator<TAggregate> validator, TAggregate aggregate, object @event)
             where TAggregate : AggregateRoot<TAggregate>
         {
-            var eventValidatorType = GetValidatorType(typeof(TAggregate), @event.GetType());
-            var validatorProperty = GetValidatorProperty(validator.GetType(), eventValidatorType);
+            var attribute = validator.GetType().GetCustomAttribute<EventValidatorsAttribute>();
 
-            if (validatorProperty is null)
+            if (attribute is null)
             {
                 return aggregate;
             }
 
+            var interfaceType = GetValidatorType(typeof(TAggregate), @event.GetType());
+            var validatorType = attribute.Validators.FirstOrDefault(type => type.Implements(interfaceType));
+
+            if (validatorType is null)
+            {
+                return aggregate;
+            }
+
+            var eventValidator = Activator.CreateInstance(validatorType);
             var context = CreateContext(aggregate, @event);
-            var eventValidator = validatorProperty.GetValue(validator);
-            var validate = eventValidatorType.GetMethod(Validate);
+            var validate = interfaceType.GetMethod(Validate);
             var result = (Result)validate.Invoke(eventValidator, new[] { context });
 
             return Result.For(aggregate, result.Messages.Select(StripPropertyName));
@@ -81,18 +88,10 @@ namespace Qowaiv.DomainModel.EventSourcing.Validation
             };
         }
 
-        /// <summary>Gets the validator property.</summary>
-        private static PropertyInfo GetValidatorProperty(Type validatorType, Type eventValidatorType)
+        /// <summary>Returns true if the type implements/inherits from the base type.</summary>
+        private static bool Implements(this Type type, Type baseType)
         {
-            return validatorType
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .FirstOrDefault(property => Implements(property, eventValidatorType));
-        }
-
-        /// <summary>Returns true if the property type implements/inherits from the base type.</summary>
-        private static bool Implements(PropertyInfo property, Type baseType)
-        {
-            return baseType.IsAssignableFrom(property.PropertyType);
+            return baseType.IsAssignableFrom(type);
         }
     }
 }
