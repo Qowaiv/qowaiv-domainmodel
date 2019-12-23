@@ -44,29 +44,12 @@ namespace Qowaiv.DomainModel.EventSourcing
         public int Version => EventStream.Version;
 
         /// <summary>Applies an event.</summary>
-        protected Result<TAggregate> ApplyEvent(object @event)
-        {
-            Guard.NotNull(@event, nameof(@event));
-
-            lock (EventStream.Lock())
-            {
-                var result = validator
-                    .ValidateEvent((TAggregate)this, @event)
-                    .Act(m => Apply(m, @event))
-                    .Act(m => validator.Validate(m));
-
-                if (result.IsValid)
-                {
-                    EventStream.Add(@event);
-                }
-                return result;
-            }
-        }
+        protected Result<TAggregate> ApplyEvent(object @event) => ApplyEvents(@event);
 
         /// <summary>Applies the events.</summary>
         protected Result<TAggregate> ApplyEvents(params object[] events)
         {
-            Guard.NotNull(events, nameof(events));
+            Guard.HasAny(events, nameof(events));
 
             var result = Result.For((TAggregate)this);
 
