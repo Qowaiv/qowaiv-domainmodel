@@ -58,7 +58,7 @@ namespace Qowaiv.DomainModel.EventSourcing.Validation
             return Activator.CreateInstance(contextType, aggregate, @event);
         }
 
-        /// <summary>Gets The validator type <see cref="IValidator{TModel}"/> where <code>TModel</code>
+        /// <summary>Gets The validator type <see cref="IValidator{TModel}"/> where TModel
         /// is a <see cref="EventContext{TAggregate, TEvent}"/>.
         /// </summary>
         private static Type GetValidatorType(Type aggregateType, Type eventType)
