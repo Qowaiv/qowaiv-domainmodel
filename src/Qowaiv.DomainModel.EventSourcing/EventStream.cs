@@ -75,7 +75,7 @@ namespace Qowaiv.DomainModel.EventSourcing
 
             lock (locker)
             {
-                var info = new EventInfo(Version + 1, AggregateId, Clock.UtcNow());
+                var info = new EventInfo(Version + 1, AggregateId);
                 var versioned = new EventMessage(info, @event);
                 messages.Add(versioned);
             }
@@ -92,12 +92,11 @@ namespace Qowaiv.DomainModel.EventSourcing
             lock (locker)
             {
                 var version = Version + 1;
-                var createdUtc = Clock.UtcNow();
 
                 for (var i = 0; i < events.Length; i++)
                 {
                     var @event = Guard.NotNull(events[i], $"events[{i}]");
-                    var info = new EventInfo(version + i, AggregateId, createdUtc);
+                    var info = new EventInfo(version + i, AggregateId);
                     var versioned = new EventMessage(info, @event);
                     messages.Add(versioned);
                 }

@@ -15,8 +15,8 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
 
             var messages = new[] 
             {
-                new EventMessage(new EventInfo(1, id, Clock.UtcNow()), new DummyEvent()),
-                new EventMessage(new EventInfo(2, id, Clock.UtcNow()), new DummyEvent()),
+                new EventMessage(new EventInfo(1, id), new DummyEvent()),
+                new EventMessage(new EventInfo(2, id), new DummyEvent()),
             };
 
             var stream = EventStream.FromMessages(messages);
@@ -33,9 +33,9 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
 
             var messages = new[]
             {
-                new EventMessage(new EventInfo(1, id, Clock.UtcNow()), new DummyEvent()),
-                new EventMessage(new EventInfo(1, id, Clock.UtcNow()), new DummyEvent()),
-                new EventMessage(new EventInfo(2, id, Clock.UtcNow()), new DummyEvent()),
+                new EventMessage(new EventInfo(1, id), new DummyEvent()),
+                new EventMessage(new EventInfo(1, id), new DummyEvent()),
+                new EventMessage(new EventInfo(2, id), new DummyEvent()),
             };
 
             Assert.Throws<EventsOutOfOrderException>(() => EventStream.FromMessages(messages));
@@ -53,8 +53,8 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         {
             var messages = new[]
             {
-                new EventMessage(new EventInfo(1, Guid.NewGuid(), Clock.UtcNow()), new DummyEvent()),
-                new EventMessage(new EventInfo(2, Guid.NewGuid(), Clock.UtcNow()), new DummyEvent()),
+                new EventMessage(new EventInfo(1, Guid.NewGuid()), new DummyEvent()),
+                new EventMessage(new EventInfo(2, Guid.NewGuid()), new DummyEvent()),
             };
 
             var x = Assert.Throws<ArgumentException>(() => EventStream.FromMessages(messages));
@@ -68,8 +68,8 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
 
             var messages = new[]
             {
-                new EventMessage(new EventInfo(1, id, Clock.UtcNow()), new DummyEvent()),
-                new EventMessage(new EventInfo(3, id, Clock.UtcNow()), new DummyEvent()),
+                new EventMessage(new EventInfo(1, id), new DummyEvent()),
+                new EventMessage(new EventInfo(3, id), new DummyEvent()),
             };
 
             Assert.Throws<EventsOutOfOrderException>(() => EventStream.FromMessages(messages));

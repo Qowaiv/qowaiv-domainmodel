@@ -63,7 +63,7 @@ namespace Qowaiv.DomainModel.EventSourcing
                 }
 
                 sb.Append(" }");
-                sb.AppendFormat(@", {0:yyyy-MM-dd HH\:mm\:ss}, Aggregate: {1:B}", Info.CreatedUtc, Info.AggregateId);
+                sb.AppendFormat(@", Aggregate: {0:B}", Info.AggregateId);
                 return sb.ToString();
             }
         }

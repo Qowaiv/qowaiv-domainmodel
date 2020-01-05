@@ -6,7 +6,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
 {
     public class EventInfoTest
     {
-        private static readonly EventInfo TestStruct = new EventInfo(1, Guid.Parse("6E1D3455-D1E2-484E-8C54-27F9B0BFE8BA"), new DateTime(2017, 06, 11, 6, 15, 0));
+        private static readonly EventInfo TestStruct = new EventInfo(1, Guid.Parse("6E1D3455-D1E2-484E-8C54-27F9B0BFE8BA"));
 
         [Test]
         public void Equals_Null_IsFalse()
