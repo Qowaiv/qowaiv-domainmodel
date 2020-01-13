@@ -40,18 +40,18 @@ namespace Qowaiv.Financial.UnitTests.Domain
                     Lines = new[]
                     {
                         new Created.Line
-                    {
-                        Amount = +123.45 + Currency.EUR,
-                        Date = new Date(2020, 01, 02),
-                        GlAccount = new GlAccountCode("0070"),
-                        Description = "New Year Reception",
-                    },
-                    new Created.Line
-                    {
-                        Amount = -123.45 + Currency.EUR,
-                        Date = new Date(2020, 01, 02),
-                        GlAccount = new GlAccountCode("0180"),
-                    },
+                        {
+                            Amount = +123.45 + Currency.EUR,
+                            Date = new Date(2020, 01, 02),
+                            GlAccount = new GlAccountCode("0070"),
+                            Description = "New Year Reception",
+                        },
+                        new Created.Line
+                        {
+                            Amount = -123.45 + Currency.EUR,
+                            Date = new Date(2020, 01, 02),
+                            GlAccount = new GlAccountCode("0180"),
+                        },
                     }
                 });
         }

@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Qowaiv" Version="5.0.0" />
-    <PackageReference Include="Qowaiv.Validation.Fluent" Version="0.0.2" />
+    <PackageReference Include="EventStore.ClientAPI.NetCore" Version="4.1.0.23" />
   </ItemGroup>
 
   <ItemGroup>

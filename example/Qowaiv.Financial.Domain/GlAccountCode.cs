@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Qowaiv.Financial.Domain
+﻿namespace Qowaiv.Financial.Domain
 {
     public struct GlAccountCode
     {
