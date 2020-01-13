@@ -49,6 +49,7 @@ namespace Qowaiv.Financial.Domain
             var @event = new Created
             {
                 Report = report,
+                CreatedUtc = Clock.UtcNow(),
                 Lines = lines.Select(line => new Created.Line
                 {
                     GlAccount = line.GlAccount,
@@ -59,6 +60,20 @@ namespace Qowaiv.Financial.Domain
                 }).ToArray(),
             };
             return entry.ApplyEvent(@event);
+        }
+
+        internal void Apply(Created @event)
+        {
+            Report = @event.Report;
+            enties.Clear();
+            enties.AddRange(@event.Lines.Select(line => new EntryLine
+            {
+                AccountId = line.AccountId,
+                Amount = line.Amount,
+                Date = line.Date,
+                Description = line.Description,
+                GlAccount= line.GlAccount,
+            }));
         }
 
         internal void Apply(EntryLinesAdded @event)

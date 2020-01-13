@@ -1,4 +1,5 @@
 ﻿using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,33 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
     /// <summary>Assertions on the aggregate root.</summary>
     public static class AggregateRootAssert
     {
+        /// <summary>Verifies that the <see cref="AggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
+        /// <typeparam name="TAggregate">
+        /// The type of the aggregate.
+        /// </typeparam>
+        /// <param name="actualAggregate">
+        /// The actual aggregate to verify.
+        /// </param>
+        /// <param name="expectedEvents">
+        /// The expected event messages.
+        /// </param>
+        public static void HasUncommittedEvents<TAggregate>(Result<TAggregate> actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate>
+        {
+            Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
+
+            if (!actualAggregate.IsValid)
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine($"The aggregate root {typeof(TAggregate).Name} is invalid:");
+                foreach (var message in actualAggregate.Messages)
+                {
+                    sb.Append("- ").AppendLine(message.ToString());
+                }
+                Assert.Fail(sb.ToString());
+            }
+            HasUncommittedEvents(actualAggregate.Value, expectedEvents);
+        }
+
         /// <summary>Verifies that the <see cref="AggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
         /// <typeparam name="TAggregate">
         /// The type of the aggregate.
@@ -119,8 +147,8 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
                     {
                         failure = true;
 
-                        sbExp.Append($"{prop.Name}: {{ {string.Join(", ", e_)} }}, ");
-                        sbAct.Append($"{prop.Name}: {{ {string.Join(", ", a_)} }}, ");
+                        sbExp.Append($"{prop.Name}: [ {string.Join(", ", e_)} ], ");
+                        sbAct.Append($"{prop.Name}: [ {string.Join(", ", a_)} ], ");
                     }
                 }
                 else

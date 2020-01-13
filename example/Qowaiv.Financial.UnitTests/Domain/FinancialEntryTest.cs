@@ -13,11 +13,13 @@ namespace Qowaiv.Financial.UnitTests.Domain
         [Test]
         public void Create_WithBalancedLines_PublishesOneEvent()
         {
-            var entry = FinancialEntry.Create(
-                id: Id(nameof(Create_WithBalancedLines_PublishesOneEvent)),
-                report: new Report(2020, Month.January),
-                lines: new FinancialEntryLine[]
-                {
+            using (Clock.SetTimeForCurrentThread(()=>new DateTime(2020, 01, 03, 12, 15, 37)))
+            {
+                var entry = FinancialEntry.Create(
+                    id: Id(nameof(Create_WithBalancedLines_PublishesOneEvent)),
+                    report: new Report(2020, Month.January),
+                    lines: new FinancialEntryLine[]
+                    {
                     new FinancialEntryLine
                     {
                         Amount = +123.45 + Currency.EUR,
@@ -30,30 +32,34 @@ namespace Qowaiv.Financial.UnitTests.Domain
                         Amount = -123.45 + Currency.EUR,
                         Date = new Date(2020, 01, 02),
                         GlAccount = new GlAccountCode("0180"),
+                        Description = "New Year Reception",
                     },
-                }).Value;
+                    });
 
-            AggregateRootAssert.HasUncommittedEvents(entry,
-                new Created
-                {
-                    CreatedUtc = new DateTime(2020, 01, 03, 12, 15, 37),
-                    Lines = new[]
+                AggregateRootAssert.HasUncommittedEvents(entry,
+                    new Created
                     {
-                        new Created.Line
+                        CreatedUtc = new DateTime(2020, 01, 03, 12, 15, 37),
+                        Report = new Report(2020, Month.January),
+                        Lines = new[]
                         {
-                            Amount = +123.45 + Currency.EUR,
-                            Date = new Date(2020, 01, 02),
-                            GlAccount = new GlAccountCode("0070"),
-                            Description = "New Year Reception",
-                        },
-                        new Created.Line
-                        {
-                            Amount = -123.45 + Currency.EUR,
-                            Date = new Date(2020, 01, 02),
-                            GlAccount = new GlAccountCode("0180"),
-                        },
-                    }
-                });
+                            new Created.Line
+                            {
+                                Amount = +123.45 + Currency.EUR,
+                                Date = new Date(2020, 01, 02),
+                                GlAccount = new GlAccountCode("0070"),
+                                Description = "New Year Reception",
+                            },
+                            new Created.Line
+                            {
+                                Amount = -123.45 + Currency.EUR,
+                                Date = new Date(2020, 01, 02),
+                                GlAccount = new GlAccountCode("0180"),
+                                Description = "New Year Reception",
+                            },
+                        }
+                    });
+            }
         }
 
         private static Guid Id(string str) => Uuid.GenerateWithSHA1(Encoding.UTF8.GetBytes(str));

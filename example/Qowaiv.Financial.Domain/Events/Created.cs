@@ -1,7 +1,4 @@
-﻿using Qowaiv.Financial.Domain.Commands;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Qowaiv.Financial.Domain.Events
 {

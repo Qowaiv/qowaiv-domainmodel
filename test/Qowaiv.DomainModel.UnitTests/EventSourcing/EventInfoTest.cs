@@ -25,7 +25,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         public void ToString_TestStruct_AreEqual()
         {
             var act = TestStruct.ToString();
-            var exp = "Version: 1, 2017-06-11 06:15:00, AggregateId: {6e1d3455-d1e2-484e-8c54-27f9b0bfe8ba}";
+            var exp = "Version: 1, AggregateId: {6e1d3455-d1e2-484e-8c54-27f9b0bfe8ba}";
             Assert.AreEqual(exp, act);
         }
 
@@ -33,7 +33,7 @@ namespace Qowaiv.DomainModel.UnitTests.EventSourcing
         public void GetHashcode_TestStruct()
         {
             var act = TestStruct.GetHashCode();
-            var exp = 1576907803;
+            var exp = 1704726154;
             Assert.AreEqual(exp, act);
         }
     }
