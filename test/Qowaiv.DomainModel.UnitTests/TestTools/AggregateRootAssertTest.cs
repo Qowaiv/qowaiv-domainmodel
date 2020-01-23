@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.EventSourcing;
 using Qowaiv.DomainModel.TestTools;
 using Qowaiv.DomainModel.TestTools.EventSourcing;
 using Qowaiv.Globalization;
@@ -143,8 +142,8 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
                ));
 
             Assert.AreEqual(@"Assertion failed:
-[0] Expected: { Numbers: { 18 } }
-    Actual:   { Numbers: { 17 } }
+[0] Expected: { Numbers: [ 18 ] }
+    Actual:   { Numbers: [ 17 ] }
 ", x.Message);
         }
     }

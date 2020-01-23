@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Qowaiv.DomainModel.EventSourcing.Validation
+namespace Qowaiv.DomainModel.Validation
 {
     /// <summary>Decorates a validator to carry event validators.</summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]

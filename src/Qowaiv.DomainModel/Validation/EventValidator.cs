@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Qowaiv.DomainModel.EventSourcing.Validation
+namespace Qowaiv.DomainModel.Validation
 {
     /// <summary>Validator that can validate events before the will (potentially) be dispatched.</summary>
     internal static class EventValidator

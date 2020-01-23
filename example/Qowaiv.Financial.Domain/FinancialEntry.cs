@@ -1,4 +1,4 @@
-﻿using Qowaiv.DomainModel.EventSourcing;
+﻿using Qowaiv.DomainModel;
 using Qowaiv.Financial.Domain.Commands;
 using Qowaiv.Financial.Domain.Events;
 using Qowaiv.Financial.Domain.Validators;

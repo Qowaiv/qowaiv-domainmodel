@@ -1,5 +1,5 @@
 ﻿using EventStore.ClientAPI;
-using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.DomainModel;
 using Qowaiv.EventStorage.Messages;
 using Qowaiv.Validation.Abstractions;
 using System;

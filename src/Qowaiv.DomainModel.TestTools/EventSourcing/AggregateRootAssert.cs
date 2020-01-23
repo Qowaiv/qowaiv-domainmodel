@@ -1,5 +1,4 @@
-﻿using Qowaiv.DomainModel.EventSourcing;
-using Qowaiv.Validation.Abstractions;
+﻿using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

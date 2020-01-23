@@ -41,8 +41,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F74D9EF2
 		build\Qowaiv.snk = build\Qowaiv.snk
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.EventSourcing", "src\Qowaiv.DomainModel.EventSourcing\Qowaiv.DomainModel.EventSourcing.csproj", "{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.TestTools", "src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj", "{8564A273-F643-4C6B-80E1-5D7DCB7F9767}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{E9A5D722-EEAA-4BF5-BD0A-BDECA579275E}"
@@ -56,7 +54,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.Financial.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.Financial.Shared", "example\Qowaiv.Financial.Shared\Qowaiv.Financial.Shared.csproj", "{E06AABF6-D6B6-4706-AF75-133C7D061F16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.EventStorage", "example\Qowaiv.EventStorage\Qowaiv.EventStorage.csproj", "{03F6F5EE-88DB-427D-B3CC-6AB26A4E1C5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.EventStorage", "example\Qowaiv.EventStorage\Qowaiv.EventStorage.csproj", "{03F6F5EE-88DB-427D-B3CC-6AB26A4E1C5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,10 +70,6 @@ Global
 		{EDFE004D-ED15-4A2C-AE63-C17245E87D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDFE004D-ED15-4A2C-AE63-C17245E87D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDFE004D-ED15-4A2C-AE63-C17245E87D9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCCF522B-AD66-4667-82AA-FE4FA6D2241C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace Qowaiv.DomainModel.EventSourcing
+namespace Qowaiv.DomainModel
 {
     /// <summary>Thrown when events are out of order.</summary>
     [Serializable]

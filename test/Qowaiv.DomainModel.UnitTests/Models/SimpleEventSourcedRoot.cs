@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
-using Qowaiv.DomainModel.EventSourcing;
-using Qowaiv.DomainModel.EventSourcing.Validation;
+using Qowaiv.DomainModel.Validation;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.Fluent;
 

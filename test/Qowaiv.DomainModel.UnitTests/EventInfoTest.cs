@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.EventSourcing;
 using System;
 
-namespace Qowaiv.DomainModel.UnitTests.EventSourcing
+namespace Qowaiv.DomainModel.UnitTests
 {
     public class EventInfoTest
     {

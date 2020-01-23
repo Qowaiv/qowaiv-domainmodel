@@ -1,10 +1,10 @@
-﻿using Qowaiv.DomainModel.EventSourcing.Dynamic;
-using Qowaiv.DomainModel.EventSourcing.Validation;
+﻿using Qowaiv.DomainModel.Dynamic;
+using Qowaiv.DomainModel.Validation;
 using Qowaiv.Validation.Abstractions;
 using System;
 using System.Diagnostics;
 
-namespace Qowaiv.DomainModel.EventSourcing
+namespace Qowaiv.DomainModel
 {
     /// <summary>Represents an (domain-driven design) aggregate root that is based on event sourcing.</summary>
     /// <typeparam name="TAggregate">

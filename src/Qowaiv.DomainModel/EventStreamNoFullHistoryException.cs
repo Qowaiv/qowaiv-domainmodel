@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace Qowaiv.DomainModel.EventSourcing
+namespace Qowaiv.DomainModel
 {
     /// <summary>Thrown when a provided <see cref="EventStream"/> does not describe a (potential) full history of events.</summary>
     [Serializable]

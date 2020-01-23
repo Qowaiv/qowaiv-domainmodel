@@ -1,4 +1,4 @@
-﻿using Qowaiv.DomainModel.EventSourcing.Diagnostics;
+﻿using Qowaiv.DomainModel.Diagnostics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Qowaiv.DomainModel.EventSourcing
+namespace Qowaiv.DomainModel
 {
     /// <summary>An event stream.</summary>
     [DebuggerDisplay("{DebuggerDisplay}")]

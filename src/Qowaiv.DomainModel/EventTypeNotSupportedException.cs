@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace Qowaiv.DomainModel.EventSourcing
+namespace Qowaiv.DomainModel
 {
     /// <summary>The exception that is thrown when an event type is not supported for a specific <see cref="AggregateRoot{TAggrgate}"/>.</summary>
     [Serializable]

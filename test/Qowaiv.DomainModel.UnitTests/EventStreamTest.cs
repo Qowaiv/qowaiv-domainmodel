@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.DomainModel;
 using Qowaiv.TestTools;
 using System;
 using System.Linq;
 
-namespace Qowaiv.DomainModel.UnitTests.EventSourcing
+namespace Qowaiv.DomainModel.UnitTests
 {
     public class EventStreamTest
     {

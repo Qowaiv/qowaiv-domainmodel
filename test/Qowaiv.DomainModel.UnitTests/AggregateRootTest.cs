@@ -1,9 +1,8 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.EventSourcing;
 using Qowaiv.DomainModel.UnitTests.Models;
 using System;
 
-namespace Qowaiv.DomainModel.UnitTests.EventSourcing
+namespace Qowaiv.DomainModel.UnitTests
 {
     public class AggregateRootTest
     {

@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.EventSourcing.Validation
+﻿namespace Qowaiv.DomainModel.Validation
 {
     /// <summary>Event (validation) context.</summary>
     /// <typeparam name="TAggregate">

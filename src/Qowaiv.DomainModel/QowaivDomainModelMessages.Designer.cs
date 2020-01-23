@@ -124,56 +124,11 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} field is immutable and can not be changed..
-        /// </summary>
-        public static string ImmutableAttribute_ErrorMessage {
-            get {
-                return ResourceManager.GetString("ImmutableAttribute_ErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The change tracker has already been initialized..
-        /// </summary>
-        public static string InvalidOperationException_ChangeTrackerAlreadyInitialized {
-            get {
-                return ResourceManager.GetString("InvalidOperationException_ChangeTrackerAlreadyInitialized", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The change tracker has not been initialized..
-        /// </summary>
-        public static string InvalidOperationException_ChangeTrackerNotInitialized {
-            get {
-                return ResourceManager.GetString("InvalidOperationException_ChangeTrackerNotInitialized", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The event stream has already been initialized..
         /// </summary>
         public static string InvalidOperationException_InitializedEventStream {
             get {
                 return ResourceManager.GetString("InvalidOperationException_InitializedEventStream", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entities that are transient can not be stored in a hash table..
-        /// </summary>
-        public static string NotSupported_GetHashCodeOnIsTransient {
-            get {
-                return ResourceManager.GetString("NotSupported_GetHashCodeOnIsTransient", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The identifier of an entity can not be updated once it is set..
-        /// </summary>
-        public static string Validation_UpdateEntityId {
-            get {
-                return ResourceManager.GetString("Validation_UpdateEntityId", resourceCulture);
             }
         }
     }

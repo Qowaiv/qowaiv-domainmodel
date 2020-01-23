@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.DomainModel;
 using Qowaiv.TestTools;
 using System;
 
-namespace Qowaiv.DomainModel.UnitTests.EventSourcing
+namespace Qowaiv.DomainModel.UnitTests
 {
     public class EventMessageTest
     {

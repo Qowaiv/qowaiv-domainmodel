@@ -11,7 +11,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Qowaiv.DomainModel.EventSourcing\Qowaiv.DomainModel.EventSourcing.csproj" />
+    <ProjectReference Include="..\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
   </ItemGroup>
   
   <ItemGroup>

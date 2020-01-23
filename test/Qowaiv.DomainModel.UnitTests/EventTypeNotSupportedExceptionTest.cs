@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.TestTools;
 
-namespace Qowaiv.DomainModel.UnitTests.EventSourcing
+namespace Qowaiv.DomainModel.UnitTests
 {
     public class EventTypeNotSupportedExceptionTest
     {

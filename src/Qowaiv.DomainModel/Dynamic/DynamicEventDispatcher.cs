@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Qowaiv.DomainModel.EventSourcing.Dynamic
+namespace Qowaiv.DomainModel.Dynamic
 {
     /// <summary>A dynamic event dispatcher, is a extremely limited dynamic object
     /// that is capable of invoking instance methods with the signature Apply(@event).

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Qowaiv.DomainModel.EventSourcing
+namespace Qowaiv.DomainModel
 {
     /// <summary>Contains information about an event.</summary>
     public struct EventInfo : IEquatable<EventInfo>

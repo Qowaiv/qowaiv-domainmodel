@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.EventSourcing;
+using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.TestTools.EventSourcing;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
 using System;
 
-namespace Qowaiv.DomainModel.UnitTests.EventSourcing
+namespace Qowaiv.DomainModel.UnitTests
 {
     public class EventSourcedAggregateRootTest
     {
