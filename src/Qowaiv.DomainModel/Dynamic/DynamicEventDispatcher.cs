@@ -10,6 +10,9 @@ namespace Qowaiv.DomainModel.Dynamic
     /// <summary>A dynamic event dispatcher, is a extremely limited dynamic object
     /// that is capable of invoking instance methods with the signature Apply(@event).
     /// </summary>
+    /// <typeparam name="TDispatcher">
+    /// The type of the non dynamic event dispatcher.
+    /// </typeparam>
     /// <remarks>
     /// The constraints on the method:
     /// * Name of the method is 'Apply'
@@ -19,18 +22,16 @@ namespace Qowaiv.DomainModel.Dynamic
     ///
     /// It caches the available methods per type.
     /// </remarks>
-    internal class DynamicEventDispatcher : DynamicObject
+    public class DynamicEventDispatcher<TDispatcher> : DynamicObject
+        where TDispatcher : class
     {
-        /// <summary>Initializes a new instance of the <see cref="DynamicEventDispatcher"/> class.Cr.</summary>
-        public DynamicEventDispatcher(object obj)
+        /// <summary>Initializes a new instance of the <see cref="DynamicEventDispatcher{TDispatcher}"/> class..</summary>
+        public DynamicEventDispatcher(TDispatcher dispatcher)
         {
-            @object = Guard.NotNull(obj, nameof(obj));
-            objectType = obj.GetType();
-            InitApplyMethods();
+            this.dispatcher = Guard.NotNull(dispatcher, nameof(dispatcher));
         }
 
-        private readonly object @object;
-        private readonly Type objectType;
+        private readonly TDispatcher dispatcher;
 
         /// <summary>Tries to invoke a (void) Apply(@event) method.</summary>
         /// <exception cref="EventTypeNotSupportedException">
@@ -47,73 +48,62 @@ namespace Qowaiv.DomainModel.Dynamic
         }
 
         /// <summary>Gets the supported event types.</summary>
-        public IReadOnlyCollection<Type> SupportedEventTypes => Lookup[objectType].Keys;
+        public IReadOnlyCollection<Type> SupportedEventTypes => Lookup.Keys;
 
         /// <summary>Invokes the Apply(@event) method.</summary>
         private object Apply(object @event)
         {
             var eventType = @event.GetType();
-            if (Lookup[objectType].TryGetValue(eventType, out Action<object, object> apply))
+            if (Lookup.TryGetValue(eventType, out var apply))
             {
-                apply(@object, @event);
+                apply(dispatcher, @event);
                 return null;
             }
-            throw new EventTypeNotSupportedException(eventType, objectType);
+            throw new EventTypeNotSupportedException(eventType, typeof(TDispatcher));
         }
 
         /// <summary>Initializes all Apply(@event) methods.</summary>
-        private void InitApplyMethods()
+        private static Dictionary<Type, Action<TDispatcher, object>> Init()
         {
-            if (!Lookup.ContainsKey(objectType))
+            var lookup = new Dictionary<Type, Action<TDispatcher, object>>();
+
+            const string name = nameof(Apply);
+            var methods = typeof(TDispatcher)
+                .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(method => method.Name == name);
+
+            foreach (var method in methods)
             {
-                lock (Locker)
+                var parameters = method.GetParameters();
+                if (parameters.Length == 1)
                 {
-                    if (!Lookup.ContainsKey(objectType))
+                    var parameterType = parameters[0].ParameterType;
+
+                    // Leave out object itself, primitives and enumerations.
+                    if (parameterType != typeof(object) &&
+                        !parameterType.IsPrimitive &&
+                        !parameterType.IsEnum)
                     {
-                        var cache = new Dictionary<Type, Action<object, object>>();
-
-                        const string name = nameof(Apply);
-                        var methods = objectType
-                            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                            .Where(method => method.Name == name);
-
-                        foreach (var method in methods)
-                        {
-                            var parameters = method.GetParameters();
-                            if (parameters.Length == 1)
-                            {
-                                var parameterType = parameters[0].ParameterType;
-
-                                // Leave out object itself, primitives and enumerations.
-                                if (parameterType != typeof(object) &&
-                                    !parameterType.IsPrimitive &&
-                                    !parameterType.IsEnum)
-                                {
-                                    cache[parameterType] = Compile(method, objectType, parameterType);
-                                }
-                            }
-                        }
-                        Lookup[objectType] = cache;
+                        lookup[parameterType] = Compile(method, parameterType);
                     }
                 }
             }
+            return lookup;
         }
 
-        private Action<object, object> Compile(MethodInfo method, Type dispatherType, Type eventType)
+        private static Action<TDispatcher, object> Compile(MethodInfo method, Type eventType)
         {
-            var dispatcher = Expression.Parameter(typeof(object), "dispatcher");
+            var dispatcherParam = Expression.Parameter(typeof(TDispatcher), "dispatcher");
             var @event = Expression.Parameter(typeof(object), "e");
 
-            var typedDispatcher = Expression.Convert(dispatcher, dispatherType);
             var typedEvent = Expression.Convert(@event, eventType);
-            var body = Expression.Call(typedDispatcher, method, typedEvent);
+            var body = Expression.Call(dispatcherParam, method, typedEvent);
 
-            var expression = Expression.Lambda<Action<object, object>>(body, dispatcher, @event);
+            var expression = Expression.Lambda<Action<TDispatcher, object>>(body, dispatcherParam, @event);
 
             return expression.Compile();
         }
 
-        private static readonly object Locker = new object();
-        private static readonly Dictionary<Type, Dictionary<Type, Action<object, object>>> Lookup = new Dictionary<Type, Dictionary<Type, Action<object, object>>>();
+        private static readonly Dictionary<Type, Action<TDispatcher, object>> Lookup = Init();
     }
 }

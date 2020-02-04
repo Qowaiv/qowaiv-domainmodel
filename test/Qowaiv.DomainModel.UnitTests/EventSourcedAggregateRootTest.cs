@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.TestTools.EventSourcing;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.Validation.Abstractions;
@@ -73,7 +72,7 @@ namespace Qowaiv.DomainModel.UnitTests
         private class TestApplyChangeAggregate : AggregateRoot<TestApplyChangeAggregate>
         {
             public TestApplyChangeAggregate()
-                : base(Guid.NewGuid(), Validator.Empty<TestApplyChangeAggregate>()) { }
+                : base(Guid.NewGuid(), Qowaiv.Validation.Abstractions.Validator.Empty<TestApplyChangeAggregate>()) { }
 
             public void TestApplyChange(object @event)
             {
