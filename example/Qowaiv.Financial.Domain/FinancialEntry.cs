@@ -14,9 +14,7 @@ namespace Qowaiv.Financial.Domain
     {
         public FinancialEntry() : this(Guid.NewGuid()) { }
 
-        public FinancialEntry(Guid id) : base(id, new FinancialEntryValidator())
-        {
-        }
+        public FinancialEntry(Guid id) : base(id, new FinancialEntryValidator()) { }
 
         public DateTime CreatedUtc { get; private set; }
 
@@ -29,66 +27,56 @@ namespace Qowaiv.Financial.Domain
 
         public Result<FinancialEntry> AddLines(params FinancialEntryLine[] lines)
         {
-            return ApplyEvent(new EntryLinesAdded 
+            return ApplyEvents(lines.Select(line => new EntryLineAdded
             {
-                Lines = lines.Select(line => new EntryLinesAdded.Line
-                {
-                    GlAccount = line.GlAccount,
-                    Amount = line.Amount,
-                    Date = line.Date,
-                    Description = line.Description,
-                    AccountId = line.AccountId,
-                }).ToArray(),
-            });
+                GlAccount = line.GlAccount,
+                Amount = line.Amount,
+                Date = line.Date,
+                Description = line.Description,
+                AccountId = line.AccountId,
+            }).ToArray());
         }
 
         public static Result<FinancialEntry> Create(Guid id, Report report, FinancialEntryLine[] lines)
         {
             var entry = new FinancialEntry(id);
 
-            var @event = new Created
+            var events = new List<object>
             {
-                Report = report,
-                CreatedUtc = Clock.UtcNow(),
-                Lines = lines.Select(line => new Created.Line
+                new Created
                 {
-                    GlAccount = line.GlAccount,
-                    Amount = line.Amount,
-                    Date = line.Date,
-                    Description = line.Description,
-                    AccountId = line.AccountId,
-                }).ToArray(),
+                    Report = report,
+                    CreatedUtc = Clock.UtcNow(),
+                }
             };
-            return entry.ApplyEvent(@event);
+            events.AddRange(lines.Select(line => new EntryLineAdded
+            {
+                GlAccount = line.GlAccount,
+                Amount = line.Amount,
+                Date = line.Date,
+                Description = line.Description,
+                AccountId = line.AccountId,
+            }));
+
+            return entry.ApplyEvents(@events.ToArray());
         }
 
         internal void Apply(Created @event)
         {
             Report = @event.Report;
             enties.Clear();
-            enties.AddRange(@event.Lines.Select(line => new EntryLine
-            {
-                AccountId = line.AccountId,
-                Amount = line.Amount,
-                Date = line.Date,
-                Description = line.Description,
-                GlAccount= line.GlAccount,
-            }));
         }
 
-        internal void Apply(EntryLinesAdded @event)
+        internal void Apply(EntryLineAdded @event)
         {
-            foreach(var line in @event.Lines)
+            enties.Add(new EntryLine
             {
-                enties.Add(new EntryLine
-                {
-                    GlAccount = line.GlAccount,
-                    Date = line.Date,
-                    Amount = line.Amount,
-                    Description = line.Description,
-                    AccountId = line.AccountId,
-                });
-            }
+                GlAccount = @event.GlAccount,
+                Date = @event.Date,
+                Amount = @event.Amount,
+                Description = @event.Description,
+                AccountId = @event.AccountId,
+            });
         }
     }
 }

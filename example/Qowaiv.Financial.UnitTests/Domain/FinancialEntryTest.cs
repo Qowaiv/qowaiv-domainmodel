@@ -41,23 +41,20 @@ namespace Qowaiv.Financial.UnitTests.Domain
                     {
                         CreatedUtc = new DateTime(2020, 01, 03, 12, 15, 37),
                         Report = new Report(2020, Month.January),
-                        Lines = new[]
-                        {
-                            new Created.Line
-                            {
-                                Amount = +123.45 + Currency.EUR,
-                                Date = new Date(2020, 01, 02),
-                                GlAccount = new GlAccountCode("0070"),
-                                Description = "New Year Reception",
-                            },
-                            new Created.Line
-                            {
-                                Amount = -123.45 + Currency.EUR,
-                                Date = new Date(2020, 01, 02),
-                                GlAccount = new GlAccountCode("0180"),
-                                Description = "New Year Reception",
-                            },
-                        }
+                    },
+                    new EntryLineAdded
+                    {
+                        Amount = +123.45 + Currency.EUR,
+                        Date = new Date(2020, 01, 02),
+                        GlAccount = new GlAccountCode("0070"),
+                        Description = "New Year Reception",
+                    },
+                    new EntryLineAdded
+                    {
+                        Amount = -123.45 + Currency.EUR,
+                        Date = new Date(2020, 01, 02),
+                        GlAccount = new GlAccountCode("0180"),
+                        Description = "New Year Reception",
                     });
             }
         }
