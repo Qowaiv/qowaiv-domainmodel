@@ -14,13 +14,16 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
         /// <typeparam name="TAggregate">
         /// The type of the aggregate.
         /// </typeparam>
+        /// <typeparam name="TId">
+        /// The type of the identifier of the aggregate.
+        /// </typeparam>
         /// <param name="actualAggregate">
         /// The actual aggregate to verify.
         /// </param>
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
-        public static void HasUncommittedEvents<TAggregate>(Result<TAggregate> actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate>
+        public static void HasUncommittedEvents<TAggregate, TId>(Result<TAggregate> actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate, TId>
         {
             Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
 
@@ -34,12 +37,15 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
                 }
                 Assert.Fail(sb.ToString());
             }
-            HasUncommittedEvents(actualAggregate.Value, expectedEvents);
+            HasUncommittedEvents<TAggregate, TId>(actualAggregate.Value, expectedEvents);
         }
 
         /// <summary>Verifies that the <see cref="AggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
         /// <typeparam name="TAggregate">
         /// The type of the aggregate.
+        /// </typeparam>
+        /// <typeparam name="TId">
+        /// The type of the identifier of the aggregate.
         /// </typeparam>
         /// <param name="actualAggregate">
         /// The actual aggregate to verify.
@@ -47,38 +53,41 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
-        public static void HasUncommittedEvents<TAggregate>(TAggregate actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate>
+        public static void HasUncommittedEvents<TAggregate, TId>(TAggregate actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate, TId>
         {
             Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
 
-            //HasUncommittedEvents(actualAggregate.EventStream, expectedEvents);
+            HasUncommittedEvents(actualAggregate.Buffer, expectedEvents);
         }
 
-        /// <summary>Verifies that the <see cref="EventStream"/> has the expected uncommitted events.</summary>
-        /// <param name="actualStream">
+        /// <summary>Verifies that the <see cref="EventBuffer{TId}"/> has the expected uncommitted events.</summary>
+        /// <typeparam name="TId">
+        /// The type of the identifier of the aggregate.
+        /// </typeparam>
+        /// <param name="actualBuffer">
         /// The actual aggregate to verify.
         /// </param>
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
-        public static void HasUncommittedEvents(EventStream actualStream, params object[] expectedEvents)
+        public static void HasUncommittedEvents<TId>(EventBuffer<TId> actualBuffer, params object[] expectedEvents)
         {
             Guard.NotNull(expectedEvents, nameof(expectedEvents));
 
-            Assert.IsNotNull(actualStream, nameof(actualStream));
+            Assert.IsNotNull(actualBuffer, nameof(actualBuffer));
 
             var sb = new StringBuilder();
             var failure = false;
-            var offset = actualStream.CommittedVersion;
-            var uncomitted = actualStream.GetUncommitted().ToArray();
+            var offset = actualBuffer.CommittedVersion;
+            var uncomitted = actualBuffer.Uncommitted.ToArray();
             var shared = Math.Min(expectedEvents.Length, uncomitted.Length);
 
             for (var i = 0; i < shared; i++)
             {
-                failure |= sb.AppendEvents(offset + i, expectedEvents[i], uncomitted[i].Event);
+                failure |= sb.AppendEvents(offset + i, expectedEvents[i], uncomitted[i]);
             }
 
-            failure |= sb.AppendExtraEvents(uncomitted.Select(m => m.Event), offset, shared, "Extra:  ");
+            failure |= sb.AppendExtraEvents(uncomitted, offset, shared, "Extra:  ");
             failure |= sb.AppendExtraEvents(expectedEvents, offset, shared, "Missing: ");
 
             Console.WriteLine(sb);

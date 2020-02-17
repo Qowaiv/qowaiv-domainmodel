@@ -26,15 +26,16 @@ namespace Qowaiv.DomainModel.Validation
         public static Result<TAggregate> ValidateEvent<TAggregate>(this IValidator<TAggregate> validator, TAggregate aggregate, object @event)
             where TAggregate : AggregateRoot<TAggregate>
         {
-            var attribute = validator.GetType().GetCustomAttribute<EventValidatorsAttribute>();
+            var attributes = validator.GetType().GetCustomAttributes<EventValidatorsAttribute>();
 
-            if (attribute is null)
+            if (!attributes.Any())
             {
                 return aggregate;
             }
 
+            var validators = attributes.SelectMany(attr => attr.Validators);
             var interfaceType = GetValidatorType(typeof(TAggregate), @event.GetType());
-            var validatorType = attribute.Validators.FirstOrDefault(type => type.Implements(interfaceType));
+            var validatorType = validators.FirstOrDefault(type => type.Implements(interfaceType));
 
             if (validatorType is null)
             {

@@ -1,41 +1,38 @@
-﻿//using NUnit.Framework;
-//using System;
+﻿using NUnit.Framework;
+using Qowaiv.DomainModel.UnitTests.Models;
+using System;
 
-//namespace Qowaiv.DomainModel.UnitTests
-//{
-//    public class AggregateRootTest
-//    {
-//        [Test]
-//        public void FromEvents_AggregateShouldHaveIdOfEvents()
-//        {
-//            var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
-//            var stream = new EventStream(aggregateId);
-//            stream.Add(new SimpleInitEvent());
-//            stream.MarkAllAsCommitted(clearCommitted: false);
+namespace Qowaiv.DomainModel.UnitTests
+{
+    public class AggregateRootTest
+    {
+        [Test]
+        public void FromEvents_AggregateShouldHaveIdOfEvents()
+        {
+            var stored = new object[] { new SimpleInitEvent() };
+            var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
+            var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid, object>(aggregateId, stored, Select);
 
-//            var aggregate = AggregateRoot.FromEvents<SimpleEventSourcedRoot>(stream);
+            Assert.AreEqual(aggregateId, aggregate.Id);
+            Assert.AreEqual(aggregateId, aggregate.Buffer.AggregateId);
+            Assert.AreEqual(1, aggregate.Version);
+            Assert.AreEqual(1, aggregate.Buffer.CommittedVersion);
+        }
 
-//            Assert.AreEqual(aggregateId, aggregate.Id);
-//            Assert.AreEqual(aggregateId, aggregate.EventStream.AggregateId);
-//            Assert.AreEqual(1, aggregate.Version);
-//            Assert.AreEqual(1, aggregate.EventStream.CommittedVersion);
-//        }
+        [Test]
+        public void FromEvents_WithInvalidState_ShouldBeLoaded()
+        {
+            var stored = new object[] { new SimpleInitEvent(), new InvalidEvent() };
+            var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
+            var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid, object>(aggregateId, stored, Select);
 
-//        [Test]
-//        public void FromEvents_WithInvalidState_ShouldBeLoaded()
-//        {
-//            var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
-//            var stream = new EventStream(aggregateId);
-//            stream.AddRange(new SimpleInitEvent(), new InvalidEvent());
-//            stream.MarkAllAsCommitted(clearCommitted: false);
+            Assert.IsTrue(aggregate.IsWrong);
+            Assert.AreEqual(aggregateId, aggregate.Id);
+            Assert.AreEqual(aggregateId, aggregate.Buffer.AggregateId);
+            Assert.AreEqual(2, aggregate.Version);
+            Assert.AreEqual(2, aggregate.Buffer.CommittedVersion);
+        }
 
-//            var aggregate = AggregateRoot.FromEvents<SimpleEventSourcedRoot>(stream);
-
-//            Assert.IsTrue(aggregate.IsWrong);
-//            Assert.AreEqual(aggregateId, aggregate.Id);
-//            Assert.AreEqual(aggregateId, aggregate.EventStream.AggregateId);
-//            Assert.AreEqual(2, aggregate.Version);
-//            Assert.AreEqual(2, aggregate.EventStream.CommittedVersion);
-//        }
-//    }
-//}
+        private static object Select(object e) => e;
+    }
+}

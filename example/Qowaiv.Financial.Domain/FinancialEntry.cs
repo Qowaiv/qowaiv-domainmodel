@@ -1,7 +1,7 @@
-﻿using Qowaiv.Financial.Domain.Commands;
+﻿using Qowaiv.DomainModel;
+using Qowaiv.Financial.Domain.Commands;
 using Qowaiv.Financial.Domain.Events;
 using Qowaiv.Financial.Domain.Validators;
-using Qowaiv.Financial.Shared;
 using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Qowaiv.Financial.Domain
 {
-    public partial class FinancialEntry : AggregateRootBase<FinancialEntry>
+    public partial class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
     {
         public FinancialEntry() : this(Guid.NewGuid()) { }
 

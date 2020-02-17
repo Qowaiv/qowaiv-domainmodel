@@ -61,74 +61,11 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The version ({0}) of the event is not successive to the current version ({1})..
-        /// </summary>
-        public static string ArgumenException_VersionNotSuccessive {
-            get {
-                return ResourceManager.GetString("ArgumenException_VersionNotSuccessive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The identifier of the event does not match the identifier of the aggregate root..
-        /// </summary>
-        public static string ArgumentException_InvalidEventId {
-            get {
-                return ResourceManager.GetString("ArgumentException_InvalidEventId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The events belong to multiple aggregate roots..
-        /// </summary>
-        public static string ArgumentException_MultipleAggregates {
-            get {
-                return ResourceManager.GetString("ArgumentException_MultipleAggregates", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Version {0} does not exist for the aggregate root ({1})..
-        /// </summary>
-        public static string ArgumentOutOfRangeException_InvalidVersion {
-            get {
-                return ResourceManager.GetString("ArgumentOutOfRangeException_InvalidVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The events are out of order as ther versions are not successive..
-        /// </summary>
-        public static string EventsOutOfOrderException {
-            get {
-                return ResourceManager.GetString("EventsOutOfOrderException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The provided event stream does not contain a (potential) full history for an aggregate..
-        /// </summary>
-        public static string EventStreamNoFullHistoryException {
-            get {
-                return ResourceManager.GetString("EventStreamNoFullHistoryException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The event of the type {0} is not supported for {1}..
         /// </summary>
         public static string EventTypeNotSupportedException {
             get {
                 return ResourceManager.GetString("EventTypeNotSupportedException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The event stream has already been initialized..
-        /// </summary>
-        public static string InvalidOperationException_InitializedEventStream {
-            get {
-                return ResourceManager.GetString("InvalidOperationException_InitializedEventStream", resourceCulture);
             }
         }
     }

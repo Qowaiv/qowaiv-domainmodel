@@ -24,6 +24,16 @@ namespace Qowaiv.Financial.Domain
                     && AccountId == other.AccountId;
             }
 
+            public override int GetHashCode()
+            {
+                return GetType().GetHashCode()
+                    ^ Amount.GetHashCode()
+                    ^ Date.GetHashCode()
+                    ^ (Description ?? "").GetHashCode()
+                    ^ GlAccount.GetHashCode()
+                    ^ AccountId.GetHashCode();
+            }
+
             public override string ToString() => $"Amount: {Amount}, Date: {Date}, GL: {GlAccount}, Account: {AccountId}, Desc: {Description}";
         }
     }

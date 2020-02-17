@@ -36,7 +36,7 @@ namespace Qowaiv.Financial.UnitTests.Domain
                     },
                     });
 
-                AggregateRootAssert.HasUncommittedEvents(entry,
+                AggregateRootAssert.HasUncommittedEvents<FinancialEntry, Guid>(entry,
                     new Created
                     {
                         CreatedUtc = new DateTime(2020, 01, 03, 12, 15, 37),
