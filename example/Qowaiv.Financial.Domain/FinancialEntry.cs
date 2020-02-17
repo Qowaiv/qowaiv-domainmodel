@@ -1,7 +1,7 @@
-﻿using Qowaiv.DomainModel;
-using Qowaiv.Financial.Domain.Commands;
+﻿using Qowaiv.Financial.Domain.Commands;
 using Qowaiv.Financial.Domain.Events;
 using Qowaiv.Financial.Domain.Validators;
+using Qowaiv.Financial.Shared;
 using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Qowaiv.Financial.Domain
 {
-    public partial class FinancialEntry : AggregateRoot<FinancialEntry>
+    public partial class FinancialEntry : AggregateRootBase<FinancialEntry>
     {
         public FinancialEntry() : this(Guid.NewGuid()) { }
 
@@ -61,13 +61,13 @@ namespace Qowaiv.Financial.Domain
             return entry.ApplyEvents(@events.ToArray());
         }
 
-        internal void Apply(Created @event)
+        internal void When(Created @event)
         {
             Report = @event.Report;
             enties.Clear();
         }
 
-        internal void Apply(EntryLineAdded @event)
+        internal void When(EntryLineAdded @event)
         {
             enties.Add(new EntryLine
             {

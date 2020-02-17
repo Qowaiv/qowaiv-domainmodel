@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -24,7 +24,7 @@ namespace Qowaiv.DomainModel.Validation
         /// The event to validate.
         /// </param>
         public static Result<TAggregate> ValidateEvent<TAggregate>(this IValidator<TAggregate> validator, TAggregate aggregate, object @event)
-            where TAggregate : ValidatableAggregate<TAggregate>
+            where TAggregate : AggregateRoot<TAggregate>
         {
             var attribute = validator.GetType().GetCustomAttribute<EventValidatorsAttribute>();
 

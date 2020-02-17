@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
+    <ProjectReference Include="..\Qowaiv.Financial.Shared\Qowaiv.Financial.Shared.csproj" />
   </ItemGroup>
 
 </Project>

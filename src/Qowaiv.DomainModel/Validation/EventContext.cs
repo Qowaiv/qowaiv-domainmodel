@@ -34,6 +34,6 @@
         public TEvent Event { get; }
 
         /// <inheritdoc />
-        public override string ToString() => $"ID {Aggregate.Id:B}, Version: {Aggregate.Version}, Event: {Event}";
+        public override string ToString() => $"{Aggregate}, Event: {Event}";
     }
 }

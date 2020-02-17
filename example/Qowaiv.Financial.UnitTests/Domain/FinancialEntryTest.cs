@@ -13,7 +13,7 @@ namespace Qowaiv.Financial.UnitTests.Domain
         [Test]
         public void Create_WithBalancedLines_PublishesOneEvent()
         {
-            using (Clock.SetTimeForCurrentThread(()=>new DateTime(2020, 01, 03, 12, 15, 37)))
+            using (Clock.SetTimeForCurrentThread(() => new DateTime(2020, 01, 03, 12, 15, 37)))
             {
                 var entry = FinancialEntry.Create(
                     id: Id(nameof(Create_WithBalancedLines_PublishesOneEvent)),

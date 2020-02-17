@@ -8,14 +8,14 @@ using System.Reflection;
 namespace Qowaiv.DomainModel.Dynamic
 {
     /// <summary>A dynamic event dispatcher, is a extremely limited dynamic object
-    /// that is capable of invoking instance methods with the signature Apply(@event).
+    /// that is capable of invoking instance methods with the signature When(@event).
     /// </summary>
     /// <typeparam name="TDispatcher">
     /// The type of the non dynamic event dispatcher.
     /// </typeparam>
     /// <remarks>
     /// The constraints on the method:
-    /// * Name of the method is 'Apply'
+    /// * Name of the method is 'When'
     /// * Binding is on instance (both public and non-public)
     /// * One parameter with a type that is/could be an event.
     /// * Return type is ignored.
@@ -33,15 +33,15 @@ namespace Qowaiv.DomainModel.Dynamic
 
         private readonly TDispatcher dispatcher;
 
-        /// <summary>Tries to invoke a (void) Apply(@event) method.</summary>
+        /// <summary>Tries to invoke a (void) When(@event) method.</summary>
         /// <exception cref="EventTypeNotSupportedException">
-        /// If the invoke call was on (void) Apply(@event) but the type was not available.
+        /// If the invoke call was on (void) When(@event) but the type was not available.
         /// </exception>
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            if (binder?.Name == nameof(Apply) && args?.Length == 1)
+            if (binder?.Name == nameof(When) && args?.Length == 1)
             {
-                result = Apply(args[0]);
+                result = When(args[0]);
                 return true;
             }
             return base.TryInvokeMember(binder, args, out result);
@@ -50,24 +50,24 @@ namespace Qowaiv.DomainModel.Dynamic
         /// <summary>Gets the supported event types.</summary>
         public IReadOnlyCollection<Type> SupportedEventTypes => Lookup.Keys;
 
-        /// <summary>Invokes the Apply(@event) method.</summary>
-        private object Apply(object @event)
+        /// <summary>Invokes the When(@event) method.</summary>
+        private object When(object @event)
         {
             var eventType = @event.GetType();
-            if (Lookup.TryGetValue(eventType, out var apply))
+            if (Lookup.TryGetValue(eventType, out var when))
             {
-                apply(dispatcher, @event);
+                when(dispatcher, @event);
                 return null;
             }
             throw new EventTypeNotSupportedException(eventType, typeof(TDispatcher));
         }
 
-        /// <summary>Initializes all Apply(@event) methods.</summary>
+        /// <summary>Initializes all When(@event) methods.</summary>
         private static Dictionary<Type, Action<TDispatcher, object>> Init()
         {
             var lookup = new Dictionary<Type, Action<TDispatcher, object>>();
 
-            const string name = nameof(Apply);
+            const string name = nameof(When);
             var methods = typeof(TDispatcher)
                 .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(method => method.Name == name);
