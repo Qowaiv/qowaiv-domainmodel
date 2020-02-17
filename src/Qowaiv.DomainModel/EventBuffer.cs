@@ -69,7 +69,7 @@ namespace Qowaiv.DomainModel
             return this;
         }
 
-        /// <summary>Adds  events to the event stream.</summary>
+        /// <summary>Adds  events to the event buffer.</summary>
         /// <param name="events">
         /// The events to add.
         /// </param>
@@ -94,7 +94,7 @@ namespace Qowaiv.DomainModel
             return this;
         }
 
-        /// <summary>Removes the committed events from the stream.</summary>
+        /// <summary>Removes the committed events from the buffer.</summary>
         public EventBuffer<TId> ClearCommitted()
         {
             var delta = CommittedVersion - offset;

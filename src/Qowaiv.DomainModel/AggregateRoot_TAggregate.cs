@@ -33,15 +33,15 @@ namespace Qowaiv.DomainModel
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected dynamic Dynamic { get; }
 
-        /// <summary>Adds the events to the linked event stream.</summary>
+        /// <summary>Adds the events to the linked event buffer.</summary>
         /// <param name="events">
-        /// The events to add to the event stream.
+        /// The events to add to the event buffer.
         /// </param>
         /// <remarks>
         /// This method is only called if after applying the events, the aggregate
         /// is still valid.
         /// </remarks>
-        protected abstract void AddEventsToStream(params object[] events);
+        protected abstract void AddEventsToBuffer(params object[] events);
 
         /// <summary>Applies a single event.</summary>
         protected Result<TAggregate> ApplyEvent(object @event) => ApplyEvents(@event);
@@ -66,7 +66,7 @@ namespace Qowaiv.DomainModel
 
                 if (result.IsValid)
                 {
-                    AddEventsToStream(events);
+                    AddEventsToBuffer(events);
                 }
                 return result;
             }

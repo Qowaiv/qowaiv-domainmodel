@@ -34,7 +34,7 @@ namespace Qowaiv.DomainModel
         public EventBuffer<TId> Buffer { get; protected set; }
 
         /// <inheritdoc/>
-        protected override void AddEventsToStream(params object[] events) => Buffer.AddRange(events);
+        protected override void AddEventsToBuffer(params object[] events) => Buffer.AddRange(events);
 
         /// <summary>Loads the state of the aggregate root by replaying events.</summary>
         internal void Replay(EventBuffer<TId> eventBuffer)
