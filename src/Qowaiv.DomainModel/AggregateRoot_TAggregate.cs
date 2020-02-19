@@ -31,7 +31,7 @@ namespace Qowaiv.DomainModel
 
         /// <summary>Represents the aggregate root as a dynamic.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        protected dynamic Dynamic { get; }
+        protected virtual dynamic Dynamic { get; }
 
         /// <summary>Adds the events to the linked event buffer.</summary>
         /// <param name="events">
