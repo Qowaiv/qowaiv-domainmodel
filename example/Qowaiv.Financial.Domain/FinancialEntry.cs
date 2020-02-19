@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Qowaiv.Financial.Domain
 {
-    public partial class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
+    public sealed partial class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
     {
         public FinancialEntry() : this(Guid.NewGuid()) { }
 
@@ -23,7 +23,6 @@ namespace Qowaiv.Financial.Domain
         public IReadOnlyCollection<EntryLine> Lines => enties;
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<EntryLine> enties = new List<EntryLine>();
-
 
         public Result<FinancialEntry> AddLines(params FinancialEntryLine[] lines)
         {

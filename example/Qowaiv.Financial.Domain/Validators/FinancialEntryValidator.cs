@@ -35,6 +35,5 @@ namespace Qowaiv.Financial.Domain.Validators
                 context.AddFailure(nameof(FinancialEntry.Lines), "The lines are note balanced.");
             }
         }
-
     }
 }
