@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 
-namespace Qowaiv.EventStorage
+namespace EventStorage.Abstractions
 {
     /// <summary>Registers a <see cref="Type"/>/<see cref="string"/> mapping.</summary>
     public sealed class TypeMap : IEnumerable<KeyValuePair<Type, string>>
@@ -15,18 +17,14 @@ namespace Qowaiv.EventStorage
         public int Count => _types.Count;
 
         /// <summary>Adds all <see cref="Type"/>s of the assembly.</summary>
-        public TypeMap Add(Assembly assembly)
+        public TypeMap Add([NotNull]Assembly assembly)
         {
-            Guard.NotNull(assembly, nameof(assembly));
             return AddRange(assembly.GetTypes());
         }
 
         /// <summary>Adds a <see cref="Type"/> and its name.</summary>
-        public TypeMap Add(Type type, string name)
+        public TypeMap Add([NotNull]Type type, [NotNull]string name)
         {
-            Guard.NotNull(type, nameof(type));
-            Guard.NotNullOrEmpty(name, nameof(name));
-
             lock (locker)
             {
                 var newName = !_names.ContainsKey(type);
@@ -34,7 +32,7 @@ namespace Qowaiv.EventStorage
 
                 if (newName ^ newType)
                 {
-                    throw new ArgumentException($"The type {type} or the name '{name}' has already been added as another pair.");
+                    throw new ArgumentException($"The type {type} and/or the name '{name}' has already been added as another pair.");
                 }
                 if (newName /* && newType */)
                 {
@@ -45,20 +43,18 @@ namespace Qowaiv.EventStorage
             return this;
         }
 
-        /// <summary>Adds a range of types.</summary>
-        public TypeMap AddRange(params Type[] types)
-        {
-            Guard.NotNull(types, nameof(types));
+        /// <summary>Adds a <see cref="Type"/> and its <see cref="Type.FullName"/>.</summary>
+        public TypeMap Add(Type type) => Add(type, type?.FullName);
 
-            foreach (var type in types)
+        /// <summary>Adds a range of types.</summary>
+        public TypeMap AddRange([NotNull]params Type[] types)
+        {
+            foreach (var type in types.Where(t => !t.IsAbstract && t.IsPublic))
             {
                 Add(type);
             }
             return this;
         }
-
-        /// <summary>Adds a <see cref="Type"/> and its <see cref="Type.FullName"/>.</summary>
-        public TypeMap Add(Type type) => Add(type, type?.FullName);
 
         /// <summary>Tries to get the name of a type.</summary>
         public string TryGetName(Type type)

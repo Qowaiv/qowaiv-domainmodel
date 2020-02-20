@@ -58,6 +58,9 @@ namespace Qowaiv.DomainModel
         /// <summary>Returns true if the event buffer contains at least one uncommitted event.</summary>
         public bool HasUncommitted => Version != CommittedVersion;
 
+        /// <summary>Returns true if the buffer contains no events.</summary>
+        public bool IsEmpty => buffer.Count == 0;
+
         /// <summary>Adds an events to the event buffer.</summary>
         /// <param name="event">
         /// The event to add.

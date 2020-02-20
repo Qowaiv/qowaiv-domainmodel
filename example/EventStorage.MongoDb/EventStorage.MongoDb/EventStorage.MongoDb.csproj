@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
+    <PackageReference Include="Qowaiv" Version="5.0.1" />
+    <PackageReference Include="Qowaiv.Bson.MongoDB" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EventStorage.Abstractions\EventStorage.Abstractions\EventStorage.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
