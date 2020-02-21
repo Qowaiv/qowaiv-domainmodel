@@ -7,6 +7,39 @@ using System.Linq;
 
 namespace Qowaiv.DomainModel
 {
+    /// <summary>A function to convert the stored event to the event (payload).</summary>
+    /// <typeparam name="TStoredEvent">
+    /// The Type of the stored event.
+    /// </typeparam>
+    /// <param name="storedEvent">
+    /// The stored event.
+    /// </param>
+    /// <returns>
+    /// The converted event (payload).
+    /// </returns>
+    public delegate object ConvertFromStoredEvent<in TStoredEvent>(TStoredEvent storedEvent);
+
+    /// <summary>A function to convert the event (payload) from the stored event.</summary>
+    /// <typeparam name="TId">
+    /// The type of the identifier of the aggregate.
+    /// </typeparam>
+    /// <typeparam name="TStoredEvent">
+    /// The Type of the stored event.
+    /// </typeparam>
+    /// <param name="aggregateId">
+    /// The identifier of the aggregate.
+    /// </param>
+    /// <param name="version">
+    /// The version of the event.
+    /// </param>
+    /// <param name="event">
+    /// The event (payload).
+    /// </param>
+    /// <returns>
+    /// The converted event.
+    /// </returns>
+    public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId aggregateId, int version, object @event);
+
     /// <summary>A buffer of events that should be added to an event stream.</summary>
     /// <typeparam name="TId">
     /// The type of the identifier of the aggregate.
@@ -110,21 +143,21 @@ namespace Qowaiv.DomainModel
         /// <typeparam name="TStoredEvent">
         /// The type to convert it to.
         /// </typeparam>
-        /// <param name="select">
-        /// The function to select a <typeparamref name="TStoredEvent"/> from
-        /// the id and the version of the event.
+        /// <param name="convert">
+        /// The function to convert a <typeparamref name="TStoredEvent"/> from
+        /// the aggregate identifier and the version of the event.
         /// </param>
         /// <returns>
         /// The uncommitted events as <typeparamref name="TStoredEvent"/>.
         /// </returns>
-        public IEnumerable<TStoredEvent> SelectUncommitted<TStoredEvent>(Func<TId, int, object, TStoredEvent> select)
+        public IEnumerable<TStoredEvent> SelectUncommitted<TStoredEvent>(ConvertToStoredEvent<TId, TStoredEvent> convert)
         {
-            Guard.NotNull(select, nameof(select));
+            Guard.NotNull(convert, nameof(convert));
 
             var version = CommittedVersion;
             foreach (var @event in Uncommitted)
             {
-                yield return select(AggregateId, ++version, @event);
+                yield return convert(AggregateId, ++version, @event);
             }
         }
 
@@ -153,7 +186,7 @@ namespace Qowaiv.DomainModel
         /// <param name="storedEvents">
         /// The stored events.
         /// </param>
-        /// <param name="select">
+        /// <param name="convert">
         /// The function that select a 'clean' event from a stored event.
         /// </param>
         /// <returns>
@@ -162,9 +195,9 @@ namespace Qowaiv.DomainModel
         public static EventBuffer<TId> FromStorage<TStoredEvent>(
             TId aggregateId,
             IEnumerable<TStoredEvent> storedEvents,
-            Func<TStoredEvent, object> select)
+            ConvertFromStoredEvent<TStoredEvent> convert)
         {
-            return FromStorage(aggregateId, 0, storedEvents, select);
+            return FromStorage(aggregateId, 0, storedEvents, convert);
         }
 
         /// <summary>Creates an event buffer from some storage.</summary>
@@ -180,7 +213,7 @@ namespace Qowaiv.DomainModel
         /// <param name="storedEvents">
         /// The stored events.
         /// </param>
-        /// <param name="select">
+        /// <param name="convert">
         /// The function that select a 'clean' event from a stored event.
         /// </param>
         /// <returns>
@@ -190,17 +223,17 @@ namespace Qowaiv.DomainModel
             TId aggregateId,
             int initialVersion,
             IEnumerable<TStoredEvent> storedEvents,
-            Func<TStoredEvent, object> select)
+            ConvertFromStoredEvent<TStoredEvent> convert)
         {
             Guard.NotNegative(initialVersion, nameof(initialVersion));
             Guard.NotNull(storedEvents, nameof(storedEvents));
-            Guard.NotNull(select, nameof(select));
+            Guard.NotNull(convert, nameof(convert));
 
             var eventBuffer = new EventBuffer<TId>(aggregateId, initialVersion);
 
             foreach (var storedEvent in storedEvents)
             {
-                eventBuffer.Add(select(storedEvent));
+                eventBuffer.Add(convert(storedEvent));
             }
             eventBuffer.MarkAllAsCommitted();
 

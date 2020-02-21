@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Qowaiv.DomainModel
 {
@@ -22,16 +21,16 @@ namespace Qowaiv.DomainModel
         /// <param name="storedEvents">
         /// The stored events.
         /// </param>
-        /// <param name="select">
+        /// <param name="convert">
         /// The function to select an event from an stored event.
         /// </param>
         public static TAggregate FromStorage<TAggregate, TId, TStoredEvent>(
             TId aggregateId,
             IEnumerable<TStoredEvent> storedEvents,
-            Func<TStoredEvent, object> select)
+            ConvertFromStoredEvent<TStoredEvent> convert)
             where TAggregate : AggregateRoot<TAggregate, TId>, new()
         {
-            return FromStorage<TAggregate, TId, TStoredEvent>(aggregateId, 0, storedEvents, select);
+            return FromStorage<TAggregate, TId, TStoredEvent>(aggregateId, 0, storedEvents, convert);
         }
 
         /// <summary>Creates an <see cref="AggregateRoot{TAggregate, TId}"/> from stored events.</summary>
@@ -53,18 +52,18 @@ namespace Qowaiv.DomainModel
         /// <param name="storedEvents">
         /// The stored events.
         /// </param>
-        /// <param name="select">
+        /// <param name="convert">
         /// The function to select an event from an stored event.
         /// </param>
         public static TAggregate FromStorage<TAggregate, TId, TStoredEvent>(
             TId aggregateId,
             int initialVersion,
             IEnumerable<TStoredEvent> storedEvents,
-            Func<TStoredEvent, object> select)
+            ConvertFromStoredEvent<TStoredEvent> convert)
             where TAggregate : AggregateRoot<TAggregate, TId>, new()
         {
             var aggregate = new TAggregate();
-            var buffer = EventBuffer<TId>.FromStorage(aggregateId, initialVersion, storedEvents, select);
+            var buffer = EventBuffer<TId>.FromStorage(aggregateId, initialVersion, storedEvents, convert);
             aggregate.Replay(buffer);
             return aggregate;
         }
