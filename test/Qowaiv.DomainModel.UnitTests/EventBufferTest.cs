@@ -7,8 +7,8 @@ namespace Qowaiv.DomainModel.UnitTests
 {
     public class EventBufferTest
     {
-        private static readonly Func<object, object> fromStorage = (@event) => @event;
-        private static readonly Func<Guid, int, object, StoredEvent> select = (id, version, @event) => new StoredEvent { Id = id, Version = version, Payload = @event };
+        private static readonly ConvertFromStoredEvent<object> fromStorage = (@event) => @event;
+        private static readonly ConvertToStoredEvent<Guid, StoredEvent> select = (id, version, @event) => new StoredEvent { Id = id, Version = version, Payload = @event };
 
         [Test]
         public void FromStorage_CreatedSuccesfully()
