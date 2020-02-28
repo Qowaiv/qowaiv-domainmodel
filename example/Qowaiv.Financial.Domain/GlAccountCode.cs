@@ -2,7 +2,7 @@
 
 namespace Qowaiv.Financial.Domain
 {
-    public struct GlAccountCode: IEquatable<GlAccountCode>
+    public struct GlAccountCode : IEquatable<GlAccountCode>
     {
         private readonly string code;
 
@@ -16,7 +16,5 @@ namespace Qowaiv.Financial.Domain
         public static bool operator !=(GlAccountCode l, GlAccountCode r) => !(l == r);
 
         public override string ToString() => code;
-
-
     }
 }

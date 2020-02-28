@@ -2,9 +2,9 @@
 
 namespace Qowaiv.Financial.Domain.Commands
 {
-    public class CreateFinancialEntry
+    public class CreateFinancialEntry : FinancialEntryCommand
     {
-        public Guid Id { get; set; }
+        public DivisionCode Division { get; set; }
         public Year ReportingYear { get; set; }
         public Month ReportingMonth { get; set; }
         public FinancialEntryLine[] Lines { get; set; }

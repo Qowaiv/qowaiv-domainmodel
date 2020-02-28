@@ -54,15 +54,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.Financial.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.Financial.Shared", "example\Qowaiv.Financial.Shared\Qowaiv.Financial.Shared.csproj", "{E06AABF6-D6B6-4706-AF75-133C7D061F16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStorage.Abstractions", "example\EventStorage.Abstractions\EventStorage.Abstractions\EventStorage.Abstractions.csproj", "{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.Abstractions", "example\EventStorage.Abstractions\EventStorage.Abstractions\EventStorage.Abstractions.csproj", "{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStorage.SqlServer", "example\EventStorage.SqlServer\EventStorage.SqlServer.csproj", "{96873D15-FD47-4FCD-AFA1-2F308DEF56E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.SqlServer", "example\EventStorage.SqlServer\EventStorage.SqlServer.csproj", "{96873D15-FD47-4FCD-AFA1-2F308DEF56E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStorage.MongoDb", "example\EventStorage.MongoDb\EventStorage.MongoDb\EventStorage.MongoDb.csproj", "{664AE942-586E-435B-B90E-A3D01658780D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.MongoDb", "example\EventStorage.MongoDb\EventStorage.MongoDb\EventStorage.MongoDb.csproj", "{664AE942-586E-435B-B90E-A3D01658780D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStorage.EventStoreNet", "example\EventStorage.EventStoreNet\EventStorage.EventStoreNet\EventStorage.EventStoreNet.csproj", "{0CA616C3-C936-4027-9BCB-21EA0DC32240}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.EventStoreNet", "example\EventStorage.EventStoreNet\EventStorage.EventStoreNet\EventStorage.EventStoreNet.csproj", "{0CA616C3-C936-4027-9BCB-21EA0DC32240}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStorage.Local", "example\EventStorage.Local\EventStorage.Local\EventStorage.Local.csproj", "{0885D8C2-B9CB-43AE-8A73-85448918B20C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.Local", "example\EventStorage.Local\EventStorage.Local\EventStorage.Local.csproj", "{0885D8C2-B9CB-43AE-8A73-85448918B20C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.Financial.Web", "example\Qowaiv.Financial.Web\Qowaiv.Financial.Web.csproj", "{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +116,10 @@ Global
 		{0885D8C2-B9CB-43AE-8A73-85448918B20C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0885D8C2-B9CB-43AE-8A73-85448918B20C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0885D8C2-B9CB-43AE-8A73-85448918B20C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +139,7 @@ Global
 		{664AE942-586E-435B-B90E-A3D01658780D} = {14039334-EE87-49C4-88DA-D4526544A51A}
 		{0CA616C3-C936-4027-9BCB-21EA0DC32240} = {14039334-EE87-49C4-88DA-D4526544A51A}
 		{0885D8C2-B9CB-43AE-8A73-85448918B20C} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8} = {14039334-EE87-49C4-88DA-D4526544A51A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B55A336-E2D3-4656-9840-D519B3E1159B}
