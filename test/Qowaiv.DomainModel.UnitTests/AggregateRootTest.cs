@@ -9,9 +9,9 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void FromEvents_AggregateShouldHaveIdOfEvents()
         {
-            var stored = new object[] { new SimpleInitEvent() };
             var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
-            var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid, object>(aggregateId, stored, Select);
+            var buffer = Create(aggregateId, new SimpleInitEvent());
+            var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid>(buffer);
 
             Assert.AreEqual(aggregateId, aggregate.Id);
             Assert.AreEqual(aggregateId, aggregate.Buffer.AggregateId);
@@ -22,9 +22,9 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void FromEvents_WithInvalidState_ShouldBeLoaded()
         {
-            var stored = new object[] { new SimpleInitEvent(), new InvalidEvent() };
             var aggregateId = Guid.Parse("4BC26714-F8B9-4E88-8435-BA8383B5DFC8");
-            var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid, object>(aggregateId, stored, Select);
+            var buffer = Create(aggregateId, new SimpleInitEvent(), new InvalidEvent());
+            var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid>(buffer);
 
             Assert.IsTrue(aggregate.IsWrong);
             Assert.AreEqual(aggregateId, aggregate.Id);
@@ -33,6 +33,10 @@ namespace Qowaiv.DomainModel.UnitTests
             Assert.AreEqual(2, aggregate.Buffer.CommittedVersion);
         }
 
-        private static object Select(object e) => e;
+
+        private static EventBuffer<Guid> Create(Guid id, params object[] events)
+        {
+            return EventBuffer<Guid>.FromStorage(id, events, o => o);
+        }
     }
 }
