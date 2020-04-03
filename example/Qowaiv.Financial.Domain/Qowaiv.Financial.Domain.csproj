@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Include="..\shared\Guard.cs" Link="Guard.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Qowaiv" Version="5.0.1" />
+    <PackageReference Include="Qowaiv.Validation.Fluent" Version="0.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
+    <ProjectReference Include="..\EventStorage.Abstractions\EventStorage.Abstractions\EventStorage.Abstractions.csproj" />
+    <ProjectReference Include="..\Qowaiv.Financial.Shared\Qowaiv.Financial.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
