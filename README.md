@@ -120,3 +120,4 @@ is not balanced, both extremely important in this domain.
 
 If you want to throw an exception, or deal with a `Result<TAggegate>` is up to
 the developer.
+
