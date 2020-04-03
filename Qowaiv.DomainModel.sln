@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel", "src\Q
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.UnitTests", "test\Qowaiv.DomainModel.UnitTests\Qowaiv.DomainModel.UnitTests.csproj", "{EDFE004D-ED15-4A2C-AE63-C17245E87D9D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{14039334-EE87-49C4-88DA-D4526544A51A}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C036985A-F17D-405A-B3FD-37F30FA154FB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8E1F869D-393B-4F6C-A3C0-1D1D336F9FA8}"
@@ -46,6 +48,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{E9A5D7
 		design\package-icon.png = design\package-icon.png
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.Financial.Domain", "example\Qowaiv.Financial.Domain\Qowaiv.Financial.Domain.csproj", "{F50A6FC1-1514-4F56-BCB5-4728AC953349}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.Financial.UnitTests", "example\Qowaiv.Financial.UnitTests\Qowaiv.Financial.UnitTests.csproj", "{C8E7405A-3130-415C-9C7A-76EECE2006E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.Financial.Shared", "example\Qowaiv.Financial.Shared\Qowaiv.Financial.Shared.csproj", "{E06AABF6-D6B6-4706-AF75-133C7D061F16}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.Abstractions", "example\EventStorage.Abstractions\EventStorage.Abstractions\EventStorage.Abstractions.csproj", "{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.SqlServer", "example\EventStorage.SqlServer\EventStorage.SqlServer.csproj", "{96873D15-FD47-4FCD-AFA1-2F308DEF56E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.MongoDb", "example\EventStorage.MongoDb\EventStorage.MongoDb\EventStorage.MongoDb.csproj", "{664AE942-586E-435B-B90E-A3D01658780D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.EventStoreNet", "example\EventStorage.EventStoreNet\EventStorage.EventStoreNet\EventStorage.EventStoreNet.csproj", "{0CA616C3-C936-4027-9BCB-21EA0DC32240}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventStorage.Local", "example\EventStorage.Local\EventStorage.Local\EventStorage.Local.csproj", "{0885D8C2-B9CB-43AE-8A73-85448918B20C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qowaiv.Financial.Web", "example\Qowaiv.Financial.Web\Qowaiv.Financial.Web.csproj", "{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +84,42 @@ Global
 		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8564A273-F643-4C6B-80E1-5D7DCB7F9767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F50A6FC1-1514-4F56-BCB5-4728AC953349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F50A6FC1-1514-4F56-BCB5-4728AC953349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F50A6FC1-1514-4F56-BCB5-4728AC953349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F50A6FC1-1514-4F56-BCB5-4728AC953349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8E7405A-3130-415C-9C7A-76EECE2006E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8E7405A-3130-415C-9C7A-76EECE2006E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8E7405A-3130-415C-9C7A-76EECE2006E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8E7405A-3130-415C-9C7A-76EECE2006E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E06AABF6-D6B6-4706-AF75-133C7D061F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E06AABF6-D6B6-4706-AF75-133C7D061F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E06AABF6-D6B6-4706-AF75-133C7D061F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E06AABF6-D6B6-4706-AF75-133C7D061F16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96873D15-FD47-4FCD-AFA1-2F308DEF56E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96873D15-FD47-4FCD-AFA1-2F308DEF56E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96873D15-FD47-4FCD-AFA1-2F308DEF56E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96873D15-FD47-4FCD-AFA1-2F308DEF56E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{664AE942-586E-435B-B90E-A3D01658780D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{664AE942-586E-435B-B90E-A3D01658780D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{664AE942-586E-435B-B90E-A3D01658780D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{664AE942-586E-435B-B90E-A3D01658780D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CA616C3-C936-4027-9BCB-21EA0DC32240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CA616C3-C936-4027-9BCB-21EA0DC32240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CA616C3-C936-4027-9BCB-21EA0DC32240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA616C3-C936-4027-9BCB-21EA0DC32240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0885D8C2-B9CB-43AE-8A73-85448918B20C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0885D8C2-B9CB-43AE-8A73-85448918B20C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0885D8C2-B9CB-43AE-8A73-85448918B20C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0885D8C2-B9CB-43AE-8A73-85448918B20C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +131,15 @@ Global
 		{8E1F869D-393B-4F6C-A3C0-1D1D336F9FA8} = {C036985A-F17D-405A-B3FD-37F30FA154FB}
 		{F74D9EF2-39B5-40EB-8C44-1D6015C38D70} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
 		{E9A5D722-EEAA-4BF5-BD0A-BDECA579275E} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
+		{F50A6FC1-1514-4F56-BCB5-4728AC953349} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{C8E7405A-3130-415C-9C7A-76EECE2006E5} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{E06AABF6-D6B6-4706-AF75-133C7D061F16} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{9A3A682A-F0D5-4EC5-A20E-6831D9D41F11} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{96873D15-FD47-4FCD-AFA1-2F308DEF56E2} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{664AE942-586E-435B-B90E-A3D01658780D} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{0CA616C3-C936-4027-9BCB-21EA0DC32240} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{0885D8C2-B9CB-43AE-8A73-85448918B20C} = {14039334-EE87-49C4-88DA-D4526544A51A}
+		{CDBA33F4-C63E-4D63-8BA1-3383C4E42DF8} = {14039334-EE87-49C4-88DA-D4526544A51A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B55A336-E2D3-4656-9840-D519B3E1159B}
