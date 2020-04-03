@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Qowaiv.TestTools;
 using System;
+using System.Collections;
 using System.Linq;
 
 namespace Qowaiv.DomainModel.UnitTests
@@ -41,6 +42,46 @@ namespace Qowaiv.DomainModel.UnitTests
             Assert.AreEqual(id, selected[0].Id);
             Assert.AreEqual(19, selected[0].Version);
             Assert.IsInstanceOf<DummyEvent>(selected[0].Payload);
+        }
+
+        [Test]
+        public void HasUncommitted_OnlyCommitted_IsFalse()
+        {
+            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+                .Add(new DummyEvent())
+                .Add(new DummyEvent())
+                .MarkAllAsCommitted();
+
+            Assert.IsFalse(buffer.HasUncommitted);
+        }
+
+        [Test]
+        public void HasUncommitted_Mixed_IsTrue()
+        {
+            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+                .Add(new DummyEvent())
+                .Add(new DummyEvent())
+                .MarkAllAsCommitted()
+                .Add(new DummyEvent());
+
+            Assert.IsTrue(buffer.HasUncommitted);
+        }
+
+        [Test]
+        public void IsEmpty_Empty_IsTrue()
+        {
+            var buffer = new EventBuffer<Guid>(Guid.NewGuid());
+            
+            Assert.IsTrue(buffer.IsEmpty);
+        }
+
+        [Test]
+        public void IsEmpty_Mixed_IsFalse()
+        {
+            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+                .Add(new DummyEvent());
+
+            Assert.IsFalse(buffer.IsEmpty);
         }
 
         [Test]
@@ -148,6 +189,18 @@ namespace Qowaiv.DomainModel.UnitTests
 
                 DebuggerDisplayAssert.HasResult("Version: 1, Aggregate: 1f8b5071-c03b-457d-b27f-442c5aac5785", buffer);
             }
+        }
+
+        [Test]
+        public void GetEnumerator_NonGeneric_ShouldReturn()
+        {
+            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+               .Add(new DummyEvent())
+               .Add(new DummyEvent());
+
+            var enumerable = (IEnumerable)buffer;
+
+            Assert.AreEqual(2, enumerable.Cast<DummyEvent>().Count());
         }
 
         private class DummyEvent { }
