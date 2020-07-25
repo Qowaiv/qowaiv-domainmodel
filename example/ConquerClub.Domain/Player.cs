@@ -15,6 +15,9 @@ namespace ConquerClub.Domain
         /// <summary>Gets player P1.</summary>
         public static readonly Player P1 = new Player(1);
 
+        /// <summary>Gets player P1.</summary>
+        public static readonly Player P2 = new Player(2);
+
         /// <summary>Creates a new instance of the <see cref="Player"/> struct.</summary>
         public Player(byte id) => Id = id;
 
@@ -22,7 +25,7 @@ namespace ConquerClub.Domain
         private readonly byte Id;
 
         /// <summary>Creates an army for the player.</summary>
-        public Army Army(int size) => new Army(this, Guard.Positive(size, nameof(size)));
+        public Army Army(int size) => new Army(this, size);
 
         public bool IsOther(Player other) => !Equals(other);
 

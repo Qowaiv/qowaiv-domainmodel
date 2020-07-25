@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Qowaiv.Validation.Fluent;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ConquerClub.Domain.Validation
 {
-    class GameValidator
+    public class GameValidator : FluentModelValidator<Game>
     {
     }
 }

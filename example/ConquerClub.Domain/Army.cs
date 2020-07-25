@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace ConquerClub.Domain
@@ -36,7 +37,7 @@ namespace ConquerClub.Domain
             {
                 return this;
             }
-            Guard.SamePlayer(this, other);
+            //Guard.SamePlayer(this, other);
             return new Army(Owner, Size + other.Size);
         }
 
@@ -47,14 +48,14 @@ namespace ConquerClub.Domain
             {
                 return this;
             }
-            Guard.SamePlayer(this, other);
+            //Guard.SamePlayer(this, other);
             return Subtract(other.Size);
         }
 
         /// <summary>Reduces the size of the army with the total of losses.</summary>
         public Army Subtract(int losses)
         {
-            var size = Guard.NotNegativeArmySize(Size - Guard.NotNegative(losses, nameof(losses)));
+            var size = Size - losses;// Guard.NotNegativeArmySize(Size - Guard.NotNegative(losses, nameof(losses)));
             return size == 0
                 ? None
                 : Owner.Army(size);
@@ -141,7 +142,8 @@ namespace ConquerClub.Domain
             {
                 return Player.Parse(match.Groups[nameof(Player)].Value).Army(size);
             }
-            throw Error.NoArmyString(str);
+            //throw Error.NoArmyString(str);
+            throw new FormatException();
         }
 
         public static Army FromJson(string str) => Parse(str);
