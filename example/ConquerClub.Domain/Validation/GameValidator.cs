@@ -1,11 +1,18 @@
-﻿using Qowaiv.Validation.Fluent;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FluentValidation;
+using Qowaiv.Validation.Fluent;
 
 namespace ConquerClub.Domain.Validation
 {
-    public class GameValidator : FluentModelValidator<Game>
+    internal class GameValidator : FluentModelValidator<Game>
     {
+        public GameValidator()
+        {
+            RuleFor(g => g.Settings).Required();
+            RuleFor(g => g.Countries).Required();
+            RuleFor(g => g.Phase).NotEmpty();
+            RuleFor(g => g.Round).LessThanOrEqualTo(game => game.Settings.RoundLimit);
+
+            RuleForEach(g => g.Countries).SetValidator(new CountryValidator());
+        }
     }
 }

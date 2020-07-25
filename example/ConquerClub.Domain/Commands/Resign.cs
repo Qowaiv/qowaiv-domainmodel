@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ConquerClub.Domain.Commands
+﻿namespace ConquerClub.Domain.Commands
 {
     public class Resign : Command
     {
+        public Player Player { get; set; }
     }
 }

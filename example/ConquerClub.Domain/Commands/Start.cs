@@ -8,6 +8,8 @@ namespace ConquerClub.Domain.Commands
         public string Title { get; set; }
         public Country[] Countries { get; set; }
         public Continent[] Continents { get; set; }
+        public int RoundLimit { get; internal set; }
+        public int Players { get; internal set; }
 
         public class Country
         {

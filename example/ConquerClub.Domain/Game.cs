@@ -4,8 +4,10 @@ using ConquerClub.Domain.Validation;
 using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Troschuetz.Random;
 
 namespace ConquerClub.Domain
 {
@@ -14,12 +16,13 @@ namespace ConquerClub.Domain
         public Game() : this(Id<ForGame>.Empty) { }
         public Game(Id<ForGame> id) : base(id, new GameValidator()) { }
 
+        public Settings Settings { get; private set; }
+
         public IReadOnlyList<Continent> Continents { get; private set; }
         public IReadOnlyList<Country> Countries { get; private set; }
-        public IReadOnlyList<Player> Players { get; private set; }
 
         /// <summary>Gets the current round.</summary>
-        public int Round { get; private set; }
+        public int Round { get; private set; } = 1;
 
         /// <summary>Gets the phase the round is in.</summary>
         public GamePhase Phase { get; private set; }
@@ -47,6 +50,67 @@ namespace ConquerClub.Domain
             {
                 Country = country, 
                 Army = army, 
+            });
+        }
+
+        public Result<Game> Attack(
+            Id<ForCountry> attacker,
+            Id<ForCountry> defender,
+            IGenerator rnd)
+        {
+            // in phase.
+            // attacker has more then 1 army.
+            // attacker is active player.
+            // defender is not active player.
+            // attacker country can reach defender country.
+
+            var att = Countries.ById(attacker);
+            var def = Countries.ById(defender);
+
+            var result = Dice.Attack(att.Army - 1, def.Army, rnd);
+
+            return ApplyEvent(new Attacked
+            {
+                Attacker = att.Id,
+                Defender = def.Id,
+                Result = result,
+            });
+        }
+
+        public Result<Game> AutoAttack(
+            Id<ForCountry> attacker,
+            Id<ForCountry> defender,
+            IGenerator rnd)
+        {
+            // in phase.
+            // attacker has more then 1 army.
+            // attacker is active player.
+            // defender is not active player.
+            // attacker country can reach defender country.
+
+            var att = Countries.ById(attacker);
+            var def = Countries.ById(defender);
+
+            var result = Dice.AutoAttack(att.Army - 1, def.Army, rnd);
+
+            return ApplyEvent(new Attacked
+            {
+                Attacker = att.Id,   
+                Defender = def.Id,
+                Result = result,
+            });
+        }
+
+        public Result<Game> Advance(Army to)
+        {
+            // in phase.
+            // to owner is active player.
+            // to owner equals owner army buffer.
+            // to <= army buffer.
+
+            return ApplyEvent(new Advanced
+            {
+                To = to,
             });
         }
 
@@ -85,6 +149,14 @@ namespace ConquerClub.Domain
             LinkCountriesToContent();
         }
 
+        internal void When(SettingsInitialized @event)
+        {
+            Settings = new Settings(
+                players: @event.Players,
+                roundLimit: @event.RoundLimit,
+                fogOfWar: @event.FogOfWar);
+        }
+
         internal void When(ArmyInitiated @event)
         {
             Countries.ById(@event.Country).Army = @event.Army;
@@ -93,18 +165,27 @@ namespace ConquerClub.Domain
         internal void When(Deployed @event)
         {
             Countries.ById(@event.Country).Army += @event.Army;
+            ArmyBuffer -= @event.Army;
+            Phase = ArmyBuffer.Size > 0 ? GamePhase.Deploy : GamePhase.Attack;
         }
 
         internal void When(Attacked @event)
         {
-            From = Countries.ById(@event.From);
-            To = Countries.ById(@event.To);
-            
-            From.Army = @event.Attacker;
-            To.Army = @event.Defender;
-            ArmyBuffer = @event.Buffer;
+            From = Countries.ById(@event.Attacker);
+            To = Countries.ById(@event.Defender);
 
-            Phase = ArmyBuffer == Army.None ? GamePhase.Attack : GamePhase.Advance;
+            if (@event.Result.IsSuccess)
+            {
+                ArmyBuffer = From.Army - 2;
+                From.Army = From.Army.Owner.Army(1);
+                To.Army = From.Army.Owner.Army(1);
+                Phase = GamePhase.Advance;
+            }
+            else
+            {
+                From.Army = @event.Result.Attacker;
+                To.Army = @event.Result.Defender;
+            }
         }
 
         internal void When(Advanced @event)
@@ -169,28 +250,32 @@ namespace ConquerClub.Domain
             }
         }
 
-        public static Result<Game> Start(Start init)
+        public static Result<Game> Start(Start start)
         {
-            var game = new Game(init.Game);
+            var game = new Game(start.Game);
 
             var map = new MapInitialized
             {
-                Continents = init.Continents.Select(c =>
+                Continents = start.Continents.Select(c =>
                     new MapInitialized.Continent
                     {
                         Name = c.Name,
                         Bonus = c.Bonus,
                         Territories = c.Territories.ToArray(),
                     }).ToArray(),
-                Countries = init.Countries.Select(c =>
+                Countries = start.Countries.Select(c =>
                     new MapInitialized.Country
                     {
                         Name = c.Name,
                         Borders = c.Borders.ToArray(),
                     }).ToArray()
             };
-
-            return game.ApplyEvents(map);
+            var settings = new SettingsInitialized
+            {
+                Players = start.Players,
+                RoundLimit = start.RoundLimit,
+            };
+            return game.ApplyEvents(map, settings);
         }
     }
 }

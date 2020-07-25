@@ -1,12 +1,10 @@
 ﻿using Qowaiv.Identifiers;
 
-namespace ConquerClub.Domain.Events
+namespace ConquerClub.Domain.Commands
 {
-    public class Attacked
+    public class Attack : Command
     {
         public Id<ForCountry> Attacker { get; set; }
         public Id<ForCountry> Defender { get; set; }
-
-        public AttackResult Result { get; set; }
     }
 }
