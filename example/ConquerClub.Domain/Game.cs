@@ -156,6 +156,19 @@ namespace ConquerClub.Domain
                 roundLimit: @event.RoundLimit,
                 fogOfWar: @event.FogOfWar);
         }
+        
+        internal void When(ArmiesInitialized @event)
+        {
+            foreach(var data in @event.Armies.Select((army, index) => new 
+            {
+                Army = army, 
+                Id = Id<ForCountry>.Create(index) 
+            }))
+            {
+                Countries.ById(data.Id).Army = data.Army;
+            }
+            Phase = GamePhase.Deploy;
+        }
 
         internal void When(ArmyInitiated @event)
         {
@@ -218,7 +231,7 @@ namespace ConquerClub.Domain
             foreach (var data in countries.Select((c, id) => new
             {
                 Country = Id<ForCountry>.Create(id),
-                Borders = c.Borders.Select(t => Id<ForCountry>.Create(t)).ToArray(),
+                c.Borders,
             }))
             {
                 var country = Countries.ById(data.Country);
@@ -230,7 +243,7 @@ namespace ConquerClub.Domain
             foreach (var data in continents.Select((c, id) => new
             {
                 Continent = Id<ForContinent>.Create(id),
-                Countries = c.Territories.Select(t => Id<ForCountry>.Create(t)).ToArray(),
+                Countries = c.Territories,
             }))
             {
                 var continent = Continents.ById(data.Continent);
@@ -250,7 +263,7 @@ namespace ConquerClub.Domain
             }
         }
 
-        public static Result<Game> Start(Start start)
+        public static Result<Game> Start(Start start, IGenerator rnd)
         {
             var game = new Game(start.Game);
 
@@ -275,7 +288,31 @@ namespace ConquerClub.Domain
                 Players = start.Players,
                 RoundLimit = start.RoundLimit,
             };
-            return game.ApplyEvents(map, settings);
+
+            var armies = new ArmiesInitialized
+            {
+                Armies = RndArmies(start.Players, start.Countries.Length, rnd).ToArray(),
+            };
+            
+            return game.ApplyEvents(map, settings, armies);
+        }
+
+        private static IEnumerable<Army> RndArmies(int players, int countries, IGenerator rnd)
+        {
+            var perCountry = countries / (players + (players == 2 ? 1 : 0));
+
+            return Enumerable
+                .Range(0, countries)
+                .Select(index =>
+                {
+                    var id = 1+ (index / perCountry);
+                    return id == 3 && players == 2 || id > players
+                        ? 0
+                        : id;
+                })
+                .Select(id => id == 0 ? Player.Neutral : new Player((byte)id))
+                .Select(player => player.Army(3))
+                .OrderBy(army => rnd.Next());
         }
     }
 }

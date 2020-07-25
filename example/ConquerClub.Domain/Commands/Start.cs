@@ -1,5 +1,4 @@
 ﻿using Qowaiv.Identifiers;
-using System.Collections.Generic;
 
 namespace ConquerClub.Domain.Commands
 {
@@ -8,21 +7,20 @@ namespace ConquerClub.Domain.Commands
         public string Title { get; set; }
         public Country[] Countries { get; set; }
         public Continent[] Continents { get; set; }
-        public int RoundLimit { get; internal set; }
-        public int Players { get; internal set; }
+        public int RoundLimit { get; set; }
+        public int Players { get; set; }
 
         public class Country
         {
             public string Name { get; set; }
-            public int[] Borders { get; set; }
-            public int Neutal { get; set; }
+            public Id<ForCountry>[] Borders { get; set; }
         }
 
         public class Continent
         {
             public string Name { get; set; }
             public int Bonus { get; set; }
-            public int[] Territories { get; set; }
+            public Id<ForCountry>[] Territories { get; set; }
         }
     }
 }
