@@ -61,11 +61,11 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Events represented by a string are not allowed..
+        ///   Looks up a localized string similar to A concurrency issues occured..
         /// </summary>
-        public static string ArgumentException_StringNotAnEvent {
+        public static string ConcurrencyIssue {
             get {
-                return ResourceManager.GetString("ArgumentException_StringNotAnEvent", resourceCulture);
+                return ResourceManager.GetString("ConcurrencyIssue", resourceCulture);
             }
         }
         
@@ -75,6 +75,24 @@ namespace Qowaiv.DomainModel {
         public static string EventTypeNotSupportedException {
             get {
                 return ResourceManager.GetString("EventTypeNotSupportedException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A mid-air collision occured while saving..
+        /// </summary>
+        public static string MidAirCollision {
+            get {
+                return ResourceManager.GetString("MidAirCollision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected version {0}, but got version {1}..
+        /// </summary>
+        public static string VersionMismatch {
+            get {
+                return ResourceManager.GetString("VersionMismatch", resourceCulture);
             }
         }
     }

@@ -143,6 +143,7 @@
     <Rule Id="S4432" Action="Warning" />
     <Rule Id="S4462" Action="Warning" />
     <Rule Id="S4487" Action="Warning" />
+    <Rule Id="S3376" Action="Info" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1101" Action="None" />
