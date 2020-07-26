@@ -6,5 +6,6 @@ namespace ConquerClub.Domain.Commands
     {
         protected Command() { }
         public Id<ForGame> Game { get; set; }
+        public int ExpectedVersion { get; set; }
     }
 }

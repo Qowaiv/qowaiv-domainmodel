@@ -39,7 +39,6 @@ namespace ConquerClub.Domain
         /// <summary>Gets or sets the armies to <see cref="Commands.Deploy"/> and <see cref="Commands.Advance"/>.</summary>
         public Army ArmyBuffer { get; private set; }
 
-
         public Result<Game> Deploy(Id<ForCountry> country, Army army)
         {
             // in phase.
