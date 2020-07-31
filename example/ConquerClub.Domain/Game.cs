@@ -4,21 +4,22 @@ using ConquerClub.Domain.Validation;
 using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Troschuetz.Random;
 
 namespace ConquerClub.Domain
 {
-    public sealed class Game : AggregateRoot<Game, Id<ForGame>>
+    public sealed partial class Game : AggregateRoot<Game, Id<ForGame>>
     {
         public Game() : this(Id<ForGame>.Empty) { }
+
         public Game(Id<ForGame> id) : base(id, new GameValidator()) { }
 
         public Settings Settings { get; private set; }
 
         public IReadOnlyList<Continent> Continents { get; private set; }
+        
         public IReadOnlyList<Country> Countries { get; private set; }
 
         /// <summary>Gets the current round.</summary>
@@ -39,99 +40,90 @@ namespace ConquerClub.Domain
         /// <summary>Gets or sets the armies to <see cref="Commands.Deploy"/> and <see cref="Commands.Advance"/>.</summary>
         public Army ArmyBuffer { get; private set; }
 
-        public Result<Game> Deploy(Id<ForCountry> country, Army army)
-        {
-            // in phase.
-            // country should exist.
-            // army owner should match active player.
-
-            return ApplyEvent(new Deployed 
+        public Result<Game> Deploy(Id<ForCountry> country, Army army) =>
+            MustBeInPhase(GamePhase.Deploy)
+            | (g => g.MustExist(country))
+            | (g => g.MustBeActivePlayer(army.Owner))
+            | (g => g.MustNotExeedArmyBuffer(army))
+            | (g => g.ApplyEvent(new Deployed
             {
-                Country = country, 
-                Army = army, 
-            });
-        }
+                Country = country,
+                Army = army,
+            }));
 
         public Result<Game> Attack(
             Id<ForCountry> attacker,
             Id<ForCountry> defender,
-            IGenerator rnd)
-        {
-            // in phase.
+            IGenerator rnd) =>
+
+            MustBeInPhase(GamePhase.Attack)
+            | (g => g.MustExist(attacker))
+            | (g => g.MustExist(defender))
+            | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
+            | (g => g.MustBeActivePlayer(Countries.ById(attacker).Owner))
             // attacker has more then 1 army.
-            // attacker is active player.
             // defender is not active player.
-            // attacker country can reach defender country.
-
-            var att = Countries.ById(attacker);
-            var def = Countries.ById(defender);
-
-            var result = Dice.Attack(att.Army - 1, def.Army, rnd);
-
-            return ApplyEvent(new Attacked
-            {
-                Attacker = att.Id,
-                Defender = def.Id,
-                Result = result,
-            });
-        }
+            | (g => Attack(attacker, defender, Dice
+                .Attack(
+                    Countries.ById(attacker).Army, 
+                    Countries.ById(defender).Army, 
+                    rnd)));
 
         public Result<Game> AutoAttack(
             Id<ForCountry> attacker,
             Id<ForCountry> defender,
-            IGenerator rnd)
-        {
-            // in phase.
-            // attacker has more then 1 army.
-            // attacker is active player.
-            // defender is not active player.
-            // attacker country can reach defender country.
+            IGenerator rnd) =>
+            MustBeInPhase(GamePhase.Attack)
+           | (g => g.MustExist(attacker))
+           | (g => g.MustExist(defender))
+           | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
+           | (g => g.MustBeActivePlayer(Countries.ById(attacker).Owner))
+           // attacker has more then 1 army.
+           // defender is not active player.
+           | (g => Attack(attacker, defender, Dice
+               .AutoAttack(
+                   Countries.ById(attacker).Army,
+                   Countries.ById(defender).Army,
+                   rnd)));
 
-            var att = Countries.ById(attacker);
-            var def = Countries.ById(defender);
+        private Result<Game> Attack(
+            Id<ForCountry> attacker,
+            Id<ForCountry> defender,
+            AttackResult result) =>
 
-            var result = Dice.AutoAttack(att.Army - 1, def.Army, rnd);
+                ApplyEvent(new Attacked
+                {
+                    Attacker = attacker,
+                    Defender = defender,
+                    Result = result,
+                });
 
-            return ApplyEvent(new Attacked
-            {
-                Attacker = att.Id,   
-                Defender = def.Id,
-                Result = result,
-            });
-        }
-
-        public Result<Game> Advance(Army to)
-        {
-            // in phase.
-            // to owner is active player.
-            // to owner equals owner army buffer.
-            // to <= army buffer.
-
-            return ApplyEvent(new Advanced
+        public Result<Game> Advance(Army to) =>
+            MustBeInPhase(GamePhase.Advance)
+            | (g => g.MustBeActivePlayer(to.Owner))
+            | (g => g.MustBeOwnedBy(To, to.Owner))
+            | (g => g.MustNotExeedArmyBuffer(to))
+            | (g => g.ApplyEvent(new Advanced
             {
                 To = to,
-            });
-        }
+            }));
 
-        public Result<Game> Reinforce(Id<ForCountry> from, Id<ForCountry> to, Army army)
-        {
-            // in phase.
-            // counties should exist.
-            // army owner should match active player.
-            // both countries should have same owner as army.
-
-            return ApplyEvent(new Reinforced
+        public Result<Game> Reinforce(Id<ForCountry> from, Id<ForCountry> to, Army army) =>
+            MustBeInPhase(GamePhase.Reinforce)
+            | (g => g.MustExist(from))
+            | (g => g.MustExist(to))
+            | (g => g.MustBeOwnedBy(Countries.ById(from), army.Owner))
+            | (g => g.MustBeOwnedBy(Countries.ById(to), army.Owner))
+            | (g => g.MustBeReachable(Countries.ById(from), Countries.ById(to)))
+            | (g => g.ApplyEvent(new Reinforced
             {
                 From = from,
                 To = to,
                 Army = army,
-            });
-        }
+            }));
 
-        public Result<Game> Resign(Player player)
-        {
-            return ApplyEvent(new Resigned { Player = player });
-        }
+        public Result<Game> Resign(Player player) =>
+            ApplyEvent(new Resigned { Player = player });
 
         internal void When(MapInitialized @event)
         {
