@@ -70,6 +70,24 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entity could not be found..
+        /// </summary>
+        public static string EntityNotFound {
+            get {
+                return ResourceManager.GetString("EntityNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity with ID &apos;{0}&apos; could not be found..
+        /// </summary>
+        public static string EntityNotFound_ForId {
+            get {
+                return ResourceManager.GetString("EntityNotFound_ForId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The event of the type {0} is not supported for {1}..
         /// </summary>
         public static string EventTypeNotSupportedException {

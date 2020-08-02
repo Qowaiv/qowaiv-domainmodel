@@ -120,6 +120,12 @@
   <data name="ConcurrencyIssue" xml:space="preserve">
     <value>A concurrency issues occured.</value>
   </data>
+  <data name="EntityNotFound" xml:space="preserve">
+    <value>Entity could not be found.</value>
+  </data>
+  <data name="EntityNotFound_ForId" xml:space="preserve">
+    <value>Entity with ID '{0}' could not be found.</value>
+  </data>
   <data name="EventTypeNotSupportedException" xml:space="preserve">
     <value>The event of the type {0} is not supported for {1}.</value>
   </data>
