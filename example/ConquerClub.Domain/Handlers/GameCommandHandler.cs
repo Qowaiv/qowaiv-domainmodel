@@ -17,7 +17,7 @@ namespace ConquerClub.Domain.Handlers
         CommandHandler<Resign>
     {
         public GameCommandHandler(
-            IGenerator rnd, 
+            IGenerator rnd,
             Func<Id<ForGame>, Result<Game>> load,
             Func<Game, Result> save)
         {
@@ -30,7 +30,9 @@ namespace ConquerClub.Domain.Handlers
         public Func<Id<ForGame>, Result<Game>> Load { get; }
         public Func<Game, Result> Save { get; }
 
-        public Result Handle(Start command)=> Game.Start(command, Rnd);
+        public Result Handle(Start command)
+            => Game.Start(command, Rnd)
+                | (g => Save(g));
 
         public Result Handle(Deploy command)
             => Load(command.Game)
@@ -47,7 +49,7 @@ namespace ConquerClub.Domain.Handlers
                     command.Attacker,
                     command.Defender,
                     Rnd));
- 
+
         public Result Handle(Attack command)
             => Load(command.Game)
                 | (g => g.Attack(

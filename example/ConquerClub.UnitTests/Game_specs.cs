@@ -1,7 +1,7 @@
 ﻿using ConquerClub.Domain;
 using ConquerClub.Domain.Commands;
-using ConquerClub.UnitTests;
 using NUnit.Framework;
+using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.TestTools;
 using System.Linq;
@@ -52,18 +52,17 @@ namespace Game_specs
                 }
             };
 
-            var handler = Handler();
-            var game = handler.Handle(command);
+            var game = TestHandler(command, new EventBuffer<Id<ForGame>>(GameId));
 
             ValidationMessageAssert.IsValid(game);
 
-            //CollectionAssert.AreEquivalent(new[]
-            //{
-            //    Player.P1,
-            //    Player.P2,
-            //    Player.Neutral
-            //};
-            ////game.Value.Countries.Select(c => c.Owner).Distinct());
+            CollectionAssert.AreEquivalent(new[]
+            {
+                Player.P1,
+                Player.P2,
+                Player.Neutral
+            },
+            game.Value.Countries.Select(c => c.Owner).Distinct());
         }
     }
 }
