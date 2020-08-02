@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Qowaiv.DomainModel.TestTools.EventSourcing
+namespace Qowaiv.DomainModel.TestTools
 {
     /// <summary>Assertions on the aggregate root.</summary>
     public static class AggregateRootAssert
