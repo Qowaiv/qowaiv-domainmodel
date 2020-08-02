@@ -88,7 +88,7 @@ namespace ConquerClub.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Country {0} must be owend by {1}..
+        ///   Looks up a localized string similar to Country {0} must be owned by {1}..
         /// </summary>
         internal static string MustBeOwnedBy {
             get {

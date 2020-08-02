@@ -1,5 +1,6 @@
 ﻿using ConquerClub.Domain;
 using ConquerClub.Domain.Commands;
+using ConquerClub.Domain.Events;
 using ConquerClub.Domain.Handlers;
 using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
@@ -12,8 +13,9 @@ namespace ConquerClub.UnitTests
     {
         public static readonly Id<ForGame> GameId = Id<ForGame>.Parse("test_game");
 
-        public static Result<Game> TestHandler(dynamic command, EventBuffer<Id<ForGame>> buffer)
+        public static Result<Game> TestHandler(dynamic command, EventBuffer<Id<ForGame>> buffer = null)
         {
+            buffer ??= new EventBuffer<Id<ForGame>>(GameId);
             var handler = new TestHandler(buffer, 17);
             dynamic dyn = (dynamic)handler;
             Result result = dyn.Handle(command);
@@ -23,15 +25,18 @@ namespace ConquerClub.UnitTests
                 : Result.WithMessages<Game>(result.Messages);
         }
 
-        public static EventBuffer<Id<ForGame>> Benelux(int players = 3, int roundLimit = 10) =>
+        public static EventBuffer<Id<ForGame>> Benelux(int roundLimit = 10) =>
             new EventBuffer<Id<ForGame>>(GameId)
-            .Add(new Start
+            .Add(new SettingsInitialized
             {
-                Players = players,
+                Players = 2,
                 RoundLimit = roundLimit,
+            })
+            .Add(new MapInitialized
+            {
                 Continents = new[]
                 {
-                    new Start.Continent
+                    new MapInitialized.Continent
                     {
                         Name = "Benelux",
                         Bonus = 3,
@@ -45,23 +50,33 @@ namespace ConquerClub.UnitTests
                 },
                 Countries = new[]
                 {
-                    new Start.Country
+                    new MapInitialized.Country
                     {
                         Name = "Netherlands",
                         Borders = new []{ Id<ForCountry>.Create(1) },
                     },
-                    new Start.Country
+                    new MapInitialized.Country
                     {
                         Name = "Belgium",
                         Borders = new []{ Id<ForCountry>.Create(0), Id<ForCountry>.Create(2) },
                     },
-                    new Start.Country
+                    new MapInitialized.Country
                     {
                         Name = "Luxembourg",
                         Borders = new []{ Id<ForCountry>.Create(1) },
                     },
                 }
-            });
+            })
+            .Add(new ArmiesInitialized
+            {
+                Armies = new[] 
+                { 
+                    Player.P1.Army(3),
+                    Player.P2.Army(3),
+                    Player.Neutral.Army(3),
+                }
+            })
+            .Add(new Activated { Active = Player.P1, });
 
         public static Game Load(this EventBuffer<Id<ForGame>> buffer) =>
             AggregateRoot.FromStorage<Game, Id<ForGame>>(buffer.MarkAllAsCommitted());

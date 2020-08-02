@@ -4,6 +4,7 @@ using ConquerClub.Domain.Validation;
 using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Troschuetz.Random;
@@ -42,8 +43,9 @@ namespace ConquerClub.Domain
 
         public Result<Game> Deploy(Id<ForCountry> country, Army army) =>
             MustBeInPhase(GamePhase.Deploy)
-            | (g => g.MustExist(country))
             | (g => g.MustBeActivePlayer(army.Owner))
+            | (g => g.MustExist(country))
+            | (g => g.MustBeOwnedBy(Countries.ById(country), army.Owner))
             | (g => g.MustNotExeedArmyBuffer(army))
             | (g => g.ApplyEvent(new Deployed
             {
@@ -57,10 +59,10 @@ namespace ConquerClub.Domain
             IGenerator rnd) =>
 
             MustBeInPhase(GamePhase.Attack)
+            | (g => g.MustBeActivePlayer(Countries.ById(attacker).Owner))
             | (g => g.MustExist(attacker))
             | (g => g.MustExist(defender))
             | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
-            | (g => g.MustBeActivePlayer(Countries.ById(attacker).Owner))
             // attacker has more then 1 army.
             // defender is not active player.
             | (g => Attack(attacker, defender, Dice
@@ -164,6 +166,16 @@ namespace ConquerClub.Domain
         internal void When(ArmyInitiated @event)
         {
             Countries.ById(@event.Country).Army = @event.Army;
+        }
+
+        internal void When(Activated @event)
+        {
+            Active = @event.Active;
+            var countries = Countries.Count(c => c.Owner == Active);
+            var deploy = (Math.Max(3, countries / 3));
+            deploy += Continents.Where(c => c.Owner == Active).Sum(c => c.Bonus);
+            ArmyBuffer = Active.Army(deploy);
+            Phase = GamePhase.Deploy;
         }
 
         internal void When(Deployed @event)
@@ -285,7 +297,13 @@ namespace ConquerClub.Domain
                 Armies = RndArmies(start.Players, start.Countries.Length, rnd).ToArray(),
             };
             
-            return game.ApplyEvents(map, settings, armies);
+            var actived = new Activated { Active = Player.P1 };
+            
+            return game.ApplyEvents(
+                map,
+                settings,
+                armies,
+                actived);
         }
 
         private static IEnumerable<Army> RndArmies(int players, int countries, IGenerator rnd)

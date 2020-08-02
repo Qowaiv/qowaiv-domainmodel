@@ -1,11 +1,11 @@
 ﻿using ConquerClub.Domain;
-using ConquerClub.Domain.Commands;
 using NUnit.Framework;
-using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
+using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
 using System.Linq;
 using static ConquerClub.UnitTests.Arrange;
+using Commands = ConquerClub.Domain.Commands;
 
 namespace Game_specs
 {
@@ -14,13 +14,13 @@ namespace Game_specs
         [Test]
         public void With_two_players_includes_thrid_neutral_player()
         {
-            var command = new Start
+            var command = new Commands.Start
             {
                 Players = 2,
                 RoundLimit = 10,
                 Continents = new[]
                 {
-                    new Start.Continent
+                    new Commands.Start.Continent
                     {
                         Name = "Benelux",
                         Bonus = 3,
@@ -34,17 +34,17 @@ namespace Game_specs
                 },
                 Countries = new[]
                 {
-                    new Start.Country
+                    new Commands.Start.Country
                     {
                         Name = "Netherlands",
                         Borders = new []{ Id<ForCountry>.Create(1) },
                     },
-                    new Start.Country
+                    new Commands.Start.Country
                     {
                         Name = "Belgium",
                         Borders = new []{ Id<ForCountry>.Create(0), Id<ForCountry>.Create(2) },
                     },
-                    new Start.Country
+                    new Commands.Start.Country
                     {
                         Name = "Luxembourg",
                         Borders = new []{ Id<ForCountry>.Create(1) },
@@ -52,9 +52,9 @@ namespace Game_specs
                 }
             };
 
-            var game = TestHandler(command, new EventBuffer<Id<ForGame>>(GameId));
+            var result = TestHandler(command);
 
-            ValidationMessageAssert.IsValid(game);
+            ValidationMessageAssert.IsValid(result);
 
             CollectionAssert.AreEquivalent(new[]
             {
@@ -62,7 +62,66 @@ namespace Game_specs
                 Player.P2,
                 Player.Neutral
             },
-            game.Value.Countries.Select(c => c.Owner).Distinct());
+            result.Value.Countries.Select(c => c.Owner).Distinct());
+        }
+    }
+
+    public class Deploy
+    {
+        [Test]
+        public void Can_only_be_applied_the_active_player()
+        {
+            var command = new Commands.Deploy
+            {
+                Army = Player.P2.Army(3),
+                Country = Id<ForCountry>.Create(2),
+                Game = GameId,
+                ExpectedVersion = 4,
+            };
+
+            var result = TestHandler(command, Benelux());
+
+            ValidationMessageAssert.WithErrors(result,
+                ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
+        }
+
+        [Test]
+        public void Can_only_be_applied_on_own_country()
+        {
+            var command = new Commands.Deploy
+            {
+                Army = Player.P1.Army(3),
+                Country = Id<ForCountry>.Create(2),
+                Game = GameId,
+                ExpectedVersion = 4,
+            };
+
+            var result = TestHandler(command, Benelux());
+
+            ValidationMessageAssert.WithErrors(result,
+                ValidationMessage.Error("Country Luxembourg must be owned by P1."));
+        }
+    }
+
+    public class Attack
+    {
+        [Test]
+        public void Can_only_be_applied_the_active_player()
+        {
+            var command = new Commands.Attack
+            {
+                Attacker = Id<ForCountry>.Create(1),
+                Defender = Id<ForCountry>.Create(2),
+                Game = GameId,
+                ExpectedVersion = 4,
+            };
+
+            var result = TestHandler(command, Benelux());
+
+            Assert.Inconclusive();
+
+            //ValidationMessageAssert.WithErrors(result,
+            //    ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
         }
     }
 }
