@@ -25,72 +25,51 @@ namespace ConquerClub.Domain.Handlers
         protected IGenerator Rnd { get; }
         public Func<Id<ForGame>, Result<Game>> Load { get; }
 
-        public Result Handle(Start command)
-        {
-            return Game.Start(command, Rnd);
-        }
+        public Result Handle(Start command)=> Game.Start(command, Rnd);
 
         public Result Handle(Deploy command)
-        {
-            return Load(command.Game)
-                .Act(game => OptimisticLocking(game, command))
-                .Act(game => game.Deploy(
+            => Load(command.Game)
+                | (g => OptimisticLocking(g, command))
+                | (g => g.Deploy(
                     command.Country,
                     command.Army));
-        }
 
         public Result Handle(AutoAttack command)
-        {
-            return Load(command.Game)
-                .Act(game => OptimisticLocking(game, command))
-                .Act(game => game.AutoAttack(
+            => Load(command.Game)
+                | (g => OptimisticLocking(g, command))
+                | (g => g.AutoAttack(
                     command.Attacker,
                     command.Defender,
                     Rnd));
-        }
  
         public Result Handle(Attack command)
-        {
-            return Load(command.Game)
-                .Act(game => game.Attack(
+            => Load(command.Game)
+                | (g => g.Attack(
                     command.Attacker,
                     command.Defender,
                     Rnd));
-        }
 
         public Result Handle(Advance command)
-        {
-            return Load(command.Game)
-                .Act(game => OptimisticLocking(game, command))
-                .Act(game => game.Advance(command.To));
-        }
+            => Load(command.Game)
+                | (g => OptimisticLocking(g, command))
+                | (g => g.Advance(command.To));
 
         public Result Handle(Reinforce command)
-        {
-            return Load(command.Game)
-                .Act(game => OptimisticLocking(game, command))
-                .Act(game => game.Reinforce(
+            => Load(command.Game)
+                | (g => OptimisticLocking(g, command))
+                | (g => g.Reinforce(
                     command.From,
                     command.To,
                     command.Army));
-        }
 
         public Result Handle(Resign command)
-        {
-            return Load(command.Game)
-                .Act(game => OptimisticLocking(game, command))
-                .Act(game => game.Resign(command.Player));
-        }
+            => Load(command.Game)
+                | (g => OptimisticLocking(g, command))
+                | (g => g.Resign(command.Player));
 
-
-        private static Result OptimisticLocking(Game dossier, Command command)
-        {
-            if (dossier.Version != command.ExpectedVersion)
-            {
-                return Result.WithMessages(ConcurrencyIssue.VersionMismatch(command.ExpectedVersion, dossier.Version));
-            }
-            return Result.OK;
-        }
-
+        private static Result OptimisticLocking(Game dossier, Command command) =>
+            dossier.Version == command.ExpectedVersion
+            ? Result.OK
+            : Result.WithMessages(ConcurrencyIssue.VersionMismatch(command.ExpectedVersion, dossier.Version));
     }
 }
