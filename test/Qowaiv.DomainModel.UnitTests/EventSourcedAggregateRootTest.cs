@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.TestTools.EventSourcing;
+using Qowaiv.DomainModel.TestTools;
 using Qowaiv.DomainModel.UnitTests.Models;
-using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
 using System;
 

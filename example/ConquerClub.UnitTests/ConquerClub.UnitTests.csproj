@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj" />
     <ProjectReference Include="..\ConquerClub.Domain\ConquerClub.Domain.csproj" />
   </ItemGroup>
 

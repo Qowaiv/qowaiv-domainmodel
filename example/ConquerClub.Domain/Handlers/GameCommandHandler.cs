@@ -16,14 +16,19 @@ namespace ConquerClub.Domain.Handlers
         CommandHandler<Reinforce>,
         CommandHandler<Resign>
     {
-        public GameCommandHandler(IGenerator rnd, Func<Id<ForGame>, Result<Game>> load)
+        public GameCommandHandler(
+            IGenerator rnd, 
+            Func<Id<ForGame>, Result<Game>> load,
+            Func<Game, Result> save)
         {
             Rnd = rnd;
             Load = load;
+            Save = save;
         }
 
         protected IGenerator Rnd { get; }
         public Func<Id<ForGame>, Result<Game>> Load { get; }
+        public Func<Game, Result> Save { get; }
 
         public Result Handle(Start command)=> Game.Start(command, Rnd);
 
@@ -32,7 +37,8 @@ namespace ConquerClub.Domain.Handlers
                 | (g => OptimisticLocking(g, command))
                 | (g => g.Deploy(
                     command.Country,
-                    command.Army));
+                    command.Army))
+                | (g => Save(g));
 
         public Result Handle(AutoAttack command)
             => Load(command.Game)
@@ -47,12 +53,14 @@ namespace ConquerClub.Domain.Handlers
                 | (g => g.Attack(
                     command.Attacker,
                     command.Defender,
-                    Rnd));
+                    Rnd))
+                | (g => Save(g));
 
         public Result Handle(Advance command)
             => Load(command.Game)
                 | (g => OptimisticLocking(g, command))
-                | (g => g.Advance(command.To));
+                | (g => g.Advance(command.To))
+                | (g => Save(g));
 
         public Result Handle(Reinforce command)
             => Load(command.Game)
@@ -60,12 +68,14 @@ namespace ConquerClub.Domain.Handlers
                 | (g => g.Reinforce(
                     command.From,
                     command.To,
-                    command.Army));
+                    command.Army))
+                | (g => Save(g));
 
         public Result Handle(Resign command)
             => Load(command.Game)
                 | (g => OptimisticLocking(g, command))
-                | (g => g.Resign(command.Player));
+                | (g => g.Resign(command.Player))
+                | (g => Save(g));
 
         private static Result OptimisticLocking(Game dossier, Command command) =>
             dossier.Version == command.ExpectedVersion
