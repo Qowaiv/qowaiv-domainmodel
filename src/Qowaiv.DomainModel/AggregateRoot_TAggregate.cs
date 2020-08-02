@@ -1,5 +1,4 @@
 ﻿using Qowaiv.DomainModel.Dynamic;
-using Qowaiv.DomainModel.Validation;
 using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -51,18 +50,14 @@ namespace Qowaiv.DomainModel
         {
             Guard.HasAny(events, nameof(events));
 
-            var result = Result.For((TAggregate)this);
-
             lock (locker)
             {
                 foreach (var @event in events)
                 {
-                    result = result
-                        .Act(m => Validator.ValidateEvent(m, @event))
-                        .Act(m => Apply(m, @event));
+                    Dynamic.When(@event);
                 }
 
-                result = result.Act(m => Validator.Validate(m));
+                var result = Validator.Validate((TAggregate)this);
 
                 if (result.IsValid)
                 {
@@ -70,16 +65,6 @@ namespace Qowaiv.DomainModel
                 }
                 return result;
             }
-        }
-
-        /// <summary>Applies a single event in isolation.</summary>
-        /// <remarks>
-        /// This static method exists to support the <see cref="Result{TModel}.Act(Func{TModel, Result})"/> pattern.
-        /// </remarks>
-        private static Result Apply(TAggregate model, object @event)
-        {
-            model.Dynamic.When(@event);
-            return Result.OK;
         }
 
         /// <summary>Loads the state of the aggregate root by replaying events.</summary>
