@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Qowaiv.DomainModel.Validation
 {
-    /// <summary>Message to communicate that loading an aggregate failed due to concurrency issues.</summary>
+    /// <summary>Message to communicate concurrency control failed.</summary>
     [Serializable]
     public class ConcurrencyIssue : InvalidOperationException, IValidationMessage
     {
@@ -43,8 +43,6 @@ namespace Qowaiv.DomainModel.Validation
 
         /// <summary>Creates an <see cref="ConcurrencyIssue"/> for mid-air collision.</summary>
         public static ConcurrencyIssue MidAirCollision()
-        {
-            return new ConcurrencyIssue(QowaivDomainModelMessages.MidAirCollision);
-        }
+            => new ConcurrencyIssue(QowaivDomainModelMessages.MidAirCollision);
     }
 }
