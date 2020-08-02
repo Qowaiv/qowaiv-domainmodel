@@ -281,7 +281,7 @@ namespace Dice_specs
             var result = Dice.AutoAttack(attacker, defender, rnd);
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.AreEqual(new AttackResult(Player.P1.Army(10), Army.None), result);
+            Assert.AreEqual(new AttackResult(Player.P1.Army(9), Army.None), result);
         }
 
         [Test]
@@ -294,7 +294,7 @@ namespace Dice_specs
             var result = Dice.AutoAttack(attacker, defender, rnd);
 
             Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual(new AttackResult(Player.P1.Army(2), Player.P2.Army(6)), result);
+            Assert.AreEqual(new AttackResult(Player.P1.Army(3), Player.P2.Army(6)), result);
         }
     }
 }

@@ -6,60 +6,46 @@ namespace ConquerClub.Domain
     public static class Dice
     {
         /// <summary>Attack by rolling once.</summary>
-        public static AttackResult Attack(Army attacker, Army defender, IGenerator rnd)
-        {
-            int roll;
-            if (attacker >= 4)
-            {
-                roll = defender >= 2 ? Roll3v2(rnd) : Roll3v1(rnd);
-            }
-            else if (attacker == 3)
-            {
-                roll = defender >= 2 ? Roll2v2(rnd) : Roll2v1(rnd);
-            }
-            else if (attacker == 2)
-            {
-                roll = defender >= 2 ? Roll1v2(rnd) : Roll1v1(rnd);
-            }
-            else
-            {
-                return new AttackResult(attacker, defender);
-            }
-
-            switch (roll)
-            {
-                case +2: defender -= 2; break;
-                case +1: defender -= 1; break;
-                case -2: attacker -= 2; break;
-                case -1: attacker -= 1; break;
-                default:
-                    attacker -= 1;
-                    defender -= 1;
-                    break;
-            }
-            return new AttackResult(attacker, defender);
-        }
+        public static AttackResult Attack(Army attacker, Army defender, IGenerator rnd) =>
+            new AttackResult(attacker, defender).Roll(rnd);
 
         /// <summary>Attack will the attacker has at least 4 left and defender has not been defeated.</summary>
         public static AttackResult AutoAttack(Army attacker, Army defender, IGenerator rnd)
         {
-            while (attacker >= 4 && defender >= 1)
-            {
-                var roll = defender >= 2 ? Roll3v2(rnd) : Roll3v1(rnd);
+            var combat = new AttackResult(attacker, defender);
 
-                switch (roll)
-                {
-                    case +2: defender -= 2; break;
-                    case +1: defender -= 1; break;
-                    case -2: attacker -= 2; break;
-                    case -1: attacker -= 1; break;
-                    default:
-                        attacker -= 1;
-                        defender -= 1;
-                        break;
-                }
+            while (combat.Attacker >= 4 && combat.Defender >= 1)
+            {
+                combat = combat.Roll(rnd);
             }
-            return new AttackResult(attacker, defender);
+            return combat;
+        }
+
+        private static AttackResult Roll(this AttackResult combat, IGenerator rnd)
+        {
+            int roll;
+            if (combat.Attacker >= 4)
+            {
+                roll = combat.Defender >= 2 ? Roll3v2(rnd) : Roll3v1(rnd);
+            }
+            else if (combat.Attacker >= 3)
+            {
+                roll = combat.Defender >= 2 ? Roll2v2(rnd) : Roll2v1(rnd);
+            }
+            else if (combat.Attacker >= 2)
+            {
+                roll = combat.Defender >= 2 ? Roll1v2(rnd) : Roll1v1(rnd);
+            }
+            else return combat;
+
+            return roll switch
+            {
+                +2 => new AttackResult(combat.Attacker - 0, combat.Defender - 2),
+                +1 => new AttackResult(combat.Attacker - 0, combat.Defender - 1),
+                -2 => new AttackResult(combat.Attacker - 2, combat.Defender - 0),
+                -1 => new AttackResult(combat.Attacker - 1, combat.Defender - 0),
+                _ => new AttackResult(combat.Attacker - 1, combat.Defender - 1),
+            };
         }
 
         /// <remarks>+37,2% =33,6% -29,3% E: 54,0%</remarks>
