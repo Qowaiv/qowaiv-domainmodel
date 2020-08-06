@@ -32,7 +32,7 @@ namespace Qowaiv.DomainModel.Validation
         public string PropertyName => null;
 
         /// <summary>Creates an <see cref="ConcurrencyIssue"/> for the version mismatch.</summary>
-        public static ConcurrencyIssue VersionMismatch(int expectedVersion, int actualVersion)
+        public static ConcurrencyIssue VersionMismatch(long expectedVersion, long actualVersion)
         {
             return new ConcurrencyIssue(string.Format(
                 CultureInfo.CurrentCulture,
