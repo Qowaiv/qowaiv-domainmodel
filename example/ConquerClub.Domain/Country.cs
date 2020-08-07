@@ -27,9 +27,6 @@ namespace ConquerClub.Domain
         /// <summary>Gets the owner of the region.</summary>
         public Player Owner => Army.Owner;
 
-        /// <summary>True if the region is 'owned' by <see cref="Player.Neutral"/>.</summary>
-        public bool IsNeutal => Owner == Player.Neutral;
-
         /// <summary>Gets or sets the army occupying the region.</summary>
         public Army Army { get; internal set; }
 

@@ -13,7 +13,7 @@ namespace ConquerClub.Domain
 {
     public sealed partial class Game : AggregateRoot<Game, Id<ForGame>>
     {
-        public Game() : this(Id<ForGame>.Empty) { }
+        public Game() : this(Id<ForGame>.Next()) { }
 
         public Game(Id<ForGame> id) : base(id, new GameValidator()) { }
 
