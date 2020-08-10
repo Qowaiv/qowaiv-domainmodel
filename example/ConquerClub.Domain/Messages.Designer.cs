@@ -106,6 +106,24 @@ namespace ConquerClub.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to County {0} lacks an army to attack..
+        /// </summary>
+        internal static string MustHaveArmiesToAttack {
+            get {
+                return ResourceManager.GetString("MustHaveArmiesToAttack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country {0} must not be owned by {1}..
+        /// </summary>
+        internal static string MustNotBeOwnedBy {
+            get {
+                return ResourceManager.GetString("MustNotBeOwnedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action not be exucuted as it requires more armies ({1}) then available ({0})..
         /// </summary>
         internal static string MustNotExeedArmyBuffer {

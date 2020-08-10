@@ -26,9 +26,9 @@ namespace Game_specs
                         Bonus = 3,
                         Territories = new []
                         {
-                            Id<ForCountry>.Create(0),
-                            Id<ForCountry>.Create(1),
-                            Id<ForCountry>.Create(2),
+                            Netherlands,
+                            Belgium,
+                            Luxembourg,
                         }
                     },
                 },
@@ -37,17 +37,17 @@ namespace Game_specs
                     new Commands.Start.Country
                     {
                         Name = "Netherlands",
-                        Borders = new []{ Id<ForCountry>.Create(1) },
+                        Borders = new []{ Belgium },
                     },
                     new Commands.Start.Country
                     {
                         Name = "Belgium",
-                        Borders = new []{ Id<ForCountry>.Create(0), Id<ForCountry>.Create(2) },
+                        Borders = new []{ Netherlands, Luxembourg },
                     },
                     new Commands.Start.Country
                     {
                         Name = "Luxembourg",
-                        Borders = new []{ Id<ForCountry>.Create(1) },
+                        Borders = new []{ Belgium },
                     },
                 }
             };
@@ -74,7 +74,7 @@ namespace Game_specs
             var command = new Commands.Deploy
             {
                 Army = Player.P2.Army(3),
-                Country = Id<ForCountry>.Create(2),
+                Country = Luxembourg,
                 Game = GameId,
                 ExpectedVersion = 4,
             };
@@ -91,7 +91,7 @@ namespace Game_specs
             var command = new Commands.Deploy
             {
                 Army = Player.P1.Army(3),
-                Country = Id<ForCountry>.Create(2),
+                Country = Luxembourg,
                 Game = GameId,
                 ExpectedVersion = 4,
             };
@@ -106,22 +106,35 @@ namespace Game_specs
     public class Attack
     {
         [Test]
-        public void Can_only_be_applied_the_active_player()
+        public void Can_not_be_applied_on_not_owned_countries()
         {
             var command = new Commands.Attack
             {
-                Attacker = Id<ForCountry>.Create(1),
-                Defender = Id<ForCountry>.Create(2),
+                Attacker = Belgium,
+                Defender = Luxembourg,
                 Game = GameId,
                 ExpectedVersion = 4,
             };
 
-            var result = TestHandler(command, Benelux());
+            var result = TestHandler(command, Benelux().Deploy());
+            ValidationMessageAssert.WithErrors(result,
+                ValidationMessage.Error("Country Belgium must be owned by P1."));
+        }
 
-            Assert.Inconclusive();
+        [Test]
+        public void Can_not_be_applied_with_more_armies_then_availa()
+        {
+            var command = new Commands.Attack
+            {
+                Attacker = Belgium,
+                Defender = Luxembourg,
+                Game = GameId,
+                ExpectedVersion = 4,
+            };
 
-            //ValidationMessageAssert.WithErrors(result,
-            //    ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
+            var result = TestHandler(command, Benelux().Deploy());
+            ValidationMessageAssert.WithErrors(result,
+                ValidationMessage.Error("Country Belgium must be owned by P1."));
         }
     }
 }

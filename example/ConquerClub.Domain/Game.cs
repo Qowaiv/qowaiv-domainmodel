@@ -59,12 +59,12 @@ namespace ConquerClub.Domain
             IGenerator rnd) =>
 
             MustBeInPhase(GamePhase.Attack)
-            | (g => g.MustBeActivePlayer(Countries.ById(attacker).Owner))
             | (g => g.MustExist(attacker))
             | (g => g.MustExist(defender))
+            | (g => g.MustBeOwnedBy(Countries.ById(attacker), Active))
+            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), Active))
             | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
-            // attacker has more then 1 army.
-            // defender is not active player.
+            | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
             | (g => Attack(attacker, defender, Dice
                 .Attack(
                     Countries.ById(attacker).Army, 
@@ -75,14 +75,15 @@ namespace ConquerClub.Domain
             Id<ForCountry> attacker,
             Id<ForCountry> defender,
             IGenerator rnd) =>
+            
             MustBeInPhase(GamePhase.Attack)
-           | (g => g.MustExist(attacker))
-           | (g => g.MustExist(defender))
-           | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
-           | (g => g.MustBeActivePlayer(Countries.ById(attacker).Owner))
-           // attacker has more then 1 army.
-           // defender is not active player.
-           | (g => Attack(attacker, defender, Dice
+            | (g => g.MustExist(attacker))
+            | (g => g.MustExist(defender))
+            | (g => g.MustBeOwnedBy(Countries.ById(attacker), Active))
+            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), Active))
+            | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
+            | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
+            | (g => Attack(attacker, defender, Dice
                .AutoAttack(
                    Countries.ById(attacker).Army,
                    Countries.ById(defender).Army,
@@ -168,15 +169,13 @@ namespace ConquerClub.Domain
             Countries.ById(@event.Country).Army = @event.Army;
         }
 
-        internal void When(Activated @event)
+        internal void When(TurnStarted @event)
         {
-            Active = @event.Active;
-            var countries = Countries.Count(c => c.Owner == Active);
-            var deploy = (Math.Max(3, countries / 3));
-            deploy += Continents.Where(c => c.Owner == Active).Sum(c => c.Bonus);
-            ArmyBuffer = Active.Army(deploy);
+            Active = @event.Deployments.Owner;
+            ArmyBuffer = @event.Deployments;
             Phase = GamePhase.Deploy;
         }
+        
 
         internal void When(Deployed @event)
         {
@@ -265,7 +264,16 @@ namespace ConquerClub.Domain
                 continent.Countries = Countries.Where(c => c.Continent == continent).ToArray();
             }
         }
-
+        private TurnStarted StartTurn(Player player)
+        {
+            var countries = Countries.Count(c => c.Owner == player);
+            var deploy = (Math.Max(3, countries / 3));
+            deploy += Continents.Where(c => c.Owner == player).Sum(c => c.Bonus);
+            return new TurnStarted
+            {
+                Deployments = player.Army(deploy),
+            };
+        }
         public static Result<Game> Start(Start start, IGenerator rnd)
         {
             var game = new Game(start.Game);
@@ -296,14 +304,12 @@ namespace ConquerClub.Domain
             {
                 Armies = RndArmies(start.Players, start.Countries.Length, rnd).ToArray(),
             };
-            
-            var actived = new Activated { Active = Player.P1 };
-            
+
             return game.ApplyEvents(
                 map,
                 settings,
-                armies,
-                actived);
+                armies)
+            | (g => g.ApplyEvent(g.StartTurn(Player.P1)));
         }
 
         private static IEnumerable<Army> RndArmies(int players, int countries, IGenerator rnd)

@@ -19,10 +19,16 @@ namespace ConquerClub.Domain
         private Result<Game> MustBeActivePlayer(Player player)
             => Must.Be(this, player == Active, Messages.MustBeActive, Active, player);
 
+        private Result<Game> MustNotBeOwnedBy(Country country, Player owner)
+            => Must.NotBe(this, country.Owner == owner, Messages.MustNotBeOwnedBy, country.Name, owner);
+
         private Result<Game> MustNotExeedArmyBuffer(Army army)
             => Must.Be(this, army <= ArmyBuffer, Messages.MustNotExeedArmyBuffer, ArmyBuffer, army);
 
         private Result<Game> MustBeReachable(Country from, Country to)
             => Must.Be(this, from.Borders.Contains(to), Messages.MustBeReachable, from.Name, to.Name);
+
+        private Result<Game> MustHaveArmiesToAttack(Country attacker)
+            => Must.Be(this, attacker.Army > 1, Messages.MustHaveArmiesToAttack, attacker.Name);
     }
 }

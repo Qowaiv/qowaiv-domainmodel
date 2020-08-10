@@ -5,6 +5,7 @@ using ConquerClub.Domain.Handlers;
 using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
+using System.Data;
 using Troschuetz.Random.Generators;
 
 namespace ConquerClub.UnitTests
@@ -12,6 +13,9 @@ namespace ConquerClub.UnitTests
     internal static class Arrange
     {
         public static readonly Id<ForGame> GameId = Id<ForGame>.Parse("test_game");
+        public static readonly Id<ForCountry> Netherlands = Id<ForCountry>.Create(0);
+        public static readonly Id<ForCountry> Belgium = Id<ForCountry>.Create(1);
+        public static readonly Id<ForCountry> Luxembourg = Id<ForCountry>.Create(2);
 
         public static Result<Game> TestHandler(dynamic command, EventBuffer<Id<ForGame>> buffer = null)
         {
@@ -53,17 +57,17 @@ namespace ConquerClub.UnitTests
                     new MapInitialized.Country
                     {
                         Name = "Netherlands",
-                        Borders = new []{ Id<ForCountry>.Create(1) },
+                        Borders = new []{ Belgium },
                     },
                     new MapInitialized.Country
                     {
                         Name = "Belgium",
-                        Borders = new []{ Id<ForCountry>.Create(0), Id<ForCountry>.Create(2) },
+                        Borders = new []{ Netherlands, Luxembourg },
                     },
                     new MapInitialized.Country
                     {
                         Name = "Luxembourg",
-                        Borders = new []{ Id<ForCountry>.Create(1) },
+                        Borders = new []{ Belgium },
                     },
                 }
             })
@@ -76,7 +80,14 @@ namespace ConquerClub.UnitTests
                     Player.Neutral.Army(3),
                 }
             })
-            .Add(new Activated { Active = Player.P1, });
+            .Add(new TurnStarted { Deployments = Player.P1.Army(3) });
+
+        public static EventBuffer<Id<ForGame>> Deploy(this EventBuffer<Id<ForGame>> game) =>
+            game.Add(new Deployed
+            {
+                Army = Player.P1.Army(3),
+                Country = Netherlands,
+            });
 
         public static Game Load(this EventBuffer<Id<ForGame>> buffer) =>
             AggregateRoot.FromStorage<Game, Id<ForGame>>(buffer.MarkAllAsCommitted());

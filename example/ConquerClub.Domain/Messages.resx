@@ -132,6 +132,12 @@
   <data name="MustBeReachable" xml:space="preserve">
     <value>{1} can not be reached from {0}.</value>
   </data>
+  <data name="MustHaveArmiesToAttack" xml:space="preserve">
+    <value>County {0} lacks an army to attack.</value>
+  </data>
+  <data name="MustNotBeOwnedBy" xml:space="preserve">
+    <value>Country {0} must not be owned by {1}.</value>
+  </data>
   <data name="MustNotExeedArmyBuffer" xml:space="preserve">
     <value>Action not be exucuted as it requires more armies ({1}) then available ({0}).</value>
   </data>
