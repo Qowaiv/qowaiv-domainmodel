@@ -2,14 +2,14 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Qowaiv.DomainModel.Validation
+namespace ConquerClub.Domain.Validation
 {
     /// <summary>Message to communicate if a entity could not be found.</summary>
     [Serializable]
     public class EntityNotFound : InvalidOperationException, IValidationMessage
     {
         /// <summary>Initializes a new instance of the <see cref="EntityNotFound"/> class.</summary>
-        public EntityNotFound() : this(QowaivDomainModelMessages.EntityNotFound) { }
+        public EntityNotFound() : this(Messages.EntityNotFound) { }
 
         /// <summary>Initializes a new instance of the <see cref="EntityNotFound"/> class.</summary>
         public EntityNotFound(string message) : base(message) { }
@@ -28,6 +28,6 @@ namespace Qowaiv.DomainModel.Validation
 
         /// <summary>Creates an <see cref="EntityNotFound"/> for specific ID.</summary>
         public static EntityNotFound ForId(object id) =>
-            new EntityNotFound(string.Format(QowaivDomainModelMessages.EntityNotFound_ForId, id));
+            new EntityNotFound(string.Format(Messages.EntityNotFound_ForId, id));
     }
 }

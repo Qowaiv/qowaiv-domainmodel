@@ -1,5 +1,5 @@
 ﻿using ConquerClub.Domain.Commands;
-using Qowaiv.DomainModel.Validation;
+using ConquerClub.Domain.Validation;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
 using System;

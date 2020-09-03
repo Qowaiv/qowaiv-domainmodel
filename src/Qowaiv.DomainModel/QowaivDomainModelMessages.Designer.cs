@@ -61,56 +61,11 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A concurrency issues occured..
-        /// </summary>
-        public static string ConcurrencyIssue {
-            get {
-                return ResourceManager.GetString("ConcurrencyIssue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entity could not be found..
-        /// </summary>
-        public static string EntityNotFound {
-            get {
-                return ResourceManager.GetString("EntityNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entity with ID &apos;{0}&apos; could not be found..
-        /// </summary>
-        public static string EntityNotFound_ForId {
-            get {
-                return ResourceManager.GetString("EntityNotFound_ForId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The event of the type {0} is not supported for {1}..
         /// </summary>
         public static string EventTypeNotSupportedException {
             get {
                 return ResourceManager.GetString("EventTypeNotSupportedException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A mid-air collision occured while saving..
-        /// </summary>
-        public static string MidAirCollision {
-            get {
-                return ResourceManager.GetString("MidAirCollision", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected version {0}, but got version {1}..
-        /// </summary>
-        public static string VersionMismatch {
-            get {
-                return ResourceManager.GetString("VersionMismatch", resourceCulture);
             }
         }
     }

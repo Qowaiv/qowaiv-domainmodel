@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 using System.Runtime.Serialization;
 
-namespace Qowaiv.DomainModel.Validation
+namespace ConquerClub.Domain.Validation
 {
     /// <summary>Message to communicate concurrency control failed.</summary>
     [Serializable]
@@ -11,7 +11,7 @@ namespace Qowaiv.DomainModel.Validation
     {
         /// <summary>Initializes a new instance of the <see cref="ConcurrencyIssue"/> class.</summary>
         public ConcurrencyIssue()
-            : base(QowaivDomainModelMessages.ConcurrencyIssue) { }
+            : base(Messages.ConcurrencyIssue) { }
 
         /// <summary>Initializes a new instance of the <see cref="ConcurrencyIssue"/> class.</summary>
         protected ConcurrencyIssue(SerializationInfo info, StreamingContext context)
@@ -36,13 +36,13 @@ namespace Qowaiv.DomainModel.Validation
         {
             return new ConcurrencyIssue(string.Format(
                 CultureInfo.CurrentCulture,
-                QowaivDomainModelMessages.ConcurrencyIssue,
+                Messages.ConcurrencyIssue,
                 expectedVersion,
                 actualVersion));
         }
 
         /// <summary>Creates an <see cref="ConcurrencyIssue"/> for mid-air collision.</summary>
         public static ConcurrencyIssue MidAirCollision()
-            => new ConcurrencyIssue(QowaivDomainModelMessages.MidAirCollision);
+            => new ConcurrencyIssue(Messages.MidAirCollision);
     }
 }
