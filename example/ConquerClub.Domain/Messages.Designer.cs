@@ -115,7 +115,7 @@ namespace ConquerClub.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Action must be in {0} phase te be executed, not in {1} phase..
+        ///   Looks up a localized string similar to Action must be in the {0} phase to be executed, not in the {1} phase..
         /// </summary>
         internal static string MustBeInPhase {
             get {

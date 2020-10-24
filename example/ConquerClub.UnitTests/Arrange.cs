@@ -16,6 +16,7 @@ namespace ConquerClub.UnitTests
         public static readonly Id<ForCountry> Netherlands = Id<ForCountry>.Create(0);
         public static readonly Id<ForCountry> Belgium = Id<ForCountry>.Create(1);
         public static readonly Id<ForCountry> Luxembourg = Id<ForCountry>.Create(2);
+        public static readonly Id<ForCountry> Unknown = Id<ForCountry>.Create(666);
 
         public static Result<Game> TestHandler(dynamic command, EventBuffer<Id<ForGame>> buffer = null)
         {
@@ -30,6 +31,19 @@ namespace ConquerClub.UnitTests
         }
 
         public static EventBuffer<Id<ForGame>> Benelux(int roundLimit = 10) =>
+            BeneluxWithoutArmies(roundLimit)
+            .Add(new ArmiesInitialized
+            {
+                Armies = new[] 
+                { 
+                    Player.P1.Army(3),
+                    Player.P2.Army(3),
+                    Player.Neutral.Army(3),
+                }
+            })
+            .Add(new TurnStarted { Deployments = Player.P1.Army(3) });
+
+        public static EventBuffer<Id<ForGame>> BeneluxWithoutArmies(int roundLimit = 10) =>
             new EventBuffer<Id<ForGame>>(GameId)
             .Add(new SettingsInitialized
             {
@@ -70,17 +84,7 @@ namespace ConquerClub.UnitTests
                         Borders = new []{ Belgium },
                     },
                 }
-            })
-            .Add(new ArmiesInitialized
-            {
-                Armies = new[] 
-                { 
-                    Player.P1.Army(3),
-                    Player.P2.Army(3),
-                    Player.Neutral.Army(3),
-                }
-            })
-            .Add(new TurnStarted { Deployments = Player.P1.Army(3) });
+            });
 
         public static EventBuffer<Id<ForGame>> Deploy(this EventBuffer<Id<ForGame>> game) =>
             game.Add(new Deployed

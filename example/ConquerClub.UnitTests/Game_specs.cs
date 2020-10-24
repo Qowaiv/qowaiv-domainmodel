@@ -1,4 +1,5 @@
 ﻿using ConquerClub.Domain;
+using ConquerClub.Domain.Events;
 using NUnit.Framework;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
@@ -100,41 +101,6 @@ namespace Game_specs
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Country Luxembourg must be owned by P1."));
-        }
-    }
-
-    public class Attack
-    {
-        [Test]
-        public void Can_not_be_applied_on_not_owned_countries()
-        {
-            var command = new Commands.Attack
-            {
-                Attacker = Belgium,
-                Defender = Luxembourg,
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
-
-            var result = TestHandler(command, Benelux().Deploy());
-            ValidationMessageAssert.WithErrors(result,
-                ValidationMessage.Error("Country Belgium must be owned by P1."));
-        }
-
-        [Test]
-        public void Can_not_be_applied_with_more_armies_then_availa()
-        {
-            var command = new Commands.Attack
-            {
-                Attacker = Belgium,
-                Defender = Luxembourg,
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
-
-            var result = TestHandler(command, Benelux().Deploy());
-            ValidationMessageAssert.WithErrors(result,
-                ValidationMessage.Error("Country Belgium must be owned by P1."));
         }
     }
 }

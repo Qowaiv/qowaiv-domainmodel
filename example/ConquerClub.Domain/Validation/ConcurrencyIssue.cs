@@ -36,7 +36,7 @@ namespace ConquerClub.Domain.Validation
         {
             return new ConcurrencyIssue(string.Format(
                 CultureInfo.CurrentCulture,
-                Messages.ConcurrencyIssue,
+                Messages.VersionMismatch,
                 expectedVersion,
                 actualVersion));
         }

@@ -175,7 +175,6 @@ namespace ConquerClub.Domain
             ArmyBuffer = @event.Deployments;
             Phase = GamePhase.Deploy;
         }
-        
 
         internal void When(Deployed @event)
         {
