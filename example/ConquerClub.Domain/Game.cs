@@ -20,7 +20,7 @@ namespace ConquerClub.Domain
         public Settings Settings { get; private set; }
 
         public IReadOnlyList<Continent> Continents { get; private set; }
-        
+
         public IReadOnlyList<Country> Countries { get; private set; }
 
         /// <summary>Gets the current round.</summary>
@@ -30,7 +30,7 @@ namespace ConquerClub.Domain
         public GamePhase Phase { get; private set; }
 
         /// <summary>Gets or sets the active player.</summary>
-        public Player Active { get; private  set; }
+        public Player Active { get; private set; }
 
         /// <summary>Gets or sets the last from country.</summary>
         public Country From { get; private set; }
@@ -67,15 +67,15 @@ namespace ConquerClub.Domain
             | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
             | (g => Attack(attacker, defender, Dice
                 .Attack(
-                    Countries.ById(attacker).Army, 
-                    Countries.ById(defender).Army, 
+                    Countries.ById(attacker).Army,
+                    Countries.ById(defender).Army,
                     rnd)));
 
         public Result<Game> AutoAttack(
             Id<ForCountry> attacker,
             Id<ForCountry> defender,
             IGenerator rnd) =>
-            
+
             MustBeInPhase(GamePhase.Attack)
             | (g => g.MustExist(attacker))
             | (g => g.MustExist(defender))
@@ -126,7 +126,8 @@ namespace ConquerClub.Domain
             }));
 
         public Result<Game> Resign(Player player) =>
-            ApplyEvent(new Resigned { Player = player });
+            MusHaveCountry(player)
+            | (g => g.ApplyEvent(new Resigned { Player = player }));
 
         internal void When(MapInitialized @event)
         {
@@ -150,13 +151,13 @@ namespace ConquerClub.Domain
                 roundLimit: @event.RoundLimit,
                 fogOfWar: @event.FogOfWar);
         }
-        
+
         internal void When(ArmiesInitialized @event)
         {
-            foreach(var data in @event.Armies.Select((army, index) => new 
+            foreach (var data in @event.Armies.Select((army, index) => new
             {
-                Army = army, 
-                Id = Id<ForCountry>.Create(index) 
+                Army = army,
+                Id = Id<ForCountry>.Create(index)
             }))
             {
                 Countries.ById(data.Id).Army = data.Army;
@@ -206,7 +207,7 @@ namespace ConquerClub.Domain
         {
             From.Army += ArmyBuffer - @event.To;
             To.Army += @event.To;
-            
+
             ArmyBuffer = Army.None;
             From = null;
             To = null;
@@ -239,6 +240,7 @@ namespace ConquerClub.Domain
                 country.Borders = data.Borders.Select(id => Countries.ById(id)).ToArray();
             }
         }
+
         private void LinkContinentToCounties(MapInitialized.Continent[] continents)
         {
             foreach (var data in continents.Select((c, id) => new
@@ -256,6 +258,7 @@ namespace ConquerClub.Domain
                 }
             }
         }
+
         private void LinkCountriesToContent()
         {
             foreach (var continent in Continents)
@@ -263,6 +266,7 @@ namespace ConquerClub.Domain
                 continent.Countries = Countries.Where(c => c.Continent == continent).ToArray();
             }
         }
+
         private TurnStarted StartTurn(Player player)
         {
             var countries = Countries.Count(c => c.Owner == player);
@@ -319,7 +323,7 @@ namespace ConquerClub.Domain
                 .Range(0, countries)
                 .Select(index =>
                 {
-                    var id = 1+ (index / perCountry);
+                    var id = 1 + (index / perCountry);
                     return id == 3 && players == 2 || id > players
                         ? 0
                         : id;

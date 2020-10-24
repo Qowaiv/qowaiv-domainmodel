@@ -8,7 +8,7 @@ using Commands = ConquerClub.Domain.Commands;
 
 namespace Game_specs
 {
-    public class An_auto_attack_can_not_be_applied_when_the
+    public class Auto_attack_can_not_be_applied_when_the
     {
         [Test]
         public void current_phase_is_not_attack()
@@ -140,7 +140,7 @@ namespace Game_specs
                 ValidationMessage.Error("County Luxembourg lacks an army to attack."));
         }
     }
-    public class An_auto_attack_can_only_be_applied_when
+    public class Auto_attack_can_only_be_applied_when
     {
         [Test]
         public void none_of_the_guards_fail()

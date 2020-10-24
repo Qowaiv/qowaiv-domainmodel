@@ -1,11 +1,9 @@
 ﻿using ConquerClub.Domain;
-using ConquerClub.Domain.Commands;
 using ConquerClub.Domain.Events;
 using ConquerClub.Domain.Handlers;
 using Qowaiv.DomainModel;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
-using System.Data;
 using Troschuetz.Random.Generators;
 
 namespace ConquerClub.UnitTests
@@ -24,6 +22,8 @@ namespace ConquerClub.UnitTests
             var handler = new TestHandler(buffer, 17);
             dynamic dyn = (dynamic)handler;
             Result result = dyn.Handle(command);
+
+
 
             return result.IsValid
                 ? Result.For(handler.Buffer.Load(), result.Messages)

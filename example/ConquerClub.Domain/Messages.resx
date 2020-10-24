@@ -132,6 +132,9 @@
   <data name="MidAirCollision" xml:space="preserve">
     <value>A mid-air collision occured while saving.</value>
   </data>
+  <data name="MusHaveCountry" xml:space="preserve">
+    <value>Player {0} does not have any country.</value>
+  </data>
   <data name="MustBeActive" xml:space="preserve">
     <value>Action can only be applied by the active {0}, not by {1}.</value>
   </data>

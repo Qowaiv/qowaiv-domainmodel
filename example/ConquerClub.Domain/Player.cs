@@ -15,8 +15,11 @@ namespace ConquerClub.Domain
         /// <summary>Gets player P1.</summary>
         public static readonly Player P1 = new Player(1);
 
-        /// <summary>Gets player P1.</summary>
+        /// <summary>Gets player P2.</summary>
         public static readonly Player P2 = new Player(2);
+
+        /// <summary>Gets player P3.</summary>
+        public static readonly Player P3 = new Player(3);
 
         /// <summary>Creates a new instance of the <see cref="Player"/> struct.</summary>
         public Player(byte id) => Id = id;

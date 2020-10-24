@@ -1,16 +1,14 @@
 ﻿using ConquerClub.Domain;
 using ConquerClub.Domain.Events;
 using NUnit.Framework;
-using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
-using System.Linq;
 using static ConquerClub.UnitTests.Arrange;
 using Commands = ConquerClub.Domain.Commands;
 
 namespace Game_specs
 {
-    public class An_attack_can_not_be_applied_when_the
+    public class Attack_can_not_be_applied_when_the
     {
         [Test]
         public void current_phase_is_not_attack()
@@ -142,7 +140,7 @@ namespace Game_specs
                 ValidationMessage.Error("County Luxembourg lacks an army to attack."));
         }
     }
-    public class An_attack_can_only_be_applied_when
+    public class Attack_can_only_be_applied_when
     {
         [Test]
         public void none_of_the_guards_fail()
