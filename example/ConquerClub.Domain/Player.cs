@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace ConquerClub.Domain
 {
     /// <summary>Represents a player identifier.</summary>
-    public readonly struct Player : IEquatable<Player>
+    public readonly struct Player : IEquatable<Player>, IComparable<Player>
     {
         /// <summary>Represents the neutral <see cref="Player"/>.</summary>
         public static readonly Player Neutral;
@@ -37,6 +37,9 @@ namespace ConquerClub.Domain
 
         /// <inheritdoc/>
         public bool Equals(Player other) => Id == other.Id;
+
+        /// <inheritdoc/>
+        public int CompareTo(Player other) => Id.CompareTo(other.Id);
 
         /// <inheritdoc/>
         public override int GetHashCode() => Id;

@@ -76,7 +76,7 @@ namespace ConquerClub.Domain.Handlers
         public Result Handle(Resign command)
             => Load(command.Game)
                 | (g => OptimisticLocking(g, command))
-                | (g => g.Resign(command.Player))
+                | (g => g.Resign())
                 | (g => Save(g));
 
         private static Result OptimisticLocking(Game dossier, Command command) =>

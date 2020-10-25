@@ -36,9 +36,13 @@ namespace ConquerClub.Domain
 
     public static class CountryExtensions
     {
-        public static Country ById(this IEnumerable<Country> continents, Id<ForCountry> id)
-        {
-            return continents.FirstOrDefault(c => c.Id == id);
-        }
+        public static Country ById(this IEnumerable<Country> countries, Id<ForCountry> id)
+            => countries.FirstOrDefault(c => c.Id == id);
+
+        public static IEnumerable<Player> ActivePlayers(this IEnumerable<Country> countries)
+            => countries.Select(c => c.Owner)
+            .Distinct()
+            .Where(p => p != Player.Neutral)
+            .OrderBy(p => p);
     }
 }

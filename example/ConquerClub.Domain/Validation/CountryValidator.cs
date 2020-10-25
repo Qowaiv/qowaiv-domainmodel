@@ -8,6 +8,7 @@ namespace ConquerClub.Domain.Validation
         public CountryValidator()
         {
             RuleFor(c => c.Army).NotEmpty();
+            RuleFor(c => c.Owner).NotUnknown();
         }
     }
 }

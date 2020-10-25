@@ -23,8 +23,6 @@ namespace ConquerClub.UnitTests
             dynamic dyn = (dynamic)handler;
             Result result = dyn.Handle(command);
 
-
-
             return result.IsValid
                 ? Result.For(handler.Buffer.Load(), result.Messages)
                 : Result.WithMessages<Game>(result.Messages);

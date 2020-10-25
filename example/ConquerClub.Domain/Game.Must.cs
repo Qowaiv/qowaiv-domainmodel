@@ -18,7 +18,7 @@ namespace ConquerClub.Domain
             => Must.Be(this, country.Owner == owner, Messages.MustBeOwnedBy, country.Name, owner);
 
         private Result<Game> MustBeActivePlayer(Player player)
-            => Must.Be(this, player == Active, Messages.MustBeActive, Active, player);
+            => Must.Be(this, player == ActivePlayer, Messages.MustBeActive, ActivePlayer, player);
 
         private Result<Game> MustNotBeOwnedBy(Country country, Player owner)
             => Must.NotBe(this, country.Owner == owner, Messages.MustNotBeOwnedBy, country.Name, owner);

@@ -13,7 +13,10 @@
         /// <summary>The advance phase.</summary>
         Advance,
 
-        /// <summary>The reinforce phase.</summary>
+        /// <summary>The game has been finished.</summary>
         Reinforce,
+
+        /// <summary>The reinforce phase.</summary>
+        Finished,
     }
 }

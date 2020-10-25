@@ -29,8 +29,20 @@ namespace ConquerClub.Domain
         /// <summary>Gets the phase the round is in.</summary>
         public GamePhase Phase { get; private set; }
 
+        public IEnumerable<Player> ActivePlayers => Countries.ActivePlayers();
+
         /// <summary>Gets or sets the active player.</summary>
-        public Player Active { get; private set; }
+        public Player ActivePlayer { get; private set; }
+
+        public Player NextPlayer
+        {
+            get
+            {
+                var players = ActivePlayers.ToList();
+                var active = players.IndexOf(ActivePlayer);
+                return players[(active + 1) % players.Count];
+            }
+        }
 
         /// <summary>Gets or sets the last from country.</summary>
         public Country From { get; private set; }
@@ -61,8 +73,8 @@ namespace ConquerClub.Domain
             MustBeInPhase(GamePhase.Attack)
             | (g => g.MustExist(attacker))
             | (g => g.MustExist(defender))
-            | (g => g.MustBeOwnedBy(Countries.ById(attacker), Active))
-            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), Active))
+            | (g => g.MustBeOwnedBy(Countries.ById(attacker), ActivePlayer))
+            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), ActivePlayer))
             | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
             | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
             | (g => Attack(attacker, defender, Dice
@@ -79,8 +91,8 @@ namespace ConquerClub.Domain
             MustBeInPhase(GamePhase.Attack)
             | (g => g.MustExist(attacker))
             | (g => g.MustExist(defender))
-            | (g => g.MustBeOwnedBy(Countries.ById(attacker), Active))
-            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), Active))
+            | (g => g.MustBeOwnedBy(Countries.ById(attacker), ActivePlayer))
+            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), ActivePlayer))
             | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
             | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
             | (g => Attack(attacker, defender, Dice
@@ -125,9 +137,12 @@ namespace ConquerClub.Domain
                 Army = army,
             }));
 
-        public Result<Game> Resign(Player player) =>
-            MusHaveCountry(player)
-            | (g => g.ApplyEvent(new Resigned { Player = player }));
+        public Result<Game> Resign() =>
+            ApplyEvents(
+                new Resigned { Player = ActivePlayer },
+                Countries.ActivePlayers().Count() == 2
+                ? (object)new Finished()
+                : StartTurn(NextPlayer));
 
         internal void When(MapInitialized @event)
         {
@@ -172,7 +187,7 @@ namespace ConquerClub.Domain
 
         internal void When(TurnStarted @event)
         {
-            Active = @event.Deployments.Owner;
+            ActivePlayer = @event.Deployments.Owner;
             ArmyBuffer = @event.Deployments;
             Phase = GamePhase.Deploy;
         }
@@ -226,6 +241,11 @@ namespace ConquerClub.Domain
             {
                 region.Army = Player.Neutral.Army(region.Army.Size);
             }
+        }
+
+        internal void When(Finished @event)
+        {
+            Phase = GamePhase.Finished;
         }
 
         private void LinkCountriesToCountries(MapInitialized.Country[] countries)
