@@ -13,7 +13,7 @@ namespace Game_specs
     public class Start_Game
     {
         [Test]
-        public void With_two_players_includes_thrid_neutral_player()
+        public void With_two_players_includes_third_neutral_player()
         {
             var command = new Commands.Start
             {
