@@ -35,50 +35,39 @@ namespace ConquerClub.Domain.Handlers
                 | (g => Save(g));
 
         public Result Handle(Deploy command)
-            => Load(command.Game)
-                | (g => OptimisticLocking(g, command))
-                | (g => g.Deploy(
-                    command.Country,
-                    command.Army))
-                | (g => Save(g));
+             => ExcuteAndSave(command, g => g.Deploy(
+                command.Country,
+                command.Army));
 
         public Result Handle(AutoAttack command)
-            => Load(command.Game)
-                | (g => OptimisticLocking(g, command))
-                | (g => g.AutoAttack(
-                    command.Attacker,
-                    command.Defender,
-                    Rnd))
-                | (g => Save(g));
+            => ExcuteAndSave(command, g => g.AutoAttack(
+                command.Attacker,
+                command.Defender,
+                Rnd));
 
         public Result Handle(Attack command)
-            => Load(command.Game)
-                | (g => g.Attack(
-                    command.Attacker,
-                    command.Defender,
-                    Rnd))
-                | (g => Save(g));
+            => ExcuteAndSave(command, g => g.Attack(
+                command.Attacker,
+                command.Defender,
+                Rnd));
 
         public Result Handle(Advance command)
-            => Load(command.Game)
-                | (g => OptimisticLocking(g, command))
-                | (g => g.Advance(command.To))
-                | (g => Save(g));
+            => ExcuteAndSave(command, g => g.Advance(command.To));
 
         public Result Handle(Reinforce command)
-            => Load(command.Game)
-                | (g => OptimisticLocking(g, command))
-                | (g => g.Reinforce(
-                    command.From,
-                    command.To,
-                    command.Army))
-                | (g => Save(g));
+            => ExcuteAndSave(command, g => g.Reinforce(
+                command.From,
+                command.To,
+                command.Army));
 
         public Result Handle(Resign command)
+            => ExcuteAndSave(command, g => g.Resign());
+
+        private Result ExcuteAndSave<TCommand>(TCommand command, Func<Game, Result<Game>> act) where TCommand : Command
             => Load(command.Game)
-                | (g => OptimisticLocking(g, command))
-                | (g => g.Resign())
-                | (g => Save(g));
+            | (g => OptimisticLocking(g, command))
+            | (g => act(g))
+            | (g => Save(g));
 
         private static Result OptimisticLocking(Game dossier, Command command) =>
             dossier.Version == command.ExpectedVersion
