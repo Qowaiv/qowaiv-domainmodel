@@ -48,7 +48,8 @@ namespace ConquerClub.Domain.Handlers
                 | (g => g.AutoAttack(
                     command.Attacker,
                     command.Defender,
-                    Rnd));
+                    Rnd))
+                | (g => Save(g));
 
         public Result Handle(Attack command)
             => Load(command.Game)
