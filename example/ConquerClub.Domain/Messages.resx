@@ -154,7 +154,7 @@
     <value>Country {0} must not be owned by {1}.</value>
   </data>
   <data name="MustNotExeedArmyBuffer" xml:space="preserve">
-    <value>Action not be exucuted as it requires more armies ({1}) then available ({0}).</value>
+    <value>Action not be executed as it requires more armies ({1}) then available ({0}).</value>
   </data>
   <data name="VersionMismatch" xml:space="preserve">
     <value>Expected version {0}, but got version {1}.</value>

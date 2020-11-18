@@ -53,7 +53,7 @@ namespace Game_specs
                 }
             };
 
-            var result = TestHandler(command);
+            var result = Handle(command);
 
             ValidationMessageAssert.IsValid(result);
 
@@ -80,7 +80,7 @@ namespace Game_specs
                 ExpectedVersion = 4,
             };
 
-            var result = TestHandler(command, Benelux());
+            var result = Handle(command, Benelux());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
@@ -97,7 +97,7 @@ namespace Game_specs
                 ExpectedVersion = 4,
             };
 
-            var result = TestHandler(command, Benelux());
+            var result = Handle(command, Benelux());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Country Luxembourg must be owned by P1."));

@@ -17,7 +17,7 @@ namespace Game_specs
                 ExpectedVersion = 4,
             };
 
-            var result = TestHandler(command, BeneluxWithoutArmies()
+            var result = Handle(command, BeneluxWithoutArmies()
                 .Add(new ArmiesInitialized
                 {
                     Armies = new[]
@@ -44,7 +44,7 @@ namespace Game_specs
                 ExpectedVersion = 4,
             };
 
-            var result = TestHandler(command, Benelux());
+            var result = Handle(command, Benelux());
 
             ValidationMessageAssert.IsValid(result);
             Assert.AreEqual(GamePhase.Finished, result.Value.Phase);

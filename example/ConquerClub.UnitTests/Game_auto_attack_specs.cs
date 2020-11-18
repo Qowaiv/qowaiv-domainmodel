@@ -21,7 +21,7 @@ namespace Game_specs
                 ExpectedVersion = 4,
             };
 
-            var result = TestHandler(command, Benelux());
+            var result = Handle(command, Benelux());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Action must be in the Attack phase to be executed, not in the Deploy phase."));
@@ -38,7 +38,7 @@ namespace Game_specs
                 ExpectedVersion = 5,
             };
 
-            var result = TestHandler(command, Benelux().Deploy());
+            var result = Handle(command, Benelux().Deploy());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Country with id 666 does not exist."));
@@ -55,7 +55,7 @@ namespace Game_specs
                 ExpectedVersion = 5,
             };
 
-            var result = TestHandler(command, Benelux().Deploy());
+            var result = Handle(command, Benelux().Deploy());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Country with id 666 does not exist."));
@@ -72,7 +72,7 @@ namespace Game_specs
                 ExpectedVersion = 5,
             };
 
-            var result = TestHandler(command, Benelux().Deploy());
+            var result = Handle(command, Benelux().Deploy());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Country Belgium must be owned by P1."));
@@ -89,7 +89,7 @@ namespace Game_specs
                 ExpectedVersion = 5,
             };
 
-            var result = TestHandler(command, Benelux().Deploy());
+            var result = Handle(command, Benelux().Deploy());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Country Netherlands must not be owned by P1."));
@@ -106,7 +106,7 @@ namespace Game_specs
                 ExpectedVersion = 5,
             };
 
-            var result = TestHandler(command, Benelux().Deploy());
+            var result = Handle(command, Benelux().Deploy());
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Luxembourg can not be reached from Netherlands."));
@@ -123,7 +123,7 @@ namespace Game_specs
                 ExpectedVersion = 5,
             };
 
-            var result = TestHandler(command, BeneluxWithoutArmies()
+            var result = Handle(command, BeneluxWithoutArmies()
                 .Add(new ArmiesInitialized
                 {
                     Armies = new[]
@@ -153,7 +153,7 @@ namespace Game_specs
                 ExpectedVersion = 5,
             };
 
-            var result = TestHandler(command, Benelux().Deploy());
+            var result = Handle(command, Benelux().Deploy());
 
             ValidationMessageAssert.IsValid(result);
         }

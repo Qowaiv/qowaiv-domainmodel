@@ -32,7 +32,7 @@ namespace ConquerClub.Domain
         public IEnumerable<Player> ActivePlayers => Countries.ActivePlayers();
 
         /// <summary>Gets or sets the active player.</summary>
-        public Player ActivePlayer { get; private set; }
+        public Player ActivePlayer { get; private set; } = Player.P1;
 
         public Player NextPlayer
         {

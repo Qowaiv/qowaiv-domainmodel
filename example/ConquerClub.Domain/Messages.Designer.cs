@@ -169,7 +169,7 @@ namespace ConquerClub.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Action not be exucuted as it requires more armies ({1}) then available ({0})..
+        ///   Looks up a localized string similar to Action not be executed as it requires more armies ({1}) then available ({0})..
         /// </summary>
         internal static string MustNotExeedArmyBuffer {
             get {

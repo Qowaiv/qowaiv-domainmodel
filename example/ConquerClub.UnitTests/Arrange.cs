@@ -16,7 +16,7 @@ namespace ConquerClub.UnitTests
         public static readonly Id<ForCountry> Luxembourg = Id<ForCountry>.Create(2);
         public static readonly Id<ForCountry> Unknown = Id<ForCountry>.Create(666);
 
-        public static Result<Game> TestHandler(dynamic command, EventBuffer<Id<ForGame>> buffer = null)
+        public static Result<Game> Handle(dynamic command, EventBuffer<Id<ForGame>> buffer = null)
         {
             buffer ??= new EventBuffer<Id<ForGame>>(GameId);
             var handler = new TestHandler(buffer, 17);

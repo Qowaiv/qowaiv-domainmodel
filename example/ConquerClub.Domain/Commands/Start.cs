@@ -4,7 +4,6 @@ namespace ConquerClub.Domain.Commands
 {
     public class Start : Command
     {
-        public string Title { get; set; }
         public Country[] Countries { get; set; }
         public Continent[] Continents { get; set; }
         public int RoundLimit { get; set; }
