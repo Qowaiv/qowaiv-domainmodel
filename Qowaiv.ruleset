@@ -100,6 +100,7 @@
     <Rule Id="S3257" Action="Warning" />
     <Rule Id="S3353" Action="Warning" />
     <Rule Id="S3366" Action="Warning" />
+    <Rule Id="S3376" Action="None" />
     <Rule Id="S3431" Action="Warning" />
     <Rule Id="S3532" Action="Warning" />
     <Rule Id="S3693" Action="Warning" />
