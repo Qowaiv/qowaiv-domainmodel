@@ -27,9 +27,7 @@ namespace Qowaiv.DomainModel.Dynamic
     {
         /// <summary>Initializes a new instance of the <see cref="DynamicEventDispatcher{TDispatcher}"/> class..</summary>
         public DynamicEventDispatcher(TDispatcher dispatcher)
-        {
-            this.dispatcher = Guard.NotNull(dispatcher, nameof(dispatcher));
-        }
+            => this.dispatcher = Guard.NotNull(dispatcher, nameof(dispatcher));
 
         private readonly TDispatcher dispatcher;
 
@@ -38,26 +36,22 @@ namespace Qowaiv.DomainModel.Dynamic
         /// If the invoke call was on (void) When(@event) but the type was not available.
         /// </exception>
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            if (binder?.Name == nameof(When) && args?.Length == 1)
-            {
-                result = When(args[0]);
-                return true;
-            }
-            return base.TryInvokeMember(binder, args, out result);
-        }
+            => binder?.Name == nameof(When) && args?.Length == 1 && args[0] is not null
+            ? When(args[0], out result)
+            : base.TryInvokeMember(binder, args, out result);
 
         /// <summary>Gets the supported event types.</summary>
         public IReadOnlyCollection<Type> SupportedEventTypes => Lookup.Keys;
 
         /// <summary>Invokes the When(@event) method.</summary>
-        private object When(object @event)
+        private bool When(object @event, out object result)
         {
             var eventType = @event.GetType();
             if (Lookup.TryGetValue(eventType, out var when))
             {
+                result = null;
                 when(dispatcher, @event);
-                return null;
+                return true;
             }
             throw new EventTypeNotSupportedException(eventType, typeof(TDispatcher));
         }
