@@ -69,6 +69,7 @@
     <Rule Id="CA2242" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
+    <Rule Id="S101" Action="None" />
     <Rule Id="S105" Action="Warning" />
     <Rule Id="S106" Action="Warning" />
     <Rule Id="S107" Action="Info" />
@@ -99,6 +100,7 @@
     <Rule Id="S3257" Action="Warning" />
     <Rule Id="S3353" Action="Warning" />
     <Rule Id="S3366" Action="Warning" />
+    <Rule Id="S3376" Action="None" />
     <Rule Id="S3431" Action="Warning" />
     <Rule Id="S3532" Action="Warning" />
     <Rule Id="S3693" Action="Warning" />
@@ -149,8 +151,16 @@
     <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1201" Action="None" />
     <Rule Id="SA1202" Action="None" />
+    <Rule Id="SA1204" Action="None" />
     <Rule Id="SA1208" Action="None" />
-    <Rule Id="SA1649" Action="None" />
+    <Rule Id="SA1310" Action="None" />
+    <Rule Id="SA1402" Action="None" />
+    <Rule Id="SA1502" Action="None" />
+    <Rule Id="SA1512" Action="None" />
+    <Rule Id="SA1513" Action="None" />
+    <Rule Id="SA1515" Action="None" />
+    <Rule Id="SA1611" Action="None" />
+    <Rule Id="SA1615" Action="None" />
     <Rule Id="SA1623" Action="None" />
     <Rule Id="SA1633" Action="None" />
     <Rule Id="SA1634" Action="None" />
@@ -158,17 +168,8 @@
     <Rule Id="SA1636" Action="None" />
     <Rule Id="SA1637" Action="None" />
     <Rule Id="SA1638" Action="None" />
-    <Rule Id="SA1639" Action="None" />
     <Rule Id="SA1640" Action="None" />
     <Rule Id="SA1641" Action="None" />
-    <Rule Id="SA1615" Action="None" />
-    <Rule Id="SA1515" Action="None" />
-    <Rule Id="SA1513" Action="None" />
-    <Rule Id="SA1512" Action="None" />
-    <Rule Id="SA1502" Action="None" />
-    <Rule Id="SA1402" Action="None" />
-    <Rule Id="SA1611" Action="None" />
-    <Rule Id="SA1310" Action="None" />
-    <Rule Id="SA1204" Action="None" />
+    <Rule Id="SA1649" Action="None" />
   </Rules>
 </RuleSet>
