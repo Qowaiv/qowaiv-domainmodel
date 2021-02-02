@@ -5,12 +5,12 @@ using System;
 
 namespace Dynamic_event_dispatcher_specs
 {
-    public class Support_when_mehods
+    public class Support_when_methods
     {
         [Test]
-        public void With_single_argument() => AssertEventTypes<WhenWithSingleArgument>();
+        public void With_single_argument() => AssertEventTypes<WhenWithReturnStatement>();
         [Test]
-        public void With_return_statement() => AssertEventTypes<WhenWithSingleArgument>();
+        public void With_return_statement() => AssertEventTypes<WhenWithReturnStatement>();
         [Test]
         public void Non_public_methods()
         {
