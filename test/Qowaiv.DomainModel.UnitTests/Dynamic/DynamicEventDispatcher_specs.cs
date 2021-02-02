@@ -8,7 +8,7 @@ namespace Dynamic_event_dispatcher_specs
     public class Support_when_methods
     {
         [Test]
-        public void With_single_argument() => AssertEventTypes<WhenWithReturnStatement>();
+        public void With_single_argument() => AssertEventTypes<WhenWithSingleArgument>();
         [Test]
         public void With_return_statement() => AssertEventTypes<WhenWithReturnStatement>();
         [Test]
