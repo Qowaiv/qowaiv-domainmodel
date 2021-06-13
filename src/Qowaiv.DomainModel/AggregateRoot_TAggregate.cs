@@ -43,7 +43,7 @@ namespace Qowaiv.DomainModel
         /// This method is only called if after applying the events, the aggregate
         /// is still valid.
         /// </remarks>
-        protected abstract void AddEventsToBuffer(params object[] events);
+        protected abstract void AddEventsToBuffer(IEnumerable<object> events);
 
         /// <summary>Applies a single event.</summary>
         protected Result<TAggregate> ApplyEvent(object @event) => ApplyEvents(@event);
