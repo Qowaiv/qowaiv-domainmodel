@@ -72,10 +72,10 @@ namespace EventCollection_specs
         }
     }
 
-    public class When_not_true
+    public class If_not_true
     {
         [Test]
-        public void Addition_is_not_excecuted()
+        public void Then_not_excecuted()
         {
             var events = EventCollection.Empty
                 .If(Help.NotTrue)
@@ -85,7 +85,7 @@ namespace EventCollection_specs
         }
 
         [Test]
-        public void Else_is_increases_size()
+        public void Else_increases_size()
         {
             var events = EventCollection.Empty
                 .If(Help.NotTrue)
@@ -96,10 +96,10 @@ namespace EventCollection_specs
         }
     }
 
-    public class When_false
+    public class If_false
     {
         [Test]
-        public void Addition_is_not_excecuted()
+        public void Then_not_excecuted()
         {
             var events = EventCollection.Empty
                 .If(false)
@@ -109,7 +109,7 @@ namespace EventCollection_specs
         }
 
         [Test]
-        public void Else_is_increases_size()
+        public void Then_increases_size()
         {
             var events = EventCollection.Empty
                 .If(false)
@@ -120,10 +120,10 @@ namespace EventCollection_specs
         }
     }
 
-    public class When_true
+    public class If_true
     {
         [Test]
-        public void Addition_increases_size()
+        public void Then_increases_size()
         {
             var events = EventCollection.Empty
                 .If(true)
@@ -133,7 +133,7 @@ namespace EventCollection_specs
         }
 
         [Test]
-        public void Else_is_not_executed()
+        public void Else_not_executed()
         {
             var events = EventCollection.Empty
                 .If(true)
