@@ -21,7 +21,7 @@ namespace Qowaiv.DomainModel.Events
 
             /// <inheritdoc />
             protected override IEnumerable<object> Enumerate()
-                => base.Enumerate().Concat(Events.Cast<object>().Where(e => e is { }));
+                => base.Enumerate().Append(Events);
         }
     }
 }

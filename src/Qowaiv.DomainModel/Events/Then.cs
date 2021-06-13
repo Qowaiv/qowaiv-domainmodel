@@ -40,7 +40,7 @@ namespace Qowaiv.DomainModel.Events
         /// <inheritdoc />
         protected override IEnumerable<object> Enumerate()
             => Predecessor
-            ? base.Enumerate().Concat(Enumerable.Repeat(Event(), 1))
+            ? base.Enumerate().Append(Event())
             : base.Enumerate();
     }
 }
