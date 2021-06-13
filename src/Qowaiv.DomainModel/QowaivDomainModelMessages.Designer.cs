@@ -61,6 +61,15 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Events represented by a string ar not allowed..
+        /// </summary>
+        public static string ArgumentException_StringNotAnEvent {
+            get {
+                return ResourceManager.GetString("ArgumentException_StringNotAnEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The event of the type {0} is not supported for {1}..
         /// </summary>
         public static string EventTypeNotSupportedException {
