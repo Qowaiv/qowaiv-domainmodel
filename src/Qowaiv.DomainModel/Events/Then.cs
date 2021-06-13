@@ -32,7 +32,7 @@ namespace Qowaiv.DomainModel.Events
         /// <typeparam name="TElseEvent">
         /// The type of the event to add.
         /// </typeparam>
-        internal EventCollection Else<TElseEvent>(Func<TElseEvent> @event) where TElseEvent : class
+        public EventCollection Else<TElseEvent>(Func<TElseEvent> @event) where TElseEvent : class
             => Predecessor
             ? Predecessor.Add(Event())
             : Predecessor.Add(@event());

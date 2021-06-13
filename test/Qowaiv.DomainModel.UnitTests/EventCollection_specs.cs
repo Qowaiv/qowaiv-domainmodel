@@ -1,10 +1,17 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel;
+using Qowaiv.DomainModel.Events;
 using System;
-using System.Linq;
 
 namespace EventCollection_specs
 {
+    internal static class Help
+    {
+        public static readonly bool? NotTrue;
+        public static Dummy FailingCreation() => throw new DivideByZeroException();
+    }
+    internal class Dummy { }
+    internal class Other { }
+
     public class Empty_collection
     {
         [Test]
@@ -18,103 +25,122 @@ namespace EventCollection_specs
         {
             Assert.That(EventCollection.Empty, Is.EquivalentTo(Array.Empty<object>()));
         }
-    
+
         [Test]
-        public void When_not_true_keeps_size_of_0()
+        public void Add_event_increases_the_size()
         {
-            Assert.That(EventCollection.Empty.When(false), Has.Count.EqualTo(0));
+            Assert.That(EventCollection.Empty.Add(new Dummy()), Has.Count.EqualTo(1));
         }
     }
+
+    public class Non_empty_collection
+    {
+        [Test]
+        public void Add_event_increases_the_size()
+        {
+            var events = EventCollection.Empty
+                .Add(new Dummy())
+                .Add(new Other());
+            Assert.That(events, Has.Count.EqualTo(2));
+        }
+    }
+
     public class Add
     {
         [Test]
         public void Event_increases_the_size()
         {
-            Assert.That(EventCollection.Empty.Add(new object()), Has.Count.EqualTo(1));
+            Assert.That(EventCollection.Empty.Add(new Dummy()), Has.Count.EqualTo(1));
         }
         
         [Test]
-        public void Null_returns_an_unchanged_state()
+        public void Null_event_has_no_effect()
         {
             Assert.That(EventCollection.Empty.Add<object>(null), Has.Count.EqualTo(0));
         }
 
         [Test]
-        public void All_null_returns_an_unchanged_state()
+        public void Only_null_events_has_no_effect()
         {
             Assert.That(EventCollection.Empty.Add(null, null, null), Has.Count.EqualTo(0));
         }
 
         [Test]
-        public void Lazy_event_increases_the_size()
+        public void String_event_is_not_allowed()
         {
-            Assert.That(EventCollection.Empty.Add(() => new object()), Has.Count.EqualTo(1));
+            Assert.Catch<ArgumentException>(() => EventCollection.Empty.Add("not allowed"));
         }
     }
 
     public class When_not_true
     {
         [Test]
-        public void Last_addition_is_reversed()
+        public void Addition_is_not_excecuted()
         {
             var events = EventCollection.Empty
-                .Add(new object()).When(default(bool?));
+                .If(Help.NotTrue)
+                .Then(Help.FailingCreation);
 
             Assert.That(events, Has.Count.EqualTo(0));
         }
 
         [Test]
-        public void Lazy_addition_is_not_executed()
+        public void Else_is_increases_size()
         {
-            static object lazy() => throw new Exception("failure");
             var events = EventCollection.Empty
-                .Add(lazy).When(default(bool?));
+                .If(Help.NotTrue)
+                .Then(Help.FailingCreation)
+                .Else(()=> new Dummy());
 
-            Assert.That(events, Has.Count.EqualTo(0));
+            Assert.That(events, Has.Count.EqualTo(1));
         }
     }
 
     public class When_false
     {
         [Test]
-        public void Last_addition_is_reversed()
+        public void Addition_is_not_excecuted()
         {
             var events = EventCollection.Empty
-                .Add(new object()).When(false);
-            
+                .If(false)
+                .Then(Help.FailingCreation);
+
             Assert.That(events, Has.Count.EqualTo(0));
         }
 
         [Test]
-        public void Lazy_addition_is_not_executed()
+        public void Else_is_increases_size()
         {
-            static object lazy() => throw new Exception("failure");
             var events = EventCollection.Empty
-                .Add(lazy).When(false);
+                .If(false)
+                .Then(Help.FailingCreation)
+                .Else(() => new Dummy());
 
-            Assert.That(events, Has.Count.EqualTo(0));
+            Assert.That(events, Has.Count.EqualTo(1));
         }
     }
 
     public class When_true
     {
         [Test]
-        public void Last_addition_is_not_reversed()
+        public void Addition_increases_size()
         {
             var events = EventCollection.Empty
-                .Add(new object()).When(true);
+                .If(true)
+                .Then(() => new Dummy());
 
             Assert.That(events, Has.Count.EqualTo(1));
         }
 
         [Test]
-        public void Lazy_addition_is_executed()
+        public void Else_is_not_executed()
         {
-            static object lazy() => throw new ApplicationException("failure");
             var events = EventCollection.Empty
-                .Add(lazy).When(true);
+                .If(true)
+                .Then(() => new Dummy())
+                .Else(Help.FailingCreation);
 
-            Assert.Throws<ApplicationException>(() => events.ToArray());
+            Assert.That(events, Has.Count.EqualTo(1));
         }
     }
 }

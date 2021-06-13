@@ -27,7 +27,7 @@ namespace Qowaiv.DomainModel.Events
         /// The Type of the event to add.
         /// </typeparam>
         public Then<TEvent> Then<TEvent>(Func<TEvent> @event) where TEvent : class
-            => new (this, @event);
+            => new(this, @event);
 
         /// <summary>Adds an event/events to the collection.</summary>
         /// <param name="event">
