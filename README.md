@@ -121,3 +121,31 @@ is not balanced, both extremely important in this domain.
 If you want to throw an exception, or deal with a `Result<TAggegate>` is up to
 the developer.
 
+## Event Collection
+When applying changes to an aggregate, based on it current states you might
+want to apply different events; sometimes even a different amount of a different
+type. This is supported the following way:
+
+``` C#
+public Result<Game> Attack(Country attacker, Country defender, Result result)
+=> Apply(Events
+    .If(Result.IsSuccess)
+        .Then(() => new Conquered
+        {
+            From = attacker,
+            To = defender,
+            Armies = result.Attacker,
+        })
+    .Else(() => new Attacked
+    {
+        Attacker = attacker,
+        Defender = defender,
+        Result = result,
+    })
+    .If(Result.IsSuccess && Countries(defender).Single())
+        .Then(() => new PlayerEliminated 
+        {
+            Player = Coumtries(defender).Owner 
+        }));
+
+```
