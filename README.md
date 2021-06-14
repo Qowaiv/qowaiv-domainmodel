@@ -127,13 +127,13 @@ want to apply different events; sometimes even a different amount of a different
 type. This is supported the following way:
 
 ``` C#
-public Result<Game> Attack(Country attacker, Country defender, Result result)
+public Result<Game> Attack(Country attacker, Country defender, AttackResult result)
 => Apply(Events
-    .If(Result.IsSuccess)
+    .If(result.IsSuccess)
         .Then(() => new Conquered
         {
-            From = attacker,
-            To = defender,
+            From = result.Attacker,
+            To = result.Defender,
             Armies = result.Attacker,
         })
     .Else(() => new Attacked

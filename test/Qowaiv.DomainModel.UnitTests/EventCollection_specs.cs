@@ -174,8 +174,10 @@ namespace EventCollection_specs
         public void Else_if_not_executed()
         {
             var events = EventCollection.Empty
-                .If(true).Then(() => new Dummy())
-                .ElseIf(true).Then(Help.FailingCreation)
+                .If(true)
+                    .Then(() => new Dummy())
+                .ElseIf(true)
+                    .Then(Help.FailingCreation)
                 .Else(Help.FailingCreation);
 
             Assert.That(events, Has.Count.EqualTo(1));
