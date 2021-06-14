@@ -5,7 +5,7 @@
 
 | version                                                                   | package                                                                |
 |---------------------------------------------------------------------------|------------------------------------------------------------------------|
-|![v](https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=3600)|[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)|
+|![v](https://img.shields.io/badge/version-0.0.2-blue.svg?cacheSeconds=3600)|[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)|
 
 # Qowaiv Domain Model
 Qowaiv Domain Model is library containing the (abstract) building blocks to set
