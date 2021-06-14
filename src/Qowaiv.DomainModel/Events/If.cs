@@ -8,38 +8,34 @@ namespace Qowaiv.DomainModel.Events
     public sealed class If
     {
         /// <summary>Initializes a new instance of the <see cref="If"/> class.</summary>
-        internal If(bool condition, EventCollection predecessor)
+        internal If(bool condition, EventCollection events)
+            : this(condition ? IfState.True : IfState.False, events) { }
+
+        /// <summary>Initializes a new instance of the <see cref="If"/> class.</summary>
+        internal If(IfState state, EventCollection events)
         {
-            Condition = condition;
-            Predecessor = predecessor;
+            State = state;
+            Events = events;
         }
 
         /// <summary>The to switch on.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private bool Condition { get; }
+        internal IfState State { get; }
 
         /// <summary>The parent <see cref="EventCollection"/>.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private EventCollection Predecessor { get; }
+        internal EventCollection Events { get; }
 
         /// <summary>The event that should be added when the if-condition is true.</summary>
         /// <typeparam name="TEvent">
         /// The Type of the event to add.
         /// </typeparam>
-        public Then<TEvent> Then<TEvent>(Func<TEvent> @event) where TEvent : class
-            => new(this, @event);
-
-        /// <summary>Adds an event/events to the collection.</summary>
-        /// <param name="event">
-        /// The event(s) to add.
-        /// </param>
-        /// <typeparam name="TEvent">
-        /// The type of the event(s).
-        /// </typeparam>
-        internal EventCollection Add<TEvent>(TEvent @event) where TEvent : class
-            => Predecessor.Add(@event);
-
-        /// <summary>Implicitly casts an <see cref="If"/> to a <see cref="bool"/>.</summary>
-        public static implicit operator bool(If @if) => @if?.Condition == true;
+        public Then Then<TEvent>(Func<TEvent> @event) where TEvent : class
+        => State switch
+        {
+            IfState.True => new Then(true, Events.Add(@event())),
+            IfState.False => new Then(false, Events),
+            _ => new Then(true, Events),
+        };
     }
 }

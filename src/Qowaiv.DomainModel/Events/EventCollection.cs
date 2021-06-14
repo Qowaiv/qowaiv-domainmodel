@@ -32,13 +32,13 @@ namespace Qowaiv.DomainModel.Events
         /// The type of the event(s).
         /// </typeparam>
         public EventCollection Add<TEvent>(TEvent @event) where TEvent : class
-            => @event switch
-            {
-                null => this,
-                string => throw new ArgumentException(QowaivDomainModelMessages.ArgumentException_StringNotAnEvent, nameof(@event)),
-                IEnumerable enumerable => new Collection(enumerable, this),
-                _ => new Single(@event, this),
-            };
+        => @event switch
+        {
+            null => this,
+            string => throw new ArgumentException(QowaivDomainModelMessages.ArgumentException_StringNotAnEvent, nameof(@event)),
+            IEnumerable enumerable => new Collection(enumerable, this),
+            _ => new Single(@event, this),
+        };
 
         /// <summary>Starts a conditional addition.</summary>
         public If If(bool? condition) => If(condition == true);
@@ -54,6 +54,6 @@ namespace Qowaiv.DomainModel.Events
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>Enumerates through all events.</summary>
-        protected virtual IEnumerable<object> Enumerate() => Enumerable.Empty<object>();
+        internal virtual IEnumerable<object> Enumerate() => Enumerable.Empty<object>();
     }
 }

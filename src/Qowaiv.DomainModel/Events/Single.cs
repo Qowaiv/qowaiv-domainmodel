@@ -19,7 +19,7 @@ namespace Qowaiv.DomainModel.Events
             private object Event { get; }
 
             /// <inheritdoc />
-            protected override IEnumerable<object> Enumerate()
+            internal override IEnumerable<object> Enumerate()
                 => base.Enumerate().Append(Event);
         }
     }

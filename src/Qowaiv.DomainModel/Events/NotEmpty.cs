@@ -17,7 +17,7 @@ namespace Qowaiv.DomainModel.Events
             private EventCollection Predecessor { get; }
 
             /// <inheritdoc />
-            protected override IEnumerable<object> Enumerate()
+            internal override IEnumerable<object> Enumerate()
                 => Predecessor.Enumerate();
         }
     }

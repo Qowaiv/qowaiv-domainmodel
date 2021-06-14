@@ -89,7 +89,7 @@ namespace EventCollection_specs
         {
             var events = EventCollection.Empty
                 .If(Help.NotTrue)
-                .Then(Help.FailingCreation)
+                    .Then(Help.FailingCreation)
                 .Else(()=> new Dummy());
 
             Assert.That(events, Has.Count.EqualTo(1));
@@ -113,11 +113,38 @@ namespace EventCollection_specs
         {
             var events = EventCollection.Empty
                 .If(false)
-                .Then(Help.FailingCreation)
+                    .Then(Help.FailingCreation)
                 .Else(() => new Dummy());
 
             Assert.That(events, Has.Count.EqualTo(1));
         }
+
+        [Test]
+        public void Else_if_true_increases_size()
+        {
+            var events = EventCollection.Empty
+                .If(false)
+                    .Then(Help.FailingCreation)
+                .ElseIf(true)
+                    .Then(() => new Dummy())
+                .Else(Help.FailingCreation);
+
+            Assert.That(events, Has.Count.EqualTo(1));
+        }
+
+        [Test]
+        public void Else_if_false_not_executed()
+        {
+            var events = EventCollection.Empty
+                .If(false)
+                    .Then(Help.FailingCreation)
+                .ElseIf(false)
+                    .Then(Help.FailingCreation)
+                .Else(() => new Dummy());
+
+            Assert.That(events, Has.Count.EqualTo(1));
+        }
+
     }
 
     public class If_true
@@ -137,7 +164,18 @@ namespace EventCollection_specs
         {
             var events = EventCollection.Empty
                 .If(true)
-                .Then(() => new Dummy())
+                    .Then(() => new Dummy())
+                .Else(Help.FailingCreation);
+
+            Assert.That(events, Has.Count.EqualTo(1));
+        }
+
+        [Test]
+        public void Else_if_not_executed()
+        {
+            var events = EventCollection.Empty
+                .If(true).Then(() => new Dummy())
+                .ElseIf(true).Then(Help.FailingCreation)
                 .Else(Help.FailingCreation);
 
             Assert.That(events, Has.Count.EqualTo(1));
