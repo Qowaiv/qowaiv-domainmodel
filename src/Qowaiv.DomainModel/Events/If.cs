@@ -18,7 +18,7 @@ namespace Qowaiv.DomainModel.Events
             Events = events;
         }
 
-        /// <summary>The to switch on.</summary>
+        /// <summary>The state of the if-branch.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         internal IfState State { get; }
 

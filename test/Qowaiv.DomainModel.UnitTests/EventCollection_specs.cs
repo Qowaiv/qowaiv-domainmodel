@@ -75,7 +75,7 @@ namespace EventCollection_specs
     public class If_not_true
     {
         [Test]
-        public void Then_not_excecuted()
+        public void Then_not_executed()
         {
             var events = EventCollection.Empty
                 .If(Help.NotTrue)
@@ -99,7 +99,7 @@ namespace EventCollection_specs
     public class If_false
     {
         [Test]
-        public void Then_not_excecuted()
+        public void Then_not_executed()
         {
             var events = EventCollection.Empty
                 .If(false)

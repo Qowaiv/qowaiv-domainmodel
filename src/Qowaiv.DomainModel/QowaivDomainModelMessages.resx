@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArgumentException_StringNotAnEvent" xml:space="preserve">
-    <value>Events represented by a string ar not allowed.</value>
+    <value>Events represented by a string are not allowed.</value>
   </data>
   <data name="EventTypeNotSupportedException" xml:space="preserve">
     <value>The event of the type {0} is not supported for {1}.</value>

@@ -122,7 +122,7 @@ If you want to throw an exception, or deal with a `Result<TAggegate>` is up to
 the developer.
 
 ## Event Collection
-When applying changes to an aggregate, based on it current states you might
+When applying changes to an aggregate, based on its current states you might
 want to apply different events; sometimes even a different amount of a different
 type. This is supported the following way:
 
@@ -142,10 +142,10 @@ public Result<Game> Attack(Country attacker, Country defender, AttackResult resu
         Defender = defender,
         Result = result,
     })
-    .If(Result.IsSuccess && Countries(defender).Single())
+    .If(result.IsSuccess && Countries(defender).Single())
         .Then(() => new PlayerEliminated 
         {
-            Player = Coumtries(defender).Owner 
+            Player = Countries(defender).Owner 
         }));
 
 ```

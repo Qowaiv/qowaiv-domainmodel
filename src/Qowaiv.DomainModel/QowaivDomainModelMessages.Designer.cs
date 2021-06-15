@@ -61,7 +61,7 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Events represented by a string ar not allowed..
+        ///   Looks up a localized string similar to Events represented by a string are not allowed..
         /// </summary>
         public static string ArgumentException_StringNotAnEvent {
             get {
