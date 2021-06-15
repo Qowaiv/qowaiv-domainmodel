@@ -5,7 +5,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
+    <PackageReleaseNotes>
+      v0.0.1
+      - Initial release
+    </PackageReleaseNotes>
   </PropertyGroup>
 
 

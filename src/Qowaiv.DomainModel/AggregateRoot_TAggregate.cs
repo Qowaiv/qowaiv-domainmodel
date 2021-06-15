@@ -1,4 +1,5 @@
 ﻿using Qowaiv.DomainModel.Dynamic;
+using Qowaiv.DomainModel.Events;
 using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace Qowaiv.DomainModel
         /// </summary>
         protected IValidator<TAggregate> Validator { get; }
 
+        /// <summary>Gets an <see cref="EventCollection.Empty"/> collection.</summary>
+        protected static EventCollection Events => EventCollection.Empty;
+
         /// <summary>Represents the aggregate root as a dynamic.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected virtual dynamic Dynamic { get; }
@@ -40,13 +44,17 @@ namespace Qowaiv.DomainModel
         /// This method is only called if after applying the events, the aggregate
         /// is still valid.
         /// </remarks>
-        protected abstract void AddEventsToBuffer(params object[] events);
+        protected abstract void AddEventsToBuffer(IEnumerable<object> events);
 
         /// <summary>Applies a single event.</summary>
         protected Result<TAggregate> ApplyEvent(object @event) => ApplyEvents(@event);
 
         /// <summary>Applies the events.</summary>
         protected Result<TAggregate> ApplyEvents(params object[] events)
+            => Apply(events);
+
+        /// <summary>Applies the events.</summary>
+        protected Result<TAggregate> Apply(IEnumerable<object> events)
         {
             Guard.HasAny(events, nameof(events));
 
