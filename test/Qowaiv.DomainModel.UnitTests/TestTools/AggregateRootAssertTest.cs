@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Qowaiv.DomainModel.TestTools;
-using Qowaiv.DomainModel.TestTools.EventSourcing;
 using Qowaiv.Globalization;
 using System;
 using TestEvents;
@@ -45,7 +44,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
                 new SimpleEvent(),
                 new SimpleEvent()
             };
-            var x = Assert.Catch<AssertException>(() =>
+            var x = Assert.Catch<AssertionFailed>(() =>
                 AggregateRootAssert.HasUncommittedEvents(buffer,
                     new EmptyEvent(),
                     new OtherEvent(),
@@ -72,7 +71,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
                     new SimpleEvent()
                 };
 
-                var x = Assert.Catch<AssertException>(() =>
+                var x = Assert.Catch<AssertionFailed>(() =>
                     AggregateRootAssert.HasUncommittedEvents(buffer,
                         new EmptyEvent(),
                         new Complex { Value = 23, Message = "Same", Date = new DateTime(1980, 06, 30) },
@@ -97,7 +96,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
                 new SimpleEvent { Value = 3 },
                 new OtherEvent { Value = 3 }
             };
-            var x = Assert.Catch<AssertException>(() =>
+            var x = Assert.Catch<AssertionFailed>(() =>
                 AggregateRootAssert.HasUncommittedEvents(buffer,
                     new EmptyEvent(),
                     new SimpleEvent { Value = 3 }
@@ -118,7 +117,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
                 new EmptyEvent(),
                 new OtherEvent { Value = 3 }
             };
-            var x = Assert.Catch<AssertException>(() =>
+            var x = Assert.Catch<AssertionFailed>(() =>
                 AggregateRootAssert.HasUncommittedEvents(buffer,
                     new EmptyEvent(),
                     new OtherEvent { Value = 3 },
@@ -142,7 +141,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
             {
                 new ArrayEvent { Numbers = new[] { 17 } }
             };
-            var x = Assert.Catch<AssertException>(() =>
+            var x = Assert.Catch<AssertionFailed>(() =>
                AggregateRootAssert.HasUncommittedEvents(buffer,
                    new ArrayEvent { Numbers = new[] { 18 } }
                ));

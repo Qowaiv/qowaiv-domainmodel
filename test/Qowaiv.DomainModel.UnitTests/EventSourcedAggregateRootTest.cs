@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.TestTools.EventSourcing;
+using Qowaiv.DomainModel.TestTools;
 using Qowaiv.DomainModel.UnitTests.Models;
-using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
 using System;
 
@@ -43,7 +42,7 @@ namespace Qowaiv.DomainModel.UnitTests
         public void ApplyEvent_NotSupported()
         {
             var aggregate = new TestApplyChangeAggregate();
-            var exception = Assert.Throws<EventTypeNotSupportedException>(() => aggregate.TestApplyChange(new NameUpdated()));
+            var exception = Assert.Throws<EventTypeNotSupported>(() => aggregate.TestApplyChange(new NameUpdated()));
             Assert.AreEqual(typeof(NameUpdated), exception.EventType);
         }
 
