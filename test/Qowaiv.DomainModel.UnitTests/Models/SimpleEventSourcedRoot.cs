@@ -47,7 +47,7 @@ namespace Qowaiv.DomainModel.UnitTests.Models
         }
     }
 
-    public class SimpleEventSourcedRootValidator : FluentModelValidator<SimpleEventSourcedRoot>
+    public class SimpleEventSourcedRootValidator : ModelValidator<SimpleEventSourcedRoot>
     {
         public SimpleEventSourcedRootValidator()
         {

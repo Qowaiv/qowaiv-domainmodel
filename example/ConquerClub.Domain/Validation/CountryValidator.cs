@@ -3,7 +3,7 @@ using Qowaiv.Validation.Fluent;
 
 namespace ConquerClub.Domain.Validation
 {
-    internal class CountryValidator : FluentModelValidator<Country>
+    internal class CountryValidator : ModelValidator<Country>
     {
         public CountryValidator()
         {

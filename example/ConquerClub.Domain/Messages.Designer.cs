@@ -61,47 +61,11 @@ namespace ConquerClub.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A concurrency issues occured..
-        /// </summary>
-        internal static string ConcurrencyIssue {
-            get {
-                return ResourceManager.GetString("ConcurrencyIssue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Country with id {0} does not exist..
         /// </summary>
         internal static string CountryMustExist {
             get {
                 return ResourceManager.GetString("CountryMustExist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entity could not be found..
-        /// </summary>
-        internal static string EntityNotFound {
-            get {
-                return ResourceManager.GetString("EntityNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Entity with ID &apos;{0}&apos; could not be found..
-        /// </summary>
-        internal static string EntityNotFound_ForId {
-            get {
-                return ResourceManager.GetString("EntityNotFound_ForId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A mid-air collision occured while saving..
-        /// </summary>
-        internal static string MidAirCollision {
-            get {
-                return ResourceManager.GetString("MidAirCollision", resourceCulture);
             }
         }
         
@@ -174,15 +138,6 @@ namespace ConquerClub.Domain {
         internal static string MustNotExeedArmyBuffer {
             get {
                 return ResourceManager.GetString("MustNotExeedArmyBuffer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expected version {0}, but got version {1}..
-        /// </summary>
-        internal static string VersionMismatch {
-            get {
-                return ResourceManager.GetString("VersionMismatch", resourceCulture);
             }
         }
     }

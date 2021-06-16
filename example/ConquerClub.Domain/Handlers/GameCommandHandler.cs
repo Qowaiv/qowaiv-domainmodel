@@ -2,6 +2,7 @@
 using ConquerClub.Domain.Validation;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
+using Qowaiv.Validation.Messages;
 using System;
 using Troschuetz.Random;
 
