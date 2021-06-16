@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.0.3" />
+    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.0.4" />
   </ItemGroup>
 
   <ItemGroup>

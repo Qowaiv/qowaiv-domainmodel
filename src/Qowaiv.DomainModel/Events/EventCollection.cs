@@ -15,7 +15,7 @@ namespace Qowaiv.DomainModel.Events
         /// <summary>Gets an empty event collection.</summary>
         public static readonly EventCollection Empty = new();
 
-        /// <summary>Initializes a new instance of the <see cref="EventCollection"/> class.</summary>     
+        /// <summary>Initializes a new instance of the <see cref="EventCollection"/> class.</summary>
         protected EventCollection() { }
 
         /// <summary>Gets the total of events in the collection.</summary>
