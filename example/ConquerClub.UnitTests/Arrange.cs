@@ -39,7 +39,7 @@ namespace ConquerClub.UnitTests
                     Player.Neutral.Army(3),
                 }
             })
-            .Add(new TurnStarted { Deployments = Player.P1.Army(3) });
+            .Add(new TurnStarted(Player.P1.Army(3)));
 
         public static EventBuffer<Id<ForGame>> BeneluxWithoutArmies(int roundLimit = 10) =>
             new EventBuffer<Id<ForGame>>(GameId)

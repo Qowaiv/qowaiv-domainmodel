@@ -133,7 +133,7 @@ namespace Game_specs
                     Player.P1.Army(1),
                 }
                 })
-            .Add(new TurnStarted { Deployments = Player.P1.Army(3) })
+            .Add(new TurnStarted(Player.P1.Army(3)))
             .Deploy());
 
             ValidationMessageAssert.WithErrors(result,

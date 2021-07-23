@@ -27,7 +27,7 @@ namespace Game_specs
                         Player.P3.Army(85),
                     }
                 })
-                .Add(new TurnStarted { Deployments = Player.P1.Army(3) }));
+                .Add(new TurnStarted(Player.P1.Army(3))));
 
             ValidationMessageAssert.IsValid(result);
             Assert.AreEqual(GamePhase.Deploy, result.Value.Phase);
