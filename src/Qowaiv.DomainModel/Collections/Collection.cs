@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Qowaiv.DomainModel.Events
+namespace Qowaiv.DomainModel.Collections
 {
     /// <summary>Represents a read-only collection of events.</summary>
-    public partial class EventCollection
+    public partial class ImmutableCollection
     {
-        /// <summary><see cref="EventCollection"/> implementation for containing a group of events.</summary>
+        /// <summary><see cref="ImmutableCollection"/> implementation for containing a group of items.</summary>
         private class Collection : NotEmpty
         {
             /// <summary>Initializes a new instance of the <see cref="Collection"/> class.</summary>
-            public Collection(IEnumerable events, EventCollection predecessor)
-                : base(predecessor) => Events = events;
+            public Collection(IEnumerable item, ImmutableCollection predecessor)
+                : base(predecessor) => Items = item;
 
             /// <summary>Events placeholder.</summary>
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-            private IEnumerable Events { get; }
+            private IEnumerable Items { get; }
 
             /// <inheritdoc />
             internal override IEnumerable<object> Enumerate()
-                => base.Enumerate().Append(Events);
+                => base.Enumerate().Append(Items);
         }
     }
 }

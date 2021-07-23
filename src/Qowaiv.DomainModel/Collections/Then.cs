@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Qowaiv.DomainModel.Events
+namespace Qowaiv.DomainModel.Collections
 {
-    /// <summary>Represents the conditional addition of an event, after the if-statement.</summary>
-    public class Then : EventCollection
+    /// <summary>Represents the conditional addition of an item/items, after the if-statement.</summary>
+    public class Then : ImmutableCollection
     {
         /// <summary>Initializes a new instance of the <see cref="Then"/> class.</summary>
-        internal Then(bool done, EventCollection predecessor)
+        internal Then(bool done, ImmutableCollection predecessor)
         {
             Done = done;
             Predecessor = predecessor;
         }
 
-        /// <summary>The predecessor <see cref="EventCollection"/>.</summary>
+        /// <summary>The predecessor <see cref="ImmutableCollection"/>.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private EventCollection Predecessor { get; }
+        private ImmutableCollection Predecessor { get; }
 
-        /// <summary>The predecessor <see cref="EventCollection"/>.</summary>
+        /// <summary>The predecessor <see cref="ImmutableCollection"/>.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool Done { get; }
 
@@ -28,17 +28,21 @@ namespace Qowaiv.DomainModel.Events
             ? new If(IfState.Done, Predecessor)
             : new If(condition, Predecessor);
 
-        /// <summary>Adds an (optional) else addition.</summary>
-        /// <param name="event">
-        /// The event to add.
+        /// <summary>Creates a new <see cref="ImmutableCollection"/> with the item(s) to add
+        /// if the condition was not met.</summary>
+        /// <param name="item">
+        /// The item(s) to add.
         /// </param>
-        /// <typeparam name="TElseEvent">
+        /// <typeparam name="TElseItem">
         /// The type of the event to add.
         /// </typeparam>
-        public EventCollection Else<TElseEvent>(Func<TElseEvent> @event) where TElseEvent : class
-            => Done
+        /// <remarks>
+        /// Null, and null items are ignored.
+        /// </remarks>
+        public ImmutableCollection Else<TElseItem>(Func<TElseItem> item) where TElseItem : class
+            => Done || item is null
             ? Predecessor
-            : Predecessor.Add(@event());
+            : Predecessor.Add(item());
 
         /// <inheritdoc />
         internal override IEnumerable<object> Enumerate()

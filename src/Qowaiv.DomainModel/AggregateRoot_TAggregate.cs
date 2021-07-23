@@ -1,5 +1,5 @@
 ﻿using Qowaiv.DomainModel.Dynamic;
-using Qowaiv.DomainModel.Events;
+using Qowaiv.DomainModel.Collections;
 using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -29,8 +29,8 @@ namespace Qowaiv.DomainModel
         /// </summary>
         protected IValidator<TAggregate> Validator { get; }
 
-        /// <summary>Gets an <see cref="EventCollection.Empty"/> collection.</summary>
-        protected static EventCollection Events => EventCollection.Empty;
+        /// <summary>Gets an <see cref="ImmutableCollection.Empty"/> collection.</summary>
+        protected static ImmutableCollection Events => ImmutableCollection.Empty;
 
         /// <summary>Represents the aggregate root as a dynamic.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

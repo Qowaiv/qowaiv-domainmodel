@@ -1,41 +1,45 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Qowaiv.DomainModel.Events
+namespace Qowaiv.DomainModel.Collections
 {
     /// <summary>Represents the start of an (logical) if-statement.</summary>
     [DebuggerDisplay("If: {Condition}")]
     public sealed class If
     {
         /// <summary>Initializes a new instance of the <see cref="If"/> class.</summary>
-        internal If(bool condition, EventCollection events)
-            : this(condition ? IfState.True : IfState.False, events) { }
+        internal If(bool condition, ImmutableCollection collection)
+            : this(condition ? IfState.True : IfState.False, collection) { }
 
         /// <summary>Initializes a new instance of the <see cref="If"/> class.</summary>
-        internal If(IfState state, EventCollection events)
+        internal If(IfState state, ImmutableCollection collection)
         {
             State = state;
-            Events = events;
+            Collection = collection;
         }
 
         /// <summary>The state of the if-branch.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         internal IfState State { get; }
 
-        /// <summary>The parent <see cref="EventCollection"/>.</summary>
+        /// <summary>The parent <see cref="ImmutableCollection"/>.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        internal EventCollection Events { get; }
+        internal ImmutableCollection Collection { get; }
 
-        /// <summary>The event that should be added when the if-condition is true.</summary>
+        /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added item(s)
+        /// if the condition is met.</summary>
         /// <typeparam name="TEvent">
         /// The Type of the event to add.
         /// </typeparam>
-        public Then Then<TEvent>(Func<TEvent> @event) where TEvent : class
+        /// <remarks>
+        /// Null, and null items are ignored.
+        /// </remarks>
+        public Then Then<TEvent>(Func<TEvent> item) where TEvent : class
         => State switch
         {
-            IfState.True => new Then(true, Events.Add(@event())),
-            IfState.False => new Then(false, Events),
-            _ => new Then(true, Events),
+            IfState.True => new Then(true, Collection.Add(item())),
+            IfState.False => new Then(false, Collection),
+            _ => new Then(true, Collection),
         };
     }
 }
