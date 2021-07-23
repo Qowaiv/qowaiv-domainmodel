@@ -5,8 +5,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <PackageReleaseNotes>
+      v0.0.3
+      - Conditionally built Event Collection moved to Collections.ImmutableCollection (breaking)
+      - EventBuffer made Immutable (potentially breaking)
       v0.0.2
       - Conditionally built Event Collection
       v0.0.1
