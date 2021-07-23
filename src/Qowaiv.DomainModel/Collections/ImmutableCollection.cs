@@ -9,7 +9,7 @@ namespace Qowaiv.DomainModel.Collections
     /// <summary>Represents an immutable collection.</summary>
     /// <remarks>
     /// As a design choice, adding null is ignored. Also <see cref="IEnumerable"/>s
-    /// are added as collections, execpt for <see cref="string"/>.
+    /// are added as collections, expect for <see cref="string"/>.
     /// </remarks>
     [DebuggerDisplay("Count: {Count}")]
     [DebuggerTypeProxy(typeof(CollectionDebugView))]
