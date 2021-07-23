@@ -1,5 +1,4 @@
 ﻿using Qowaiv.DomainModel.Diagnostics;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +7,10 @@ using System.Linq;
 namespace Qowaiv.DomainModel.Collections
 {
     /// <summary>Represents an immutable collection.</summary>
+    /// <remarks>
+    /// As a design choice, adding null is ignored. Also <see cref="IEnumerable"/>s
+    /// are added as collections, execpt for <see cref="string"/>.
+    /// </remarks>
     [DebuggerDisplay("Count: {Count}")]
     [DebuggerTypeProxy(typeof(CollectionDebugView))]
     public partial class ImmutableCollection : IReadOnlyCollection<object>
@@ -41,7 +44,7 @@ namespace Qowaiv.DomainModel.Collections
         => item switch
         {
             null => this,
-            string => throw new ArgumentException(QowaivDomainModelMessages.ArgumentException_StringNotAnEvent, nameof(item)),
+            string => new Single(item, this),
             IEnumerable enumerable => new Collection(enumerable, this),
             _ => new Single(item, this),
         };

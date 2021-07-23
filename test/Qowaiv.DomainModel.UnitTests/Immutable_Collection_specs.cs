@@ -2,7 +2,7 @@
 using Qowaiv.DomainModel.Collections;
 using System;
 
-namespace EventCollection_specs
+namespace Immutable_Collection_specs
 {
     internal static class Help
     {
@@ -27,7 +27,7 @@ namespace EventCollection_specs
         }
 
         [Test]
-        public void Add_event_increases_the_size()
+        public void Add_item_increases_the_size()
         {
             Assert.That(ImmutableCollection.Empty.Add(new Dummy()), Has.Count.EqualTo(1));
         }
@@ -36,7 +36,7 @@ namespace EventCollection_specs
     public class Non_empty_collection
     {
         [Test]
-        public void Add_event_increases_the_size()
+        public void Add_item_increases_the_size()
         {
             var events = ImmutableCollection.Empty
                 .Add(new Dummy())
@@ -54,21 +54,21 @@ namespace EventCollection_specs
         }
         
         [Test]
-        public void Null_event_has_no_effect()
+        public void Null_item_has_no_effect()
         {
             Assert.That(ImmutableCollection.Empty.Add<object>(null), Has.Count.EqualTo(0));
         }
 
         [Test]
-        public void Only_null_events_has_no_effect()
+        public void Only_null_items_has_no_effect()
         {
             Assert.That(ImmutableCollection.Empty.Add(null, null, null), Has.Count.EqualTo(0));
         }
 
         [Test]
-        public void String_event_is_not_allowed()
+        public void String_is_not_considered_an_collection()
         {
-            Assert.Catch<ArgumentException>(() => ImmutableCollection.Empty.Add("not allowed"));
+            Assert.That(ImmutableCollection.Empty.Add("some string"), Has.Count.EqualTo(1));
         }
     }
 
