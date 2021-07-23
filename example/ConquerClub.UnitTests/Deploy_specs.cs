@@ -116,11 +116,10 @@ namespace Deploy_specs
             };
 
             var result = Handle(command, Benelux());
-            ValidationMessageAssert.IsValid(result);
-            var game = result.Value;
+            var game = ValidationMessageAssert.IsValid(result);
 
             Assert.AreEqual(Player.P1.Army(5), game.Countries.ById(Netherlands).Army);
-            Assert.AreEqual(Player.P1.Army(1), game.Buffer);
+            Assert.AreEqual(Player.P1.Army(1), game.ArmyBuffer);
             Assert.AreEqual(GamePhase.Deploy, game.Phase);
         }
 
@@ -137,11 +136,11 @@ namespace Deploy_specs
             };
 
             var result = Handle(command, Benelux());
-            ValidationMessageAssert.IsValid(result);
-            var game = result.Value;
+
+            var game = ValidationMessageAssert.IsValid(result);
 
             Assert.AreEqual(Player.P1.Army(6), game.Countries.ById(Netherlands).Army);
-            Assert.AreEqual(Army.None, game.Buffer);
+            Assert.AreEqual(Army.None, game.ArmyBuffer);
             Assert.AreEqual(GamePhase.Attack, game.Phase);
         }
     }
