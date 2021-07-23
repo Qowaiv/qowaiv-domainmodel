@@ -22,7 +22,7 @@ namespace Qowaiv.DomainModel.TestTools
             }
         }
 
-        /// <summary>Throws an <see cref="AssertException"/>.</summary>
+        /// <summary>Throws an <see cref="AssertionFailed"/>.</summary>
         /// <param name="message">
         /// The failure message.
         /// </param>
@@ -31,11 +31,11 @@ namespace Qowaiv.DomainModel.TestTools
         {
             if (message is null)
             {
-                throw new AssertException();
+                throw new AssertionFailed();
             }
             else
             {
-                throw new AssertException(message);
+                throw new AssertionFailed(message);
             }
         }
 

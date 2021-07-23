@@ -1,15 +1,16 @@
 ﻿using NUnit.Framework;
+using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.TestTools;
 
-namespace Qowaiv.DomainModel.UnitTests
+namespace EventTypeNotSupported_specs
 {
-    public class EventTypeNotSupportedExceptionTest
+    public class Serialize_RoundTrip
     {
         [Test]
-        public void Serialize_RoundTrip()
+        public void RoundTrip_keeps_not_supported_type()
         {
-            var exception = new EventTypeNotSupportedException(typeof(int), typeof(SimpleEventSourcedRoot));
+            var exception = new EventTypeNotSupported(typeof(int), typeof(SimpleEventSourcedRoot));
             var actual = SerializationTest.SerializeDeserialize(exception);
 
             Assert.AreEqual(typeof(int), actual.EventType);
