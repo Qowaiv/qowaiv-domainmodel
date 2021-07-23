@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Qowaiv.DomainModel.Events
+namespace Qowaiv.DomainModel.Collections
 {
     /// <summary>Represents a read-only collection of events.</summary>
-    public partial class EventCollection
+    public partial class ImmutableCollection
     {
-        /// <summary>Not empty <see cref="EventCollection"/> implementation.</summary>
-        private class NotEmpty : EventCollection
+        /// <summary>Not empty <see cref="ImmutableCollection"/> implementation.</summary>
+        private class NotEmpty : ImmutableCollection
         {
             /// <summary>Initializes a new instance of the <see cref="NotEmpty"/> class.</summary>
-            protected NotEmpty(EventCollection predecessor) => Predecessor = predecessor;
+            protected NotEmpty(ImmutableCollection predecessor) => Predecessor = predecessor;
 
-            /// <summary>The predecessor <see cref="EventCollection"/>.</summary>
+            /// <summary>The predecessor <see cref="ImmutableCollection"/>.</summary>
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-            private EventCollection Predecessor { get; }
+            private ImmutableCollection Predecessor { get; }
 
             /// <inheritdoc />
             internal override IEnumerable<object> Enumerate()

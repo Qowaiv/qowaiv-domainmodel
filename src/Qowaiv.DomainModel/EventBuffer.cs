@@ -1,4 +1,5 @@
-﻿using Qowaiv.DomainModel.Diagnostics;
+﻿using Qowaiv.DomainModel.Collections;
+using Qowaiv.DomainModel.Diagnostics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,8 +49,8 @@ namespace Qowaiv.DomainModel
     [DebuggerTypeProxy(typeof(CollectionDebugView))]
     public class EventBuffer<TId> : IEnumerable<object>
     {
-        private readonly List<object> buffer = new List<object>();
-        private int offset;
+        private readonly ImmutableCollection buffer;
+        private readonly int offset;
 
         /// <summary>Initializes a new instance of the <see cref="EventBuffer{TId}"/> class.</summary>
         /// <param name="aggregateId">
@@ -65,12 +66,14 @@ namespace Qowaiv.DomainModel
         /// The initial version (offset).
         /// </param>
         public EventBuffer(TId aggregateId, int version)
+            : this(aggregateId, version, committed: version, buffer: ImmutableCollection.Empty) { }
+
+        private EventBuffer(TId aggregateId, int offset, int committed, ImmutableCollection buffer)
         {
             AggregateId = aggregateId;
-            offset = version;
-
-            // Committed version can not be lower than the offset.
-            CommittedVersion = version;
+            CommittedVersion = committed;
+            this.offset = offset;
+            this.buffer = buffer;
         }
 
         /// <summary>Gets the identifier of the aggregate root.</summary>
@@ -80,7 +83,7 @@ namespace Qowaiv.DomainModel
         public int Version => buffer.Count + offset;
 
         /// <summary>Gets the committed version of the event buffer.</summary>
-        public int CommittedVersion { get; private set; }
+        public int CommittedVersion { get; }
 
         /// <summary>Get all committed events in the event buffer.</summary>
         public IEnumerable<object> Committed => buffer.Take(CommittedVersion - offset);
@@ -94,50 +97,35 @@ namespace Qowaiv.DomainModel
         /// <summary>Returns true if the buffer contains no events.</summary>
         public bool IsEmpty => buffer.Count == 0;
 
-        /// <summary>Adds an events to the event buffer.</summary>
+        /// <summary>Adds an event/events to the event buffer.</summary>
         /// <param name="event">
-        /// The event to add.
+        /// The event(s) to add.
         /// </param>
+        /// <remarks>
+        /// Null, and null items are ignored.
+        /// </remarks>
         public EventBuffer<TId> Add(object @event)
-        {
-            Guard.NotNull(@event, nameof(@event));
-            buffer.Add(@event);
-            return this;
-        }
+            => new(AggregateId, offset, CommittedVersion, buffer.Add<object>(@event));
 
-        /// <summary>Adds  events to the event buffer.</summary>
+        /// <summary>Adds events to the event buffer.</summary>
         /// <param name="events">
         /// The events to add.
         /// </param>
+        [Obsolete("Use Add(event) instead.")]
         public EventBuffer<TId> AddRange(IEnumerable<object> events)
-        {
-            Guard.NotNull(events, nameof(events));
-
-            var index = 0;
-
-            foreach (var @event in events)
-            {
-                Guard.NotNull(@event, $"events[{index++}]");
-                buffer.Add(@event);
-            }
-            return this;
-        }
+            => new(AggregateId, offset, CommittedVersion, buffer.Add(events));
 
         /// <summary>Marks all events as being committed.</summary>
         public EventBuffer<TId> MarkAllAsCommitted()
-        {
-            CommittedVersion = Version;
-            return this;
-        }
+            => new(AggregateId, offset, Version, buffer);
 
         /// <summary>Removes the committed events from the buffer.</summary>
         public EventBuffer<TId> ClearCommitted()
-        {
-            var delta = CommittedVersion - offset;
-            buffer.RemoveRange(0, delta);
-            offset += delta;
-            return this;
-        }
+            => new(
+                aggregateId: AggregateId,
+                offset: CommittedVersion,
+                committed: CommittedVersion,
+                buffer: ImmutableCollection.Empty.Add(buffer.Skip(CommittedVersion - offset)));
 
         /// <summary>Selects the uncommitted events.</summary>
         /// <typeparam name="TStoredEvent">
@@ -170,11 +158,9 @@ namespace Qowaiv.DomainModel
         /// <summary>Returns a <see cref="string"/> that represents the event buffer for debug purposes.</summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         internal string DebuggerDisplay
-        {
-            get => Version == CommittedVersion
-                ? $"Version: {Version}, Aggregate: {AggregateId}"
-                : $"Version: {Version} (Committed: {CommittedVersion}), Aggregate: {AggregateId}";
-        }
+            => Version == CommittedVersion
+            ? $"Version: {Version}, Aggregate: {AggregateId}"
+            : $"Version: {Version} (Committed: {CommittedVersion}), Aggregate: {AggregateId}";
 
         /// <summary>Creates an event buffer from some storage.</summary>
         /// <typeparam name="TStoredEvent">
@@ -229,15 +215,9 @@ namespace Qowaiv.DomainModel
             Guard.NotNull(storedEvents, nameof(storedEvents));
             Guard.NotNull(convert, nameof(convert));
 
-            var eventBuffer = new EventBuffer<TId>(aggregateId, initialVersion);
-
-            foreach (var storedEvent in storedEvents)
-            {
-                eventBuffer.Add(convert(storedEvent));
-            }
-            eventBuffer.MarkAllAsCommitted();
-
-            return eventBuffer;
+            return new EventBuffer<TId>(aggregateId, initialVersion)
+                .Add(storedEvents.Select(storedEvent => convert(storedEvent)))
+                .MarkAllAsCommitted();
         }
     }
 }

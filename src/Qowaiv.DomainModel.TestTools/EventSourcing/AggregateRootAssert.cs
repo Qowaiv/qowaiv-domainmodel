@@ -90,8 +90,6 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
             failure |= sb.AppendExtraEvents(uncomitted, offset, shared, "Extra:  ");
             failure |= sb.AppendExtraEvents(expectedEvents, offset, shared, "Missing: ");
 
-            Console.WriteLine(sb);
-
             if (failure)
             {
                 sb.Insert(0, $"Assertion failed:{Environment.NewLine}");

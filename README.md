@@ -5,7 +5,7 @@
 
 | version                                                                   | package                                                                |
 |---------------------------------------------------------------------------|------------------------------------------------------------------------|
-|![v](https://img.shields.io/badge/version-0.0.2-blue.svg?cacheSeconds=3600)|[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)|
+|![v](https://img.shields.io/badge/version-0.0.3-blue.svg?cacheSeconds=3600)|[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)|
 
 # Qowaiv Domain Model
 Qowaiv Domain Model is library containing the (abstract) building blocks to set
@@ -121,7 +121,7 @@ is not balanced, both extremely important in this domain.
 If you want to throw an exception, or deal with a `Result<TAggegate>` is up to
 the developer.
 
-## Event Collection
+## Immutable Collection
 When applying changes to an aggregate, based on its current states you might
 want to apply different events; sometimes even a different amount of a different
 type. This is supported the following way:
