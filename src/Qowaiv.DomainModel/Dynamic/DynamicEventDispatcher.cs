@@ -80,7 +80,7 @@ namespace Qowaiv.DomainModel.Dynamic
             return lookup;
         }
 
-        /// <summary>Uses refelection to resolve `When` methods to use,
+        /// <summary>Uses reflection to resolve `When` methods to use,
         /// both non-public (mostly internal) and public.
         /// </summary>
 #pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields

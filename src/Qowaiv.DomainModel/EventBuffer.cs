@@ -97,14 +97,17 @@ namespace Qowaiv.DomainModel
         /// <summary>Returns true if the buffer contains no events.</summary>
         public bool IsEmpty => buffer.Count == 0;
 
-        /// <summary>Adds an events to the event buffer.</summary>
+        /// <summary>Adds an event/events to the event buffer.</summary>
         /// <param name="event">
-        /// The event to add.
+        /// The event(s) to add.
         /// </param>
+        /// <remarks>
+        /// Null, and null items are ignored.
+        /// </remarks>
         public EventBuffer<TId> Add(object @event)
             => new(AggregateId, offset, CommittedVersion, buffer.Add<object>(@event));
 
-        /// <summary>Adds  events to the event buffer.</summary>
+        /// <summary>Adds events to the event buffer.</summary>
         /// <param name="events">
         /// The events to add.
         /// </param>
