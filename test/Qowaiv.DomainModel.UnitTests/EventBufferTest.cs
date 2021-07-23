@@ -30,8 +30,7 @@ namespace Qowaiv.DomainModel.UnitTests
         {
             var id = Guid.Parse("7231B710-77CD-11E9-8F9E-2A86E4085A59");
 
-            var buffer = new EventBuffer<Guid>(id, 17);
-            buffer
+            var buffer = new EventBuffer<Guid>(id, 17)
                 .Add(new DummyEvent())
                 .MarkAllAsCommitted()
                 .Add(new DummyEvent());
@@ -88,11 +87,12 @@ namespace Qowaiv.DomainModel.UnitTests
         public void GetUncommitted_NoCommitted_All()
         {
             var buffer = new EventBuffer<Guid>(Guid.NewGuid())
-            {
-                new DummyEvent(),
-                new DummyEvent(),
-                new DummyEvent()
-            };
+                .Add(new object[]
+                {
+                    new DummyEvent(),
+                    new DummyEvent(),
+                    new DummyEvent()
+                });
             Assert.AreEqual(3, buffer.Uncommitted.Count());
         }
 
@@ -100,12 +100,12 @@ namespace Qowaiv.DomainModel.UnitTests
         public void GetUncommitted_3Committed_1ItemWithVersion4()
         {
             var buffer = new EventBuffer<Guid>(Guid.NewGuid())
-            {
-                new DummyEvent(),
-                new DummyEvent(),
-                new DummyEvent()
-            };
-            buffer
+                .Add(new object[]
+                {
+                    new DummyEvent(),
+                    new DummyEvent(),
+                    new DummyEvent()
+                })
                 .MarkAllAsCommitted()
                 .ClearCommitted()
                 .Add(new DummyEvent());
@@ -121,12 +121,12 @@ namespace Qowaiv.DomainModel.UnitTests
         public void GetUncommitted_ClearCommittedWithCommitted_1ItemWithVersion5()
         {
             var buffer = new EventBuffer<Guid>(Guid.NewGuid())
-            {
-                new DummyEvent(),
-                new DummyEvent(),
-                new DummyEvent()
-            };
-            buffer
+                .Add(new[]
+                {
+                    new DummyEvent(),
+                    new DummyEvent(),
+                    new DummyEvent()
+                })
                 .MarkAllAsCommitted()
                 .ClearCommitted()
                 .Add(new DummyEvent())
@@ -153,10 +153,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void ClearCommitted_WithUncommitted()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid(), 16)
-            {
-                new DummyEvent()
-            };
+            var buffer = new EventBuffer<Guid>(Guid.NewGuid(), 16).Add(new DummyEvent());
             Assert.AreEqual(17, buffer.Version);
             Assert.AreEqual(16, buffer.CommittedVersion);
             Assert.AreEqual(1, buffer.Uncommitted.Count());
@@ -169,9 +166,8 @@ namespace Qowaiv.DomainModel.UnitTests
             using (Clock.SetTimeForCurrentThread(() => new DateTime(2017, 06, 11)))
             {
                 var buffer = new EventBuffer<Guid>(Guid.Parse("1F8B5071-C03B-457D-B27F-442C5AAC5785"))
-                {
-                    new DummyEvent()
-                };
+                    .Add(new DummyEvent());
+
                 DebuggerDisplayAssert.HasResult("Version: 1 (Committed: 0), Aggregate: 1f8b5071-c03b-457d-b27f-442c5aac5785", buffer);
             }
         }
@@ -182,10 +178,8 @@ namespace Qowaiv.DomainModel.UnitTests
             using (Clock.SetTimeForCurrentThread(() => new DateTime(2017, 06, 11)))
             {
                 var buffer = new EventBuffer<Guid>(Guid.Parse("1F8B5071-C03B-457D-B27F-442C5AAC5785"))
-                {
-                    new DummyEvent()
-                };
-                buffer.MarkAllAsCommitted();
+                    .Add(new DummyEvent())
+                    .MarkAllAsCommitted();
 
                 DebuggerDisplayAssert.HasResult("Version: 1, Aggregate: 1f8b5071-c03b-457d-b27f-442c5aac5785", buffer);
             }
