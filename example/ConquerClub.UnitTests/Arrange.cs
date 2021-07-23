@@ -30,24 +30,15 @@ namespace ConquerClub.UnitTests
 
         public static EventBuffer<GameId> Benelux(int roundLimit = 10) =>
             BeneluxWithoutArmies(roundLimit)
-            .Add(new ArmiesInitialized
-            {
-                Armies = new[] 
-                { 
-                    Player.P1.Army(3),
-                    Player.P2.Army(3),
-                    Player.Neutral.Army(3),
-                }
-            })
+            .Add(new ArmiesInitialized(
+                Player.P1.Army(3),
+                Player.P2.Army(3),
+                Player.Neutral.Army(3)))
             .Add(new TurnStarted(Player.P1.Army(3)));
 
         public static EventBuffer<GameId> BeneluxWithoutArmies(int roundLimit = 10) =>
             new EventBuffer<GameId>(GameId)
-            .Add(new SettingsInitialized
-            {
-                Players = 2,
-                RoundLimit = roundLimit,
-            })
+            .Add(new SettingsInitialized(2, roundLimit, false))
             .Add(new MapInitialized
             {
                 Continents = new[]
@@ -85,11 +76,7 @@ namespace ConquerClub.UnitTests
             });
 
         public static EventBuffer<GameId> Deploy(this EventBuffer<GameId> game) =>
-            game.Add(new Deployed
-            {
-                Army = Player.P1.Army(3),
-                Country = Netherlands,
-            });
+            game.Add(new Deployed(Netherlands, Player.P1.Army(3)));
 
         public static Game Load(this EventBuffer<GameId> buffer) =>
             AggregateRoot.FromStorage<Game, GameId>(buffer.MarkAllAsCommitted());

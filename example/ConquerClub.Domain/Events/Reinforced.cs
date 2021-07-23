@@ -1,11 +1,6 @@
-﻿using Qowaiv.Identifiers;
+﻿using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 
 namespace ConquerClub.Domain.Events
 {
-    public class Reinforced
-    {
-        public Id<ForCountry> From { get; set; }
-        public Id<ForCountry> To { get; set; }
-        public Army Army { get; set; }
-    }
+    public record Reinforced(CountryId From, CountryId To, Army Army);
 }

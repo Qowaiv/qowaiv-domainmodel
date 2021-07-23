@@ -61,11 +61,7 @@ namespace ConquerClub.Domain
             | (g => g.MustExist(country))
             | (g => g.MustBeOwnedBy(Countries.ById(country), army.Owner))
             | (g => g.MustNotExeedArmyBuffer(army))
-            | (g => g.ApplyEvent(new Deployed
-            {
-                Country = country,
-                Army = army,
-            }));
+            | (g => g.ApplyEvent(new Deployed(country, army)));
 
         public Result<Game> Attack(
             CountryId attacker,
@@ -117,10 +113,7 @@ namespace ConquerClub.Domain
             | (g => g.MustBeActivePlayer(to.Owner))
             | (g => g.MustBeOwnedBy(To, to.Owner))
             | (g => g.MustNotExeedArmyBuffer(to))
-            | (g => g.ApplyEvent(new Advanced
-            {
-                To = to,
-            }));
+            | (g => g.ApplyEvent(new Advanced(to)));
 
         public Result<Game> Reinforce(CountryId from, CountryId to, Army army) =>
             MustBeInPhase(GamePhase.Reinforce)
@@ -129,19 +122,14 @@ namespace ConquerClub.Domain
             | (g => g.MustBeOwnedBy(Countries.ById(from), army.Owner))
             | (g => g.MustBeOwnedBy(Countries.ById(to), army.Owner))
             | (g => g.MustBeReachable(Countries.ById(from), Countries.ById(to)))
-            | (g => g.ApplyEvent(new Reinforced
-            {
-                From = from,
-                To = to,
-                Army = army,
-            }));
+            | (g => g.ApplyEvent(new Reinforced(from, to, army)));
 
         public Result<Game> Resign() =>
-            ApplyEvents(
-                new Resigned { Player = ActivePlayer },
-                Countries.ActivePlayers().Count() == 2
-                ? (object)new Finished()
-                : StartTurn(NextPlayer));
+            Apply(Events
+                .Add(new Resigned(ActivePlayer))
+                .If(Countries.ActivePlayers().Count() == 2)
+                    .Then(() => new Finished())
+                .Else(() => StartTurn(NextPlayer)));
 
         internal void When(MapInitialized @event)
         {
@@ -311,16 +299,10 @@ namespace ConquerClub.Domain
                         Borders = c.Borders.ToArray(),
                     }).ToArray()
             };
-            var settings = new SettingsInitialized
-            {
-                Players = start.Players,
-                RoundLimit = start.RoundLimit,
-            };
+            var settings = new SettingsInitialized(start.Players, start.RoundLimit, false);
 
-            var armies = new ArmiesInitialized
-            {
-                Armies = RndArmies(start.Players, start.Countries.Length, rnd).ToArray(),
-            };
+            var armies = new ArmiesInitialized(
+                RndArmies(start.Players, start.Countries.Length, rnd).ToArray());
 
             return game.ApplyEvents(
                 map,

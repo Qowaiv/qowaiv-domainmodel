@@ -1,7 +1,4 @@
 ﻿namespace ConquerClub.Domain.Events
 {
-    public class ArmiesInitialized
-    {
-        public Army[] Armies { get; set; }
-    }
+    public record ArmiesInitialized(params Army[] Armies);
 }

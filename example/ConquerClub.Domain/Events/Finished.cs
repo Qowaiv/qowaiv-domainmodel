@@ -1,6 +1,4 @@
 ﻿namespace ConquerClub.Domain.Events
 {
-    public class Finished
-    {
-    }
+    public record Finished();
 }
