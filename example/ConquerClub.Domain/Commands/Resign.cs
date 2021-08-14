@@ -1,4 +1,7 @@
-﻿namespace ConquerClub.Domain.Commands
+﻿using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
+
+namespace ConquerClub.Domain.Commands
 {
-    public class Resign : Command { }
+    public record Resign(GameId Game, int ExpectedVersion)
+        : Command(Game, ExpectedVersion);
 }

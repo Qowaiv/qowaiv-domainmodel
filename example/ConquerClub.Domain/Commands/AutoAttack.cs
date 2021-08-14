@@ -1,10 +1,12 @@
-﻿using Qowaiv.Identifiers;
+﻿using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
+using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 
 namespace ConquerClub.Domain.Commands
 {
-    public class AutoAttack : Command
-    {
-        public Id<ForCountry> Attacker { get; set; }
-        public Id<ForCountry> Defender { get; set; }
-    }
+    public record AutoAttack(
+        CountryId Attacker,
+        CountryId Defender,
+        GameId Game,
+        int ExpectedVersion)
+        : Command(Game, ExpectedVersion);
 }

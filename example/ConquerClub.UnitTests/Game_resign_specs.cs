@@ -12,10 +12,7 @@ namespace Game_specs
         [Test]
         public void active_player_being_replaced_by_neutral()
         {
-            var command = new Resign
-            {
-                ExpectedVersion = 4,
-            };
+            var command = new Resign(GameId, 4);
 
             var result = Handle(command, BeneluxWithoutArmies()
                 .Add(new ArmiesInitialized
@@ -39,10 +36,7 @@ namespace Game_specs
         [Test]
         public void the_game_beinig_ended_if_one_player_servives()
         {
-            var command = new Resign
-            {
-                ExpectedVersion = 4,
-            };
+            var command = new Resign(GameId, 4);
 
             var result = Handle(command, Benelux());
 

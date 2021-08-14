@@ -13,14 +13,11 @@ namespace Deploy_specs
         [Test]
         public void in_deploy_phase()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P1.Army(3),
-                Country = Netherlands,
-
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.Deploy(
+                Netherlands,
+                Player.P1.Army(3),
+                GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, Benelux().Deploy());
 
@@ -31,14 +28,11 @@ namespace Deploy_specs
         [Test]
         public void by_active_player()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P2.Army(3),
-                Country = Netherlands,
-
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Netherlands,
+                Player.P2.Army(3),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 
@@ -49,14 +43,11 @@ namespace Deploy_specs
         [Test]
         public void to_existing_country()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P1.Army(3),
-                Country = Unknown,
-
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Unknown,
+                Player.P1.Army(3),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 
@@ -67,14 +58,11 @@ namespace Deploy_specs
         [Test]
         public void to_country_owned_by_player()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P1.Army(3),
-                Country = Belgium,
-
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Belgium,
+                Player.P1.Army(3),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 
@@ -85,14 +73,11 @@ namespace Deploy_specs
         [Test]
         public void with_army_that_not_exceeds_available()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P1.Army(4),
-                Country = Netherlands,
-
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Netherlands,
+                Player.P1.Army(4),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 
@@ -106,14 +91,11 @@ namespace Deploy_specs
         [Test]
         public void and_stays_in_deploy_phase_when_deployment_left()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P1.Army(2),
-                Country = Netherlands,
-
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Netherlands,
+                Player.P1.Army(2),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
             var game = ValidationMessageAssert.IsValid(result);
@@ -126,14 +108,11 @@ namespace Deploy_specs
         [Test]
         public void and_moves_to_attack_phase_when_out_deployments()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P1.Army(3),
-                Country = Netherlands,
-
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Netherlands,
+                Player.P1.Army(3),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 

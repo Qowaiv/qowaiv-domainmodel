@@ -15,43 +15,28 @@ namespace Game_specs
         [Test]
         public void With_two_players_includes_third_neutral_player()
         {
-            var command = new Commands.Start
-            {
-                Players = 2,
-                RoundLimit = 10,
-                Continents = new[]
+            var command = new Commands.Start(
+                Game: GameId,
+                Players: 2,
+                RoundLimit: 10,
+                Continents: new[]
                 {
-                    new Commands.Start.Continent
-                    {
-                        Name = "Benelux",
-                        Bonus = 3,
-                        Territories = new []
+                    new Commands.Continent(
+                        Name: "Benelux",
+                        Bonus: 3,
+                        Territories: new []
                         {
                             Netherlands,
                             Belgium,
                             Luxembourg,
-                        }
-                    },
+                        }),
                 },
-                Countries = new[]
+                Countries: new[]
                 {
-                    new Commands.Start.Country
-                    {
-                        Name = "Netherlands",
-                        Borders = new []{ Belgium },
-                    },
-                    new Commands.Start.Country
-                    {
-                        Name = "Belgium",
-                        Borders = new []{ Netherlands, Luxembourg },
-                    },
-                    new Commands.Start.Country
-                    {
-                        Name = "Luxembourg",
-                        Borders = new []{ Belgium },
-                    },
-                }
-            };
+                    new Commands.Country("Netherlands", new []{ Belgium }),
+                    new Commands.Country("Belgium", new []{ Netherlands, Luxembourg }),
+                    new Commands.Country("Luxembourg", new []{ Belgium }),
+                });
 
             var result = Handle(command);
 
@@ -72,13 +57,11 @@ namespace Game_specs
         [Test]
         public void Can_only_be_applied_the_active_player()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P2.Army(3),
-                Country = Luxembourg,
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Luxembourg,
+                Player.P2.Army(3),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 
@@ -89,13 +72,11 @@ namespace Game_specs
         [Test]
         public void Can_only_be_applied_on_own_country()
         {
-            var command = new Commands.Deploy
-            {
-                Army = Player.P1.Army(3),
-                Country = Luxembourg,
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.Deploy(
+                Luxembourg,
+                Player.P1.Army(3),
+                GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 

@@ -1,11 +1,6 @@
-﻿using Qowaiv.Identifiers;
+﻿using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
 
 namespace ConquerClub.Domain.Commands
 {
-    public class Command
-    {
-        protected Command() { }
-        public Id<ForGame> Game { get; set; }
-        public int ExpectedVersion { get; set; }
-    }
+    public record Command(GameId Game, int ExpectedVersion);
 }

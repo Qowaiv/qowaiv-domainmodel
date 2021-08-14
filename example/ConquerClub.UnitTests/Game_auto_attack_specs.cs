@@ -13,13 +13,11 @@ namespace Game_specs
         [Test]
         public void current_phase_is_not_attack()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Netherlands,
-                Defender = Belgium,
-                Game = GameId,
-                ExpectedVersion = 4,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Netherlands,
+                Defender: Belgium,
+                Game: GameId,
+                ExpectedVersion: 4);
 
             var result = Handle(command, Benelux());
 
@@ -30,13 +28,11 @@ namespace Game_specs
         [Test]
         public void attacking_country_is_unknown()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Unknown,
-                Defender = Belgium,
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Unknown,
+                Defender: Belgium,
+                Game: GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, Benelux().Deploy());
 
@@ -47,13 +43,11 @@ namespace Game_specs
         [Test]
         public void defending_country_is_unknown()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Netherlands,
-                Defender = Unknown,
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Netherlands,
+                Defender: Unknown,
+                Game: GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, Benelux().Deploy());
 
@@ -64,13 +58,11 @@ namespace Game_specs
         [Test]
         public void attacking_country_is_not_owned_by_the_attacker()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Belgium,
-                Defender = Luxembourg,
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Belgium,
+                Defender: Luxembourg,
+                Game: GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, Benelux().Deploy());
 
@@ -81,13 +73,11 @@ namespace Game_specs
         [Test]
         public void defending_country_is_owned_by_the_attacker()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Netherlands,
-                Defender = Netherlands,
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Netherlands,
+                Defender: Netherlands,
+                Game: GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, Benelux().Deploy());
 
@@ -98,13 +88,11 @@ namespace Game_specs
         [Test]
         public void defending_country_can_be_reached_by_the_attacking_country()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Netherlands,
-                Defender = Luxembourg,
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Netherlands,
+                Defender: Luxembourg,
+                Game: GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, Benelux().Deploy());
 
@@ -115,13 +103,11 @@ namespace Game_specs
         [Test]
         public void attacking_country_has_an_army_size_of_less_then_two()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Luxembourg,
-                Defender = Belgium,
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Luxembourg,
+                Defender: Belgium,
+                Game: GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, BeneluxWithoutArmies()
                 .Add(new ArmiesInitialized
@@ -145,13 +131,11 @@ namespace Game_specs
         [Test]
         public void none_of_the_guards_fail()
         {
-            var command = new Commands.AutoAttack
-            {
-                Attacker = Netherlands,
-                Defender = Belgium,
-                Game = GameId,
-                ExpectedVersion = 5,
-            };
+            var command = new Commands.AutoAttack(
+                Attacker: Netherlands,
+                Defender: Belgium,
+                Game: GameId,
+                ExpectedVersion: 5);
 
             var result = Handle(command, Benelux().Deploy());
 

@@ -1,13 +1,12 @@
-﻿using Qowaiv.Identifiers;
+﻿using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
+using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 
 namespace ConquerClub.Domain.Commands
 {
-    public class Deploy : Command
-    {
-        /// <summary>The country to deploy to.</summary>
-        public Id<ForCountry> Country { get; set; }
-
-        /// <summary>The army to deploy.</summary>
-        public Army Army { get; set; }
-    }
+    public record Deploy(
+        CountryId Country,
+        Army Army,
+        GameId Game,
+        int ExpectedVersion)
+        : Command(Game, ExpectedVersion);
 }
