@@ -34,7 +34,7 @@ namespace Game_specs
         }
 
         [Test]
-        public void the_game_beinig_ended_if_one_player_servives()
+        public void the_game_beinig_ended_if_one_player_survives()
         {
             var command = new Resign(GameId, 4);
 
