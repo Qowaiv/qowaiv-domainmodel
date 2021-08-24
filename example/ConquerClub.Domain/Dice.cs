@@ -59,9 +59,7 @@ namespace ConquerClub.Domain
 
         /// <remarks>+66,0% -34,0%</remarks>
         private static int Roll3v1(IGenerator rnd)
-        {
-            return rnd.Next(855 + 441) < 855 ? +1 : -1;
-        }
+            => rnd.Next(855 + 441) < 855 ? +1 : -1;
 
         /// <remarks>+22,8% =32,4% -44,8% E: 39,0%</remarks>
         private static int Roll2v2(IGenerator rnd)
@@ -74,20 +72,14 @@ namespace ConquerClub.Domain
 
         /// <remarks>+57,9% -42,1%</remarks>
         private static int Roll2v1(IGenerator rnd)
-        {
-            return rnd.Next(125 + 91) < 125 ? +1 : -1;
-        }
+            => rnd.Next(125 + 91) < 125 ? +1 : -1;
 
         /// <remarks>+25,5% -74,5%</remarks>
         private static int Roll1v2(IGenerator rnd)
-        {
-            return rnd.Next(55 + 161) < 55 ? +1 : -1;
-        }
+            => rnd.Next(55 + 161) < 55 ? +1 : -1;
 
         /// <remarks>+41,7% -58,3%</remarks>
-        private static int Roll1v1(IGenerator rnd)
-        {
-            return rnd.Next(15 + 21) < 15 ? +1 : -1;
-        }
+        private static int Roll1v1(IGenerator rnd) 
+            => rnd.Next(15 + 21) < 15 ? +1 : -1;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace ConquerClub.Domain
@@ -12,7 +11,7 @@ namespace ConquerClub.Domain
     /// </remarks>
     public readonly struct Army : IEquatable<Army>, IComparable<Army>, IComparable<int>, IFormattable
     {
-        private static readonly Regex Pattern = new Regex(@"^(?<Player>[A-Z0-9]+)\.Army\((?<Size>[0-9]+)\)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex Pattern = new(@"^(?<Player>[A-Z0-9]+)\.Army\((?<Size>[0-9]+)\)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>Gets no army.</summary>
         public static readonly Army None;
@@ -32,30 +31,20 @@ namespace ConquerClub.Domain
 
         /// <summary>Adds the other army to this army.</summary>
         public Army Add(Army other)
-        {
-            if (other.Size == 0)
-            {
-                return this;
-            }
-            //Guard.SamePlayer(this, other);
-            return new Army(Owner, Size + other.Size);
-        }
+            => other.Size == 0
+            ? this
+            : new Army(Owner, Size + other.Size);
 
         /// <summary>Subtract the other army from this army.</summary>
         public Army Subtract(Army other)
-        {
-            if (other.Size == 0)
-            {
-                return this;
-            }
-            //Guard.SamePlayer(this, other);
-            return Subtract(other.Size);
-        }
+            => other.Size == 0
+            ? this
+            : Subtract(other.Size);
 
         /// <summary>Reduces the size of the army with the total of losses.</summary>
         public Army Subtract(int losses)
         {
-            var size = Size - losses;// Guard.NotNegativeArmySize(Size - Guard.NotNegative(losses, nameof(losses)));
+            var size = Size - losses;
             return size == 0
                 ? None
                 : Owner.Army(size);

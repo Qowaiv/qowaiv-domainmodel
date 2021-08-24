@@ -320,9 +320,7 @@ namespace ConquerClub.Domain
                 .Select(index =>
                 {
                     var id = 1 + (index / perCountry);
-                    return id == 3 && players == 2 || id > players
-                        ? 0
-                        : id;
+                    return id == 3 && players == 2 || id > players ? 0 : id;
                 })
                 .Select(id => id == 0 ? Player.Neutral : new Player((byte)id))
                 .Select(player => player.Army(3))
