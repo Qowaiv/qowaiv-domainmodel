@@ -46,6 +46,12 @@ namespace Qowaiv.DomainModel
         /// </remarks>
         protected abstract void AddEventsToBuffer(IEnumerable<object> events);
 
+        /// <summary>Clones the current instance.</summary>
+        /// <remarks>
+        /// It is advised to do this be replaying all previous events.
+        /// </remarks>
+        protected abstract TAggregate Clone();
+
         /// <summary>Applies a single event.</summary>
         protected Result<TAggregate> ApplyEvent(object @event) => ApplyEvents(@event);
 
@@ -56,41 +62,21 @@ namespace Qowaiv.DomainModel
         /// <summary>Applies the events.</summary>
         protected Result<TAggregate> Apply(IEnumerable<object> events)
         {
-            Guard.HasAny(events, nameof(events));
+            var updated = Clone();
+            updated.Replay(Guard.HasAny(events, nameof(events)));
 
-            lock (locker)
-            {
-                foreach (var @event in events)
-                {
-                    Dynamic.When(@event);
-                }
-
-                var result = Validator.Validate((TAggregate)this);
-
-                if (result.IsValid)
-                {
-                    AddEventsToBuffer(events);
-                }
-                return result;
-            }
+            var result = updated.Validator.Validate(updated);
+            if(result.IsValid) { updated.AddEventsToBuffer(events); }
+            return result;
         }
 
         /// <summary>Loads the state of the aggregate root by replaying events.</summary>
         protected void Replay(IEnumerable<object> events)
         {
-            Guard.NotNull(events, nameof(events));
-
-            lock (locker)
+            foreach (var @event in events ?? Array.Empty<object>())
             {
-                foreach (var @event in events)
-                {
-                    Dynamic.When(@event);
-                }
+                Dynamic.When(@event);
             }
         }
-
-        /// <summary>To be thread-safe, we lock.</summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly object locker = new object();
     }
 }

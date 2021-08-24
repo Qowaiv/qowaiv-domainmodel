@@ -1,5 +1,6 @@
 ﻿using Qowaiv.Validation.Abstractions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Qowaiv.DomainModel
 {
@@ -11,7 +12,7 @@ namespace Qowaiv.DomainModel
     /// The type of the identifier.
     /// </typeparam>
     public class AggregateRoot<TAggregate, TId> : AggregateRoot<TAggregate>
-        where TAggregate : AggregateRoot<TAggregate>
+        where TAggregate : AggregateRoot<TAggregate, TId>, new()
     {
         /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate, TId}"/> class.</summary>
         /// <param name="validator">
@@ -38,11 +39,19 @@ namespace Qowaiv.DomainModel
         protected override void AddEventsToBuffer(IEnumerable<object> events)
             => Buffer = Buffer.Add(events);
 
+        /// <inheritdoc/>
+        protected override TAggregate Clone()
+        {
+            var cloned = new TAggregate();
+            cloned.Replay(Buffer);
+            return cloned;
+        }
+
         /// <summary>Loads the state of the aggregate root by replaying events.</summary>
         internal void Replay(EventBuffer<TId> eventBuffer)
         {
-            Buffer = new EventBuffer<TId>(eventBuffer.AggregateId, eventBuffer.CommittedVersion);
-            Replay(eventBuffer.Committed);
+            Buffer = new EventBuffer<TId>(eventBuffer.AggregateId, eventBuffer.Version);
+            Replay(eventBuffer.AsEnumerable());
         }
     }
 }

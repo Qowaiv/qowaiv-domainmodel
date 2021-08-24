@@ -24,8 +24,8 @@ namespace Qowaiv.DomainModel.UnitTests
         {
             var aggregate = new SimpleEventSourcedRoot();
 
-            ValidationMessageAssert.IsValid(aggregate.SetName("Jimi Hendrix"));
-            AggregateRootAssert.HasUncommittedEvents(aggregate.Buffer, new NameUpdated { Name = "Jimi Hendrix" });
+            var updated = ValidationMessageAssert.IsValid(aggregate.SetName("Jimi Hendrix"));
+            AggregateRootAssert.HasUncommittedEvents(updated.Buffer, new NameUpdated { Name = "Jimi Hendrix" });
         }
 
         [Test]
@@ -33,8 +33,8 @@ namespace Qowaiv.DomainModel.UnitTests
         {
             var aggregate = new SimpleEventSourcedRoot();
 
-            ValidationMessageAssert.IsValid(aggregate.SetPerson("Jimi Hendrix", new Date(1942, 11, 27)));
-            AggregateRootAssert.HasUncommittedEvents(aggregate.Buffer,
+            var updated = ValidationMessageAssert.IsValid(aggregate.SetPerson("Jimi Hendrix", new Date(1942, 11, 27)));
+            AggregateRootAssert.HasUncommittedEvents(updated.Buffer,
                 new NameUpdated { Name = "Jimi Hendrix" },
                 new DateOfBirthUpdated { DateOfBirth = new Date(1942, 11, 27) });
         }

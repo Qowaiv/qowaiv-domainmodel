@@ -23,7 +23,8 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
-        public static void HasUncommittedEvents<TAggregate, TId>(Result<TAggregate> actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate, TId>
+        public static void HasUncommittedEvents<TAggregate, TId>(Result<TAggregate> actualAggregate, params object[] expectedEvents)
+            where TAggregate : AggregateRoot<TAggregate, TId>, new()
         {
             Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
 
@@ -53,7 +54,8 @@ namespace Qowaiv.DomainModel.TestTools.EventSourcing
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
-        public static void HasUncommittedEvents<TAggregate, TId>(TAggregate actualAggregate, params object[] expectedEvents) where TAggregate : AggregateRoot<TAggregate, TId>
+        public static void HasUncommittedEvents<TAggregate, TId>(TAggregate actualAggregate, params object[] expectedEvents)
+            where TAggregate : AggregateRoot<TAggregate, TId>, new()
         {
             Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
 
