@@ -8,42 +8,58 @@
 |![v](https://img.shields.io/badge/version-0.0.3-blue.svg?cacheSeconds=3600)|[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)|
 
 # Qowaiv Domain Model
-Qowaiv Domain Model is library containing the (abstract) building blocks to set
-up a Domain-Driven application.
+Qowaiv Domain Model is a library containing the (abstract) building blocks to
+set up a Domain-Driven application.
 
 ## Event Sourcing
-The choice have been made to only support DDD via Event Sourcing. In short:
-Event Sourcing describes the state of an aggregate (root) by the (domain) events
-that occurred to it, and getting the current state of affairs can always be
-achieved by replaying these events.
+Within Qowaiv Domain Model, the choice has been made to only support DDD via
+Event Sourcing. In short: Event Sourcing describes the state of an aggregate
+(root) by the (domain) events that occurred within the domain. Getting the
+current state of an aggregate root can always be achieved by replaying these
+events. 
 
 ## Always Valid
-Aggregate roots should always be valid; that is, within the boundaries of their
+Aggregate roots should always be valid according to the boundaries of their
 domain. There are multiple ways to achieve this, but within Qowaiv Domain Model
-the choice have been made to this via implicitly triggered validators. When
-a public method is called that could/should lead to a new state the event(s)
-describing the change are only added to the event buffer/stream, if the new
-state is valid according to the validator.
+this is guaranteed via implicitly triggered validators.
+When a public method is called that would lead to a new aggregate state, the
+events describing the change are only added to the event buffer
+associated with the aggregate root if the new state is valid according to the
+rules specified in the validator.
 
 ## Aggregate Root
-An Aggregate Root is the root (duh), of every Domain with the DDD context. 
-It should be provided with an [IValidator<TAggragate>](https://github.com/Qowaiv/qowaiv-validation)
-implementation of choice.
+An Aggregate Root is the root of every Domain within a DDD context. When
+implementing a new aggregate root there are several steps that have to be taken.
 
-Furthermore there is an option to have a base where identity and the handling of
-the events that should be published (as they do not lead to an invalid state):
-`AggregateRoot<TAggregate>`. It has an `protected abstract void AddEventsToBuffer(params object[] events)`
-method that has to be overridden, to achieve the persistence of the events.
+First, a new Aggregate Root should have a corresponding
+[IValidator<TAggragate>](https://github.com/Qowaiv/qowaiv-validation)
+implementation of choice. This implementation will safeguard any post conditions
+on the aggregate root.
 
-The other option is `AggregateRoot<TAggregate, TId>` that comes with an
-`EventBuffer<TId>`.  Events that should be persisted are added to it, and it
-can return both the committed as the uncommitted events it buffers.
+Secondly, the actual class representing the aggregate root should be created. This class
+should inherit from one of two possible base classes:
+
+- `AggregateRoot<TAggregate>`
+- `AggregateRoot<TAggregate, TId>`
+
+`AggregateRoot<TAggregate>` is a low level base class that provides a framework
+for handling the application of events. It has no event store of its own. Implementations
+of this class should override the `protected abstract void AddEventsToBuffer(params object[] events)`
+method to achieve persistence of events.
+
+The second option, `AggregateRoot<TAggregate, TId>`, inherits from
+`AggregateRoot<TAggregate>`. It has built-in identity support and systems for
+storing events in the integrated `EventBuffer<TId>`. Events that
+should be persisted are added to this buffer, and it can return both the committed as
+well as the uncommitted events it contains.
 
 ## Example
-A (simplified) real life example of a financial entry:
+A (simplified) real life example of a financial entry, using `AggregateRoot<TAggregate, TId>`:
 ``` C#
 public sealed class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
 {
+    // Note that FinancialEntryValidator is passed in for validation purposes.
+    // See the implementation of this class below.
     public FinancialEntry(Guid id) : base(id, new FinancialEntryValidator()) { }
 
      public IReadOnlyCollection<EntryLine> Lines => enties;
@@ -63,7 +79,7 @@ public sealed class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
     }
 	
     // The method that is triggered when an EntryLineAdded
-    // is triggered by the ApplyEvent(s) method.
+    // is processed by the ApplyEvents method called from AddLines above.
     internal void When(EntryLineAdded @event)
     {
         enties.Add(new EntryLine
@@ -78,7 +94,7 @@ public sealed class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
 }
 ```
 
-And a validator might look like this:
+And the implementation of the validator for `FinancialEntry` might look like this:
 
 ``` C#
 public class FinancialEntryValidator : FluentModelValidator<FinancialEntry>
@@ -112,19 +128,20 @@ public class FinancialEntryValidator : FluentModelValidator<FinancialEntry>
 }
 ```
 
-You could argue that some of the rules specified in the validator should be handled
-as part of the *anti-corruption layer*, but that is another topic. The point is
-that by defining those constraints, you can no longer add any entry line with
-an other currency then the lines already added, nor have an financial entry that
-is not balanced, both extremely important in this domain.
+You could argue that some of the rules specified in the validator should be
+handled as part of the *anti-corruption layer*, but that is another topic. The
+point is that by defining those constraints, you can no longer add any entry
+line with any other currency than the lines already added, nor add any financial
+entries that are not balanced. Both extremely important within this particular
+domain.
 
-If you want to throw an exception, or deal with a `Result<TAggegate>` is up to
-the developer.
+Note that the decision to throw an exception, or deal with a
+`Result<TAggegate>` is up to the developer.
 
 ## Immutable Collection
-When applying changes to an aggregate, based on its current states you might
-want to apply different events; sometimes even a different amount of a different
-type. This is supported the following way:
+When applying changes to an aggregate, you might want to apply a different type
+and number of events, based on the current state of the aggregate. This use-case
+is supported in the following way:
 
 ``` C#
 public Result<Game> Attack(Country attacker, Country defender, AttackResult result)
@@ -147,5 +164,4 @@ public Result<Game> Attack(Country attacker, Country defender, AttackResult resu
         {
             Player = Countries(defender).Owner 
         }));
-
 ```
