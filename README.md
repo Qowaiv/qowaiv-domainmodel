@@ -31,7 +31,7 @@ rules specified in the validator.
 An Aggregate Root is the root of every Domain within a DDD context. When
 implementing a new aggregate root there are several steps that have to be taken.
 
-First a new Aggregate Root should have a corresponding
+First, a new Aggregate Root should have a corresponding
 [IValidator<TAggragate>](https://github.com/Qowaiv/qowaiv-validation)
 implementation of choice. This implementation will safeguard any post conditions
 on the aggregate root.
@@ -48,9 +48,9 @@ of this class should override the `protected abstract void AddEventsToBuffer(par
 method to achieve persistence of events.
 
 The second option, `AggregateRoot<TAggregate, TId>`, inherits from
-`AggregateRoot<TAggregate>`. It has build-in identity support and systems for
+`AggregateRoot<TAggregate>`. It has built-in identity support and systems for
 storing events in the integrated `EventBuffer<TId>`. Events that
-should be persisted are added to it this buffer, and it can return both the committed as
+should be persisted are added to this buffer, and it can return both the committed as
 well as the uncommitted events it contains.
 
 ## Example
@@ -131,7 +131,7 @@ public class FinancialEntryValidator : FluentModelValidator<FinancialEntry>
 You could argue that some of the rules specified in the validator should be
 handled as part of the *anti-corruption layer*, but that is another topic. The
 point is that by defining those constraints, you can no longer add any entry
-line with any other currency then the lines already added, nor add any financial
+line with any other currency than the lines already added, nor add any financial
 entries that are not balanced. Both extremely important within this particular
 domain.
 
