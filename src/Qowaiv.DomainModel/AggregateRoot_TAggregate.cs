@@ -48,7 +48,7 @@ namespace Qowaiv.DomainModel
 
         /// <summary>Clones the current instance.</summary>
         /// <remarks>
-        /// It is advised to do this be replaying all previous events.
+        /// It is advised to do this by replaying all previous events.
         /// </remarks>
         protected abstract TAggregate Clone();
 
@@ -66,7 +66,7 @@ namespace Qowaiv.DomainModel
             updated.Replay(Guard.HasAny(events, nameof(events)));
 
             var result = updated.Validator.Validate(updated);
-            if(result.IsValid) { updated.AddEventsToBuffer(events); }
+            if (result.IsValid) { updated.AddEventsToBuffer(events); }
             return result;
         }
 
