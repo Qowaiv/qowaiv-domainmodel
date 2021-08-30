@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <Description>Qowaiv implements common, universal domain objects. These types form the base of your domain model.</Description>
-    <Authors>Ad van der Hoeven;Corniel Nobel;Erik Ammerlaan;Jack Kester;Hanif Hafez Nezami;Patrick Evers;Vincent Lesierse;Wilko Frieke</Authors>
+    <Authors>Ad van der Hoeven;Corniel Nobel;Erik Ammerlaan;Jack Kester;Marcel Strik;Patrick Evers;Wilko Frieke</Authors>
     <Owners>Qowaiv community</Owners>
     <PackageTags>qowaiv domain model</PackageTags>
     <Company>Qowaiv community</Company>
@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.26.0.34506">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.27.0.35380">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

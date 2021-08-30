@@ -143,10 +143,7 @@ namespace Qowaiv.DomainModel
             Guard.NotNull(convert, nameof(convert));
 
             var version = CommittedVersion;
-            foreach (var @event in Uncommitted)
-            {
-                yield return convert(AggregateId, ++version, @event);
-            }
+            return Uncommitted.Select(@event => convert(AggregateId, ++version, @event));
         }
 
         /// <inheritdoc/>

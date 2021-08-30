@@ -49,9 +49,16 @@ method to achieve persistence of events.
 
 The second option, `AggregateRoot<TAggregate, TId>`, inherits from
 `AggregateRoot<TAggregate>`. It has built-in identity support and systems for
-storing events in the integrated `EventBuffer<TId>`. Events that
-should be persisted are added to this buffer, and it can return both the committed as
+storing events in the integrated `EventBuffer<TId>`. Events that should be
+persisted are added to this buffer, and it can return both the committed as
 well as the uncommitted events it contains.
+
+### Immutability
+As immutability comes with tons of benefits in DDD scenarios, the
+`AggregateRoot<TAggregate>` is designed to be immutable; that is,
+if you apply all your changes via the `Apply`, and `ApplyEvents` methods
+(as you should), it will create an updated copy that represents the new state,
+leaving the initial instance unchanged.
 
 ## Example
 A (simplified) real life example of a financial entry, using `AggregateRoot<TAggregate, TId>`:

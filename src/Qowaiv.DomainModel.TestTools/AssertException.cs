@@ -7,6 +7,7 @@ namespace Qowaiv.DomainModel.TestTools
     /// <remarks>
     /// Exists to be independent to external test frameworks.
     /// </remarks>
+    [Serializable]
     public class AssertException : Exception
     {
         /// <summary>Initializes a new instance of the <see cref="AssertException"/> class.</summary>
