@@ -5,8 +5,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <PackageReleaseNotes>
+v0.1.1
+- Bug fix AggregateRoot.FromStorage #12
 v0.1.0
 - Update to Qowaiv.Validation.Abstractions v0.1.0.
 - AggregateRoot is immutable #11
