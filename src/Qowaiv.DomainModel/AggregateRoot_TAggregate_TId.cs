@@ -48,10 +48,10 @@ namespace Qowaiv.DomainModel
         }
 
         /// <summary>Loads the state of the aggregate root by replaying events.</summary>
-        internal void Replay(EventBuffer<TId> eventBuffer)
+        internal void Replay(EventBuffer<TId> buffer)
         {
-            Buffer = new EventBuffer<TId>(eventBuffer.AggregateId, eventBuffer.Version);
-            Replay(eventBuffer.AsEnumerable());
+            Buffer = buffer;
+            Replay(buffer.AsEnumerable());
         }
     }
 }
