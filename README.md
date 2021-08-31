@@ -3,9 +3,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Code of Conduct](https://img.shields.io/badge/%E2%9D%A4-code%20of%20conduct-blue.svg?style=flat)](https://github.com/Qowaiv/qowaiv-domainmodel/blob/master/CODE_OF_CONDUCT.md)
 
-| version                                                                   | package                                                                |
-|---------------------------------------------------------------------------|------------------------------------------------------------------------|
-|![v](https://img.shields.io/badge/version-0.0.3-blue.svg?cacheSeconds=3600)|[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)|
+| version                                                                      | package                                                                                    |
+|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+|![v](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=3600)   |[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)                    |
+|![v](https://img.shields.io/badge/version-0.1.0-darkred.svg?cacheSeconds=3600)|[Qowaiv.Do,ainModel.TestTools](https://www.nuget.org/packages/Qowaiv.DomainModel.TestTools/)|
 
 # Qowaiv Domain Model
 Qowaiv Domain Model is a library containing the (abstract) building blocks to
