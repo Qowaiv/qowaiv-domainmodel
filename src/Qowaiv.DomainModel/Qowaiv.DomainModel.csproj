@@ -8,7 +8,7 @@
     <Version>0.1.1</Version>
     <PackageReleaseNotes>
 v0.1.1
-- Bug fix AggregateRoot.FromStorage #12
+- Bug fix AggregateRoot.FromStorage #14
 v0.1.0
 - Update to Qowaiv.Validation.Abstractions v0.1.0.
 - AggregateRoot is immutable #11
