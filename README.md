@@ -179,7 +179,7 @@ The `EventBuffer<TId>`, as used by `AggregateRoot<TAggregate, TId>` is an
 immutable collection with the following API:
 
 ``` C#
-`// Creation
+// Creation
 var id = NewId();
 var buffer = EventBuffer.Empty(id, version: 5); // version optional.
 var stored = EventBuffer.FromStorage(id, version: 5, storedEvents, (e) => Convert(e));

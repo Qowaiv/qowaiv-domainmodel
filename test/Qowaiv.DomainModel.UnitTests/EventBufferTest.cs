@@ -97,6 +97,7 @@ namespace Qowaiv.DomainModel.UnitTests
         }
 
         [Test]
+        [Obsolete("Will be dropped.")]
         public void GetUncommitted_3Committed_1ItemWithVersion4()
         {
             var buffer = EventBuffer.Empty(Guid.NewGuid())
@@ -118,6 +119,7 @@ namespace Qowaiv.DomainModel.UnitTests
         }
 
         [Test]
+        [Obsolete("Will be dropped.")]
         public void GetUncommitted_ClearCommittedWithCommitted_1ItemWithVersion5()
         {
             var buffer = EventBuffer.Empty(Guid.NewGuid())

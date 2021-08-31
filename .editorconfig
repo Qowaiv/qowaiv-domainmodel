@@ -13,8 +13,8 @@ indent_size = 4
 indent_style = space
 indent_size = 2
 
-# IDE warnings
 [*.cs]
+# IDE warnings
 # IDE0018: Inline variable declaration
 csharp_style_inlined_variable_declaration = true:warning
 # IDE0034: Simplify 'default' expression
@@ -23,3 +23,13 @@ csharp_prefer_simple_default_expression = true:warning
 dotnet_style_prefer_compound_assignment = true:warning
 # IDE0059: Unnecessary assignment of a value
 csharp_style_unused_value_assignment_preference = discard_variable:warning
+
+# Analyzers
+# S101: Types should be named in PascalCase
+dotnet_diagnostic.S101.severity = none
+# S3376: Attribute, EventArgs, and Exception type names should end with the type being extended
+dotnet_diagnostic.S3376.severity = none
+# S4136: Method overloads should be grouped together
+dotnet_diagnostic.S4136.severity = none
+# CS0649: Field is never assigned to, and will always have its default value
+dotnet_diagnostic.CS0649.severity = none
