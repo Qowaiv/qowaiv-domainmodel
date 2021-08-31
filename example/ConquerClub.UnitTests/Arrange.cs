@@ -3,10 +3,10 @@ using ConquerClub.Domain.Events;
 using ConquerClub.Domain.Handlers;
 using Qowaiv.DomainModel;
 using Qowaiv.Validation.Abstractions;
-using System.Collections.Generic;
 using Troschuetz.Random.Generators;
 using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
+using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
 
 namespace ConquerClub.UnitTests
 {
@@ -18,9 +18,9 @@ namespace ConquerClub.UnitTests
         public static readonly CountryId Luxembourg = CountryId.Create(2);
         public static readonly CountryId Unknown = CountryId.Create(666);
 
-        public static Result<Game> Handle(dynamic command, EventBuffer<GameId> buffer = null)
+        public static Result<Game> Handle(dynamic command, Buffer buffer = null)
         {
-            buffer ??= new EventBuffer<GameId>(GameId);
+            buffer ??= new Buffer(GameId);
             var handler = new TestHandler(buffer, 17);
             var result = handler.Handle(command);
             return result.IsValid
@@ -28,16 +28,16 @@ namespace ConquerClub.UnitTests
                 : Result.WithMessages<Game>(result.Messages);
         }
 
-        public static EventBuffer<GameId> Benelux(int roundLimit = 10) =>
-            BeneluxWithoutArmies(roundLimit)
+        public static Buffer Benelux(int roundLimit = 10)
+            => BeneluxWithoutArmies(roundLimit)
             .Add(new ArmiesInitialized(
                 Player.P1.Army(3),
                 Player.P2.Army(3),
                 Player.Neutral.Army(3)))
             .Add(new TurnStarted(Player.P1.Army(3)));
 
-        public static EventBuffer<GameId> BeneluxWithoutArmies(int roundLimit = 10) =>
-            new EventBuffer<GameId>(GameId)
+        public static Buffer BeneluxWithoutArmies(int roundLimit = 10)
+            => new Buffer(GameId)
             .Add(new SettingsInitialized(2, roundLimit, false))
             .Add(new MapInitialized
             {
@@ -75,16 +75,16 @@ namespace ConquerClub.UnitTests
                 }
             });
 
-        public static EventBuffer<GameId> Deploy(this EventBuffer<GameId> game) =>
+        public static Buffer Deploy(this Buffer game) =>
             game.Add(new Deployed(Netherlands, Player.P1.Army(3)));
 
-        public static Game Load(this EventBuffer<GameId> buffer) =>
+        public static Game Load(this Buffer buffer) =>
             AggregateRoot.FromStorage<Game, GameId>(buffer.MarkAllAsCommitted());
     }
 
     internal class TestHandler
     {
-        public TestHandler(EventBuffer<GameId> buffer, int seed)
+        public TestHandler(Buffer buffer, int seed)
         {
             rnd = new MT19937Generator(seed);
             Buffer = buffer;
@@ -92,21 +92,19 @@ namespace ConquerClub.UnitTests
 
         public Result Handle(dynamic command)
         {
-            var uncommited = new List<object>();
             dynamic handler = new GameCommandHandler(rnd,
                 load: id => Buffer.Load(),
                 save: game =>
                 {
-                    uncommited.AddRange(game.Buffer.Uncommitted);
+                    Buffer = game.Buffer;
                     return Result.OK;
                 });
 
             var result = handler.Handle(command);
-            Buffer = Buffer.Add(uncommited);
             return result;
         }
 
-        public EventBuffer<GameId> Buffer { get; private set; }
+        public Buffer Buffer { get; private set; }
         private readonly MT19937Generator rnd;
     }
 }

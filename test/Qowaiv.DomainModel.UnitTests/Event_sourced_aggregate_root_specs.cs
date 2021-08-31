@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Qowaiv;
 using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.TestTools.EventSourcing;
+using Qowaiv.DomainModel.TestTools;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.Validation.TestTools;
 using System;
@@ -67,7 +67,7 @@ namespace Event_sourced_aggregate_root_specs
         public void without_matching_when_method_throws()
         {
             var aggregate = new TestApplyChangeAggregate();
-            var exception = Assert.Catch<EventTypeNotSupportedException>(() => aggregate.TestApplyChange(new NameUpdated()));
+            var exception = Assert.Catch<EventTypeNotSupported>(() => aggregate.TestApplyChange(new NameUpdated()));
             Assert.AreEqual(typeof(NameUpdated), exception.EventType);
         }
     }
