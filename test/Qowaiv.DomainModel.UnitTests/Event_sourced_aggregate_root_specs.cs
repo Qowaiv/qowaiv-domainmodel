@@ -9,6 +9,21 @@ using System.Linq;
 
 namespace Event_sourced_aggregate_root_specs
 {
+    public class Replays_events
+    {
+        [Test]
+        public void from_buffer()
+        {
+            var id = Guid.Parse("58B82A50-B906-4178-87EC-A8C31B49368B");
+            var buffer = new EventBuffer<Guid>(id).Add(new NameUpdated { Name = "Jimi Hendrix" });
+
+            var replayed = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid>(buffer);
+            Assert.That(replayed.Version, Is.EqualTo(1));
+            Assert.That(replayed.Id, Is.EqualTo(id));
+            Assert.That(replayed.Buffer.Count(), Is.EqualTo(1));
+        }
+    }
+
     public class Applies_events
     {
         [Test]
@@ -29,7 +44,6 @@ namespace Event_sourced_aggregate_root_specs
                 new NameUpdated { Name = "Jimi Hendrix" },
                 new DateOfBirthUpdated { DateOfBirth = new Date(1942, 11, 27) });
         }
-
 
         [Test]
         public void as_uncommitted_to_the_buffer()
