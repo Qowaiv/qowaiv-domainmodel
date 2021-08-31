@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Qowaiv.DomainModel
@@ -17,12 +18,11 @@ namespace Qowaiv.DomainModel
         }
 
         private static string GetMessage(Type eventType, Type aggragateType)
-        {
-            return string.Format(
+            => string.Format(
+                CultureInfo.CurrentCulture,
                 QowaivDomainModelMessages.EventTypeNotSupportedException,
                 eventType?.ToString() ?? "{null}",
                 aggragateType ?? typeof(AggregateRoot<>));
-        }
 
         /// <summary>Initializes a new instance of the <see cref="EventTypeNotSupportedException"/> class.</summary>
         public EventTypeNotSupportedException(string message) : base(message) { }

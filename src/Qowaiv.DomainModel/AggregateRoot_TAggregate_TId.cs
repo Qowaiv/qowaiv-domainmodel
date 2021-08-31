@@ -22,9 +22,7 @@ namespace Qowaiv.DomainModel
         /// The identifier of the aggregate.
         /// </param>
         protected AggregateRoot(TId aggregateId, IValidator<TAggregate> validator) : base(validator)
-        {
-            Buffer = new EventBuffer<TId>(aggregateId);
-        }
+            => Buffer = EventBuffer.Empty(aggregateId);
 
         /// <summary>Gets the identifier.</summary>
         public TId Id => Buffer.AggregateId;

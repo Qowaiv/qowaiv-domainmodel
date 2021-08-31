@@ -18,7 +18,7 @@ namespace Qowaiv.DomainModel.UnitTests
 
             var messages = new object[] { new DummyEvent(), new DummyEvent() };
 
-            var buffer = EventBuffer<Guid>.FromStorage(id, 17, messages, fromStorage);
+            var buffer = EventBuffer.FromStorage(id, 17, messages, fromStorage);
 
             Assert.IsNotNull(buffer);
             Assert.AreEqual(id, buffer.AggregateId);
@@ -30,7 +30,7 @@ namespace Qowaiv.DomainModel.UnitTests
         {
             var id = Guid.Parse("7231B710-77CD-11E9-8F9E-2A86E4085A59");
 
-            var buffer = new EventBuffer<Guid>(id, 17)
+            var buffer = EventBuffer.Empty(id, 17)
                 .Add(new DummyEvent())
                 .MarkAllAsCommitted()
                 .Add(new DummyEvent());
@@ -46,7 +46,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void HasUncommitted_OnlyCommitted_IsFalse()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new DummyEvent())
                 .Add(new DummyEvent())
                 .MarkAllAsCommitted();
@@ -57,7 +57,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void HasUncommitted_Mixed_IsTrue()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new DummyEvent())
                 .Add(new DummyEvent())
                 .MarkAllAsCommitted()
@@ -69,7 +69,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void IsEmpty_Empty_IsTrue()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid());
+            var buffer = EventBuffer.Empty(Guid.NewGuid());
             
             Assert.IsTrue(buffer.IsEmpty);
         }
@@ -77,7 +77,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void IsEmpty_Mixed_IsFalse()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new DummyEvent());
 
             Assert.IsFalse(buffer.IsEmpty);
@@ -86,7 +86,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void GetUncommitted_NoCommitted_All()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new object[]
                 {
                     new DummyEvent(),
@@ -99,7 +99,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void GetUncommitted_3Committed_1ItemWithVersion4()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new object[]
                 {
                     new DummyEvent(),
@@ -120,7 +120,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void GetUncommitted_ClearCommittedWithCommitted_1ItemWithVersion5()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new[]
                 {
                     new DummyEvent(),
@@ -143,7 +143,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void ClearCommitted_WithoutUncommitted()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid(), 16);
+            var buffer = EventBuffer.Empty(Guid.NewGuid(), 16);
 
             Assert.AreEqual(16, buffer.Version);
             Assert.AreEqual(16, buffer.CommittedVersion);
@@ -153,7 +153,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void ClearCommitted_WithUncommitted()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid(), 16).Add(new DummyEvent());
+            var buffer = EventBuffer.Empty(Guid.NewGuid(), 16).Add(new DummyEvent());
             Assert.AreEqual(17, buffer.Version);
             Assert.AreEqual(16, buffer.CommittedVersion);
             Assert.AreEqual(1, buffer.Uncommitted.Count());
@@ -165,7 +165,7 @@ namespace Qowaiv.DomainModel.UnitTests
         {
             using (Clock.SetTimeForCurrentThread(() => new DateTime(2017, 06, 11)))
             {
-                var buffer = new EventBuffer<Guid>(Guid.Parse("1F8B5071-C03B-457D-B27F-442C5AAC5785"))
+                var buffer = EventBuffer.Empty(Guid.Parse("1F8B5071-C03B-457D-B27F-442C5AAC5785"))
                     .Add(new DummyEvent());
 
                 DebuggerDisplayAssert.HasResult("Version: 1 (Committed: 0), Aggregate: 1f8b5071-c03b-457d-b27f-442c5aac5785", buffer);
@@ -177,7 +177,7 @@ namespace Qowaiv.DomainModel.UnitTests
         {
             using (Clock.SetTimeForCurrentThread(() => new DateTime(2017, 06, 11)))
             {
-                var buffer = new EventBuffer<Guid>(Guid.Parse("1F8B5071-C03B-457D-B27F-442C5AAC5785"))
+                var buffer = EventBuffer.Empty(Guid.Parse("1F8B5071-C03B-457D-B27F-442C5AAC5785"))
                     .Add(new DummyEvent())
                     .MarkAllAsCommitted();
 
@@ -188,7 +188,7 @@ namespace Qowaiv.DomainModel.UnitTests
         [Test]
         public void GetEnumerator_NonGeneric_ShouldReturn()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                .Add(new DummyEvent())
                .Add(new DummyEvent());
 

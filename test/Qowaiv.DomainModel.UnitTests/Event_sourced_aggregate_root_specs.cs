@@ -15,7 +15,7 @@ namespace Event_sourced_aggregate_root_specs
         public void from_buffer()
         {
             var id = Guid.Parse("58B82A50-B906-4178-87EC-A8C31B49368B");
-            var buffer = new EventBuffer<Guid>(id).Add(new NameUpdated { Name = "Jimi Hendrix" });
+            var buffer = EventBuffer.Empty(id).Add(new NameUpdated { Name = "Jimi Hendrix" });
 
             var replayed = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid>(buffer);
             Assert.That(replayed.Version, Is.EqualTo(1));
