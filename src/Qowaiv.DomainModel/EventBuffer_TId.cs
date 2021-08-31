@@ -8,6 +8,28 @@ using System.Linq;
 
 namespace Qowaiv.DomainModel
 {
+
+    /// <summary>A function to convert the event (payload) from the stored event.</summary>
+    /// <typeparam name="TId">
+    /// The type of the identifier of the aggregate.
+    /// </typeparam>
+    /// <typeparam name="TStoredEvent">
+    /// The Type of the stored event.
+    /// </typeparam>
+    /// <param name="aggregateId">
+    /// The identifier of the aggregate.
+    /// </param>
+    /// <param name="version">
+    /// The version of the event.
+    /// </param>
+    /// <param name="event">
+    /// The event (payload).
+    /// </param>
+    /// <returns>
+    /// The converted event.
+    /// </returns>
+    public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId aggregateId, int version, object @event);
+
     /// <summary>A buffer of events that should be added to an event stream.</summary>
     /// <typeparam name="TId">
     /// The type of the identifier of the aggregate.
@@ -89,6 +111,7 @@ namespace Qowaiv.DomainModel
             => new(AggregateId, offset, Version, buffer);
 
         /// <summary>Removes the committed events from the buffer.</summary>
+        [Obsolete("Do not use, it might break replay capabilities. Functionality will be dropped.")]
         public EventBuffer<TId> ClearCommitted()
             => new(
                 aggregateId: AggregateId,

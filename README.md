@@ -173,3 +173,24 @@ public Result<Game> Attack(Country attacker, Country defender, AttackResult resu
             Player = Countries(defender).Owner 
         }));
 ```
+
+## Event Buffer
+The `EventBuffer<TId>`, as used by `AggregateRoot<TAggregate, TId>` is an
+immutable collection with the following API:
+
+``` C#
+`// Creation
+var id = NewId();
+var buffer = EventBuffer.Empty(id, version: 5); // version optional.
+var stored = EventBuffer.FromStorage(id, version: 5, storedEvents, (e) => Convert(e));
+
+// Extending, returning a new instance.
+var updated = buffer.Add(events); // excepts arrays, enumerables or a single event.
+
+// Export for storage
+var export = buffer.SelectUncommitted((id, verion, e) => Export(id, version, e));
+
+// After successful export
+var updated = buffer.MarkAllAsCommitted();
+```
+

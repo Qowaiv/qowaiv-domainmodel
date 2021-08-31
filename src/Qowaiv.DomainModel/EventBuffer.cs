@@ -16,27 +16,6 @@ namespace Qowaiv.DomainModel
     /// </returns>
     public delegate object ConvertFromStoredEvent<in TStoredEvent>(TStoredEvent storedEvent);
 
-    /// <summary>A function to convert the event (payload) from the stored event.</summary>
-    /// <typeparam name="TId">
-    /// The type of the identifier of the aggregate.
-    /// </typeparam>
-    /// <typeparam name="TStoredEvent">
-    /// The Type of the stored event.
-    /// </typeparam>
-    /// <param name="aggregateId">
-    /// The identifier of the aggregate.
-    /// </param>
-    /// <param name="version">
-    /// The version of the event.
-    /// </param>
-    /// <param name="event">
-    /// The event (payload).
-    /// </param>
-    /// <returns>
-    /// The converted event.
-    /// </returns>
-    public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId aggregateId, int version, object @event);
-
     /// <summary><see cref="EventBuffer{TId}"/> factory helper.</summary>
     public static class EventBuffer
     {
