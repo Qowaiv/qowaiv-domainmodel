@@ -42,7 +42,7 @@ namespace Qowaiv.DomainModel
         /// <inheritdoc/>
         protected override TAggregate Clone()
         {
-            var cloned = new TAggregate();
+            var cloned = new TAggregate { Buffer = Buffer };
             cloned.Replay(Buffer);
             return cloned;
         }
