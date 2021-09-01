@@ -5,8 +5,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <PackageReleaseNotes>
+v0.1.2
+- Fix issue with iterating EventBuffer.SelectUncommitted multiple times #16 
+- Improved API for EventBuffer&lt;T&gt; #15
 v0.1.1
 - Bug fix AggregateRoot.FromStorage #14
 v0.1.0
