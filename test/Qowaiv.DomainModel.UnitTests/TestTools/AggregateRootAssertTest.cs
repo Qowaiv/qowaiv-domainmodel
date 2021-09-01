@@ -12,7 +12,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
         [Test]
         public void HasUncommittedEvents_IsTrue()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new object[]
                 {
                     new EmptyEvent(),
@@ -30,7 +30,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
         [Test]
         public void HasUncommittedEvents_EqualArrayValues_IsTrue()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new ArrayEvent { Numbers = new[] { 17 } });
 
             AggregateRootAssert.HasUncommittedEvents(buffer,
@@ -40,7 +40,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
         [Test]
         public void HasUncommittedEvents_DiffrentEventTypes_DisplayedInTheMessage()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new object[]
                 {
                     new EmptyEvent(),
@@ -68,7 +68,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
         {
             using (CultureInfoScope.NewInvariant())
             {
-                var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+                var buffer = EventBuffer.Empty(Guid.NewGuid())
                     .Add(new object[]
                     {
                         new EmptyEvent(),
@@ -95,7 +95,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
         [Test]
         public void HasUncommittedEvents_WithExtraEvents_DisplayedInTheMessage()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid(), 1)
+            var buffer = EventBuffer.Empty(Guid.NewGuid(), 1)
                 .Add(new object[] {
                     new EmptyEvent(),
                     new SimpleEvent { Value = 3 },
@@ -118,7 +118,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
         [Test]
         public void HasUncommittedEvents_WithMissingEvents_DisplayedInTheMessage()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new object[]
                 {
                     new EmptyEvent(),
@@ -145,7 +145,7 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
         [Test]
         public void HasUncommittedEvents_DifferentArrayValues_DisplayedInTheMessage()
         {
-            var buffer = new EventBuffer<Guid>(Guid.NewGuid())
+            var buffer = EventBuffer.Empty(Guid.NewGuid())
                 .Add(new ArrayEvent { Numbers = new[] { 17 } });
 
             var x = Assert.Catch<AssertException>(() =>

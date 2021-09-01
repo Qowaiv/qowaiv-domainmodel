@@ -36,7 +36,7 @@ namespace Qowaiv.DomainModel.UnitTests
 
         private static EventBuffer<Guid> Create(Guid id, params object[] events)
         {
-            return EventBuffer<Guid>.FromStorage(id, events, o => o);
+            return EventBuffer.FromStorage(id, events, o => o);
         }
     }
 }
