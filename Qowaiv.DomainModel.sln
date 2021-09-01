@@ -46,10 +46,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{E9A5D7
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Conquer Club example", "Conquer Club example", "{458A70D6-AEA3-45E8-A789-EB5AB3B1600D}"
+	ProjectSection(SolutionItems) = preProject
+		example\ConquerClub.md = example\ConquerClub.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConquerClub.Domain", "example\ConquerClub.Domain\ConquerClub.Domain.csproj", "{51F553DB-472D-4982-9554-A32810CB4026}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConquerClub.UnitTests", "example\ConquerClub.UnitTests\ConquerClub.UnitTests.csproj", "{2B600398-B1B7-4185-BB42-88CEA7CAF69D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConquerClub.UnitTests", "example\ConquerClub.UnitTests\ConquerClub.UnitTests.csproj", "{2B600398-B1B7-4185-BB42-88CEA7CAF69D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

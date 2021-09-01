@@ -22,7 +22,7 @@ events.
 ## Always Valid
 Aggregate roots should always be valid according to the boundaries of their
 domain. There are multiple ways to achieve this, but within Qowaiv Domain Model
-this is guaranteed via implicitly triggered validators.
+this is guaranteed via an implicitly triggered validator.
 When a public method is called that would lead to a new aggregate state, the
 events describing the change are only added to the event buffer
 associated with the aggregate root if the new state is valid according to the

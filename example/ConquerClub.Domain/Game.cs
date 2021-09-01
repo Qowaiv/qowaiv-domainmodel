@@ -102,11 +102,11 @@ namespace ConquerClub.Domain
         private Result<Game> Attack(
             CountryId attacker,
             CountryId defender,
-            AttackResult result) 
-            =>Apply(Events
+            AttackResult result)
+            => Apply(Events
                 .If(result.IsSuccess)
                     .Then(() => new Conquered(attacker, defender))
-                .Else(()=> new Attacked(attacker, defender, result)));
+                .Else(() => new Attacked(attacker, defender, result)));
 
         public Result<Game> Advance(Army to) =>
             MustBeInPhase(GamePhase.Advance)
@@ -186,22 +186,22 @@ namespace ConquerClub.Domain
             Phase = ArmyBuffer.Size > 0 ? GamePhase.Deploy : GamePhase.Attack;
         }
 
-        internal void When(Attacked @event)
-        {
-            From = Countries.ById(@event.Attacker);
-            To = Countries.ById(@event.Defender);
-            From.Army = @event.Result.Attacker;
-            To.Army = @event.Result.Defender;
-        }
-        internal void When(Conquered @event)
-        {
-            From = Countries.ById(@event.Attacker);
-            To = Countries.ById(@event.Defender);
-            ArmyBuffer = From.Army - 2;
-            From.Army = From.Army.Owner.Army(1);
-            To.Army = From.Army.Owner.Army(1);
-            Phase = GamePhase.Advance;
-        }
+internal void When(Attacked @event)
+{
+    From = Countries.ById(@event.Attacker);
+    To = Countries.ById(@event.Defender);
+    From.Army = @event.Result.Attacker;
+    To.Army = @event.Result.Defender;
+}
+internal void When(Conquered @event)
+{
+    From = Countries.ById(@event.Attacker);
+    To = Countries.ById(@event.Defender);
+    ArmyBuffer = From.Army - 2;
+    From.Army = From.Army.Owner.Army(1);
+    To.Army = From.Army.Owner.Army(1);
+    Phase = GamePhase.Advance;
+}
 
         internal void When(Advanced @event)
         {
