@@ -47,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{E9A5D7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Conquer Club example", "Conquer Club example", "{458A70D6-AEA3-45E8-A789-EB5AB3B1600D}"
 	ProjectSection(SolutionItems) = preProject
-		example\ConquerClub.md = example\ConquerClub.md
+		example\README.md = example\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConquerClub.Domain", "example\ConquerClub.Domain\ConquerClub.Domain.csproj", "{51F553DB-472D-4982-9554-A32810CB4026}"
