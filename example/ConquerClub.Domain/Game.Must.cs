@@ -1,5 +1,4 @@
 ﻿using ConquerClub.Domain.Validation;
-using FluentValidation.Internal;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
 using System.Linq;
@@ -31,8 +30,5 @@ namespace ConquerClub.Domain
 
         private Result<Game> MustHaveArmiesToAttack(Country attacker)
             => Must.Be(this, attacker.Army > 1, Messages.MustHaveArmiesToAttack, attacker.Name);
-
-        private Result<Game> MusHaveCountry(Player player)
-            => Must.Be(this, Countries.Any(c => c.Owner == player), Messages.MusHaveCountry, player);
     }
 }
