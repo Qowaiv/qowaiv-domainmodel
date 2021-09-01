@@ -5,8 +5,8 @@
 
 | version                                                                      | package                                                                                    |
 |------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-|![v](https://img.shields.io/badge/version-0.1.1-blue.svg?cacheSeconds=3600)   |[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)                    |
-|![v](https://img.shields.io/badge/version-0.1.0-darkred.svg?cacheSeconds=3600)|[Qowaiv.Do,ainModel.TestTools](https://www.nuget.org/packages/Qowaiv.DomainModel.TestTools/)|
+|![v](https://img.shields.io/badge/version-0.1.2-blue.svg?cacheSeconds=3600)   |[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)                    |
+|![v](https://img.shields.io/badge/version-0.1.0-darkred.svg?cacheSeconds=3600)|[Qowaiv.DomainModel.TestTools](https://www.nuget.org/packages/Qowaiv.DomainModel.TestTools/)|
 
 # Qowaiv Domain Model
 Qowaiv Domain Model is a library containing the (abstract) building blocks to

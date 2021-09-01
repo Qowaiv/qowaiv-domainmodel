@@ -133,9 +133,7 @@ namespace Qowaiv.DomainModel
         public IEnumerable<TStoredEvent> SelectUncommitted<TStoredEvent>(ConvertToStoredEvent<TId, TStoredEvent> convert)
         {
             Guard.NotNull(convert, nameof(convert));
-
-            var version = CommittedVersion;
-            return Uncommitted.Select(@event => convert(AggregateId, ++version, @event));
+            return Uncommitted.Select((@event, index) => convert(AggregateId, CommittedVersion + index + 1, @event));
         }
 
         /// <inheritdoc/>
