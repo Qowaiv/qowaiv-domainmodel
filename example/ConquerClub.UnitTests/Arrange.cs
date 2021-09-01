@@ -20,7 +20,7 @@ namespace ConquerClub.UnitTests
 
         public static Result<Game> Handle(dynamic command, Buffer buffer = null)
         {
-            buffer ??= new Buffer(GameId);
+            buffer ??= EventBuffer.Empty(GameId);
             var handler = new TestHandler(buffer, 17);
             var result = handler.Handle(command);
             return result.IsValid
@@ -37,7 +37,7 @@ namespace ConquerClub.UnitTests
             .Add(new TurnStarted(Player.P1.Army(3)));
 
         public static Buffer BeneluxWithoutArmies(int roundLimit = 10)
-            => new Buffer(GameId)
+            => EventBuffer.Empty(GameId)
             .Add(new SettingsInitialized(2, roundLimit, false))
             .Add(new MapInitialized
             {
