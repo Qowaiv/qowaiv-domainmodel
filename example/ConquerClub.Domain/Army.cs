@@ -123,16 +123,15 @@ namespace ConquerClub.Domain
             {
                 return None;
             }
-            var match = Pattern.Match(str);
-
-            if (match.Success &&
-                int.TryParse(match.Groups[nameof(Size)].Value, out var size) &&
-                size > 0)
+            else
             {
-                return Player.Parse(match.Groups[nameof(Player)].Value).Army(size);
+                var match = Pattern.Match(str);
+                return match.Success
+                    && int.TryParse(match.Groups[nameof(Size)].Value, out var size)
+                    && size > 0
+                    ? Player.Parse(match.Groups[nameof(Player)].Value).Army(size)
+                    : throw new FormatException(Messages.FormatException_Army);
             }
-            //throw Error.NoArmyString(str);
-            throw new FormatException();
         }
 
         public static Army FromJson(string str) => Parse(str);

@@ -70,6 +70,15 @@ namespace ConquerClub.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not a valid army..
+        /// </summary>
+        internal static string FormatException_Army {
+            get {
+                return ResourceManager.GetString("FormatException_Army", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Player {0} does not have any country..
         /// </summary>
         internal static string MusHaveCountry {
