@@ -34,7 +34,7 @@ internal class GameValidator : ModelValidator<Game>
 ```
 
 So, for any action that changes the game state, all these rules are checked. If
-any of them fails, the change is not applied.
+any of them fail, the change is not applied.
 
 ## Pre-conditions
 Some conditions should be checked before changing the state. There are two major
@@ -60,7 +60,7 @@ To keep the replay of events as straightforward as possible, it can be a good
 thing to conditionally apply (different) events based on the current state.
 
 In the code below, a successful attack is represented by a `Conquered` event,
-and a not successful one (the country was not conquered) by an `Attacked` event.
+and a unsuccessful one (the country was not conquered) by an `Attacked` event.
 
 ``` C#
 Result<Game> Attack(
