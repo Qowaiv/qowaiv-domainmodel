@@ -60,7 +60,7 @@ To keep the replay of events as straightforward as possible, it can be a good
 thing to conditionally apply (different) events based on the current state.
 
 In the code below, a successful attack is represented by a `Conquered` event,
-and a not successful one (the country was conquered) by an `Attacked` event.
+and a not successful one (the country was not conquered) by an `Attacked` event.
 
 ``` C#
 Result<Game> Attack(
