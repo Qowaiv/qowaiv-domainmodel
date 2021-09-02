@@ -32,7 +32,7 @@ namespace Qowaiv.DomainModel.Dynamic
         private readonly TDispatcher dispatcher;
 
         /// <summary>Tries to invoke a (void) When(@event) method.</summary>
-        /// <exception cref="EventTypeNotSupportedException">
+        /// <exception cref="EventTypeNotSupported">
         /// If the invoke call was on (void) When(@event) but the type was not available.
         /// </exception>
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
@@ -53,7 +53,7 @@ namespace Qowaiv.DomainModel.Dynamic
                 when(dispatcher, @event);
                 return true;
             }
-            throw new EventTypeNotSupportedException(eventType, typeof(TDispatcher));
+            throw new EventTypeNotSupported(eventType, typeof(TDispatcher));
         }
 
         /// <summary>Initializes all When(@event) methods.</summary>

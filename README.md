@@ -22,7 +22,7 @@ events.
 ## Always Valid
 Aggregate roots should always be valid according to the boundaries of their
 domain. There are multiple ways to achieve this, but within Qowaiv Domain Model
-this is guaranteed via implicitly triggered validators.
+this is guaranteed via an implicitly triggered validator.
 When a public method is called that would lead to a new aggregate state, the
 events describing the change are only added to the event buffer
 associated with the aggregate root if the new state is valid according to the
@@ -61,7 +61,7 @@ if you apply all your changes via the `Apply`, and `ApplyEvents` methods
 (as you should), it will create an updated copy that represents the new state,
 leaving the initial instance unchanged.
 
-## Example
+## Example 1
 A (simplified) real life example of a financial entry, using `AggregateRoot<TAggregate, TId>`:
 ``` C#
 public sealed class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
@@ -146,7 +146,10 @@ domain.
 Note that the decision to throw an exception, or deal with a
 `Result<TAggegate>` is up to the developer.
 
-## Immutable Collection
+## Example 2
+An advanced example (implementing ConquerClub) can be found at [example/README.md](example/README.md).
+
+## Conditional Events
 When applying changes to an aggregate, you might want to apply a different type
 and number of events, based on the current state of the aggregate. This use-case
 is supported in the following way:
