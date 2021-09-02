@@ -140,10 +140,7 @@ namespace ConquerClub.Domain
 
         internal void When(SettingsInitialized @event)
         {
-            Settings = new Settings(
-                players: @event.Players,
-                roundLimit: @event.RoundLimit,
-                fogOfWar: @event.FogOfWar);
+            Settings = new Settings(@event.Players, @event.RoundLimit, @event.FogOfWar);
         }
 
         internal void When(ArmiesInitialized @event)
