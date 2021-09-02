@@ -1,7 +1,5 @@
 ﻿using ConquerClub.Domain;
-using ConquerClub.Domain.Events;
 using NUnit.Framework;
-using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
 using System.Linq;
@@ -38,9 +36,7 @@ namespace Game_specs
                     new Commands.Country("Luxembourg", new []{ Belgium }),
                 });
 
-            var result = Handle(command);
-
-            ValidationMessageAssert.IsValid(result);
+            var result = ValidationMessageAssert.IsValid(Handle(command));
 
             CollectionAssert.AreEquivalent(new[]
             {
@@ -48,14 +44,14 @@ namespace Game_specs
                 Player.P2,
                 Player.Neutral
             },
-            result.Value.Countries.Select(c => c.Owner).Distinct());
+            result.Countries.Select(c => c.Owner).Distinct());
         }
     }
 
     public class Deploy
     {
         [Test]
-        public void Can_only_be_applied_the_active_player()
+        public void Can_not_be_applied_by_not_active_player()
         {
             var command = new Commands.Deploy(
                 Luxembourg,
@@ -67,6 +63,19 @@ namespace Game_specs
 
             ValidationMessageAssert.WithErrors(result,
                 ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
+        }
+
+        [Test]
+        public void Can_be_applied_by_active_player()
+        {
+            var command = new Commands.Deploy(
+                Netherlands,
+                Player.P1.Army(3),
+                GameId,
+                ExpectedVersion: 4);
+
+            var result = ValidationMessageAssert.IsValid(Handle(command, Benelux()));
+            Assert.That(result.Countries.ById(Netherlands).Army, Is.EqualTo(Player.P1.Army(6)));
         }
 
         [Test]

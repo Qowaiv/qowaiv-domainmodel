@@ -9,7 +9,7 @@ namespace ConquerClub.Domain
         public static AttackResult Attack(Army attacker, Army defender, IGenerator rnd) =>
             new AttackResult(attacker, defender).Roll(rnd);
 
-        /// <summary>Attack will the attacker has at least 4 left and defender has not been defeated.</summary>
+        /// <summary>Attack if the attacker has at least 4 left and defender has not been defeated.</summary>
         public static AttackResult AutoAttack(Army attacker, Army defender, IGenerator rnd)
         {
             var combat = new AttackResult(attacker, defender);

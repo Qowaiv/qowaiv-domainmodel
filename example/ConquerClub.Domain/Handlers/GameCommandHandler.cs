@@ -36,35 +36,35 @@ namespace ConquerClub.Domain.Handlers
                 | (g => Save(g));
 
         public Result Handle(Deploy command)
-             => ExcuteAndSave(command, g => g.Deploy(
+             => ExecuteAndSave(command, g => g.Deploy(
                 command.Country,
                 command.Army));
 
         public Result Handle(AutoAttack command)
-            => ExcuteAndSave(command, g => g.AutoAttack(
+            => ExecuteAndSave(command, g => g.AutoAttack(
                 command.Attacker,
                 command.Defender,
                 Rnd));
 
         public Result Handle(Attack command)
-            => ExcuteAndSave(command, g => g.Attack(
+            => ExecuteAndSave(command, g => g.Attack(
                 command.Attacker,
                 command.Defender,
                 Rnd));
 
         public Result Handle(Advance command)
-            => ExcuteAndSave(command, g => g.Advance(command.To));
+            => ExecuteAndSave(command, g => g.Advance(command.To));
 
         public Result Handle(Reinforce command)
-            => ExcuteAndSave(command, g => g.Reinforce(
+            => ExecuteAndSave(command, g => g.Reinforce(
                 command.From,
                 command.To,
                 command.Army));
 
         public Result Handle(Resign command)
-            => ExcuteAndSave(command, g => g.Resign());
+            => ExecuteAndSave(command, g => g.Resign());
 
-        private Result ExcuteAndSave<TCommand>(TCommand command, Func<Game, Result<Game>> act) where TCommand : Command
+        private Result ExecuteAndSave<TCommand>(TCommand command, Func<Game, Result<Game>> act) where TCommand : Command
             => Load(command.Game)
             | (g => OptimisticLocking(g, command))
             | (g => act(g))
