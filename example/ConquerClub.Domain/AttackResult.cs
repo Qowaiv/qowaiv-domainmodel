@@ -13,10 +13,10 @@ namespace ConquerClub.Domain
             Defender = defender;
         }
 
-        /// <summary>The surviving attackers./summary>
+        /// <summary>The surviving attackers.</summary>
         public Army Attacker { get; }
 
-        /// <summary>The surviving defenders./summary>
+        /// <summary>The surviving defenders.</summary>
         public Army Defender { get; }
 
         /// <summary>The attack was successful (all defenders where killed).</summary>

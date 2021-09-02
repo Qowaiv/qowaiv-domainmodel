@@ -86,7 +86,7 @@ namespace Game_specs
         }
 
         [Test]
-        public void defending_country_can_be_reached_by_the_attacking_country()
+        public void defending_country_can_not_be_reached_by_the_attacking_country()
         {
             var command = new Commands.Attack(
                 Attacker: Netherlands,

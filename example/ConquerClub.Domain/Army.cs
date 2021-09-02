@@ -36,7 +36,7 @@ namespace ConquerClub.Domain
             ? this
             : new Army(Owner, Size + other.Size);
 
-        /// <summary>Subtract the other army from this army.</summary>
+        /// <summary>Subtracts the other army from this army.</summary>
         public Army Subtract(Army other)
             => other.Size == 0
             ? this

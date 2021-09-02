@@ -79,15 +79,6 @@ namespace ConquerClub.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Player {0} does not have any country..
-        /// </summary>
-        internal static string MusHaveCountry {
-            get {
-                return ResourceManager.GetString("MusHaveCountry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Action can only be applied by the active {0}, not by {1}..
         /// </summary>
         internal static string MustBeActive {

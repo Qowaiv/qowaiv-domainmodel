@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-   <resheader name="resmimetype">
+  <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
   <resheader name="version">
@@ -17,9 +17,6 @@
   </data>
   <data name="FormatException_Army" xml:space="preserve">
     <value>Not a valid army.</value>
-  </data>
-  <data name="MusHaveCountry" xml:space="preserve">
-    <value>Player {0} does not have any country.</value>
   </data>
   <data name="MustBeActive" xml:space="preserve">
     <value>Action can only be applied by the active {0}, not by {1}.</value>

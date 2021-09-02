@@ -121,8 +121,8 @@ namespace ConquerClub.Domain
                 .Select((c, id) => new Country(CountryId.Create(id), c.Name))
                 .ToArray();
 
-            LinkCountriesToCountries(@event.Countries);
-            LinkContinentToCounties(@event.Continents);
+            LinkNeighborCountries(@event.Countries);
+            LinkContinentsToCountries(@event.Continents);
             LinkCountriesToContent();
         }
 
@@ -211,7 +211,7 @@ namespace ConquerClub.Domain
             Phase = GamePhase.Finished;
         }
 
-        private void LinkCountriesToCountries(IEnumerable<CountryInitialized> countries)
+        private void LinkNeighborCountries(IEnumerable<CountryInitialized> countries)
         {
             foreach (var data in countries.Select((c, id) => new
             {
@@ -224,7 +224,7 @@ namespace ConquerClub.Domain
             }
         }
 
-        private void LinkContinentToCounties(IEnumerable<ContinentInitialized> continents)
+        private void LinkContinentsToCountries(IEnumerable<ContinentInitialized> continents)
         {
             foreach (var data in continents.Select((c, id) => new { Continent = ContinentId.Create(id), Countries = c.Territories }))
             {

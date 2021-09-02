@@ -84,10 +84,10 @@ namespace ConquerClub.Domain
         /// <summary>Serializes the <see cref="Player"/> as JSON string.</summary>
         public string ToJson() => ToString();
 
-        /// <summary>Deserializes the <see cref="ContinentId"/> from a JSON number.</summary>
+        /// <summary>Deserializes the <see cref="Player"/> from a JSON number.</summary>
         public static Player FromJson(long json) => new((byte)json);
 
-        /// <summary>Deserializes the <see cref="ContinentId"/> from a JSON string.</summary>
+        /// <summary>Deserializes the <see cref="Player"/> from a JSON string.</summary>
         public static Player FromJson(string json) => Parse(json);
     }
 }

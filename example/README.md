@@ -14,7 +14,7 @@ via the constructor:
 ```
 
 The `[GameValidator](ConquerClub.Domain/Validation/GameValidator.cs)` uses
-the [Qowaiv.Validation.Fluent](https://github.com/Qowaiv/qowaiv-validation), an
+[Qowaiv.Validation.Fluent](https://github.com/Qowaiv/qowaiv-validation), an
 extension on [FluentValadation](https://fluentvalidation.net).
 
 ``` C#
