@@ -52,7 +52,7 @@ namespace ConquerClub.Domain
             | (g => g.MustBeActivePlayer(army.Owner))
             | (g => g.MustExist(country))
             | (g => g.MustBeOwnedBy(Countries.ById(country), army.Owner))
-            | (g => g.MustNotExeedArmyBuffer(army))
+            | (g => g.MustNotExceedArmyBuffer(army))
             | (g => g.ApplyEvent(new Deployed(country, army)));
 
         public Result<Game> Attack(
@@ -104,7 +104,7 @@ namespace ConquerClub.Domain
             MustBeInPhase(GamePhase.Advance)
             | (g => g.MustBeActivePlayer(to.Owner))
             | (g => g.MustBeOwnedBy(To, to.Owner))
-            | (g => g.MustNotExeedArmyBuffer(to))
+            | (g => g.MustNotExceedArmyBuffer(to))
             | (g => g.ApplyEvent(new Advanced(to)));
 
         public Result<Game> Reinforce(CountryId from, CountryId to, Army army) =>

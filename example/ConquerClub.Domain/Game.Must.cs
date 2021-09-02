@@ -22,7 +22,7 @@ namespace ConquerClub.Domain
         private Result<Game> MustNotBeOwnedBy(Country country, Player owner)
             => Must.NotBe(this, country.Owner == owner, Messages.MustNotBeOwnedBy, country.Name, owner);
 
-        private Result<Game> MustNotExeedArmyBuffer(Army army)
+        private Result<Game> MustNotExceedArmyBuffer(Army army)
             => Must.Be(this, army <= ArmyBuffer, Messages.MustNotExeedArmyBuffer, ArmyBuffer, army);
 
         private Result<Game> MustBeReachable(Country from, Country to)
