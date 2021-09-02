@@ -58,10 +58,10 @@ namespace Game_specs
     public class Advance_can_only_be_applied_when
     {
         [Test]
-        public void advancement_exceeds_available([Range(0, 1)] int size)
+        public void advancement_exceeds_available()
         {
             var command = new Advance(
-                  To: Player.P1.Army(size),
+                  To: Player.P1.Army(1),
                   Game: GameId,
                   ExpectedVersion: 5);
 

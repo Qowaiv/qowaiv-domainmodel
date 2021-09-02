@@ -114,7 +114,7 @@ namespace ConquerClub.Domain
         internal void When(MapInitialized @event)
         {
             Continents = @event.Continents
-                .Select((c, id) => new Continent(Id<ForContinent>.Create(id), c.Name, c.Bonus))
+                .Select((c, id) => new Continent(ContinentId.Create(id), c.Name, c.Bonus))
                 .ToArray();
 
             Countries = @event.Countries

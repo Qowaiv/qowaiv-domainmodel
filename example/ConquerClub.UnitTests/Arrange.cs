@@ -39,41 +39,14 @@ namespace ConquerClub.UnitTests
         public static Buffer BeneluxWithoutArmies(int roundLimit = 10)
             => EventBuffer.Empty(GameId)
             .Add(new SettingsInitialized(2, roundLimit, false))
-            .Add(new MapInitialized
-            {
-                Continents = new[]
+            .Add(new MapInitialized(
+                Continents: new[] { new ContinentInitialized("Benelux", 3, new[] { Netherlands, Belgium, Luxembourg })},
+                Countries: new[]
                 {
-                    new MapInitialized.Continent
-                    {
-                        Name = "Benelux",
-                        Bonus = 3,
-                        Territories = new []
-                        {
-                            CountryId.Create(0),
-                            CountryId.Create(1),
-                            CountryId.Create(2),
-                        }
-                    },
-                },
-                Countries = new[]
-                {
-                    new MapInitialized.Country
-                    {
-                        Name = "Netherlands",
-                        Borders = new []{ Belgium },
-                    },
-                    new MapInitialized.Country
-                    {
-                        Name = "Belgium",
-                        Borders = new []{ Netherlands, Luxembourg },
-                    },
-                    new MapInitialized.Country
-                    {
-                        Name = "Luxembourg",
-                        Borders = new []{ Belgium },
-                    },
-                }
-            });
+                    new CountryInitialized("Netherlands", new []{ Belgium }),
+                    new CountryInitialized("Belgium", new []{ Netherlands, Luxembourg }),
+                    new CountryInitialized("Luxembourg", new []{ Belgium }),
+                }));
 
         public static Buffer Deploy(this Buffer game) =>
             game.Add(new Deployed(Netherlands, Player.P1.Army(3)));

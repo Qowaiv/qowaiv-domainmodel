@@ -1,6 +1,5 @@
 ﻿#pragma warning disable S1210 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
 // Players should be sortable, but less than, or greater than has no meaning here.
-
 using Qowaiv;
 using System;
 using System.Diagnostics;
@@ -32,7 +31,10 @@ namespace ConquerClub.Domain
         private readonly byte Id;
 
         /// <summary>Creates an army for the player.</summary>
-        public Army Army(int size) => new(this, Guard.Positive(size, nameof(size)));
+        public Army Army(int size) 
+            => size == 0
+            ? Domain.Army.None
+            : new(this, Guard.Positive(size, nameof(size)));
 
         public bool IsOther(Player other) => !Equals(other);
 
