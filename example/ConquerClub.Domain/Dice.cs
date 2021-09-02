@@ -52,9 +52,9 @@ namespace ConquerClub.Domain
         private static int Roll3v2(IGenerator rnd)
         {
             var threshold = rnd.Next(2890 + 2611 + 2275);
-            if (threshold < 2890) { return +2; }
-            if (threshold < 2890 + 2611) { return 0; }
-            else { return -2; }
+            if (threshold < 2890) return +2;
+            else if (threshold < 2890 + 2611) return 0;
+            else return -2;
         }
 
         /// <remarks>+66,0% -34,0%</remarks>
@@ -65,9 +65,9 @@ namespace ConquerClub.Domain
         private static int Roll2v2(IGenerator rnd)
         {
             var threshold = rnd.Next(295 + 420 + 581);
-            if (threshold < 295) { return +2; }
-            if (threshold < 295 + 420) { return 0; }
-            else { return -2; }
+            if (threshold < 295) return +2;
+            else if (threshold < 295 + 420) return 0;
+            else return -2;
         }
 
         /// <remarks>+57,9% -42,1%</remarks>
@@ -79,7 +79,7 @@ namespace ConquerClub.Domain
             => rnd.Next(55 + 161) < 55 ? +1 : -1;
 
         /// <remarks>+41,7% -58,3%</remarks>
-        private static int Roll1v1(IGenerator rnd) 
+        private static int Roll1v1(IGenerator rnd)
             => rnd.Next(15 + 21) < 15 ? +1 : -1;
     }
 }
