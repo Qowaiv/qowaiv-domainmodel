@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Troschuetz.Random;
 using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
+using ContinentId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForContinent>;
 using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
 
 namespace ConquerClub.Domain
@@ -193,6 +194,7 @@ namespace ConquerClub.Domain
             From.Army = @event.Result.Attacker;
             To.Army = @event.Result.Defender;
         }
+        
         internal void When(Conquered @event)
         {
             From = Countries.ById(@event.Attacker);
@@ -248,11 +250,7 @@ namespace ConquerClub.Domain
 
         private void LinkContinentToCounties(MapInitialized.Continent[] continents)
         {
-            foreach (var data in continents.Select((c, id) => new
-            {
-                Continent = Id<ForContinent>.Create(id),
-                Countries = c.Territories,
-            }))
+            foreach (var data in continents.Select((c, id) => new { Continent = ContinentId.Create(id), Countries = c.Territories }))
             {
                 var continent = Continents.ById(data.Continent);
 
