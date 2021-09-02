@@ -1,4 +1,8 @@
-﻿using System;
+﻿#pragma warning disable S1210 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
+// Players should be sortable, but less than, or greater than has no meaning here.
+
+using Qowaiv;
+using System;
 using System.Diagnostics;
 
 namespace ConquerClub.Domain
@@ -10,16 +14,16 @@ namespace ConquerClub.Domain
         public static readonly Player Neutral;
 
         /// <summary>Represents an unknown <see cref="Player"/>.</summary>
-        public static readonly Player Unknown = new Player(byte.MaxValue);
+        public static readonly Player Unknown = new(byte.MaxValue);
 
         /// <summary>Gets player P1.</summary>
-        public static readonly Player P1 = new Player(1);
+        public static readonly Player P1 = new(1);
 
         /// <summary>Gets player P2.</summary>
-        public static readonly Player P2 = new Player(2);
+        public static readonly Player P2 = new(2);
 
         /// <summary>Gets player P3.</summary>
-        public static readonly Player P3 = new Player(3);
+        public static readonly Player P3 = new(3);
 
         /// <summary>Creates a new instance of the <see cref="Player"/> struct.</summary>
         public Player(byte id) => Id = id;
@@ -28,7 +32,7 @@ namespace ConquerClub.Domain
         private readonly byte Id;
 
         /// <summary>Creates an army for the player.</summary>
-        public Army Army(int size) => new Army(this, size);
+        public Army Army(int size) => new(this, Guard.Positive(size, nameof(size)));
 
         public bool IsOther(Player other) => !Equals(other);
 
@@ -47,15 +51,9 @@ namespace ConquerClub.Domain
         /// <inheritdoc/>
         public override string ToString()
         {
-            if (this == Neutral)
-            {
-                return nameof(Neutral);
-            }
-            if (this == Unknown)
-            {
-                return nameof(Unknown);
-            }
-            return "P" + Id.ToString();
+            if (this == Neutral) return nameof(Neutral);
+            else if (this == Unknown) return nameof(Unknown);
+            else return $"P{Id}";
         }
 
         /// <summary>Returns true if the two <see cref="Player"/>'s are equal.</summary>
@@ -74,21 +72,18 @@ namespace ConquerClub.Domain
             {
                 return Neutral;
             }
-
-            var num = str.StartsWith("P", StringComparison.InvariantCultureIgnoreCase) ? str.Substring(1) : str;
-
-            if (byte.TryParse(num, out var id))
+            else
             {
-                return new Player(id);
+                var num = str.StartsWith("P", StringComparison.InvariantCultureIgnoreCase) ? str[1..] : str;
+                return byte.TryParse(num, out var id) ? new(id) : Unknown;
             }
-            return Unknown;
         }
 
         /// <summary>Serializes the <see cref="Player"/> as JSON string.</summary>
         public string ToJson() => ToString();
 
         /// <summary>Deserializes the <see cref="ContinentId"/> from a JSON number.</summary>
-        public static Player FromJson(long json) => new Player((byte)json);
+        public static Player FromJson(long json) => new((byte)json);
 
         /// <summary>Deserializes the <see cref="ContinentId"/> from a JSON string.</summary>
         public static Player FromJson(string json) => Parse(json);

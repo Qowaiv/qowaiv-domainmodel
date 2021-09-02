@@ -29,9 +29,7 @@ namespace ConquerClub.Domain
 
         /// <summary>Gets the owner of the continent, and <see cref="Player.Neutral"/> if nobody owns the continent.</summary>
         public Player Owner
-        {
-            get => Countries.All(r => r.Owner == Countries[0].Owner) ? Countries[0].Owner : Player.Neutral;
-        }
+            => Countries.All(r => r.Owner == Countries[0].Owner) ? Countries[0].Owner : Player.Neutral;
 
         /// <summary>Gets the number of regions on the continent.</summary>
         public IReadOnlyList<Country> Countries { get; internal set; }
@@ -49,8 +47,6 @@ namespace ConquerClub.Domain
     public static class ContinentExtensions
     {
         public static Continent ById(this IEnumerable<Continent> continents, Id<ForContinent> id)
-        {
-            return continents.FirstOrDefault(c => c.Id == id);
-        }
+            => continents.FirstOrDefault(c => c.Id == id);
     }
 }

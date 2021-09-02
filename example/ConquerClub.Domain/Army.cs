@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Qowaiv;
+using System;
 using System.Text.RegularExpressions;
 
 namespace ConquerClub.Domain
@@ -44,7 +45,7 @@ namespace ConquerClub.Domain
         /// <summary>Reduces the size of the army with the total of losses.</summary>
         public Army Subtract(int losses)
         {
-            var size = Size - losses;
+            var size = Guard.NotNegative(Size - losses, nameof(Size));
             return size == 0
                 ? None
                 : Owner.Army(size);

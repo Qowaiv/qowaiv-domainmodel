@@ -31,16 +31,14 @@ namespace ConquerClub.Domain
         /// <summary>Parses the <see cref="string"/> representing the army.</summary>
         public static AttackResult Parse(string str)
         {
-            if (string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str)) return default;
+            else
             {
-                return default;
+                var splitted = str.Split(':');
+                return splitted.Length == 2
+                    ? new AttackResult(Army.Parse(splitted[0]), Army.Parse(splitted[1]))
+                    : throw new FormatException();
             }
-
-            var splitted = str.Split(':');
-
-            return splitted.Length == 2
-                ? new AttackResult(Army.Parse(splitted[0]), Army.Parse(splitted[1]))
-                : throw new FormatException();
         }
 
         public static AttackResult FromJson(string str) => Parse(str);
