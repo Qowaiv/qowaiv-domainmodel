@@ -1,23 +1,12 @@
-﻿using Qowaiv.Identifiers;
+﻿using System.Collections.Generic;
+using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 
 namespace ConquerClub.Domain.Events
 {
-    public class MapInitialized
-    {
-        public Country[] Countries { get; set; }
-        public Continent[] Continents { get; set; }
+    public record MapInitialized(
+        IReadOnlyCollection<ContinentInitialized> Continents,
+        IReadOnlyCollection<CountryInitialized> Countries);
 
-        public class Country
-        {
-            public string Name { get; set; }
-            public Id<ForCountry>[] Borders { get; set; }
-        }
-
-        public class Continent
-        {
-            public string Name { get; set; }
-            public int Bonus { get; set; }
-            public Id<ForCountry>[] Territories { get; set; }
-        }
-    }
+    public record CountryInitialized(string Name, IReadOnlyCollection<CountryId> Borders);
+    public record ContinentInitialized(string Name, int Bonus, IReadOnlyCollection<CountryId> Territories);
 }

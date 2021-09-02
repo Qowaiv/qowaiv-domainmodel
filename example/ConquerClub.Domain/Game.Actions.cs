@@ -19,22 +19,10 @@ namespace ConquerClub.Domain
         {
             var game = new Game(start.Game);
 
-            var map = new MapInitialized
-            {
-                Continents = start.Continents.Select(c =>
-                    new MapInitialized.Continent
-                    {
-                        Name = c.Name,
-                        Bonus = c.Bonus,
-                        Territories = c.Territories.ToArray(),
-                    }).ToArray(),
-                Countries = start.Countries.Select(c =>
-                    new MapInitialized.Country
-                    {
-                        Name = c.Name,
-                        Borders = c.Borders.ToArray(),
-                    }).ToArray()
-            };
+            var map = new MapInitialized(
+                Continents: start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, c.Territories.ToArray())).ToArray(),
+                Countries: start.Countries.Select(c => new CountryInitialized(c.Name, c.Borders.ToArray())).ToArray());
+
             var settings = new SettingsInitialized(start.Players, start.RoundLimit, false);
 
             var armies = new ArmiesInitialized(
@@ -223,7 +211,7 @@ namespace ConquerClub.Domain
             Phase = GamePhase.Finished;
         }
 
-        private void LinkCountriesToCountries(MapInitialized.Country[] countries)
+        private void LinkCountriesToCountries(IEnumerable<CountryInitialized> countries)
         {
             foreach (var data in countries.Select((c, id) => new
             {
@@ -236,7 +224,7 @@ namespace ConquerClub.Domain
             }
         }
 
-        private void LinkContinentToCounties(MapInitialized.Continent[] continents)
+        private void LinkContinentToCounties(IEnumerable<ContinentInitialized> continents)
         {
             foreach (var data in continents.Select((c, id) => new { Continent = ContinentId.Create(id), Countries = c.Territories }))
             {

@@ -1,6 +1,5 @@
-﻿using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
-using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
-using ContinentId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForContinent>;
+﻿using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
+using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
 
 namespace ConquerClub.Domain.Commands
 {
