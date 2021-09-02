@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Troschuetz.Random;
-using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 using ContinentId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForContinent>;
+using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
 
 namespace ConquerClub.Domain
@@ -277,6 +277,7 @@ namespace ConquerClub.Domain
             deploy += Continents.Where(c => c.Owner == player).Sum(c => c.Bonus);
             return new TurnStarted(Deployments: player.Army(deploy));
         }
+       
         public static Result<Game> Start(Start start, IGenerator rnd)
         {
             var game = new Game(start.Game);
