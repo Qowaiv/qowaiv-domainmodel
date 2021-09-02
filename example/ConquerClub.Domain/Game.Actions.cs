@@ -55,7 +55,7 @@ namespace ConquerClub.Domain
             | (g => g.MustNotBeOwnedBy(Countries.ById(defender), ActivePlayer))
             | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
             | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
-            | (g => Attack(attacker, defender, Dice
+            | (g => g.Attack(attacker, defender, Dice
                 .Attack(
                     Countries.ById(attacker).Army,
                     Countries.ById(defender).Army,
@@ -73,7 +73,7 @@ namespace ConquerClub.Domain
             | (g => g.MustNotBeOwnedBy(Countries.ById(defender), ActivePlayer))
             | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
             | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
-            | (g => Attack(attacker, defender, Dice
+            | (g => g.Attack(attacker, defender, Dice
                .AutoAttack(
                    Countries.ById(attacker).Army,
                    Countries.ById(defender).Army,
@@ -127,9 +127,7 @@ namespace ConquerClub.Domain
         }
 
         internal void When(SettingsInitialized @event)
-        {
-            Settings = new Settings(@event.Players, @event.RoundLimit, @event.FogOfWar);
-        }
+            => Settings = new Settings(@event.Players, @event.RoundLimit, @event.FogOfWar);
 
         internal void When(ArmiesInitialized @event)
         {
@@ -145,9 +143,7 @@ namespace ConquerClub.Domain
         }
 
         internal void When(ArmyInitiated @event)
-        {
-            Countries.ById(@event.Country).Army = @event.Army;
-        }
+            => Countries.ById(@event.Country).Army = @event.Army;
 
         internal void When(TurnStarted @event)
         {
@@ -206,10 +202,7 @@ namespace ConquerClub.Domain
             }
         }
 
-        internal void When(Finished @event)
-        {
-            Phase = GamePhase.Finished;
-        }
+        internal void When(Finished @event) => Phase = GamePhase.Finished;
 
         private void LinkNeighborCountries(IEnumerable<CountryInitialized> countries)
         {
