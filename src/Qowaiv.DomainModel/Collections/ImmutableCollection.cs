@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qowaiv.DomainModel.Collections
@@ -28,6 +29,7 @@ namespace Qowaiv.DomainModel.Collections
         /// <remarks>
         /// Null, and null items are ignored.
         /// </remarks>
+        [Pure]
         public ImmutableCollection Add(params object[] items) => Add<object[]>(items);
 
         /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added item(s).</summary>
@@ -40,6 +42,7 @@ namespace Qowaiv.DomainModel.Collections
         /// <remarks>
         /// Null, and null items are ignored.
         /// </remarks>
+        [Pure]
         public ImmutableCollection Add<TItem>(TItem item) where TItem : class
         => item switch
         {
@@ -50,19 +53,24 @@ namespace Qowaiv.DomainModel.Collections
         };
 
         /// <summary>Starts a conditional addition.</summary>
+        [Pure]
         public If If(bool? condition) => If(condition == true);
 
         /// <summary>Starts a conditional addition.</summary>
+        [Pure]
         public If If(bool condition) => new(condition, this);
 
         /// <inheritdoc />
+        [Pure]
         public IEnumerator<object> GetEnumerator()
             => Enumerate().GetEnumerator();
 
         /// <inheritdoc />
+        [Pure]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>Enumerates through all events.</summary>
+        [Pure]
         internal virtual IEnumerable<object> Enumerate() => Enumerable.Empty<object>();
     }
 }

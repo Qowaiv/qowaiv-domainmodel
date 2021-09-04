@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.DomainModel
+﻿using System.Diagnostics.Contracts;
+
+namespace Qowaiv.DomainModel
 {
     /// <summary>Factory method for creating <see cref="AggregateRoot{TAggregate, TId}"/> from stored events.</summary>
     public static class AggregateRoot
@@ -13,6 +15,7 @@
         /// <param name="buffer">
         /// The buffer to replay.
         /// </param>
+        [Pure]
         public static TAggregate FromStorage<TAggregate, TId>(EventBuffer<TId> buffer)
             where TAggregate : AggregateRoot<TAggregate, TId>, new()
         {

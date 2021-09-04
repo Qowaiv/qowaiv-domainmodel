@@ -1,5 +1,6 @@
 ﻿using Qowaiv.DomainModel.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qowaiv.DomainModel
@@ -26,6 +27,7 @@ namespace Qowaiv.DomainModel
         /// <param name="aggregateId">
         /// The identifier of the aggregate root.
         /// </param>
+        [Pure]
         public static EventBuffer<TId> Empty<TId>(TId aggregateId) => Empty(aggregateId, 0);
 
         /// <summary>Gets an empty <see cref="EventBuffer{TId}"/>.</summary>
@@ -38,6 +40,7 @@ namespace Qowaiv.DomainModel
         /// <param name="version">
         /// The initial version (offset).
         /// </param>
+        [Pure]
         public static EventBuffer<TId> Empty<TId>(TId aggregateId, int version)
             => new(aggregateId, offset: version, committed: version, ImmutableCollection.Empty);
 
@@ -60,13 +63,12 @@ namespace Qowaiv.DomainModel
         /// <returns>
         /// An event buffer with contains only committed events.
         /// </returns>
+        [Pure]
         public static EventBuffer<TId> FromStorage<TId, TStoredEvent>(
             TId aggregateId,
             IEnumerable<TStoredEvent> storedEvents,
             ConvertFromStoredEvent<TStoredEvent> convert)
-        {
-            return FromStorage(aggregateId, 0, storedEvents, convert);
-        }
+            => FromStorage(aggregateId, 0, storedEvents, convert);
 
         /// <summary>Creates an event buffer from some storage.</summary>
         /// <typeparam name="TId">
@@ -90,6 +92,7 @@ namespace Qowaiv.DomainModel
         /// <returns>
         /// An event buffer with contains only committed events.
         /// </returns>
+        [Pure]
         public static EventBuffer<TId> FromStorage<TId, TStoredEvent>(
             TId aggregateId,
             int initialVersion,

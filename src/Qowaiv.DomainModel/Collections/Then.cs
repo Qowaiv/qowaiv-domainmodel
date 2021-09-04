@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace Qowaiv.DomainModel.Collections
 {
@@ -23,6 +24,7 @@ namespace Qowaiv.DomainModel.Collections
         private bool Done { get; }
 
         /// <summary>Adds else-if condition.</summary>
+        [Pure]
         public If ElseIf(bool condition)
             => Done
             ? new If(IfState.Done, Predecessor)
@@ -39,12 +41,14 @@ namespace Qowaiv.DomainModel.Collections
         /// <remarks>
         /// Null, and null items are ignored.
         /// </remarks>
+        [Pure]
         public ImmutableCollection Else<TElseItem>(Func<TElseItem> item) where TElseItem : class
             => Done || item is null
             ? Predecessor
             : Predecessor.Add(item());
 
         /// <inheritdoc />
+        [Pure]
         internal override IEnumerable<object> Enumerate()
             => Predecessor.Enumerate();
     }

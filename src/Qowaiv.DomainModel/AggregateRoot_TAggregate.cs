@@ -4,6 +4,7 @@ using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace Qowaiv.DomainModel
 {
@@ -56,13 +57,16 @@ namespace Qowaiv.DomainModel
         protected abstract TAggregate Clone();
 
         /// <summary>Applies a single event.</summary>
+        [Pure]
         protected Result<TAggregate> ApplyEvent(object @event) => ApplyEvents(@event);
 
         /// <summary>Applies the events.</summary>
+        [Pure]
         protected Result<TAggregate> ApplyEvents(params object[] events)
             => Apply(events);
 
         /// <summary>Applies the events.</summary>
+        [Pure]
         protected Result<TAggregate> Apply(IEnumerable<object> events)
         {
             var updated = Clone();
