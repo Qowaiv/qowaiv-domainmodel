@@ -12,7 +12,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EventTypeNotSupportedException" xml:space="preserve">
+  <data name="EventTypeNotSupported" xml:space="preserve">
     <value>The event of the type {0} is not supported for {1}.</value>
+  </data>
+  <data name="UnresolvedCommandHandler" xml:space="preserve">
+    <value>The command hander could not be resolved.</value>
+  </data>
+  <data name="UnresolvedCommandHandler_Type" xml:space="preserve">
+    <value>The command hander {0} could not be resolved.</value>
   </data>
 </root>
