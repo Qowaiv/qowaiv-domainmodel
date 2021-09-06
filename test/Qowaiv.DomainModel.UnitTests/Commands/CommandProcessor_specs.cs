@@ -14,7 +14,7 @@ namespace Commands.CommandProcessor_specs
         {
             var processor = new NumberProcessor(new NumberHandler());
             var response = await processor.Send(new One());
-            Assert.That(response.Value, Is.EqualTo(1));
+            response.Value.Should().Be(1);
         }
 
         [Test]
@@ -23,8 +23,8 @@ namespace Commands.CommandProcessor_specs
             var processor = new NumberProcessor(new NumberHandler());
             var first = await processor.Send(new Two());
             var second = await processor.Send(new Two());
-            Assert.That(first.Value, Is.EqualTo(2));
-            Assert.That(second.Value, Is.EqualTo(2));
+            first.Value.Should().Be(2);
+            second.Value.Should().Be(2);
         }
     }
 
