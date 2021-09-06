@@ -47,7 +47,7 @@ namespace Qowaiv.DomainModel.Collections
             ? Predecessor
             : Predecessor.Add(item());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         internal override IEnumerable<object> Enumerate()
             => Predecessor.Enumerate();

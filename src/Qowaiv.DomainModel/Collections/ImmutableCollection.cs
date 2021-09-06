@@ -60,12 +60,12 @@ namespace Qowaiv.DomainModel.Collections
         [Pure]
         public If If(bool condition) => new(condition, this);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         public IEnumerator<object> GetEnumerator()
             => Enumerate().GetEnumerator();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

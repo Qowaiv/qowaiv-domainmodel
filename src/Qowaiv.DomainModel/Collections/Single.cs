@@ -19,7 +19,7 @@ namespace Qowaiv.DomainModel.Collections
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private object Item { get; }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             [Pure]
             internal override IEnumerable<object> Enumerate()
                 => base.Enumerate().Append(Item);

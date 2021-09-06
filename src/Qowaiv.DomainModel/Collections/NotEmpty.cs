@@ -17,7 +17,7 @@ namespace Qowaiv.DomainModel.Collections
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private ImmutableCollection Predecessor { get; }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             [Pure]
             internal override IEnumerable<object> Enumerate()
                 => Predecessor.Enumerate();
