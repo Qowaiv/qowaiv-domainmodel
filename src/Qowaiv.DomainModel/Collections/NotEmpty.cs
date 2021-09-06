@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace Qowaiv.DomainModel.Collections
 {
@@ -16,7 +17,8 @@ namespace Qowaiv.DomainModel.Collections
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private ImmutableCollection Predecessor { get; }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
+            [Pure]
             internal override IEnumerable<object> Enumerate()
                 => Predecessor.Enumerate();
         }

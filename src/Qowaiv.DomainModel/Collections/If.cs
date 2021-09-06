@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace Qowaiv.DomainModel.Collections
 {
@@ -34,6 +35,7 @@ namespace Qowaiv.DomainModel.Collections
         /// <remarks>
         /// Null, and null items are ignored.
         /// </remarks>
+        [Pure]
         public Then Then<TEvent>(Func<TEvent> item) where TEvent : class
         => State switch
         {

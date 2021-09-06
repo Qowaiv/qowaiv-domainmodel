@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qowaiv.DomainModel
@@ -95,6 +96,7 @@ namespace Qowaiv.DomainModel
         /// <remarks>
         /// Null, and null items are ignored.
         /// </remarks>
+        [Pure]
         public EventBuffer<TId> Add(object @event)
             => new(AggregateId, offset, CommittedVersion, buffer.Add<object>(@event));
 
@@ -130,6 +132,7 @@ namespace Qowaiv.DomainModel
         /// <returns>
         /// The uncommitted events as <typeparamref name="TStoredEvent"/>.
         /// </returns>
+        [Pure]
         public IEnumerable<TStoredEvent> SelectUncommitted<TStoredEvent>(ConvertToStoredEvent<TId, TStoredEvent> convert)
         {
             Guard.NotNull(convert, nameof(convert));
@@ -137,9 +140,11 @@ namespace Qowaiv.DomainModel
         }
 
         /// <inheritdoc/>
+        [Pure]
         public IEnumerator<object> GetEnumerator() => buffer.GetEnumerator();
 
         /// <inheritdoc/>
+        [Pure]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         /// <summary>Returns a <see cref="string"/> that represents the event buffer for debug purposes.</summary>

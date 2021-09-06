@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qowaiv.DomainModel.Collections
@@ -19,7 +20,8 @@ namespace Qowaiv.DomainModel.Collections
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private IEnumerable Items { get; }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
+            [Pure]
             internal override IEnumerable<object> Enumerate()
                 => base.Enumerate().Append(Items);
         }

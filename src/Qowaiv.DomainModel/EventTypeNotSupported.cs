@@ -49,7 +49,7 @@ namespace Qowaiv.DomainModel
         /// <summary>The aggregate for which the event type is not supported.</summary>
         public Type AggregateType { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(Guard.NotNull(info, nameof(info)), context);

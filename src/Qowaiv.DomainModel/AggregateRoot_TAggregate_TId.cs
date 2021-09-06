@@ -1,5 +1,6 @@
 ﻿using Qowaiv.Validation.Abstractions;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Qowaiv.DomainModel
@@ -38,6 +39,7 @@ namespace Qowaiv.DomainModel
             => Buffer = Buffer.Add(events);
 
         /// <inheritdoc/>
+        [Pure]
         protected override TAggregate Clone()
         {
             var cloned = new TAggregate();
