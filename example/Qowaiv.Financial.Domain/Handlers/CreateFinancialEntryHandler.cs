@@ -3,17 +3,17 @@ using Qowaiv.Financial.Domain.Commands;
 using Qowaiv.Financial.Shared;
 using Qowaiv.Financial.Shared.Handling;
 using Qowaiv.Validation.Abstractions;
-using System;
 using System.Threading.Tasks;
+using FinancialEntryId = Qowaiv.Identifiers.Id<Qowaiv.Financial.Shared.ForFinancialEntry>;
 
 namespace Qowaiv.Financial.Domain.Handlers
 {
     public class CreateFinancialEntryHandler : ICommandHandler<CreateFinancialEntry>
     {
-        private readonly IEventStore<Guid> store;
-        private IEventPublisher publisher;
+        private readonly IEventStore<FinancialEntryId> store;
+        private readonly IEventPublisher publisher;
 
-        public CreateFinancialEntryHandler(IEventStore<Guid> store, IEventPublisher publisher)
+        public CreateFinancialEntryHandler(IEventStore<FinancialEntryId> store, IEventPublisher publisher)
         {
             this.store = Guard.NotNull(store, nameof(store));
             this.publisher = Guard.NotNull(publisher, nameof(publisher));
@@ -38,7 +38,6 @@ namespace Qowaiv.Financial.Domain.Handlers
             {
                 await publisher.PublishAsync(new DomainEvent(entry.Id, committed));
             }
-            entry.Buffer.ClearCommitted();
             return Result.OK;
         }
     }

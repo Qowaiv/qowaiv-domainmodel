@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using FluentValidation.Validators;
 using Qowaiv.Validation.Fluent;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using static Qowaiv.Financial.Domain.FinancialEntry;
 
 namespace Qowaiv.Financial.Domain.Validators
 {
-    public class FinancialEntryValidator : FluentModelValidator<FinancialEntry>
+    public class FinancialEntryValidator : ModelValidator<FinancialEntry>
     {
         public FinancialEntryValidator()
         {
@@ -16,7 +15,7 @@ namespace Qowaiv.Financial.Domain.Validators
             RuleForEach(entry => entry.Lines).SetValidator(new EntryLineValidator());
         }
 
-        private void BeBalanced(IReadOnlyCollection<EntryLine> lines, CustomContext context)
+        private void BeBalanced(IReadOnlyCollection<EntryLine> lines, ValidationContext<FinancialEntry> context)
         {
             if (lines.Select(line => line.Amount.Currency).Distinct().Count() > 1)
             {

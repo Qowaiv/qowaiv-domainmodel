@@ -7,14 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using FinancialEntryId = Qowaiv.Identifiers.Id<Qowaiv.Financial.Shared.ForFinancialEntry>;
 
 namespace Qowaiv.Financial.Domain
 {
-    public sealed partial class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
+    public sealed partial class FinancialEntry : AggregateRoot<FinancialEntry, FinancialEntryId>
     {
-        public FinancialEntry() : this(Guid.NewGuid()) { }
+        public FinancialEntry() : this(FinancialEntryId.Next()) { }
 
-        public FinancialEntry(Guid id) : base(id, new FinancialEntryValidator()) { }
+        public FinancialEntry(FinancialEntryId id) : base(id, new FinancialEntryValidator()) { }
 
         public DateTime CreatedUtc { get; private set; }
 
@@ -25,40 +26,23 @@ namespace Qowaiv.Financial.Domain
         private readonly List<EntryLine> enties = new List<EntryLine>();
 
         public Result<FinancialEntry> AddLines(params FinancialEntryLine[] lines)
-        {
-            return ApplyEvents(lines.Select(line => new EntryLineAdded
-            {
-                GlAccount = line.GlAccount,
-                Amount = line.Amount,
-                Date = line.Date,
-                Description = line.Description,
-                AccountId = line.AccountId,
-            }).ToArray());
-        }
+            => Apply(Events.Add(lines.Select(line => new EntryLineAdded(
+                line.GlAccount,
+                line.Date,
+                line.Amount,
+                line.Description,
+                line.AccountId))));
 
-        public static Result<FinancialEntry> Create(Guid id, Report report, FinancialEntryLine[] lines)
-        {
-            var entry = new FinancialEntry(id);
-
-            var events = new List<object>
-            {
-                new Created
-                {
-                    Report = report,
-                    CreatedUtc = Clock.UtcNow(),
-                }
-            };
-            events.AddRange(lines.Select(line => new EntryLineAdded
-            {
-                GlAccount = line.GlAccount,
-                Amount = line.Amount,
-                Date = line.Date,
-                Description = line.Description,
-                AccountId = line.AccountId,
-            }));
-
-            return entry.ApplyEvents(@events.ToArray());
-        }
+        public static Result<FinancialEntry> Create(FinancialEntryId id, Report report, FinancialEntryLine[] lines)
+            => new FinancialEntry(id)
+            .Apply(Events
+                .Add(new Created(report, Clock.UtcNow()))
+                .Add(lines.Select(line => new EntryLineAdded(
+                    line.GlAccount,
+                    line.Date,
+                    line.Amount,
+                    line.Description,
+                    line.AccountId))));
 
         internal void When(Created @event)
         {
@@ -67,15 +51,12 @@ namespace Qowaiv.Financial.Domain
         }
 
         internal void When(EntryLineAdded @event)
-        {
-            enties.Add(new EntryLine
-            {
-                GlAccount = @event.GlAccount,
-                Date = @event.Date,
-                Amount = @event.Amount,
-                Description = @event.Description,
-                AccountId = @event.AccountId,
-            });
-        }
+            => enties.Add(new EntryLine(
+                @event.Amount,
+                @event.Date,
+                @event.Description,
+                @event.GlAccount,
+                @event.AccountId));
+
     }
 }

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using DivisionCode = Qowaiv.Identifiers.Id<Qowaiv.Financial.Shared.ForDivision>;
+using FinancialEntryId = Qowaiv.Identifiers.Id<Qowaiv.Financial.Shared.ForFinancialEntry>;
 
 namespace Qowaiv.Financial.Domain.Commands
 {
-    public class CreateFinancialEntry : FinancialEntryCommand
-    {
-        public DivisionCode Division { get; set; }
-        public Year ReportingYear { get; set; }
-        public Month ReportingMonth { get; set; }
-        public FinancialEntryLine[] Lines { get; set; }
-    }
-}
+    public record CreateFinancialEntry(
+        DivisionCode Division,
+        Year ReportingYear,
+        Month ReportingMonth,
+        FinancialEntryLine[] Lines) : FinancialEntryCommand(FinancialEntryId.Next());
+ }

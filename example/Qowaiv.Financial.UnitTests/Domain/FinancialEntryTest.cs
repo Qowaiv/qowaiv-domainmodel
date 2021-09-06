@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Qowaiv.DomainModel.TestTools.EventSourcing;
+using Qowaiv.DomainModel.TestTools;
 using Qowaiv.Financial.Domain;
 using Qowaiv.Financial.Domain.Commands;
 using Qowaiv.Financial.Domain.Events;

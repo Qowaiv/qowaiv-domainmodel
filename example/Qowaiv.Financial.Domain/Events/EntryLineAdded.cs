@@ -1,13 +1,12 @@
-﻿using System;
+﻿using GlAccountCode = Qowaiv.Identifiers.Id<Qowaiv.Financial.Shared.ForGlAcount>;
+using AccountId = Qowaiv.Identifiers.Id<Qowaiv.Financial.Shared.ForGlAcount>;
 
 namespace Qowaiv.Financial.Domain.Events
 {
-    public class EntryLineAdded
-    {
-        public GlAccountCode GlAccount { get; set; }
-        public Date Date { get; set; }
-        public Money Amount { get; set; }
-        public string Description { get; set; }
-        public Guid? AccountId { get; set; }
-    }
+    public record EntryLineAdded(
+        GlAccountCode GlAccount,
+        Date Date,
+        Money Amount,
+        string Description,
+        AccountId AccountId);
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,9 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.30" />
-    <PackageReference Include="Dapper.Contrib" Version="2.0.30" />
-    <PackageReference Include="Qowaiv" Version="5.0.1" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+    <PackageReference Include="Qowaiv" Version="5.1.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 

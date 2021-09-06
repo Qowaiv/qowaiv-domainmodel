@@ -1,9 +1,6 @@
-﻿using System;
+﻿using FinancialEntryId = Qowaiv.Identifiers.Id<Qowaiv.Financial.Shared.ForFinancialEntry>;
 
 namespace Qowaiv.Financial.Domain.Commands
 {
-    public class FinancialEntryCommand
-    {
-        public Guid Id { get; set; }
-    }
+    public record FinancialEntryCommand(FinancialEntryId Id);
 }
