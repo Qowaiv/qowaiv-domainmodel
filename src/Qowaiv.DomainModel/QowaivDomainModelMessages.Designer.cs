@@ -63,9 +63,27 @@ namespace Qowaiv.DomainModel {
         /// <summary>
         ///   Looks up a localized string similar to The event of the type {0} is not supported for {1}..
         /// </summary>
-        public static string EventTypeNotSupportedException {
+        public static string EventTypeNotSupported {
             get {
-                return ResourceManager.GetString("EventTypeNotSupportedException", resourceCulture);
+                return ResourceManager.GetString("EventTypeNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The command handler could not be resolved..
+        /// </summary>
+        public static string UnresolvedCommandHandler {
+            get {
+                return ResourceManager.GetString("UnresolvedCommandHandler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The command handler {0} could not be resolved..
+        /// </summary>
+        public static string UnresolvedCommandHandler_Type {
+            get {
+                return ResourceManager.GetString("UnresolvedCommandHandler_Type", resourceCulture);
             }
         }
     }

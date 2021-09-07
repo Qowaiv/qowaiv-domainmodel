@@ -2,11 +2,13 @@
 using ConquerClub.Domain.Events;
 using ConquerClub.Domain.Handlers;
 using Qowaiv.DomainModel;
+using Qowaiv.DomainModel.Commands;
 using Qowaiv.Validation.Abstractions;
+using System;
 using Troschuetz.Random.Generators;
+using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
 using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
 using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
-using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
 
 namespace ConquerClub.UnitTests
 {
@@ -18,13 +20,13 @@ namespace ConquerClub.UnitTests
         public static readonly CountryId Luxembourg = CountryId.Create(2);
         public static readonly CountryId Unknown = CountryId.Create(666);
 
-        public static Result<Game> Handle(dynamic command, Buffer buffer = null)
+        public static Result<Game> Handle(object command, Buffer buffer = null)
         {
             buffer ??= EventBuffer.Empty(GameId);
-            var handler = new TestHandler(buffer, 17);
-            var result = handler.Handle(command);
+            var processor = new TestProcessor(buffer, 17);
+            var result = processor.Send(command);
             return result.IsValid
-                ? Result.For(handler.Buffer.Load(), result.Messages)
+                ? Result.For(processor.Buffer.Load(), result.Messages)
                 : Result.WithMessages<Game>(result.Messages);
         }
 
@@ -55,29 +57,26 @@ namespace ConquerClub.UnitTests
             AggregateRoot.FromStorage<Game, GameId>(buffer.MarkAllAsCommitted());
     }
 
-    internal class TestHandler
+    internal class TestProcessor : CommandProcessor<Result>
     {
-        public TestHandler(Buffer buffer, int seed)
+        public TestProcessor(Buffer buffer, int seed)
         {
-            rnd = new MT19937Generator(seed);
+            Rnd = new MT19937Generator(seed);
             Buffer = buffer;
         }
+        
+        public Buffer Buffer { get; private set; }
+        private MT19937Generator Rnd { get; }
 
-        public Result Handle(dynamic command)
-        {
-            dynamic handler = new GameCommandHandler(rnd,
+        protected override Type GenericHandlerType => typeof(CommandHandler<>);
+        protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);
+        protected override object GetHandler(Type handlerType)
+            => new GameCommandHandler(Rnd,
                 load: id => Buffer.Load(),
                 save: game =>
                 {
                     Buffer = game.Buffer;
                     return Result.OK;
                 });
-
-            var result = handler.Handle(command);
-            return result;
-        }
-
-        public Buffer Buffer { get; private set; }
-        private readonly MT19937Generator rnd;
     }
 }

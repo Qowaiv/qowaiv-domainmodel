@@ -18,7 +18,7 @@ namespace Qowaiv.DomainModel
 
         private static string GetMessage(Type eventType, Type aggragateType) =>
             string.Format(
-                QowaivDomainModelMessages.EventTypeNotSupportedException,
+                QowaivDomainModelMessages.EventTypeNotSupported,
                 eventType?.ToString() ?? "{null}",
                 aggragateType ?? typeof(AggregateRoot<>));
 
@@ -53,8 +53,8 @@ namespace Qowaiv.DomainModel
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(Guard.NotNull(info, nameof(info)), context);
-            info.AddValue(nameof(EventType), EventType.AssemblyQualifiedName);
-            info.AddValue(nameof(AggregateType), AggregateType.AssemblyQualifiedName);
+            info.AddValue(nameof(EventType), EventType?.AssemblyQualifiedName);
+            info.AddValue(nameof(AggregateType), AggregateType?.AssemblyQualifiedName);
         }
     }
 }
