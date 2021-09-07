@@ -13,18 +13,15 @@ namespace Commands.CommandProcessor_specs
         public async Task a_command()
         {
             var processor = new NumberProcessor(new NumberHandler());
-            var response = await processor.Send(new One());
-            response.Value.Should().Be(1);
+            (await processor.Send(new One())).Value.Should().Be(1);
         }
 
         [Test]
         public async Task a_second_command_using_precompiled_func()
         {
             var processor = new NumberProcessor(new NumberHandler());
-            var first = await processor.Send(new Two());
-            var second = await processor.Send(new Two());
-            first.Value.Should().Be(2);
-            second.Value.Should().Be(2);
+            (await processor.Send(new Two())).Value.Should().Be(2);
+            (await processor.Send(new Two())).Value.Should().Be(2);
         }
     }
 
@@ -42,7 +39,7 @@ namespace Commands.CommandProcessor_specs
         {
             Action send = () => new NumberProcessor(null).Send(new One());
             send.Should().Throw<UnresolvedCommandHandler>()
-                .WithMessage("The command hander Commands.CommandProcessor_specs.CommandHandler`1[Commands.CommandProcessor_specs.One] could not be resolved.");
+                .WithMessage("The command handler Commands.CommandProcessor_specs.CommandHandler`1[Commands.CommandProcessor_specs.One] could not be resolved.");
         }
     }
 
@@ -59,8 +56,11 @@ namespace Commands.CommandProcessor_specs
     {
         Task<Result<int>> Handle(TCommand command);
     }
+
     record One();
+
     record Two();
+
     class NumberHandler :
         CommandHandler<One>,
         CommandHandler<Two>

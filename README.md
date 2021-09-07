@@ -199,19 +199,18 @@ var updated = buffer.MarkAllAsCommitted();
 
 ## Command Processor
 An approach often used when applying event sourcing is the [(command pattern)https://en.wikipedia.org/wiki/Command_pattern];
-every change on the domain(s), is described by a command, that is handled by 
+every change on the domain(s) is triggerd by a command, which is handled by 
 a single command handler.
 
-As it should be irrelevant to the sender of the command, which handler handles
+As it should be irrelevant to the sender of the command which handler handles
 the command, a command processor can be useful to do just that: ensure that
 the registered handler handles the command at hand.
 
 The (abstract) `Qowaiv.DomainModel.Commands.CommandProcessor<TReturnType>`
-allows to call registered command handlers registered for a specific
-command (type). To reduce the usage of reflection, the actual call is a
-(one-time) compiled expression, stored in a dictionary. It can deal with any
-(except `void`, including both sync and async) return type, any (generic)
-command handler interface  of preference.
+orchestrates command handlers to command (types). To reduce the usage of reflection,
+the actual call is a (one-time) compiled expression, stored in a dictionary. It
+can deal with any (except `void`, including both sync and async) return type,
+and any (generic) command handler interface of preference.
 
 A typical implementation, using Microsoft's `System.IServiceProvider`,
 looks like this:

@@ -70,7 +70,7 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The command hander could not be resolved..
+        ///   Looks up a localized string similar to The command handler could not be resolved..
         /// </summary>
         public static string UnresolvedCommandHandler {
             get {
@@ -79,7 +79,7 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The command hander {0} could not be resolved..
+        ///   Looks up a localized string similar to The command handler {0} could not be resolved..
         /// </summary>
         public static string UnresolvedCommandHandler_Type {
             get {

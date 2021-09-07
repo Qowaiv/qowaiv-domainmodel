@@ -16,9 +16,9 @@
     <value>The event of the type {0} is not supported for {1}.</value>
   </data>
   <data name="UnresolvedCommandHandler" xml:space="preserve">
-    <value>The command hander could not be resolved.</value>
+    <value>The command handler could not be resolved.</value>
   </data>
   <data name="UnresolvedCommandHandler_Type" xml:space="preserve">
-    <value>The command hander {0} could not be resolved.</value>
+    <value>The command handler {0} could not be resolved.</value>
   </data>
 </root>

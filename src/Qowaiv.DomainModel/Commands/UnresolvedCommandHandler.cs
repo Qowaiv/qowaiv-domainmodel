@@ -9,7 +9,7 @@ namespace Qowaiv.DomainModel.Commands
     [Serializable]
     public class UnresolvedCommandHandler : InvalidOperationException
     {
-        /// <summary>The command hander type that could not be resolved.</summary>
+        /// <summary>The command handler type that could not be resolved.</summary>
         public Type CommandHandlerType { get; }
 
         /// <summary>Initializes a new instance of the <see cref="UnresolvedCommandHandler"/> class.</summary>

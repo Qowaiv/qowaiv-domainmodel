@@ -6,8 +6,8 @@ using System.Reflection;
 
 namespace Qowaiv.DomainModel.Commands
 {
-    /// <summary>Command processor that resolves the registered command hander
-    /// base on type of the command.
+    /// <summary>Command processor that resolves the registered command handler
+    /// base on the type of the command.
     /// </summary>
     /// <typeparam name="TReturnType">
     /// The return type of the command handler methods
