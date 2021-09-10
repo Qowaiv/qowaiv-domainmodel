@@ -97,7 +97,7 @@ namespace Event_buffer_specs
         [Test]
         public void False_for_non_empty_buffer_all_marked_as_committed()
             => EventBuffer.Empty(17).Add(new EmptyEvent()).MarkAllAsCommitted().HasUncommitted.Should().BeFalse();
-        }
+    }
 
     public class Debugger_display
     {

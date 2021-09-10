@@ -8,7 +8,7 @@
     <Version>0.1.3</Version>
     <PackageReleaseNotes>
 v0.1.3
-- Introduction of CommandHandler&lt;TReturnType&gt; (#18)
+- Introduction of CommandHandler&lt;TReturnType&gt; (#16)
 - Decorate pure methods with attribute. (#17)
 v0.1.2
 - Fix issue with iterating EventBuffer.SelectUncommitted multiple times #16 
