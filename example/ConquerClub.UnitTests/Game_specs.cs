@@ -1,7 +1,7 @@
 ﻿using ConquerClub.Domain;
+using FluentAssertions;
 using NUnit.Framework;
 using Qowaiv.Validation.Abstractions;
-using Qowaiv.Validation.TestTools;
 using System.Linq;
 using static ConquerClub.UnitTests.Arrange;
 using Commands = ConquerClub.Domain.Commands;
@@ -36,15 +36,13 @@ namespace Game_specs
                     new Commands.Country("Luxembourg", new []{ Belgium }),
                 });
 
-            var result = ValidationMessageAssert.IsValid(Handle(command));
-
-            CollectionAssert.AreEquivalent(new[]
+            Handle(command).Should().BeValid()
+                .Value.Countries.Select(c => c.Owner).Should().BeEquivalentTo(new[]
             {
                 Player.P1,
                 Player.P2,
                 Player.Neutral
-            },
-            result.Countries.Select(c => c.Owner).Distinct());
+            });
         }
     }
 
@@ -59,10 +57,8 @@ namespace Game_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-
-            ValidationMessageAssert.WithErrors(result,
-                ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
+            Handle(command, Benelux()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
         }
 
         [Test]
@@ -74,8 +70,8 @@ namespace Game_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = ValidationMessageAssert.IsValid(Handle(command, Benelux()));
-            Assert.That(result.Countries.ById(Netherlands).Army, Is.EqualTo(Player.P1.Army(6)));
+            Handle(command, Benelux()).Should().BeValid()
+                .Value.Countries.ById(Netherlands).Army.Should().Be(Player.P1.Army(6));
         }
 
         [Test]
@@ -87,10 +83,8 @@ namespace Game_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-
-            ValidationMessageAssert.WithErrors(result,
-                ValidationMessage.Error("Country Luxembourg must be owned by P1."));
+            Handle(command, Benelux()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Country Luxembourg must be owned by P1."));
         }
     }
 }

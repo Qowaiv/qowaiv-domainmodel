@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 using Qowaiv.DomainModel;
 using Qowaiv.TestTools;
 using System;
@@ -10,13 +11,13 @@ namespace Event_buffer_specs
     {
         [Test]
         public void Empty_has_version_0()
-            => Assert.That(EventBuffer.Empty(Guid.NewGuid()).Version, Is.EqualTo(0));
+            => EventBuffer.Empty(Guid.NewGuid()).Version.Should().Be(0);
 
         [TestCase(1)]
         [TestCase(17)]
         [TestCase(666)]
         public void Empty_with_initial_has_equals(int version)
-            => Assert.That(EventBuffer.Empty(Guid.NewGuid(), version).Version, Is.EqualTo(version));
+            => EventBuffer.Empty(Guid.NewGuid(), version).Version.Should().Be(version);
 
         [TestCase]
         public void FromStorage_contains_all_events_as_committed()
@@ -24,8 +25,8 @@ namespace Event_buffer_specs
             var stored = new[] { new EmptyEvent(), new EmptyEvent(), new EmptyEvent() };
             var buffer = EventBuffer.FromStorage(Guid.NewGuid(), stored, (@event) => @event);
 
-            Assert.That(buffer.Count(), Is.EqualTo(3));
-            Assert.That(buffer.CommittedVersion, Is.EqualTo(3));
+            buffer.Should().HaveCount(3)
+                .And.Subject.As<EventBuffer<Guid>>().CommittedVersion.Should().Be(3);
         }
 
         [TestCase]
@@ -34,8 +35,8 @@ namespace Event_buffer_specs
             var stored = new[] { new EmptyEvent(), new EmptyEvent(), new EmptyEvent() };
             var buffer = EventBuffer.FromStorage(Guid.NewGuid(), initialVersion: 6, stored, (@event) => @event);
 
-            Assert.That(buffer.Count(), Is.EqualTo(3));
-            Assert.That(buffer.CommittedVersion, Is.EqualTo(9));
+            buffer.Should().HaveCount(3)
+             .And.Subject.As<EventBuffer<Guid>>().CommittedVersion.Should().Be(9);
         }
     }
 
@@ -67,35 +68,35 @@ namespace Event_buffer_specs
                 .Add(new EmptyEvent());
 
             var selected = buffer.SelectUncommitted((id, version, @event) => new StoredEvent(id, version, @event));
-            Assert.That(selected, Is.EqualTo(new[]
+            selected.Should().BeEquivalentTo(new[]
             {
                 new StoredEvent("my-id-007", 1, new EmptyEvent()),
                 new StoredEvent("my-id-007", 2, new EmptyEvent()),
                 new StoredEvent("my-id-007", 3, new EmptyEvent()),
-            }));
+            });
         }
     }
 
     public class IsEmpty
     {
         [Test]
-        public void True_for_empty_buffer() => Assert.That(EventBuffer.Empty(17).IsEmpty, Is.True);
+        public void True_for_empty_buffer() => EventBuffer.Empty(17).IsEmpty.Should().BeTrue();
 
         [Test]
-        public void False_for_non_empty_buffer() => Assert.That(EventBuffer.Empty(17).Add(new EmptyEvent()).IsEmpty, Is.False);
+        public void False_for_non_empty_buffer() => EventBuffer.Empty(17).Add(new EmptyEvent()).IsEmpty.Should().BeFalse();
     }
 
     public class HasUncommitted
     {
         [Test]
-        public void False_for_empty_buffer() => Assert.That(EventBuffer.Empty(17).HasUncommitted, Is.False);
+        public void False_for_empty_buffer() => EventBuffer.Empty(17).HasUncommitted.Should().BeFalse();
 
         [Test]
-        public void True_for_non_empty_buffer() => Assert.That(EventBuffer.Empty(17).Add(new EmptyEvent()).HasUncommitted, Is.True);
+        public void True_for_non_empty_buffer() => EventBuffer.Empty(17).Add(new EmptyEvent()).HasUncommitted.Should().BeTrue();
 
         [Test]
-        public void False_for_non_empty_buffer_all_marked_as_committed() 
-            => Assert.That(EventBuffer.Empty(17).Add(new EmptyEvent()).MarkAllAsCommitted().HasUncommitted, Is.False);
+        public void False_for_non_empty_buffer_all_marked_as_committed()
+            => EventBuffer.Empty(17).Add(new EmptyEvent()).MarkAllAsCommitted().HasUncommitted.Should().BeFalse();
     }
 
     public class Debugger_display
