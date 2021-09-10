@@ -3,41 +3,12 @@ using ConquerClub.Domain.Commands;
 using ConquerClub.Domain.Events;
 using FluentAssertions;
 using NUnit.Framework;
-using Qowaiv.DomainModel;
-using Qowaiv.Validation.TestTools;
 using static ConquerClub.UnitTests.Arrange;
-using Id = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
 
 namespace Game_specs
 {
     public class Resign_result_in
     {
-        [Test]
-        public void active_player_being_replaced_by_neutral_x()
-        {
-            var command = new Resign(GameId, 4);
-
-            var buffer = BeneluxWithoutArmies()
-                .Add(new ArmiesInitialized
-                {
-                    Armies = new[]
-                    {
-                        Player.P1.Army(1),
-                        Player.P2.Army(80),
-                        Player.P3.Army(85),
-                    }
-                })
-                .Add(new TurnStarted(Player.P1.Army(3)));
-
-            var game = Handle(command, buffer).Should().BeValid().Value;
-
-            game.Phase.Should().Be(GamePhase.Deploy);
-            game.Countries.ById(Netherlands).Army.Should().Be(Player.Neutral.Army(1));
-            game.ActivePlayer.Should().Be(Player.P2);
-            game.ActivePlayer.Should().BeEquivalentTo(new[] { Player.P2, Player.P3 });
-        }
-
-
         [Test]
         public void active_player_being_replaced_by_neutral()
         {
@@ -57,7 +28,7 @@ namespace Game_specs
             var game = Handle(command, buffer).Should().BeValid().Value;
 
             game.Phase.Should().Be(GamePhase.Deploy);
-            game.Countries.ById(Netherlands).Should().Be(Player.Neutral.Army(1));
+            game.Countries.ById(Netherlands).Army.Should().Be(Player.Neutral.Army(1));
             game.ActivePlayer.Should().Be(Player.P2);
             game.ActivePlayers.Should().BeEquivalentTo(new[] { Player.P2, Player.P3 });
         }

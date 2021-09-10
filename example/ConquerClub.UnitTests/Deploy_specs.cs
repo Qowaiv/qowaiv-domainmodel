@@ -1,9 +1,7 @@
 ﻿using ConquerClub.Domain;
-using ConquerClub.Domain.Events;
 using FluentAssertions;
 using NUnit.Framework;
 using Qowaiv.Validation.Abstractions;
-using Qowaiv.Validation.TestTools;
 using static ConquerClub.UnitTests.Arrange;
 using Commands = ConquerClub.Domain.Commands;
 
