@@ -1,5 +1,6 @@
 ﻿using ConquerClub.Domain;
 using ConquerClub.Domain.Events;
+using FluentAssertions;
 using NUnit.Framework;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
@@ -19,10 +20,8 @@ namespace Deploy_specs
                 GameId,
                 ExpectedVersion: 5);
 
-            var result = Handle(command, Benelux().Deploy());
-
-            ValidationMessageAssert.WithErrors(result,
-               ValidationMessage.Error("Action must be in the Deploy phase to be executed, not in the Attack phase."));
+            Handle(command, Benelux().Deploy()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Action must be in the Deploy phase to be executed, not in the Attack phase."));
         }
 
         [Test]
@@ -34,10 +33,8 @@ namespace Deploy_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-
-            ValidationMessageAssert.WithErrors(result,
-               ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
+            Handle(command, Benelux()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
         }
 
         [Test]
@@ -49,10 +46,8 @@ namespace Deploy_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-
-            ValidationMessageAssert.WithErrors(result,
-               ValidationMessage.Error("Country with id 666 does not exist."));
+            Handle(command, Benelux()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Country with id 666 does not exist."));
         }
 
         [Test]
@@ -64,10 +59,8 @@ namespace Deploy_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-
-            ValidationMessageAssert.WithErrors(result,
-               ValidationMessage.Error("Country Belgium must be owned by P1."));
+            Handle(command, Benelux()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Country Belgium must be owned by P1."));
         }
 
         [Test]
@@ -79,10 +72,8 @@ namespace Deploy_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-
-            ValidationMessageAssert.WithErrors(result,
-               ValidationMessage.Error("Action not be executed as it requires more armies (P1.Army(4)) then available (P1.Army(3))."));
+            Handle(command, Benelux()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Action not be executed as it requires more armies (P1.Army(4)) then available (P1.Army(3))."));
         }
     }
     
@@ -97,12 +88,11 @@ namespace Deploy_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-            var game = ValidationMessageAssert.IsValid(result);
+            var game = Handle(command, Benelux()).Should().BeValid().Value;
 
-            Assert.AreEqual(Player.P1.Army(5), game.Countries.ById(Netherlands).Army);
-            Assert.AreEqual(Player.P1.Army(1), game.ArmyBuffer);
-            Assert.AreEqual(GamePhase.Deploy, game.Phase);
+            game.Countries.ById(Netherlands).Army.Should().Be(Player.P1.Army(5));
+            game.ArmyBuffer.Should().Be(Player.P1.Army(1));
+            game.Phase.Should().Be(GamePhase.Deploy);
         }
 
         [Test]
@@ -114,13 +104,11 @@ namespace Deploy_specs
                 GameId,
                 ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
+            var game = Handle(command, Benelux()).Should().BeValid().Value;
 
-            var game = ValidationMessageAssert.IsValid(result);
-
-            Assert.AreEqual(Player.P1.Army(6), game.Countries.ById(Netherlands).Army);
-            Assert.AreEqual(Army.None, game.ArmyBuffer);
-            Assert.AreEqual(GamePhase.Attack, game.Phase);
+            game.Countries.ById(Netherlands).Army.Should().Be(Player.P1.Army(6));
+            game.ArmyBuffer.Should().Be(Army.None);
+            game.Phase.Should().Be(GamePhase.Attack);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ConquerClub.Domain;
 using ConquerClub.Domain.Commands;
 using ConquerClub.Domain.Events;
+using FluentAssertions;
 using NUnit.Framework;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
@@ -18,10 +19,8 @@ namespace Game_specs
                   Game: GameId,
                   ExpectedVersion: 4);
 
-            var result = Handle(command, Benelux());
-
-            ValidationMessageAssert.WithErrors(result,
-                ValidationMessage.Error("Action must be in the Advance phase to be executed, not in the Deploy phase."));
+            Handle(command, Benelux()).Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Action must be in the Advance phase to be executed, not in the Deploy phase."));
         }
 
         [Test]
@@ -32,11 +31,9 @@ namespace Game_specs
                   Game: GameId,
                   ExpectedVersion: 5);
 
-            var result = Handle(command, Benelux()
-                .Add(new Conquered(Netherlands, Belgium)));
-
-            ValidationMessageAssert.WithErrors(result,
-                ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
+            Handle(command, Benelux().Add(new Conquered(Netherlands, Belgium)))
+                .Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error("Action can only be applied by the active P1, not by P2."));
         }
 
         [Test]
@@ -47,11 +44,9 @@ namespace Game_specs
                   Game: GameId,
                   ExpectedVersion: 5);
 
-            var result = Handle(command, Benelux()
-                .Add(new Conquered(Netherlands, Belgium)));
-
-            ValidationMessageAssert.WithErrors(result,
-                ValidationMessage.Error($"Action not be executed as it requires more armies (P1.Army({size})) then available (P1.Army(1))."));
+            Handle(command, Benelux().Add(new Conquered(Netherlands, Belgium)))
+                .Should().BeInvalid()
+                .WithMessage(ValidationMessage.Error($"Action not be executed as it requires more armies (P1.Army({size})) then available (P1.Army(1))."));
         }
     }
 
@@ -65,11 +60,9 @@ namespace Game_specs
                   Game: GameId,
                   ExpectedVersion: 5);
 
-            var result = Handle(command, Benelux()
-                .Add(new Conquered(Netherlands, Belgium)));
-
-           var state = ValidationMessageAssert.IsValid(result);
-            Assert.That(state.ArmyBuffer, Is.EqualTo(Army.None));
+            Handle(command, Benelux().Add(new Conquered(Netherlands, Belgium)))
+                .Should().BeValid()
+                .Value.ArmyBuffer.Should().Be(Army.None);
         }
     }
 }
