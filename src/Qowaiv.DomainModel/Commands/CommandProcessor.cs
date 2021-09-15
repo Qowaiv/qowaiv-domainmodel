@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 
 namespace Qowaiv.DomainModel.Commands
 {
@@ -56,12 +57,22 @@ namespace Qowaiv.DomainModel.Commands
             return Handle(handlerType, commandType)(handler, command);
         }
 
+        public TReturnType Send(object command, CancellationToken token)
+        {
+            var commandType = Guard.NotNull(command, nameof(command)).GetType();
+            var handlerType = HandlerTypeFor(commandType);
+            var handler = GetHandler(handlerType) ?? throw new UnresolvedCommandHandler(handlerType);
+            var method = GetMethodWithToken(handlerType, commandType) ?? throw new InvalidOperationException("Overload does not exist");
+            return (TReturnType)method.Invoke(handler, new[] { command, token });
+        }
+
+
         /// <summary>Gets function to invoke.</summary>
         private Func<object, object, TReturnType> Handle(Type handler, Type command)
         {
             if (!handlers.TryGetValue(command, out var handle))
             {
-                handle = GetExpression(GetMethod(handler, command)).Compile();
+                handle = GetExpression(GetMethod(handler, command) ?? throw new InvalidOperationException("Overload does not exist")).Compile();
                 handlers[command] = handle;
             }
             return handle;
@@ -76,9 +87,17 @@ namespace Qowaiv.DomainModel.Commands
         /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
         private MethodInfo GetMethod(Type handlerType, Type commandType)
             => handlerType.GetMethods()
-                .Single(m => m.Name == HandlerMethod
+                .FirstOrDefault(m => m.Name == HandlerMethod
                     && m.GetParameters().Length == 1
                     && m.GetParameters()[0].ParameterType == commandType);
+
+        /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
+        private MethodInfo GetMethodWithToken(Type handlerType, Type commandType)
+            => handlerType.GetMethods()
+                .FirstOrDefault(m => m.Name == HandlerMethod
+                    && m.GetParameters().Length == 2
+                    && m.GetParameters()[0].ParameterType == commandType
+                    && m.GetParameters()[1].ParameterType == typeof(CancellationToken));
 
         /// <summary>Gets an expression that calls the Handle method.</summary>
         /// <remarks>
