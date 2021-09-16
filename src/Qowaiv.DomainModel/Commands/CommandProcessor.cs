@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Qowaiv.DomainModel.Commands
 {
@@ -65,11 +66,15 @@ namespace Qowaiv.DomainModel.Commands
         /// </returns>
         public TReturnType Send(object command, CancellationToken token)
         {
+            if (!IsReturnTypeAwaitable && token.CanBeCanceled) throw new InvalidOperationException("A CancellationToken was provided, but the result is not awaitable (Task<>) and thus not cancellable");
+
             var commandType = Guard.NotNull(command, nameof(command)).GetType();
             var handlerType = HandlerTypeFor(commandType);
             var handler = GetHandler(handlerType) ?? throw new UnresolvedCommandHandler(handlerType);
             return Handle(handlerType, commandType)(handler, command, token);
         }
+
+        private bool IsReturnTypeAwaitable => typeof(TReturnType).IsAssignableFrom(typeof(Task<>));
 
         /// <summary>Gets function to invoke.</summary>
         private Func<object, object, CancellationToken, TReturnType> Handle(Type handler, Type command)
