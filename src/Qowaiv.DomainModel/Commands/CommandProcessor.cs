@@ -30,7 +30,7 @@ namespace Qowaiv.DomainModel.Commands
         /// Something like "Handle", or "HandleAsync".
         /// </remarks>
         protected abstract string HandlerMethod { get; }
-        
+
         /// <summary>Gets the command handler to send the command to.</summary>
         /// <param name="handlerType">
         /// The resolved command handler type to get the instance of.
@@ -49,26 +49,19 @@ namespace Qowaiv.DomainModel.Commands
         /// <returns>
         /// The response of the registered command handler.
         /// </returns>
-        public TReturnType Send(object command)
-        {
-            var commandType = Guard.NotNull(command, nameof(command)).GetType();
-            var handlerType = HandlerTypeFor(commandType);
-            var handler = GetHandler(handlerType) ?? throw new UnresolvedCommandHandler(handlerType);
-            return Handle(handlerType, commandType)(handler, command);
-        }
+        public TReturnType Send(object command) => Send(command, token: default);
 
         public TReturnType Send(object command, CancellationToken token)
         {
             var commandType = Guard.NotNull(command, nameof(command)).GetType();
             var handlerType = HandlerTypeFor(commandType);
             var handler = GetHandler(handlerType) ?? throw new UnresolvedCommandHandler(handlerType);
-            var method = GetMethodWithToken(handlerType, commandType) ?? throw new InvalidOperationException("Overload does not exist");
-            return (TReturnType)method.Invoke(handler, new[] { command, token });
+            return Handle(handlerType, commandType)(handler, command, token);
         }
 
 
         /// <summary>Gets function to invoke.</summary>
-        private Func<object, object, TReturnType> Handle(Type handler, Type command)
+        private Func<object, object, CancellationToken, TReturnType> Handle(Type handler, Type command)
         {
             if (!handlers.TryGetValue(command, out var handle))
             {
@@ -88,31 +81,34 @@ namespace Qowaiv.DomainModel.Commands
         private MethodInfo GetMethod(Type handlerType, Type commandType)
             => handlerType.GetMethods()
                 .FirstOrDefault(m => m.Name == HandlerMethod
-                    && m.GetParameters().Length == 1
+                    && (m.GetParameters().Length == 1 || HasCancelationToken(m))
                     && m.GetParameters()[0].ParameterType == commandType);
 
-        /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
-        private MethodInfo GetMethodWithToken(Type handlerType, Type commandType)
-            => handlerType.GetMethods()
-                .FirstOrDefault(m => m.Name == HandlerMethod
-                    && m.GetParameters().Length == 2
-                    && m.GetParameters()[0].ParameterType == commandType
-                    && m.GetParameters()[1].ParameterType == typeof(CancellationToken));
+        private static bool HasCancelationToken(MethodInfo method)
+            => method.GetParameters().Length == 2 && method.GetParameters()[1].ParameterType == typeof(CancellationToken);
 
         /// <summary>Gets an expression that calls the Handle method.</summary>
         /// <remarks>
-        /// (handler, cmd) => ((HandlerType)handler).{HandlerMethod}((CommandType)cmd);
+        /// (handler, cmd, token) => ((HandlerType)handler).{HandlerMethod}((CommandType)cmd, token);
+        /// 
+        /// or if the token can not be consumed by the handler
+        /// 
+        /// (handler, cmd, token) => ((HandlerType)handler).{HandlerMethod}((CommandType)cmd);
         /// </remarks>
-        private static Expression<Func<object, object, TReturnType>> GetExpression(MethodInfo method)
+        private static Expression<Func<object, object, CancellationToken, TReturnType>> GetExpression(MethodInfo method)
         {
             var handler = Expression.Parameter(typeof(object), "handler");
             var cmd = Expression.Parameter(typeof(object), "cmd");
+            var token = Expression.Parameter(typeof(CancellationToken), "token");
             var typedCommand = Expression.Convert(cmd, method.GetParameters()[0].ParameterType);
             var typedHandler = Expression.Convert(handler, method.DeclaringType);
-            var body = Expression.Call(typedHandler, method, typedCommand);
-            return Expression.Lambda<Func<object, object, TReturnType>>(body, handler, cmd);
+            var body = method.GetParameters().Length == 1
+                ? Expression.Call(typedHandler, method, typedCommand)
+                : Expression.Call(typedHandler, method, typedCommand, token);
+
+            return Expression.Lambda<Func<object, object, CancellationToken, TReturnType>>(body, handler, cmd, token);
         }
 
-        private readonly Dictionary<Type, Func<object, object, TReturnType>> handlers = new();
+        private readonly Dictionary<Type, Func<object, object, CancellationToken, TReturnType>> handlers = new();
     }
 }
