@@ -24,6 +24,13 @@ namespace Commands.CommandProcessor_with_token_specs
             (await processor.Send(new Two(), token: default)).Value.Should().Be(2);
             (await processor.Send(new Two(), token: default)).Value.Should().Be(2);
         }
+
+        [Test]
+        public async Task a_command_with_a_token()
+        {
+            var processor = new NumberProcessor(new NumberHandler());
+            (await processor.Send(new One(), token: new CancellationToken())).Value.Should().Be(1);
+        }
     }
 
     public class Throws

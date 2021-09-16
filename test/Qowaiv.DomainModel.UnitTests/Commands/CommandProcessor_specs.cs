@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Qowaiv.DomainModel.Commands;
 using Qowaiv.Validation.Abstractions;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Commands.CommandProcessor_specs
@@ -23,6 +24,13 @@ namespace Commands.CommandProcessor_specs
             (await processor.Send(new Two())).Value.Should().Be(2);
             (await processor.Send(new Two())).Value.Should().Be(2);
         }
+
+        [Test]
+        public async Task a_command_with_a_token()
+        {
+            var processor = new NumberProcessor(new NumberHandler());
+            (await processor.Send(new One(), token: new CancellationToken())).Value.Should().Be(1);
+        }
     }
 
     public class Throws
@@ -40,13 +48,6 @@ namespace Commands.CommandProcessor_specs
             Action send = () => new NumberProcessor(null).Send(new One());
             send.Should().Throw<UnresolvedCommandHandler>()
                 .WithMessage("The command handler Commands.CommandProcessor_specs.CommandHandler`1[Commands.CommandProcessor_specs.One] could not be resolved.");
-        }
-    
-        [Test]
-        public void for_call_with_not_supported_token()
-        {
-            Action send = () => new NumberProcessor(new NumberHandler()).Send(new One(), token: default);
-            send();
         }
     }
 
