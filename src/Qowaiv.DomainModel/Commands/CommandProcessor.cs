@@ -51,6 +51,18 @@ namespace Qowaiv.DomainModel.Commands
         /// </returns>
         public TReturnType Send(object command) => Send(command, token: default);
 
+        /// <summary>Sends the command to the registered command handler and
+        /// communicates its response.
+        /// </summary>
+        /// <param name="command">
+        /// The command that should be handled by some command handler.
+        /// </param>
+        /// <param name="token">
+        /// The cancellation token.
+        /// </param>
+        /// <returns>
+        /// The response of the registered command handler.
+        /// </returns>
         public TReturnType Send(object command, CancellationToken token)
         {
             var commandType = Guard.NotNull(command, nameof(command)).GetType();
@@ -58,7 +70,6 @@ namespace Qowaiv.DomainModel.Commands
             var handler = GetHandler(handlerType) ?? throw new UnresolvedCommandHandler(handlerType);
             return Handle(handlerType, commandType)(handler, command, token);
         }
-
 
         /// <summary>Gets function to invoke.</summary>
         private Func<object, object, CancellationToken, TReturnType> Handle(Type handler, Type command)
