@@ -96,9 +96,11 @@ namespace Qowaiv.DomainModel.Commands
         /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
         private MethodInfo GetMethod(Type handlerType, Type commandType)
             => handlerType.GetMethods()
-                .FirstOrDefault(m => m.Name == HandlerMethod
+                .Where(m => m.Name == HandlerMethod
                     && (m.GetParameters().Length == 1 || HasCancelationToken(m))
-                    && m.GetParameters()[0].ParameterType == commandType);
+                    && m.GetParameters()[0].ParameterType == commandType)
+                .OrderByDescending(m => m.GetParameters().Length)
+                .FirstOrDefault();
 
         private static bool HasCancelationToken(MethodInfo method)
             => method.GetParameters().Length == 2 && method.GetParameters()[1].ParameterType == typeof(CancellationToken);
