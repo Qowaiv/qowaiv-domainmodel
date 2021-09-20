@@ -95,15 +95,22 @@ namespace Qowaiv.DomainModel.Commands
 
         /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
         private MethodInfo GetMethod(Type handlerType, Type commandType)
-            => handlerType.GetMethods()
-                .Where(m => m.Name == HandlerMethod
-                    && (m.GetParameters().Length == 1 || HasCancelationToken(m))
-                    && m.GetParameters()[0].ParameterType == commandType)
-                .OrderByDescending(m => m.GetParameters().Length)
-                .FirstOrDefault();
+            => handlerType.GetMethods().FirstOrDefault(m => WithCancelationToken(m, commandType))
+            ?? handlerType.GetMethods().FirstOrDefault(m => WithoutCancelationToken(m, commandType));
 
-        private static bool HasCancelationToken(MethodInfo method)
-            => method.GetParameters().Length == 2 && method.GetParameters()[1].ParameterType == typeof(CancellationToken);
+        private bool WithCancelationToken(MethodInfo method, Type commandType) 
+            => method.GetParameters().Length == 2 
+            && method.GetParameters()[1].ParameterType == typeof(CancellationToken)
+            && Matches(method, commandType);
+
+        private bool WithoutCancelationToken(MethodInfo method, Type commandType)
+          => method.GetParameters().Length == 1
+          && Matches(method, commandType);
+
+        private bool Matches(MethodInfo method, Type commandType)
+            => method.Name == HandlerMethod
+            && method.ReturnType == typeof(TReturnType)
+            && method.GetParameters()[0].ParameterType == commandType;
 
         /// <summary>Gets an expression that calls the Handle method.</summary>
         /// <remarks>
