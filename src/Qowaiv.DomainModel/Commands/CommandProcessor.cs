@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Qowaiv.DomainModel.Commands
 {
@@ -20,6 +19,9 @@ namespace Qowaiv.DomainModel.Commands
     /// </remarks>
     public abstract class CommandProcessor<TReturnType>
     {
+        /// <summary>Gets the command types sent at least once by the command processor.</summary>
+        public IReadOnlyCollection<object> CommandTypes => handlers.Keys;
+
         /// <summary>The generic type definition of the command handlers to support.</summary>
         /// <remarks>
         /// Something like <code>typeof(CommandHandler&lt;&gt;)</code>.
@@ -66,23 +68,21 @@ namespace Qowaiv.DomainModel.Commands
         /// </returns>
         public TReturnType Send(object command, CancellationToken token)
         {
-            if (!IsReturnTypeAwaitable && token.CanBeCanceled) throw new InvalidOperationException("A CancellationToken was provided, but the result is not awaitable (Task<>) and thus not cancellable");
-
             var commandType = Guard.NotNull(command, nameof(command)).GetType();
             var handlerType = HandlerTypeFor(commandType);
-            var handler = GetHandler(handlerType) ?? throw new UnresolvedCommandHandler(handlerType);
+            var handler = GetHandler(handlerType) ?? throw UnresolvedCommandHandler.Type(handlerType);
             return Handle(handlerType, commandType)(handler, command, token);
         }
 
-        private bool IsReturnTypeAwaitable => typeof(TReturnType).IsAssignableFrom(typeof(Task<>));
-
         /// <summary>Gets function to invoke.</summary>
-        private Func<object, object, CancellationToken, TReturnType> Handle(Type handler, Type command)
+        private Func<object, object, CancellationToken, TReturnType> Handle(Type handlerType, Type commandType)
         {
-            if (!handlers.TryGetValue(command, out var handle))
+            if (!handlers.TryGetValue(commandType, out var handle))
             {
-                handle = GetExpression(GetMethod(handler, command) ?? throw new InvalidOperationException("Overload does not exist")).Compile();
-                handlers[command] = handle;
+                var method = GetMethod(handlerType, commandType)
+                    ?? throw UnresolvedCommandHandler.Method(typeof(TReturnType), handlerType, HandlerMethod, commandType);
+                handle = GetExpression(method).Compile();
+                handlers[commandType] = handle;
             }
             return handle;
         }
