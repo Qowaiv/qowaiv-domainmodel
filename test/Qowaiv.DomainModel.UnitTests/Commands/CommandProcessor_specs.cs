@@ -15,7 +15,7 @@ namespace Commands.CommandProcessor_specs
     public class Cancelation_token
     {
         [Test]
-        public async Task past_through_when_applicable()
+        public async Task passed_through_when_applicable()
             => (await new CancelableCommandProcessor(new AsyncCancelableCommandHandler())
             .Send(new EmptyCommand(), token: default))
             .Should().BeValid()
