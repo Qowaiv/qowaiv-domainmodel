@@ -5,7 +5,7 @@
 
 | version                                                                      | package                                                                                    |
 |------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-|![v](https://img.shields.io/badge/version-0.1.3-blue.svg?cacheSeconds=3600)   |[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)                    |
+|![v](https://img.shields.io/badge/version-0.1.4-blue.svg?cacheSeconds=3600)   |[Qowaiv.DomainModel](https://www.nuget.org/packages/Qowaiv.DomainModel/)                    |
 |![v](https://img.shields.io/badge/version-0.1.0-darkred.svg?cacheSeconds=3600)|[Qowaiv.DomainModel.TestTools](https://www.nuget.org/packages/Qowaiv.DomainModel.TestTools/)|
 
 # Qowaiv Domain Model
@@ -211,6 +211,10 @@ orchestrates command handlers to command (types). To reduce the usage of reflect
 the actual call is a (one-time) compiled expression, stored in a dictionary. It
 can deal with any (except `void`, including both sync and async) return type,
 and any (generic) command handler interface of preference.
+
+If a method with an additional `System.Threading.CancelationToken` parameter is
+available, that method is preferred. If needed, an default token is added, or - if
+provided but not available - ignored.
 
 A typical implementation, using Microsoft's `System.IServiceProvider`,
 looks like this:

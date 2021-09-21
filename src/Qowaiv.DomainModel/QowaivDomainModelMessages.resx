@@ -18,6 +18,9 @@
   <data name="UnresolvedCommandHandler" xml:space="preserve">
     <value>The command handler could not be resolved.</value>
   </data>
+  <data name="UnresolvedCommandHandler_Method" xml:space="preserve">
+    <value>The command handler method {0} {1}.{2}({3}, token?) could not be resolved.</value>
+  </data>
   <data name="UnresolvedCommandHandler_Type" xml:space="preserve">
     <value>The command handler {0} could not be resolved.</value>
   </data>

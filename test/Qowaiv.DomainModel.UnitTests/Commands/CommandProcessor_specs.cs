@@ -3,69 +3,123 @@ using NUnit.Framework;
 using Qowaiv.DomainModel.Commands;
 using Qowaiv.Validation.Abstractions;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Commands.CommandProcessor_specs
 {
-    public class Sends
+    interface CommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command); }
+    interface CancelableCommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command, CancellationToken token); }
+    interface SyncCommandHandler<TCommand> { string Handle(TCommand command); }
+
+    public class Cancelation_token
     {
         [Test]
-        public async Task a_command()
+        public async Task passed_through_when_applicable()
+            => (await new CancelableCommandProcessor(new AsyncCancelableCommandHandler())
+            .Send(new EmptyCommand(), token: default))
+            .Should().BeValid()
+            .Value.Should().Be("AsyncCancelableCommandHandler.Handle(token)");
+
+        [Test]
+        public async Task ignored_when_not_in_contract()
+            => (await new AsyncCommandProcessor(new AsyncCommandHandler())
+            .Send(new EmptyCommand(), token: default))
+            .Should().BeValid()
+            .Value.Should().Be("AsyncCommandHandler.Handle()");
+
+        [Test]
+        public async Task added_when_method_with_token_is_available()
+            => (await new CancelableCommandProcessor(new AsyncCancelableCommandHandler())
+            .Send(new EmptyCommand()))
+            .Should().BeValid()
+            .Value.Should().Be("AsyncCancelableCommandHandler.Handle(token)");
+
+        [Test]
+        public async Task not_added_when_not_available()
+            => (await new AsyncCommandProcessor(new AsyncCommandHandler())
+            .Send(new EmptyCommand()))
+            .Should().BeValid()
+            .Value.Should().Be("AsyncCommandHandler.Handle()");
+    }
+
+    public class Throws_when
+    {
+        [Test]
+        public void hander_could_not_be_resolved()
         {
-            var processor = new NumberProcessor(new NumberHandler());
-            (await processor.Send(new One())).Value.Should().Be(1);
+            Action send = () => new InvalidReturnTypeProcessor(null).Send(new EmptyCommand());
+            send.Should().Throw<UnresolvedCommandHandler>().WithMessage(
+                "The command handler Commands.CommandProcessor_specs.SyncCommandHandler`1[Commands.CommandProcessor_specs.EmptyCommand] could not be resolved.");
         }
 
         [Test]
-        public async Task a_second_command_using_precompiled_func()
+        public void method_could_not_be_resolved()
         {
-            var processor = new NumberProcessor(new NumberHandler());
-            (await processor.Send(new Two())).Value.Should().Be(2);
-            (await processor.Send(new Two())).Value.Should().Be(2);
+            Action send = () => new InvalidReturnTypeProcessor(new AsyncCommandHandler()).Send(new EmptyCommand());
+
+            send.Should().Throw<UnresolvedCommandHandler>().WithMessage(
+                "The command handler method System.Int32 Commands.CommandProcessor_specs.SyncCommandHandler`1[Commands.CommandProcessor_specs.EmptyCommand].Handle(Commands.CommandProcessor_specs.EmptyCommand, token?) could not be resolved.");
         }
     }
 
-    public class Throws
+    public class Caches
     {
         [Test]
-        public void for_null_commands()
+        public async Task supported_command_types()
         {
-            Action send = () => new NumberProcessor(new NumberHandler()).Send(null);
-            send.Should().Throw<ArgumentNullException>();
-        }
-
-        [Test]
-        public void for_not_registered_commands()
-        {
-            Action send = () => new NumberProcessor(null).Send(new One());
-            send.Should().Throw<UnresolvedCommandHandler>()
-                .WithMessage("The command handler Commands.CommandProcessor_specs.CommandHandler`1[Commands.CommandProcessor_specs.One] could not be resolved.");
+            var processor = new AsyncCommandProcessor(new AsyncCommandHandler());
+            processor.CommandTypes.Should().BeEmpty(because: "not called yet.");
+            (await processor.Send(new EmptyCommand())).Should().BeValid();
+            processor.CommandTypes.Should().BeEquivalentTo(new[] { typeof(EmptyCommand) }, because: "empty command is supported.");
         }
     }
 
-    class NumberProcessor : CommandProcessor<Task<Result<int>>>
+    class AsyncCommandProcessor : CommandProcessor<Task<Result<string>>>
     {
         private readonly object handler;
-        public NumberProcessor(object handler) => this.handler = handler;
+        public AsyncCommandProcessor(object handler) => this.handler = handler;
         protected override Type GenericHandlerType => typeof(CommandHandler<>);
         protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);
         protected override object GetHandler(Type handlerType) => handler;
     }
 
-    interface CommandHandler<TCommand>
+    class CancelableCommandProcessor : CommandProcessor<Task<Result<string>>>
     {
-        Task<Result<int>> Handle(TCommand command);
+        private readonly object handler;
+        public CancelableCommandProcessor(object handler) => this.handler = handler;
+        protected override Type GenericHandlerType => typeof(CancelableCommandHandler<>);
+        protected override string HandlerMethod => nameof(CancelableCommandHandler<object>.Handle);
+        protected override object GetHandler(Type handlerType) => handler;
+    }
+    class SyncCommandProcessor : CommandProcessor<string>
+    {
+        private readonly object handler;
+        public SyncCommandProcessor(object handler) => this.handler = handler;
+        protected override Type GenericHandlerType => typeof(SyncCommandHandler<>);
+        protected override string HandlerMethod => nameof(SyncCommandHandler<object>.Handle);
+        protected override object GetHandler(Type handlerType) => handler;
     }
 
-    record One();
-
-    record Two();
-
-    class NumberHandler :
-        CommandHandler<One>,
-        CommandHandler<Two>
+    class InvalidReturnTypeProcessor : CommandProcessor<int>
     {
-        public Task<Result<int>> Handle(One command) => Result.For(1).AsTask();
-        public Task<Result<int>> Handle(Two command) => Result.For(2).AsTask();
+        private readonly object handler;
+        public InvalidReturnTypeProcessor(object handler) => this.handler = handler;
+        protected override Type GenericHandlerType => typeof(SyncCommandHandler<>);
+        protected override string HandlerMethod => nameof(SyncCommandHandler<object>.Handle);
+        protected override object GetHandler(Type handlerType) => handler;
+    }
+
+    record EmptyCommand();
+
+    class AsyncCommandHandler : CommandHandler<EmptyCommand>
+    {
+        public Task<Result<string>> Handle(EmptyCommand command) => Result.For("AsyncCommandHandler.Handle()").AsTask();
+    }
+
+    class AsyncCancelableCommandHandler : CancelableCommandHandler<EmptyCommand>
+    {
+        public Task<Result<string>> Handle(EmptyCommand command) => throw new NotSupportedException("Use overload with token");
+        public Task<Result<string>> Handle(EmptyCommand command, CancellationToken token) => Result.For("AsyncCancelableCommandHandler.Handle(token)").AsTask();
     }
 }

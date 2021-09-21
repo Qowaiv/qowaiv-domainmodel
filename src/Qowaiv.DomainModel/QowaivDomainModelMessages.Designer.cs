@@ -79,6 +79,15 @@ namespace Qowaiv.DomainModel {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The command handler method {0} {1}.{2}({3}, token?) could not be resolved..
+        /// </summary>
+        public static string UnresolvedCommandHandler_Method {
+            get {
+                return ResourceManager.GetString("UnresolvedCommandHandler_Method", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The command handler {0} could not be resolved..
         /// </summary>
         public static string UnresolvedCommandHandler_Type {
