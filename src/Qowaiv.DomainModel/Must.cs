@@ -9,7 +9,7 @@ namespace Qowaiv.DomainModel
     /// <typeparam name="TSubject">
     /// The type of the subject.
     /// </typeparam>
-    public class Must<TSubject> where TSubject : class
+    public sealed class Must<TSubject> where TSubject : class
     {
         /// <summary>Creates a new instance of the <see cref="Must{TSubject}"/> class.</summary>
         public Must(TSubject subject) => Subject = Guard.NotNull(subject, nameof(subject));
@@ -91,5 +91,8 @@ namespace Qowaiv.DomainModel
         [Pure]
         public Result<TSubject> Exist<TId, TEntity>(TId id, Func<TSubject, TId, TEntity> selector)
             => Exist(id, selector, null);
+
+        /// <inheritdoc />
+        public override string ToString() => $"Must<{typeof(TSubject)}>";
     }
 }
