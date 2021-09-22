@@ -85,7 +85,7 @@ public sealed class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
             AccountId = line.AccountId,
         }).ToArray());
     }
-	
+    
     // The method that is triggered when an EntryLineAdded
     // is processed by the ApplyEvents method called from AddLines above.
     internal void When(EntryLineAdded @event)
@@ -222,10 +222,10 @@ looks like this:
 ``` C#
 class CommandProcessor : CommandProcessor<Task<Result>>
 {
-	CommandProcessor(IServiceProvider provider) => Provider = provider;
-	protected override Type GenericHandlerType => typeof(CommandHandler<>);
-	protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);
-	protected override object GetHandler(Type handlerType) => Provider.GetService(handlerType);
-	private readonly IServiceProvider Provider;
+    CommandProcessor(IServiceProvider provider) => Provider = provider;
+    protected override Type GenericHandlerType => typeof(CommandHandler<>);
+    protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);
+    protected override object GetHandler(Type handlerType) => Provider.GetService(handlerType);
+    private readonly IServiceProvider Provider;
 }
 ```
