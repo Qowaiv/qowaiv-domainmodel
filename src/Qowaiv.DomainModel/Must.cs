@@ -90,6 +90,7 @@ namespace Qowaiv.DomainModel
         /// </param>
         [Pure]
         public Result<TSubject> Exist<TId, TEntity>(TId id, Func<TSubject, TId, TEntity> selector)
+            where TEntity : class
             => Exist(id, selector, null);
 
         /// <inheritdoc />
