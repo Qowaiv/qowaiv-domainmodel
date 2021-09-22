@@ -87,6 +87,6 @@ namespace Qowaiv.DomainModel
         }
 
         /// <summary>Root to define guarding conditions on.</summary>
-        public Must<TAggregate> Must => new((TAggregate)this);
+        protected Must<TAggregate> Must => new((TAggregate)this);
     }
 }
