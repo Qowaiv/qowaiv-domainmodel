@@ -35,11 +35,11 @@ namespace ConquerClub.Domain
         }
 
         public Result<Game> Deploy(CountryId country, Army army) =>
-            MustBeInPhase(GamePhase.Deploy)
-            | (g => g.MustBeActivePlayer(army.Owner))
-            | (g => g.MustExist(country))
-            | (g => g.MustBeOwnedBy(Countries.ById(country), army.Owner))
-            | (g => g.MustNotExceedArmyBuffer(army))
+            Must.BeInPhase(GamePhase.Deploy)
+            | (g => g.Must.BeActivePlayer(army.Owner))
+            | (g => g.Must.Exist(country))
+            | (g => g.Must.BeOwnedBy(country, army.Owner))
+            | (g => g.Must.NotExceedArmyBuffer(army))
             | (g => g.ApplyEvent(new Deployed(country, army)));
 
         public Result<Game> Attack(
@@ -47,13 +47,13 @@ namespace ConquerClub.Domain
             CountryId defender,
             IGenerator rnd) =>
 
-            MustBeInPhase(GamePhase.Attack)
-            | (g => g.MustExist(attacker))
-            | (g => g.MustExist(defender))
-            | (g => g.MustBeOwnedBy(Countries.ById(attacker), ActivePlayer))
-            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), ActivePlayer))
-            | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
-            | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
+            Must.BeInPhase(GamePhase.Attack)
+            | (g => g.Must.Exist(attacker))
+            | (g => g.Must.Exist(defender))
+            | (g => g.Must.BeOwnedBy(attacker, ActivePlayer))
+            | (g => g.Must.NotBeOwnedBy(defender, ActivePlayer))
+            | (g => g.Must.BeReachable(defender, by: attacker))
+            | (g => g.Must.HaveArmiesToAttack(attacker))
             | (g => g.Attack(attacker, defender, Dice
                 .Attack(
                     Countries.ById(attacker).Army,
@@ -65,13 +65,13 @@ namespace ConquerClub.Domain
             CountryId defender,
             IGenerator rnd) =>
 
-            MustBeInPhase(GamePhase.Attack)
-            | (g => g.MustExist(attacker))
-            | (g => g.MustExist(defender))
-            | (g => g.MustBeOwnedBy(Countries.ById(attacker), ActivePlayer))
-            | (g => g.MustNotBeOwnedBy(Countries.ById(defender), ActivePlayer))
-            | (g => g.MustBeReachable(Countries.ById(attacker), Countries.ById(defender)))
-            | (g => g.MustHaveArmiesToAttack(Countries.ById(attacker)))
+            Must.BeInPhase(GamePhase.Attack)
+            | (g => g.Must.Exist(attacker))
+            | (g => g.Must.Exist(defender))
+            | (g => g.Must.BeOwnedBy(attacker, ActivePlayer))
+            | (g => g.Must.NotBeOwnedBy(defender, ActivePlayer))
+            | (g => g.Must.BeReachable(defender, by: attacker))
+            | (g => g.Must.HaveArmiesToAttack(attacker))
             | (g => g.Attack(attacker, defender, Dice
                .AutoAttack(
                    Countries.ById(attacker).Army,
@@ -88,19 +88,19 @@ namespace ConquerClub.Domain
                 .Else(() => new Attacked(attacker, defender, result)));
 
         public Result<Game> Advance(Army to) =>
-            MustBeInPhase(GamePhase.Advance)
-            | (g => g.MustBeActivePlayer(to.Owner))
-            | (g => g.MustBeOwnedBy(To, to.Owner))
-            | (g => g.MustNotExceedArmyBuffer(to))
+            Must.BeInPhase(GamePhase.Advance)
+            | (g => g.Must.BeActivePlayer(to.Owner))
+            | (g => g.Must.BeOwnedBy(To.Id, to.Owner))
+            | (g => g.Must.NotExceedArmyBuffer(to))
             | (g => g.ApplyEvent(new Advanced(to)));
 
         public Result<Game> Reinforce(CountryId from, CountryId to, Army army) =>
-            MustBeInPhase(GamePhase.Reinforce)
-            | (g => g.MustExist(from))
-            | (g => g.MustExist(to))
-            | (g => g.MustBeOwnedBy(Countries.ById(from), army.Owner))
-            | (g => g.MustBeOwnedBy(Countries.ById(to), army.Owner))
-            | (g => g.MustBeReachable(Countries.ById(from), Countries.ById(to)))
+            Must.BeInPhase(GamePhase.Reinforce)
+            | (g => g.Must.Exist(from))
+            | (g => g.Must.Exist(to))
+            | (g => g.Must.BeOwnedBy(from, army.Owner))
+            | (g => g.Must.BeOwnedBy(to, army.Owner))
+            | (g => g.Must.BeReachable(to, by: from))
             | (g => g.ApplyEvent(new Reinforced(from, to, army)));
 
         public Result<Game> Resign() =>

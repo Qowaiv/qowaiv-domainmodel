@@ -85,5 +85,8 @@ namespace Qowaiv.DomainModel
                 Dynamic.When(@event);
             }
         }
+
+        /// <summary>Root to define guarding conditions on.</summary>
+        public Must<TAggregate> Must => new((TAggregate)this);
     }
 }
