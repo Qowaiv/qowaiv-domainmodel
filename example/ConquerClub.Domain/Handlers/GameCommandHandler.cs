@@ -1,7 +1,7 @@
 ﻿using ConquerClub.Domain.Commands;
 using Qowaiv.Identifiers;
 using Qowaiv.Validation.Abstractions;
-using Qowaiv.Validation.Messages;
+using Qowaiv.Validation.Guarding;
 using System;
 using Troschuetz.Random;
 
@@ -65,13 +65,8 @@ namespace ConquerClub.Domain.Handlers
 
         private Result ExecuteAndSave<TCommand>(TCommand command, Func<Game, Result<Game>> act) where TCommand : Command
             => Load(command.Game)
-            | (g => OptimisticLocking(g, command))
+            | (g => g.Must().HaveVersion(command.ExpectedVersion))
             | (g => act(g))
             | (g => Save(g));
-
-        private static Result OptimisticLocking(Game dossier, Command command) =>
-            dossier.Version == command.ExpectedVersion
-            ? Result.OK
-            : Result.WithMessages(ConcurrencyIssue.VersionMismatch(command.ExpectedVersion, dossier.Version));
     }
 }
