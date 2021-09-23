@@ -1,6 +1,7 @@
-﻿using Qowaiv.DomainModel.Dynamic;
-using Qowaiv.DomainModel.Collections;
+﻿using Qowaiv.DomainModel.Collections;
+using Qowaiv.DomainModel.Dynamic;
 using Qowaiv.Validation.Abstractions;
+using Qowaiv.Validation.Guarding;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -85,5 +86,8 @@ namespace Qowaiv.DomainModel
                 Dynamic.When(@event);
             }
         }
+
+        /// <summary>Root to define guarding conditions on.</summary>
+        protected Must<TAggregate> Must => ((TAggregate)this).Must();
     }
 }

@@ -44,10 +44,10 @@ reasons to that (instead of defining the constraints in a validator):
 ```C#
 Result<Game> Deploy(CountryId country, Army army) =>
     MustBeInPhase(GamePhase.Deploy)
-    | (g => g.MustBeActivePlayer(army.Owner))
-    | (g => g.MustExist(country))
-    | (g => g.MustBeOwnedBy(Countries.ById(country), army.Owner))
-    | (g => g.MustNotExeedArmyBuffer(army))
+    | (g => g.Must.BeActivePlayer(army.Owner))
+    | (g => g.Must.Exist(country))
+    | (g => g.Must.BeOwnedBy(country, army.Owner))
+    | (g => g.Must.NotExeedArmyBuffer(army))
     | (g => g.ApplyEvent(new Deployed(country, army)));
 ```
 The `Qowaiv.Validation.Abstractions.Result<T>` allows us to use a | operator

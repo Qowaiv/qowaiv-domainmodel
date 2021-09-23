@@ -3,6 +3,7 @@ using Qowaiv;
 using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.TestTools;
 using Qowaiv.DomainModel.UnitTests.Models;
+using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.TestTools;
 using System;
 using System.Linq;
@@ -77,9 +78,6 @@ namespace Event_sourced_aggregate_root_specs
         public TestApplyChangeAggregate()
             : base(Guid.NewGuid(), Qowaiv.Validation.Abstractions.Validator.Empty<TestApplyChangeAggregate>()) { }
 
-        public void TestApplyChange(object @event)
-        {
-            ApplyEvent(@event);
-        }
+        public Result<TestApplyChangeAggregate> TestApplyChange(object @event) => ApplyEvent(@event);
     }
 }

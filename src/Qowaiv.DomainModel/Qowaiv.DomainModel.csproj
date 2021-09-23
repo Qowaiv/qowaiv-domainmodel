@@ -5,8 +5,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.4</Version>
+    <Version>0.1.5</Version>
     <PackageReleaseNotes>
+v0.1.5
+- Extend aggregate with Must guarding constraints. (#21)
 v0.1.4
 - Support optional cancellation token on command handler (#20)
 v0.1.3
@@ -33,6 +35,7 @@ v0.0.1
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.1.1" />
+    <PackageReference Include="Qowaiv.Validation.Guarding" Version="0.1.2" />
   </ItemGroup>
 
   <ItemGroup>
