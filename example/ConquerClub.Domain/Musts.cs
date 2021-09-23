@@ -2,7 +2,7 @@
 using Qowaiv.Validation.Messages;
 using System.Linq;
 using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
-using Must = Qowaiv.DomainModel.Must<ConquerClub.Domain.Game>;
+using Must = Qowaiv.Validation.Guarding.Must<ConquerClub.Domain.Game>;
 
 namespace ConquerClub.Domain
 {
