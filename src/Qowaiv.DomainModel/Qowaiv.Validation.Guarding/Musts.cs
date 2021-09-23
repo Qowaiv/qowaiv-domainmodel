@@ -21,7 +21,7 @@ namespace Qowaiv.Validation.Guarding
         /// </param>
         /// <remarks>
         /// A dynamic is used, as the TId generic can not be resolved by usage.
-        /// It would be inconvenient to have specify the generics on this
+        /// It would be inconvenient to have specify to the generics on this
         /// extension.
         /// </remarks>
         public static Result<TAggregate> HaveVersion<TAggregate>(this Must<TAggregate> must, int expected)
