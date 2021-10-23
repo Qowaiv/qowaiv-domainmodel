@@ -23,8 +23,8 @@ namespace ConquerClub.Domain
                 new ArmiesInitialized(RndArmies(start.Players, start.Countries.Length, rnd).ToArray()))
             | (g => g.ApplyEvent(g.StartTurn(Player.P1)));
 
-        public Result<Game> Deploy(CountryId country, Army army) =>
-            Must.BeInPhase(GamePhase.Deploy)
+        public Result<Game> Deploy(CountryId country, Army army)
+            => Must.BeInPhase(GamePhase.Deploy)
             | (g => g.Must.BeActivePlayer(army.Owner))
             | (g => g.Must.Exist(country))
             | (g => g.Must.BeOwnedBy(country, army.Owner))
@@ -34,9 +34,8 @@ namespace ConquerClub.Domain
         public Result<Game> Attack(
             CountryId attacker,
             CountryId defender,
-            IGenerator rnd) =>
-
-            Must.BeInPhase(GamePhase.Attack)
+            IGenerator rnd)
+            => Must.BeInPhase(GamePhase.Attack)
             | (g => g.Must.Exist(attacker))
             | (g => g.Must.Exist(defender))
             | (g => g.Must.BeOwnedBy(attacker, ActivePlayer))
@@ -52,9 +51,8 @@ namespace ConquerClub.Domain
         public Result<Game> AutoAttack(
             CountryId attacker,
             CountryId defender,
-            IGenerator rnd) =>
-
-            Must.BeInPhase(GamePhase.Attack)
+            IGenerator rnd)
+            => Must.BeInPhase(GamePhase.Attack)
             | (g => g.Must.Exist(attacker))
             | (g => g.Must.Exist(defender))
             | (g => g.Must.BeOwnedBy(attacker, ActivePlayer))
@@ -76,15 +74,15 @@ namespace ConquerClub.Domain
                     .Then(() => new Conquered(attacker, defender))
                 .Else(() => new Attacked(attacker, defender, result)));
 
-        public Result<Game> Advance(Army to) =>
-            Must.BeInPhase(GamePhase.Advance)
+        public Result<Game> Advance(Army to)
+            => Must.BeInPhase(GamePhase.Advance)
             | (g => g.Must.BeActivePlayer(to.Owner))
             | (g => g.Must.BeOwnedBy(To.Id, to.Owner))
             | (g => g.Must.NotExceedArmyBuffer(to))
             | (g => g.ApplyEvent(new Advanced(to)));
 
-        public Result<Game> Reinforce(CountryId from, CountryId to, Army army) =>
-            Must.BeInPhase(GamePhase.Reinforce)
+        public Result<Game> Reinforce(CountryId from, CountryId to, Army army)
+            => Must.BeInPhase(GamePhase.Reinforce)
             | (g => g.Must.Exist(from))
             | (g => g.Must.Exist(to))
             | (g => g.Must.BeOwnedBy(from, army.Owner))
@@ -92,12 +90,12 @@ namespace ConquerClub.Domain
             | (g => g.Must.BeReachable(to, by: from))
             | (g => g.ApplyEvent(new Reinforced(from, to, army)));
 
-        public Result<Game> Resign() =>
-            Apply(Events
-                .Add(new Resigned(ActivePlayer))
-                .If(Countries.ActivePlayers().Count() == 2)
-                    .Then(() => new Finished())
-                .Else(() => StartTurn(NextPlayer)));
+        public Result<Game> Resign()
+            => Apply(Events
+            .Add(new Resigned(ActivePlayer))
+            .If(Countries.ActivePlayers().Count() == 2)
+                .Then(() => new Finished())
+            .Else(() => StartTurn(NextPlayer)));
 
         internal void When(MapInitialized @event)
         {
@@ -237,7 +235,7 @@ namespace ConquerClub.Domain
 
         private static IEnumerable<Army> RndArmies(int players, int countries, IGenerator rnd)
         {
-            var perCountry = countries / (players + (players == 2 ? 1 : 0));
+            var perCountry = countries / Math.Min(players, 3);
 
             return Enumerable
                 .Range(0, countries)
