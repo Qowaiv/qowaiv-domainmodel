@@ -15,24 +15,13 @@ namespace ConquerClub.Domain
     public sealed partial class Game : AggregateRoot<Game, GameId>
     {
         public static Result<Game> Start(Start start, IGenerator rnd)
-        {
-            var game = new Game(start.Game);
-
-            var map = new MapInitialized(
-                Continents: start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, c.Territories.ToArray())).ToArray(),
-                Countries: start.Countries.Select(c => new CountryInitialized(c.Name, c.Borders.ToArray())).ToArray());
-
-            var settings = new SettingsInitialized(start.Players, start.RoundLimit, false);
-
-            var armies = new ArmiesInitialized(
-                RndArmies(start.Players, start.Countries.Length, rnd).ToArray());
-
-            return game.ApplyEvents(
-                map,
-                settings,
-                armies)
+            => new Game(start.Game).ApplyEvents(
+                new MapInitialized(
+                    Continents: start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, c.Territories.ToArray())).ToArray(),
+                    Countries: start.Countries.Select(c => new CountryInitialized(c.Name, c.Borders.ToArray())).ToArray()),
+                new SettingsInitialized(start.Players, start.RoundLimit, false),
+                new ArmiesInitialized(RndArmies(start.Players, start.Countries.Length, rnd).ToArray()))
             | (g => g.ApplyEvent(g.StartTurn(Player.P1)));
-        }
 
         public Result<Game> Deploy(CountryId country, Army army) =>
             Must.BeInPhase(GamePhase.Deploy)
