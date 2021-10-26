@@ -69,10 +69,15 @@ namespace ConquerClub.Domain
             CountryId attacker,
             CountryId defender,
             AttackResult result)
-            => Apply(Events
-                .If(result.IsSuccess)
-                    .Then(() => new Conquered(attacker, defender))
-                .Else(() => new Attacked(attacker, defender, result)));
+        {
+            var events = Events.Add(result.IsSuccess
+                ? new Conquered(attacker, defender)
+                : new Attacked(attacker, defender, result));
+
+            return result.IsSuccess && ConquerCountryWillKillPlayer(defender) && KillPlayerWillFinishGame
+                ? Apply(events.Add(new Finished()))
+                : Apply(events);
+        }
 
         public Result<Game> Advance(Army to)
             => Must.BeInPhase(GamePhase.Advance)
@@ -92,10 +97,13 @@ namespace ConquerClub.Domain
 
         public Result<Game> Resign()
             => Apply(Events
-            .Add(new Resigned(ActivePlayer))
-            .If(Countries.ActivePlayers().Count() == 2)
-                .Then(() => new Finished())
-            .Else(() => StartTurn(NextPlayer)));
+                .Add(new Resigned(ActivePlayer))
+                .If(KillPlayerWillFinishGame)
+                    .Then(() => Events.Add(new Finished()))
+                .Else(() => StartTurn(NextPlayer)));
+
+        private bool ConquerCountryWillKillPlayer(CountryId country) => Countries.Count(c => c.Owner == Countries.ById(country).Owner) == 1;
+        private bool KillPlayerWillFinishGame => Countries.ActivePlayers().Count() == 2;
 
         internal void When(MapInitialized @event)
         {
