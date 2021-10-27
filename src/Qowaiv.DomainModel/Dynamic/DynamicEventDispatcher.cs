@@ -8,6 +8,21 @@ using System.Reflection;
 
 namespace Qowaiv.DomainModel.Dynamic
 {
+    /// <summary>Factory for creating <see cref="DynamicEventDispatcher{TDispatcher}"/>'s.</summary>
+    public abstract class DynamicEventDispatcher : DynamicObject
+    {
+        /// <summary>Gets the supported event types.</summary>
+        public abstract IReadOnlyCollection<Type> SupportedEventTypes { get; }
+
+        /// <summary>Creates a new instance of the <see cref="DynamicEventDispatcher{TDispatcher}"/> class.</summary>
+        public static DynamicEventDispatcher New(object dispatcher)
+        {
+            Guard.NotNull(dispatcher, nameof(dispatcher));
+            var type = typeof(DynamicEventDispatcher<>).MakeGenericType(dispatcher.GetType());
+            return (DynamicEventDispatcher)Activator.CreateInstance(type, dispatcher);
+        }
+    }
+
     /// <summary>A dynamic event dispatcher, is a extremely limited dynamic object
     /// that is capable of invoking instance methods with the signature When(@event).
     /// </summary>
@@ -23,7 +38,7 @@ namespace Qowaiv.DomainModel.Dynamic
     ///
     /// It caches the available methods per type.
     /// </remarks>
-    public class DynamicEventDispatcher<TDispatcher> : DynamicObject
+    public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
         where TDispatcher : class
     {
         /// <summary>Initializes a new instance of the <see cref="DynamicEventDispatcher{TDispatcher}"/> class..</summary>
@@ -42,7 +57,7 @@ namespace Qowaiv.DomainModel.Dynamic
             : base.TryInvokeMember(binder, args, out result);
 
         /// <summary>Gets the supported event types.</summary>
-        public IReadOnlyCollection<Type> SupportedEventTypes => Lookup.Keys;
+        public sealed override IReadOnlyCollection<Type> SupportedEventTypes => Lookup.Keys;
 
         /// <summary>Invokes the When(@event) method.</summary>
         private bool When(object @event, out object result)
