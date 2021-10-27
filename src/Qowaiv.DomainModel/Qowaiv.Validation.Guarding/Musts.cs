@@ -1,6 +1,7 @@
 ﻿using Qowaiv.DomainModel;
 using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.Messages;
+using System.Diagnostics.Contracts;
 
 namespace Qowaiv.Validation.Guarding
 {
@@ -24,6 +25,7 @@ namespace Qowaiv.Validation.Guarding
         /// It would be inconvenient to have specify to the generics on this
         /// extension.
         /// </remarks>
+        [Pure]
         public static Result<TAggregate> HaveVersion<TAggregate>(this Must<TAggregate> must, int expected)
             where TAggregate : AggregateRoot<TAggregate>, new()
         {

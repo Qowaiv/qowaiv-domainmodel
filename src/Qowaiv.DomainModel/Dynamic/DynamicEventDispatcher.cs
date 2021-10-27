@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -57,6 +58,7 @@ namespace Qowaiv.DomainModel.Dynamic
         }
 
         /// <summary>Initializes all When(@event) methods.</summary>
+        [Pure]
         private static Dictionary<Type, Action<TDispatcher, object>> Init()
         {
             var lookup = new Dictionary<Type, Action<TDispatcher, object>>();
@@ -83,13 +85,13 @@ namespace Qowaiv.DomainModel.Dynamic
         /// <summary>Uses reflection to resolve `When` methods to use,
         /// both non-public (mostly internal) and public.
         /// </summary>
-#pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
+        [Pure]
         private static IEnumerable<MethodInfo> WhenMethods()
             => typeof(TDispatcher)
-            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .GetMethods(MethodSignarure)
             .Where(method => method.Name == nameof(When));
-#pragma warning restore S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
 
+        [Pure]
         private static Action<TDispatcher, object> Compile(MethodInfo method, Type eventType)
         {
             var dispatcherParam = Expression.Parameter(typeof(TDispatcher), "dispatcher");
@@ -104,5 +106,10 @@ namespace Qowaiv.DomainModel.Dynamic
         }
 
         private static readonly Dictionary<Type, Action<TDispatcher, object>> Lookup = Init();
+
+#pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
+        /// <remarks>We explicitly </remarks>
+        private const BindingFlags MethodSignarure = BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.Instance;
+#pragma warning restore S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
     }
 }

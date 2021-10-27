@@ -1,4 +1,6 @@
-﻿using Qowaiv.Validation.Abstractions;
+﻿using Qowaiv.DomainModel.Diagnostics.Contracts;
+using Qowaiv.DomainModel.TestTools.Diagnostics.Contracts;
+using Qowaiv.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +25,7 @@ namespace Qowaiv.DomainModel.TestTools
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
+        [Assertion]
         public static void HasUncommittedEvents<TAggregate, TId>(Result<TAggregate> actualAggregate, params object[] expectedEvents)
             where TAggregate : AggregateRoot<TAggregate, TId>, new()
         {
@@ -54,6 +57,7 @@ namespace Qowaiv.DomainModel.TestTools
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
+        [Assertion]
         public static void HasUncommittedEvents<TAggregate, TId>(TAggregate actualAggregate, params object[] expectedEvents)
             where TAggregate : AggregateRoot<TAggregate, TId>, new()
         {
@@ -72,6 +76,7 @@ namespace Qowaiv.DomainModel.TestTools
         /// <param name="expectedEvents">
         /// The expected event messages.
         /// </param>
+        [Assertion]
         public static void HasUncommittedEvents<TId>(EventBuffer<TId> actualBuffer, params object[] expectedEvents)
         {
             Guard.NotNull(expectedEvents, nameof(expectedEvents));
@@ -99,6 +104,7 @@ namespace Qowaiv.DomainModel.TestTools
             }
         }
 
+        [Impure]
         private static bool AppendEvents(this StringBuilder sb, int index, object exp, object act)
         {
             if (sb.AppendDifferentTypes(index, exp, act))
@@ -114,6 +120,7 @@ namespace Qowaiv.DomainModel.TestTools
             return sb.AppendIdenticalEvents(index, act);
         }
 
+        [Impure]
         private static bool AppendDifferentTypes(this StringBuilder sb, int index, object exp, object act)
         {
             var actType = act.GetType();
@@ -127,6 +134,7 @@ namespace Qowaiv.DomainModel.TestTools
             return false;
         }
 
+        [Impure]
         private static bool AppendDifferentEvents(this StringBuilder sb, int index, object exp, object act)
         {
             var failure = false;
@@ -185,12 +193,14 @@ namespace Qowaiv.DomainModel.TestTools
             return false;
         }
 
+        [Impure]
         private static bool AppendIdenticalEvents(this StringBuilder sb, int index, object @event)
         {
             sb.AppendLine($"[{index}] {@event.GetType().Name}");
             return false;
         }
 
+        [Impure]
         private static bool AppendExtraEvents(this StringBuilder sb, IEnumerable<object> events, int offset, int skip, string prefix)
         {
             var index = offset + skip;
@@ -207,6 +217,7 @@ namespace Qowaiv.DomainModel.TestTools
             return extra;
         }
 
+        [Impure]
         private static bool AppendExpectedActual(this StringBuilder sb, int index, object expected, object actual)
         {
             var prefix = $"[{index}] ";

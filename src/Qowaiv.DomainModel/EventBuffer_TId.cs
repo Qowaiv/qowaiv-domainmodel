@@ -29,6 +29,7 @@ namespace Qowaiv.DomainModel
     /// <returns>
     /// The converted event.
     /// </returns>
+    [Pure]
     public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId aggregateId, int version, object @event);
 
     /// <summary>A buffer of events that should be added to an event stream.</summary>
@@ -109,6 +110,7 @@ namespace Qowaiv.DomainModel
             => new(AggregateId, offset, CommittedVersion, buffer.Add(events));
 
         /// <summary>Marks all events as being committed.</summary>
+        [Pure]
         public EventBuffer<TId> MarkAllAsCommitted()
             => new(AggregateId, offset, Version, buffer);
 

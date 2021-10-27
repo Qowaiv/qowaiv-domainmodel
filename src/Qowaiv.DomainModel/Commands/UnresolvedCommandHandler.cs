@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Runtime.Serialization;
 
@@ -26,12 +27,14 @@ namespace Qowaiv.DomainModel.Commands
         protected UnresolvedCommandHandler(SerializationInfo info, StreamingContext context)
             : base(info, context) { }
 
-        
+
         /// <summary>When the type could not be resolved.</summary>
+        [Pure]
         internal static UnresolvedCommandHandler Type(Type type)
             => new(string.Format(CultureInfo.CurrentCulture, QowaivDomainModelMessages.UnresolvedCommandHandler_Type, type));
 
         /// <summary>When the method could not be resolved.</summary>
+        [Pure]
         internal static UnresolvedCommandHandler Method(Type returnType, Type handlerType, string methodName, Type commandType)
             => new(string.Format(
                 CultureInfo.CurrentCulture,
