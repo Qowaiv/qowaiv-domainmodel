@@ -15,6 +15,7 @@ namespace Qowaiv.DomainModel
     /// <returns>
     /// The converted event (payload).
     /// </returns>
+    [Pure]
     public delegate object ConvertFromStoredEvent<in TStoredEvent>(TStoredEvent storedEvent);
 
     /// <summary><see cref="EventBuffer{TId}"/> factory helper.</summary>

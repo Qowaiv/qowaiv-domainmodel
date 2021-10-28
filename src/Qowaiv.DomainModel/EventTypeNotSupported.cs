@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
 namespace Qowaiv.DomainModel
@@ -16,6 +17,7 @@ namespace Qowaiv.DomainModel
             AggregateType = aggragateType;
         }
 
+        [Pure]
         private static string GetMessage(Type eventType, Type aggragateType) =>
             string.Format(
                 QowaivDomainModelMessages.EventTypeNotSupported,

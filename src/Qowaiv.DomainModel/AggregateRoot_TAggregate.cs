@@ -55,6 +55,7 @@ namespace Qowaiv.DomainModel
         /// <remarks>
         /// It is advised to do this by replaying all previous events.
         /// </remarks>
+        [Pure]
         protected abstract TAggregate Clone();
 
         /// <summary>Applies a single event.</summary>

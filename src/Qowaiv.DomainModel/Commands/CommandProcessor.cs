@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Qowaiv.DomainModel.Diagnostics.Contracts;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -41,6 +43,7 @@ namespace Qowaiv.DomainModel.Commands
         /// <remarks>
         /// This is the method that could/should hook on to your DI of choice.
         /// </remarks>
+        [Pure]
         protected abstract object GetHandler(Type handlerType);
 
         /// <summary>Sends the command to the registered command handler and
@@ -52,6 +55,7 @@ namespace Qowaiv.DomainModel.Commands
         /// <returns>
         /// The response of the registered command handler.
         /// </returns>
+        [Impure]
         public TReturnType Send(object command) => Send(command, token: default);
 
         /// <summary>Sends the command to the registered command handler and
@@ -66,6 +70,7 @@ namespace Qowaiv.DomainModel.Commands
         /// <returns>
         /// The response of the registered command handler.
         /// </returns>
+        [Impure]
         public TReturnType Send(object command, CancellationToken token)
         {
             var commandType = Guard.NotNull(command, nameof(command)).GetType();
@@ -75,6 +80,7 @@ namespace Qowaiv.DomainModel.Commands
         }
 
         /// <summary>Gets function to invoke.</summary>
+        [Impure]
         private Func<object, object, CancellationToken, TReturnType> Handle(Type handlerType, Type commandType)
         {
             if (!handlers.TryGetValue(commandType, out var handle))
@@ -91,22 +97,27 @@ namespace Qowaiv.DomainModel.Commands
         /// <param name="commandType">
         /// The type of the command to process.
         /// </param>
+        [Pure]
         private Type HandlerTypeFor(Type commandType) => GenericHandlerType.MakeGenericType(commandType);
 
         /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
+        [Pure]
         private MethodInfo GetMethod(Type handlerType, Type commandType)
             => handlerType.GetMethods().FirstOrDefault(m => WithCancelationToken(m, commandType))
             ?? handlerType.GetMethods().FirstOrDefault(m => WithoutCancelationToken(m, commandType));
 
+        [Pure]
         private bool WithCancelationToken(MethodInfo method, Type commandType) 
             => method.GetParameters().Length == 2 
             && method.GetParameters()[1].ParameterType == typeof(CancellationToken)
             && Matches(method, commandType);
 
+        [Pure]
         private bool WithoutCancelationToken(MethodInfo method, Type commandType)
           => method.GetParameters().Length == 1
           && Matches(method, commandType);
 
+        [Pure]
         private bool Matches(MethodInfo method, Type commandType)
             => method.Name == HandlerMethod
             && method.ReturnType == typeof(TReturnType)
@@ -120,6 +131,7 @@ namespace Qowaiv.DomainModel.Commands
         /// 
         /// (handler, cmd, token) => ((HandlerType)handler).{HandlerMethod}((CommandType)cmd);
         /// </remarks>
+        [Pure]
         private static Expression<Func<object, object, CancellationToken, TReturnType>> GetExpression(MethodInfo method)
         {
             var handler = Expression.Parameter(typeof(object), "handler");
