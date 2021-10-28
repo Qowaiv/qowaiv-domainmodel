@@ -18,7 +18,7 @@ namespace NuGet_packages_specs
 
         [TestCaseSource(nameof(PureFunctions))]
         public void Pure_functions_are_marked_as_such(MethodInfo function)
-            => function.Should().BeDecoratedWith<PureAttribute>(because: "The're part of immutable codebase");
+            => function.Should().BeDecoratedWith<PureAttribute>(because: "They're part of an immutable code-base.");
 
         private static IEnumerable<Assembly> Packages
         {
