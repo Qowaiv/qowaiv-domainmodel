@@ -20,6 +20,8 @@ namespace Projections.Projector_specs
             var projector = new Sum();
             var projection = projector.Project(events);
             projection.Should().Be(17);
+
+            projector.dummies.Should().Be(3);
         }
     }
 
@@ -27,12 +29,18 @@ namespace Projections.Projector_specs
     internal class Sum : Projector<int>
     {
         private int sum;
+        public int dummies;
 
         public int Projection() => sum;
 
         internal void When(Number number)
         {
             sum += number.Value;
+        }
+
+        internal void When(Dummy number)
+        {
+            dummies++;
         }
     }
 
