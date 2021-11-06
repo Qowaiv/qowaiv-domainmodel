@@ -1,8 +1,12 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 using Qowaiv.DomainModel.Collections;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Immutable_Collection_specs
+namespace Collections.Immutable_Collection_specs
 {
     internal static class Help
     {
@@ -12,64 +16,58 @@ namespace Immutable_Collection_specs
     internal class Dummy { }
     internal class Other { }
 
+    internal class Dummies : IEnumerable<Dummy>
+    {
+        public int Count { get; private set; }
+
+        public IEnumerator<Dummy> GetEnumerator()
+            => Enumerable.Repeat(new Dummy(), ++Count).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
     public class Empty_collection
     {
         [Test]
         public void Has_size_of_0()
-        {
-            Assert.That(ImmutableCollection.Empty, Has.Count.EqualTo(0));
-        }
+            => ImmutableCollection.Empty.Should().BeEmpty();
 
         [Test]
         public void Contains_no_items()
-        {
-            Assert.That(ImmutableCollection.Empty, Is.EquivalentTo(Array.Empty<object>()));
-        }
+            => ImmutableCollection.Empty.Should().BeEquivalentTo(Array.Empty<object>());
 
         [Test]
         public void Add_item_increases_the_size()
-        {
-            Assert.That(ImmutableCollection.Empty.Add(new Dummy()), Has.Count.EqualTo(1));
-        }
+            => ImmutableCollection.Empty.Add(new Dummy()).Should().HaveCount(1);
     }
 
     public class Non_empty_collection
     {
         [Test]
         public void Add_item_increases_the_size()
-        {
-            var events = ImmutableCollection.Empty
+            => ImmutableCollection.Empty
                 .Add(new Dummy())
-                .Add(new Other());
-            Assert.That(events, Has.Count.EqualTo(2));
-        }
+                .Add(new Other())
+            .Should().HaveCount(2);
     }
 
     public class Add
     {
         [Test]
         public void Event_increases_the_size()
-        {
-            Assert.That(ImmutableCollection.Empty.Add(new Dummy()), Has.Count.EqualTo(1));
-        }
-        
+            => ImmutableCollection.Empty.Add(new Dummy()).Should().HaveCount(1);
+
         [Test]
         public void Null_item_has_no_effect()
-        {
-            Assert.That(ImmutableCollection.Empty.Add<object>(null), Has.Count.EqualTo(0));
-        }
+            => ImmutableCollection.Empty.Add<object>(null).Should().BeEmpty();
 
         [Test]
         public void Only_null_items_has_no_effect()
-        {
-            Assert.That(ImmutableCollection.Empty.Add(null, null, null), Has.Count.EqualTo(0));
-        }
+            => ImmutableCollection.Empty.Add(null, null, null).Should().BeEmpty();
 
         [Test]
         public void String_is_not_considered_an_collection()
-        {
-            Assert.That(ImmutableCollection.Empty.Add("some string"), Has.Count.EqualTo(1));
-        }
+            => ImmutableCollection.Empty.Add("some string").Should().HaveCount(1);
     }
 
     public class If_not_true
@@ -81,7 +79,7 @@ namespace Immutable_Collection_specs
                 .If(Help.NotTrue)
                 .Then(Help.FailingCreation);
 
-            Assert.That(events, Has.Count.EqualTo(0));
+            events.Should().BeEmpty();
         }
 
         [Test]
@@ -90,9 +88,9 @@ namespace Immutable_Collection_specs
             var events = ImmutableCollection.Empty
                 .If(Help.NotTrue)
                     .Then(Help.FailingCreation)
-                .Else(()=> new Dummy());
+                .Else(() => new Dummy());
 
-            Assert.That(events, Has.Count.EqualTo(1));
+            events.Should().HaveCount(1);
         }
     }
 
@@ -105,7 +103,7 @@ namespace Immutable_Collection_specs
                 .If(false)
                 .Then(Help.FailingCreation);
 
-            Assert.That(events, Has.Count.EqualTo(0));
+            events.Should().BeEmpty();
         }
 
         [Test]
@@ -116,7 +114,7 @@ namespace Immutable_Collection_specs
                     .Then(Help.FailingCreation)
                 .Else(() => new Dummy());
 
-            Assert.That(events, Has.Count.EqualTo(1));
+            events.Should().HaveCount(1);
         }
 
         [Test]
@@ -129,7 +127,7 @@ namespace Immutable_Collection_specs
                     .Then(() => new Dummy())
                 .Else(Help.FailingCreation);
 
-            Assert.That(events, Has.Count.EqualTo(1));
+            events.Should().HaveCount(1);
         }
 
         [Test]
@@ -142,7 +140,7 @@ namespace Immutable_Collection_specs
                     .Then(Help.FailingCreation)
                 .Else(() => new Dummy());
 
-            Assert.That(events, Has.Count.EqualTo(1));
+            events.Should().HaveCount(1);
         }
 
     }
@@ -156,7 +154,7 @@ namespace Immutable_Collection_specs
                 .If(true)
                 .Then(() => new Dummy());
 
-            Assert.That(events, Has.Count.EqualTo(1));
+            events.Should().HaveCount(1);
         }
 
         [Test]
@@ -167,7 +165,7 @@ namespace Immutable_Collection_specs
                     .Then(() => new Dummy())
                 .Else(Help.FailingCreation);
 
-            Assert.That(events, Has.Count.EqualTo(1));
+            events.Should().HaveCount(1);
         }
 
         [Test]
@@ -180,7 +178,18 @@ namespace Immutable_Collection_specs
                     .Then(Help.FailingCreation)
                 .Else(Help.FailingCreation);
 
-            Assert.That(events, Has.Count.EqualTo(1));
+            events.Should().HaveCount(1);
+        }
+    }
+
+    public class Enumerables
+    {
+        [Test]
+        public void are_added_as_fixed_list()
+        {
+            var events = ImmutableCollection.Empty.Add(new Dummies());
+            events.Should().HaveCount(1, because: "the initial count is 1.");
+            events.Should().HaveCount(1, because: "calling it multiple times should not change a thing.");
         }
     }
 }

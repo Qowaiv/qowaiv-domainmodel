@@ -13,12 +13,19 @@ namespace Qowaiv.DomainModel.Collections
         private class Collection : NotEmpty
         {
             /// <summary>Initializes a new instance of the <see cref="Collection"/> class.</summary>
-            public Collection(IEnumerable item, ImmutableCollection predecessor)
-                : base(predecessor) => Items = item;
+            public Collection(IEnumerable items, ImmutableCollection predecessor)
+                : base(predecessor)
+            {
+                Items = new();
+                foreach (var item in items)
+                {
+                    Items.Add(item);
+                }
+            }
 
             /// <summary>Events placeholder.</summary>
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-            private IEnumerable Items { get; }
+            private readonly List<object> Items;
 
             /// <inheritdoc/>
             [Pure]

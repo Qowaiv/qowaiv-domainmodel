@@ -5,8 +5,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.5</Version>
+    <Version>0.1.6</Version>
     <PackageReleaseNotes>
+v0.1.6
+- Enumerables added to the immutable collection should be resolved. (#24)
 v0.1.5
 - Extend aggregate with Must guarding constraints. (#21)
 v0.1.4
