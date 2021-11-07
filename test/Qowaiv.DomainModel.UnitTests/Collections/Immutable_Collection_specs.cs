@@ -10,7 +10,7 @@ namespace Collections.Immutable_Collection_specs
 {
     internal static class Help
     {
-        public static readonly bool? NotTrue;
+        public static readonly bool? NotTrue = default;
         public static Dummy FailingCreation() => throw new DivideByZeroException();
     }
     internal class Dummy { }

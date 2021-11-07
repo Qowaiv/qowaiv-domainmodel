@@ -36,9 +36,7 @@ namespace Dynamic_event_dispatcher_specs
 
         internal class DummyEvent { }
 
-#pragma warning disable S4027 // Exceptions should provide standard constructors
         public class Detected : Exception { }
-#pragma warning restore S4027 // Exceptions should provide standard constructors
     }
 
     public class Not_supported_when_methods
