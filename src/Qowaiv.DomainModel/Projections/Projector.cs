@@ -1,4 +1,5 @@
-﻿using Qowaiv.DomainModel.Dynamic;
+﻿using Qowaiv.DomainModel.Diagnostics.Contracts;
+using Qowaiv.DomainModel.Dynamic;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,6 +18,7 @@ namespace Qowaiv.DomainModel.Projections
         /// <param name="events">
         /// The events to replay.
         /// </param>
+        [Impure]
         public static TProjection Project<TProjection>(this Projector<TProjection> projector, IEnumerable<object> events)
         {
             Guard.NotNull(events, nameof(events));

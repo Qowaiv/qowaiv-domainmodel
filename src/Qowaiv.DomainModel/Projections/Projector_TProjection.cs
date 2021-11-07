@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.DomainModel.Projections
+﻿using System.Diagnostics.Contracts;
+
+namespace Qowaiv.DomainModel.Projections
 {
     /// <summary>A projector able to Create a projection based on replaying events.</summary>
     /// <remarks>
@@ -12,6 +14,7 @@
     public interface Projector<out TProjection>
     {
         /// <summary>Returns a projection based on the current state of the projector.</summary>
+        [Pure]
         TProjection Projection();
     }
 }
