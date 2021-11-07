@@ -1,10 +1,9 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 using Qowaiv;
 using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.TestTools;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.Validation.Abstractions;
-using Qowaiv.Validation.TestTools;
 using System;
 using System.Linq;
 
@@ -31,27 +30,31 @@ namespace Event_sourced_aggregate_root_specs
         public void changes_for_single_event()
         {
             var origin = new SimpleEventSourcedRoot();
-            var updated = ValidationMessageAssert.IsValid(origin.SetName("Jimi Hendrix"));
-            AggregateRootAssert.HasUncommittedEvents(updated.Buffer, new NameUpdated { Name = "Jimi Hendrix" });
-            Assert.That(updated.Name, Is.EqualTo("Jimi Hendrix"));
+            var updated = origin.SetName("Jimi Hendrix").Should().BeValid().Value;
+
+            updated.Name.Should().Be("Jimi Hendrix");
+            updated.Buffer.Uncommitted.Should().BeEquivalentTo(new[] { new NameUpdated { Name = "Jimi Hendrix" } });
         }
 
         [Test]
         public void changes_for_multiple_events()
         {
             var origin = new SimpleEventSourcedRoot();
-            var updated = ValidationMessageAssert.IsValid(origin.SetPerson("Jimi Hendrix", new Date(1942, 11, 27)));
-            AggregateRootAssert.HasUncommittedEvents(updated.Buffer,
+            var updated = origin.SetPerson("Jimi Hendrix", new Date(1942, 11, 27)).Should().BeValid().Value;
+
+            updated.Buffer.Uncommitted.Should().BeEquivalentTo(new object[]
+            {
                 new NameUpdated { Name = "Jimi Hendrix" },
-                new DateOfBirthUpdated { DateOfBirth = new Date(1942, 11, 27) });
+                new DateOfBirthUpdated { DateOfBirth = new Date(1942, 11, 27) },
+            });
         }
 
         [Test]
         public void as_uncommitted_to_the_buffer()
         {
             var origin = new SimpleEventSourcedRoot();
-            var updated = ValidationMessageAssert.IsValid(origin.SetName("Jimi Hendrix"));
-            Assert.That(updated.Buffer.Uncommitted.ToList(), Has.Count.EqualTo(1));
+            var updated =origin.SetName("Jimi Hendrix").Should().BeValid().Value;
+            updated.Buffer.Uncommitted.Should().ContainSingle();
         }
 
         [Test]
@@ -59,9 +62,9 @@ namespace Event_sourced_aggregate_root_specs
         {
             var origin = new SimpleEventSourcedRoot();
             origin.SetName("Jimi Hendrix");
-            var updated = ValidationMessageAssert.IsValid(origin.SetName("Jimi Hendrix"));
-            Assert.That(origin.Name, Is.Null);
-            Assert.That(updated.Name, Is.EqualTo("Jimi Hendrix"));
+            var updated = origin.SetName("Jimi Hendrix").Should().BeValid().Value;
+            origin.Name.Should().BeNull();
+            updated.Name.Should().Be("Jimi Hendrix");
         }
 
         [Test]
