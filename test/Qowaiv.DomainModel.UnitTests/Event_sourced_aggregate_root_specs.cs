@@ -54,7 +54,7 @@ namespace Event_sourced_aggregate_root_specs
         {
             var origin = new SimpleEventSourcedRoot();
             var updated =origin.SetName("Jimi Hendrix").Should().BeValid().Value;
-            updated.Buffer.Uncommitted.Should().HaveCount(1);
+            updated.Buffer.Uncommitted.Should().ContainSingle();
         }
 
         [Test]

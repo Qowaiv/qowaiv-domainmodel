@@ -38,7 +38,7 @@ namespace Collections.Immutable_Collection_specs
 
         [Test]
         public void Add_item_increases_the_size()
-            => ImmutableCollection.Empty.Add(new Dummy()).Should().HaveCount(1);
+            => ImmutableCollection.Empty.Add(new Dummy()).Should().ContainSingle();
     }
 
     public class Non_empty_collection
@@ -55,7 +55,7 @@ namespace Collections.Immutable_Collection_specs
     {
         [Test]
         public void Event_increases_the_size()
-            => ImmutableCollection.Empty.Add(new Dummy()).Should().HaveCount(1);
+            => ImmutableCollection.Empty.Add(new Dummy()).Should().ContainSingle();
 
         [Test]
         public void Null_item_has_no_effect()
@@ -67,7 +67,7 @@ namespace Collections.Immutable_Collection_specs
 
         [Test]
         public void String_is_not_considered_an_collection()
-            => ImmutableCollection.Empty.Add("some string").Should().HaveCount(1);
+            => ImmutableCollection.Empty.Add("some string").Should().ContainSingle();
     }
 
     public class If_not_true
@@ -90,7 +90,7 @@ namespace Collections.Immutable_Collection_specs
                     .Then(Help.FailingCreation)
                 .Else(() => new Dummy());
 
-            events.Should().HaveCount(1);
+            events.Should().ContainSingle();
         }
     }
 
@@ -114,7 +114,7 @@ namespace Collections.Immutable_Collection_specs
                     .Then(Help.FailingCreation)
                 .Else(() => new Dummy());
 
-            events.Should().HaveCount(1);
+            events.Should().ContainSingle();
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace Collections.Immutable_Collection_specs
                     .Then(() => new Dummy())
                 .Else(Help.FailingCreation);
 
-            events.Should().HaveCount(1);
+            events.Should().ContainSingle();
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace Collections.Immutable_Collection_specs
                     .Then(Help.FailingCreation)
                 .Else(() => new Dummy());
 
-            events.Should().HaveCount(1);
+            events.Should().ContainSingle();
         }
 
     }
@@ -154,7 +154,7 @@ namespace Collections.Immutable_Collection_specs
                 .If(true)
                 .Then(() => new Dummy());
 
-            events.Should().HaveCount(1);
+            events.Should().ContainSingle();
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace Collections.Immutable_Collection_specs
                     .Then(() => new Dummy())
                 .Else(Help.FailingCreation);
 
-            events.Should().HaveCount(1);
+            events.Should().ContainSingle();
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace Collections.Immutable_Collection_specs
                     .Then(Help.FailingCreation)
                 .Else(Help.FailingCreation);
 
-            events.Should().HaveCount(1);
+            events.Should().ContainSingle();
         }
     }
 
@@ -188,8 +188,8 @@ namespace Collections.Immutable_Collection_specs
         public void are_added_as_fixed_list()
         {
             var events = ImmutableCollection.Empty.Add(new Dummies());
-            events.Should().HaveCount(1, because: "the initial count is 1.");
-            events.Should().HaveCount(1, because: "calling it multiple times should not change a thing.");
+            events.Should().ContainSingle(because: "the initial count is 1.");
+            events.Should().ContainSingle(because: "calling it multiple times should not change a thing.");
         }
     }
 }
