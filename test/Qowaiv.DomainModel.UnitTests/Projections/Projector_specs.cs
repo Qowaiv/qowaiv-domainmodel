@@ -7,7 +7,7 @@ namespace Projections.Projector_specs
     public class Projector_specs
     {
         [Test]
-        public void X()
+        public void Project_method_hits_defined_when_methods_for_all_matching_events()
         {
             var events = new object[]
             {
