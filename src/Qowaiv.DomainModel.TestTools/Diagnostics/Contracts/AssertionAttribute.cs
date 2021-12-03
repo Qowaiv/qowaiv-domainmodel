@@ -1,11 +1,6 @@
-﻿using Qowaiv.DomainModel.Diagnostics.Contracts;
-using System;
-using System.Diagnostics;
+﻿namespace Qowaiv.DomainModel.TestTools.Diagnostics.Contracts;
 
-namespace Qowaiv.DomainModel.TestTools.Diagnostics.Contracts
-{
-    /// <summary>To mark a method explicitly as impure.</summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    [Conditional("CONTRACTS_FULL")]
-    public sealed class AssertionAttribute : ImpureAttribute { }
-}
+/// <summary>To mark a method explicitly as impure.</summary>
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+[Conditional("CONTRACTS_FULL")]
+public sealed class AssertionAttribute : ImpureAttribute { }
