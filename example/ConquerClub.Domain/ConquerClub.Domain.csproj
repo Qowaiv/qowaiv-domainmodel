@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\props\nopackage.props" />
+  
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
@@ -13,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Qowaiv" Version="5.1.1" />
-    <PackageReference Include="Qowaiv.Validation.Fluent" Version="0.1.1" />
+    <PackageReference Include="Qowaiv" Version="6.0.1" />
+    <PackageReference Include="Qowaiv.Validation.Fluent" Version="0.2.0" />
     <PackageReference Include="Qowaiv.Validation.Messages" Version="0.1.0" />
     <PackageReference Include="Troschuetz.Random" Version="5.0.1" />
   </ItemGroup>

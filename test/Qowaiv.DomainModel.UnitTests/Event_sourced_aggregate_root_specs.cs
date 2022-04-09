@@ -1,11 +1,6 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-using Qowaiv;
+﻿using Qowaiv;
 using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.UnitTests.Models;
-using Qowaiv.Validation.Abstractions;
-using System;
-using System.Linq;
 
 namespace Event_sourced_aggregate_root_specs
 {
