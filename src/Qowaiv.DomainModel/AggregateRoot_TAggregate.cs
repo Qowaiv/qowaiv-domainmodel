@@ -14,8 +14,7 @@ public abstract class AggregateRoot<TAggregate>
     protected AggregateRoot(IValidator<TAggregate> validator)
     {
         Validator = Guard.NotNull(validator, nameof(validator));
-        Dispatcher = new DynamicEventDispatcher<TAggregate>((TAggregate)this);
-        Dynamic = Dispatcher;
+        Dynamic = new DynamicEventDispatcher<TAggregate>((TAggregate)this);
     }
 
     /// <summary>The validator that ensures that after applying events the
@@ -32,9 +31,6 @@ public abstract class AggregateRoot<TAggregate>
     /// <summary>Represents the aggregate root as a dynamic.</summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     protected virtual dynamic Dynamic { get; }
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly DynamicEventDispatcher Dispatcher;
 
     /// <summary>Adds the events to the linked event buffer.</summary>
     /// <param name="events">
@@ -82,7 +78,9 @@ public abstract class AggregateRoot<TAggregate>
             Dynamic.When(@event);
         }
 
-        bool IsSupported(object @event) => Dispatcher.SupportedEventTypes.Contains(@event?.GetType());
+        bool IsSupported(object @event) 
+            => Dynamic is not DynamicEventDispatcher dispatcher
+            || dispatcher.SupportedEventTypes.Contains(@event?.GetType());
     }
 
     /// <summary>Root to define guarding conditions on.</summary>
