@@ -33,7 +33,7 @@ public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
     /// If the invoke call was on (void) When(@event) but the type was not available.
     /// </exception>
     public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        => binder?.Name == nameof(When) && args?.Length == 1 && !(args[0] is null)
+        => binder?.Name == nameof(When) && args?.Length == 1 && args[0] is { }
         ? When(args[0], out result)
         : base.TryInvokeMember(binder, args, out result);
 

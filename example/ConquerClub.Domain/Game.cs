@@ -1,7 +1,5 @@
 ﻿using ConquerClub.Domain.Validation;
 using Qowaiv.DomainModel;
-using System.Collections.Generic;
-using System.Linq;
 using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
 
 namespace ConquerClub.Domain
