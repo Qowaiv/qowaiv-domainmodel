@@ -5,8 +5,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.6</Version>
+    <Version>0.1.7</Version>
     <PackageReleaseNotes>
+v0.1.7
+- Introduction of the non-generic DynamicEventDispatcher #27 
 v0.1.6
 - Enumerables added to the immutable collection should be resolved. (#24)
 v0.1.5
