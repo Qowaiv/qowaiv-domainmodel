@@ -78,6 +78,7 @@ public abstract class AggregateRoot<TAggregate>
             Dynamic.When(@event);
         }
 
+        // We only can determine if a event is supported for DynamicEventDispatcher.
         bool IsSupported(object @event) 
             => Dynamic is not DynamicEventDispatcher dispatcher
             || dispatcher.SupportedEventTypes.Contains(@event?.GetType());
