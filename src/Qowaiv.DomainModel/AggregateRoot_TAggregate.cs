@@ -73,10 +73,15 @@ public abstract class AggregateRoot<TAggregate>
     /// <summary>Loads the state of the aggregate root by replaying events.</summary>
     protected void Replay(IEnumerable<object> events)
     {
-        foreach (var @event in events ?? Array.Empty<object>())
+        foreach (var @event in (events ?? Array.Empty<object>()).Where(IsSupported))
         {
             Dynamic.When(@event);
         }
+
+        // We only can determine if a event is supported for DynamicEventDispatcher.
+        bool IsSupported(object @event) 
+            => Dynamic is not DynamicEventDispatcher dispatcher
+            || dispatcher.SupportedEventTypes.Contains(@event?.GetType());
     }
 
     /// <summary>Root to define guarding conditions on.</summary>

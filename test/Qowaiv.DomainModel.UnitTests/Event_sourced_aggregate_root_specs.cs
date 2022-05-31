@@ -1,11 +1,6 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-using Qowaiv;
+﻿using Qowaiv;
 using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.UnitTests.Models;
-using Qowaiv.Validation.Abstractions;
-using System;
-using System.Linq;
 
 namespace Event_sourced_aggregate_root_specs
 {
@@ -68,11 +63,11 @@ namespace Event_sourced_aggregate_root_specs
         }
 
         [Test]
-        public void without_matching_when_method_throws()
+        public void skips_unknown_event_types()
         {
             var aggregate = new TestApplyChangeAggregate();
-            var exception = Assert.Catch<EventTypeNotSupported>(() => aggregate.TestApplyChange(new NameUpdated()));
-            Assert.AreEqual(typeof(NameUpdated), exception.EventType);
+            var updated = aggregate.TestApplyChange(new NameUpdated()).Should().BeValid().Value;
+            updated.Version.Should().Be(1);
         }
     }
 

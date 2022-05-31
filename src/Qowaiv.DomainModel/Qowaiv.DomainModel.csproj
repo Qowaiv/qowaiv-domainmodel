@@ -5,8 +5,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.6</Version>
+    <Version>0.1.7</Version>
     <PackageReleaseNotes>
+v0.1.7
+- Introduction of the non-generic DynamicEventDispatcher #27 
 v0.1.6
 - Enumerables added to the immutable collection should be resolved. (#24)
 v0.1.5
@@ -50,11 +52,21 @@ v0.0.1
     </EmbeddedResource>
   </ItemGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.1.1" />
-    <PackageReference Include="Qowaiv.Validation.Guarding" Version="0.1.2" />
+    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.2.1" />
+    <PackageReference Include="Qowaiv.Validation.Guarding" Version="0.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Qowaiv.Analyzers.CSharp" Version="0.0.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="8.39.0.47922">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

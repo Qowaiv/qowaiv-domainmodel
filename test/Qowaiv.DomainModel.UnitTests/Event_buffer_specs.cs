@@ -1,9 +1,5 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-using Qowaiv.DomainModel;
+﻿using Qowaiv.DomainModel;
 using Qowaiv.TestTools;
-using System;
-using System.Linq;
 
 namespace Event_buffer_specs
 {

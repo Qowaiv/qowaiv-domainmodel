@@ -1,10 +1,6 @@
 ﻿using ConquerClub.Domain.Commands;
 using ConquerClub.Domain.Events;
 using Qowaiv.DomainModel;
-using Qowaiv.Validation.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Troschuetz.Random;
 using ContinentId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForContinent>;
 using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;

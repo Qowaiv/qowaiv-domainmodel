@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="..\..\props\nopackage.props" />
+  
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
@@ -13,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Qowaiv" Version="5.1.1" />
-    <PackageReference Include="Qowaiv.Validation.Fluent" Version="0.1.1" />
-    <PackageReference Include="Qowaiv.Validation.Messages" Version="0.1.0" />
+    <PackageReference Include="Qowaiv" Version="6.0.2" />
+    <PackageReference Include="Qowaiv.Validation.Fluent" Version="0.2.1" />
+    <PackageReference Include="Qowaiv.Validation.Messages" Version="0.2.1" />
     <PackageReference Include="Troschuetz.Random" Version="5.0.1" />
   </ItemGroup>
 
@@ -32,6 +34,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="8.39.0.47922">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using Qowaiv.DomainModel;
+﻿using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.UnitTests.Models;
 using Qowaiv.TestTools;
 
