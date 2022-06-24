@@ -23,8 +23,8 @@ internal class Pre_processing_events_specs
     [Test]
     public void Does_not_execute_pre_processing_on_Replay()
     {
-        var buffer = EventBuffer.Empty(TestId)
-            .Add(new Event1(TestId));
+        var buffer = EventBuffer.Empty(Guid.NewGuid())
+            .Add(new Event1(Guid.NewGuid()));
 
         var aggregate = AggregateRoot.FromStorage<SimpleAggregate, Guid>(buffer);
         aggregate.Buffer.Cast<EventBase>()
