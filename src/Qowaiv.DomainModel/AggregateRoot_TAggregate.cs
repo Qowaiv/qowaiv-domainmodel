@@ -63,12 +63,17 @@ public abstract class AggregateRoot<TAggregate>
     protected Result<TAggregate> Apply(IEnumerable<object> events)
     {
         var updated = Clone();
-        updated.Replay(Guard.HasAny(events, nameof(events)));
+        events = Guard.HasAny(events, nameof(events)).Select(PreProcessEvent);
+        updated.Replay(events);
 
         var result = updated.Validator.Validate(updated);
         if (result.IsValid) { updated.AddEventsToBuffer(events); }
         return result;
     }
+
+    /// <summary>Allows to pre-process an event before applying it.</summary>
+    [Pure]
+    protected virtual object PreProcessEvent(object @event) => @event;
 
     /// <summary>Loads the state of the aggregate root by replaying events.</summary>
     protected void Replay(IEnumerable<object> events)
