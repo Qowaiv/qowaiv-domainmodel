@@ -1,4 +1,4 @@
-name: .NET 6.0 Build & Test
+name: .NET 7.0 Build & Test
 
 on: [push]
 
@@ -9,9 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Setup .NET 6.0
+    - name: Setup .NET 7.0
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.100
+        dotnet-version: '7.0.x'
     - name: Test with .NET
       run: dotnet test --configuration Release
