@@ -1,6 +1,4 @@
 ﻿using ConquerClub.Domain;
-using ConquerClub.Domain.Commands;
-using ConquerClub.Domain.Events;
 using FluentAssertions;
 using NUnit.Framework;
 using static ConquerClub.UnitTests.Arrange;
@@ -12,7 +10,7 @@ namespace Game_specs
         [Test]
         public void active_player_being_replaced_by_neutral()
         {
-            var command = new Resign(GameId, 4);
+            var command = new Resign(Game_Id, 4);
             var buffer = BeneluxWithoutArmies()
                 .Add(new ArmiesInitialized
                 {
@@ -36,7 +34,7 @@ namespace Game_specs
         [Test]
         public void the_game_being_ended_if_one_player_survives()
         {
-            var command = new Resign(GameId, 4);
+            var command = new Resign(Game_Id, 4);
 
             Handle(command, Benelux()).Should().BeValid()
                 .Value.Phase.Should().Be(GamePhase.Finished);

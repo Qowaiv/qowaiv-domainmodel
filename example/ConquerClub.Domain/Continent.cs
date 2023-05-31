@@ -11,7 +11,7 @@ namespace ConquerClub.Domain
     [DebuggerTypeProxy(typeof(CollectionDebugView))]
     public sealed class Continent : IEnumerable<Country>
     {
-        internal Continent(Id<ForContinent> id, string name, int bonus)
+        internal Continent(ContinentId id, string name, int bonus)
         {
             Id = id;
             Name = name;
@@ -19,7 +19,7 @@ namespace ConquerClub.Domain
         }
 
         /// <summary>Gets the identifier of the continent.</summary>
-        public Id<ForContinent> Id { get; }
+        public ContinentId Id { get; }
 
         /// <summary>Gets the name of the continent.</summary>
         public string Name { get; }
@@ -46,7 +46,7 @@ namespace ConquerClub.Domain
 
     public static class ContinentExtensions
     {
-        public static Continent ById(this IEnumerable<Continent> continents, Id<ForContinent> id)
+        public static Continent? ById(this IEnumerable<Continent> continents, ContinentId id)
             => continents.FirstOrDefault(c => c.Id == id);
     }
 }

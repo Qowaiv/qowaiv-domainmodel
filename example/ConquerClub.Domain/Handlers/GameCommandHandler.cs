@@ -18,7 +18,7 @@ namespace ConquerClub.Domain.Handlers
     {
         public GameCommandHandler(
             IGenerator rnd,
-            Func<Id<ForGame>, Result<Game>> load,
+            Func<GameId, Result<Game>> load,
             Func<Game, Result> save)
         {
             Rnd = rnd;
@@ -27,7 +27,7 @@ namespace ConquerClub.Domain.Handlers
         }
 
         protected IGenerator Rnd { get; }
-        public Func<Id<ForGame>, Result<Game>> Load { get; }
+        public Func<GameId, Result<Game>> Load { get; }
         public Func<Game, Result> Save { get; }
 
         public Result Handle(Start command)

@@ -1,10 +1,4 @@
-﻿using ConquerClub.Domain.Commands;
-using ConquerClub.Domain.Events;
-using Qowaiv.DomainModel;
-using Troschuetz.Random;
-using ContinentId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForContinent>;
-using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
-using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;
+﻿using Troschuetz.Random;
 
 namespace ConquerClub.Domain
 {
@@ -156,7 +150,7 @@ namespace ConquerClub.Domain
             From.Army = @event.Result.Attacker;
             To.Army = @event.Result.Defender;
         }
-        
+
         internal void When(Conquered @event)
         {
             From = Countries.ById(@event.Attacker);
