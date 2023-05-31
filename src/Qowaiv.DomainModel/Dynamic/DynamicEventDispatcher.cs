@@ -3,7 +3,7 @@
 namespace Qowaiv.DomainModel.Dynamic;
 
 /// <summary>Factory for creating <see cref="DynamicEventDispatcher{TDispatcher}"/>'s.</summary>
-public abstract class DynamicEventDispatcher: DynamicObject
+public abstract class DynamicEventDispatcher : DynamicObject
 {
     /// <summary>Gets the supported event types.</summary>
     public abstract ReadOnlySet<Type> SupportedEventTypes { get; }

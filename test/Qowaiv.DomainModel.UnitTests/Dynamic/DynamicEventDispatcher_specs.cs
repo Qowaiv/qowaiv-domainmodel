@@ -19,12 +19,12 @@ public class Support_when_methods
 
     internal class WhenWithSingleArgument
     {
-        internal void When(DummyEvent @event) => throw new Detected();
+        internal void When(DummyEvent _) => throw new Detected();
     }
 
     internal class WhenWithReturnStatement
     {
-        internal int When(DummyEvent @event) => throw new Detected();
+        internal int When(DummyEvent _) => throw new Detected();
     }
 
     private static void AssertEventTypes<T>() where T : class, new()
@@ -80,7 +80,7 @@ public class Not_supported_when_methods
 
     internal class WhenWithDummyEvent
     {
-        internal void When(DummyEvent @event) => throw new Detected();
+        internal void When(DummyEvent _) => throw new Detected();
     }
 
     internal class WhenWithMultipleParameters
@@ -133,7 +133,7 @@ public class Can_be_created
 
     internal class WhenWithDummyEvent
     {
-        internal void When(DummyEvent @event) => throw new Detected();
+        internal void When(DummyEvent _) => throw new Detected();
     }
 
     internal class DummyEvent { }
