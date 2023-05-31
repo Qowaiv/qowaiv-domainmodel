@@ -1,7 +1,6 @@
-using ConquerClub.Domain;
+using FluentAssertions;
 using NUnit.Framework;
 using System.Text;
-using Troschuetz.Random.Generators;
 
 namespace Dice_specs;
 
@@ -270,22 +269,21 @@ public class Odds
 public class AutoAttack
 {
     [Test]
-    public void Defender_is_None_on_successfull_attack()
+    public void Defender_is_None_on_successful_attack()
     {
-        var rnd = new MT19937Generator(17);
+        var rnd = new MersenneTwister(14);
         var attacker = Player.P1.Army(10);
         var defender = Player.P2.Army(5);
 
         var result = Dice.AutoAttack(attacker, defender, rnd);
 
-        Assert.IsTrue(result.IsSuccess);
-        Assert.AreEqual(new AttackResult(Player.P1.Army(9), Army.None), result);
+        result.Should().Be(new AttackResult(Player.P1.Army(7), Army.None));
     }
 
     [Test]
-    public void Defender_has_armies_on_nonsuccessfull_attack()
+    public void Defender_has_armies_on_unsuccessful_attack()
     {
-        var rnd = new MT19937Generator(14);
+        var rnd = new MersenneTwister(24);
         var attacker = Player.P1.Army(10);
         var defender = Player.P2.Army(8);
 

@@ -1,5 +1,4 @@
 ﻿using Qowaiv.Validation.Guarding;
-using Troschuetz.Random;
 
 namespace ConquerClub.Domain.Handlers;
 
@@ -13,7 +12,7 @@ public class GameCommandHandler :
     CommandHandler<Resign>
 {
     public GameCommandHandler(
-        IGenerator rnd,
+        RandomSource rnd,
         Func<GameId, Result<Game>> load,
         Func<Game, Result> save)
     {
@@ -22,7 +21,7 @@ public class GameCommandHandler :
         Save = save;
     }
 
-    protected IGenerator Rnd { get; }
+    protected RandomSource Rnd { get; }
     public Func<GameId, Result<Game>> Load { get; }
     public Func<Game, Result> Save { get; }
 
