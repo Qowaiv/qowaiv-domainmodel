@@ -1,7 +1,4 @@
-﻿using ConquerClub.Domain;
-using FluentAssertions;
-using NUnit.Framework;
-using static ConquerClub.UnitTests.Arrange;
+﻿using static ConquerClub.UnitTests.Arrange;
 
 namespace Game_specs;
 
