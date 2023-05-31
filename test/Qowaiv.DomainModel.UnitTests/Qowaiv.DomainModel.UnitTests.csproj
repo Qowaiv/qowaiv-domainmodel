@@ -17,6 +17,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NUnit" Version="3.*" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NUnit3TestAdapter" Version="4.*" />
     <PackageReference Include="Qowaiv.TestTools" Version="6.4.0" />
     <PackageReference Include="Qowaiv.Validation.TestTools" Version="0.3.0" />
