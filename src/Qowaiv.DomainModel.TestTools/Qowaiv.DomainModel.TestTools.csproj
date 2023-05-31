@@ -24,15 +24,4 @@ v0.0.1
     <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
   </ItemGroup>
   
-  <ItemGroup>
-    <PackageReference Update="Qowaiv.Analyzers.CSharp" Version="0.0.3.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Update="SonarAnalyzer.CSharp" Version="8.39.0.47922">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
 </Project>

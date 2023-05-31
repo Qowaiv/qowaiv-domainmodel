@@ -11,9 +11,6 @@
     <RepositoryUrl>https://github.com/Qowaiv/Qowaiv</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DefineConstants>CONTRACTS_FULL</DefineConstants>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)..\build\Qowaiv.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
  
    <ItemGroup>
@@ -23,15 +20,20 @@
     <None Include="$(MSBuildThisFileDirectory)..\design\package-icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
+  <PropertyGroup Label="Signing">
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)..\build\Qowaiv.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="0.0.2">
+    <PackageReference Include="Qowaiv.Analyzers.CSharp" Version="0.*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StyleCop" Version="6.2.0">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.*-*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <NoWarn>NU1701</NoWarn>
     </PackageReference>
   </ItemGroup>
 
