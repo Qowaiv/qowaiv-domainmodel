@@ -146,8 +146,8 @@ public static class AggregateRootAssert
 
             if (prop.PropertyType.IsArray)
             {
-                var arrayE = (Array)e;
-                var arrayA = (Array)a;
+                var arrayE = (Array)e!;
+                var arrayA = (Array)a!;
 
                 var e_ = new object[arrayE.Length];
                 var a_ = new object[arrayA.Length];

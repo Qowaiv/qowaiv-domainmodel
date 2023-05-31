@@ -9,6 +9,7 @@
     <Company>Qowaiv community</Company>
     <Copyright>Copyright © Qowaiv community 2013-current</Copyright>
     <LangVersion>11.0</LangVersion>
+    <Nullable>enable</Nullable>
     <!-- We ship package versions for obsolete target frameworks too -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>

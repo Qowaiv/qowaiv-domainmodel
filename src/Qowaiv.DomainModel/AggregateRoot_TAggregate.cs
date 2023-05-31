@@ -84,9 +84,9 @@ public abstract class AggregateRoot<TAggregate>
         }
 
         // We only can determine if a event is supported for DynamicEventDispatcher.
-        bool IsSupported(object @event) 
+        bool IsSupported(object? @event)
             => Dynamic is not DynamicEventDispatcher dispatcher
-            || dispatcher.SupportedEventTypes.Contains(@event?.GetType());
+            || dispatcher.SupportedEventTypes.Contains(@event?.GetType()!);
     }
 
     /// <summary>Root to define guarding conditions on.</summary>

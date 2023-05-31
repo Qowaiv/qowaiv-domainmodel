@@ -1,11 +1,9 @@
-﻿using NUnit.Framework;
-using Qowaiv.DomainModel.TestTools;
+﻿using Qowaiv.DomainModel.TestTools;
 using Qowaiv.Globalization;
-using System;
 using TestEvents;
 
 namespace Qowaiv.DomainModel.UnitTests.TestTools
-{
+{ 
     public class AggregateRootAssertTest
     {
         [Test]
@@ -168,8 +166,11 @@ namespace TestEvents
     internal class Complex
     {
         public int Value { get; set; }
-        public string Message { get; set; }
+        public string? Message { get; set; }
         public DateTime Date { get; set; }
     }
-    internal class ArrayEvent { public int[] Numbers { get; set; } }
+    internal class ArrayEvent
+    {
+        public int[] Numbers { get; set; } = Array.Empty<int>();
+    }
 }

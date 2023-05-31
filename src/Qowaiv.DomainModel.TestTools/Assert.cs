@@ -11,7 +11,7 @@ internal static class Assert
     /// The optional failure message.
     /// </param>
     [DebuggerStepThrough]
-    public static void IsNotNull([ValidatedNotNull] object obj, string message = null)
+    public static void IsNotNull([ValidatedNotNull] object obj, string? message = null)
     {
         if (obj is null)
         {
@@ -24,7 +24,7 @@ internal static class Assert
     /// The failure message.
     /// </param>
     [DebuggerStepThrough]
-    public static void Fail(string message)
+    public static void Fail(string? message)
     {
         if (message is null)
         {
