@@ -96,7 +96,7 @@ public abstract class CommandProcessor<TReturnType>
 
     /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
     [Pure]
-    private MethodInfo GetMethod(Type handlerType, Type commandType)
+    private MethodInfo? GetMethod(Type handlerType, Type commandType)
         => handlerType.GetMethods().FirstOrDefault(m => WithCancelationToken(m, commandType))
         ?? handlerType.GetMethods().FirstOrDefault(m => WithoutCancelationToken(m, commandType));
 
@@ -132,7 +132,7 @@ public abstract class CommandProcessor<TReturnType>
         var cmd = Expression.Parameter(typeof(object), "cmd");
         var token = Expression.Parameter(typeof(CancellationToken), "token");
         var typedCommand = Expression.Convert(cmd, method.GetParameters()[0].ParameterType);
-        var typedHandler = Expression.Convert(handler, method.DeclaringType);
+        var typedHandler = Expression.Convert(handler, method.DeclaringType!);
         var body = method.GetParameters().Length == 1
             ? Expression.Call(typedHandler, method, typedCommand)
             : Expression.Call(typedHandler, method, typedCommand, token);

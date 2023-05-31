@@ -27,8 +27,8 @@ public class EventTypeNotSupported : NotSupportedException
         : base(info, context)
     {
         Guard.NotNull(info, nameof(info));
-        EventType = Type.GetType(info.GetString(nameof(EventType)));
-        AggregateType = Type.GetType(info.GetString(nameof(AggregateType)));
+        EventType = Type.GetType(info.GetString(nameof(EventType))!);
+        AggregateType = Type.GetType(info.GetString(nameof(AggregateType))!);
     }
 
     /// <summary>Initializes a new instance of the <see cref="EventTypeNotSupported"/> class.</summary>
@@ -41,10 +41,10 @@ public class EventTypeNotSupported : NotSupportedException
         : base(message, innerException) { }
 
     /// <summary>The event type that is not supported.</summary>
-    public Type EventType { get; }
+    public Type? EventType { get; }
 
     /// <summary>The aggregate for which the event type is not supported.</summary>
-    public Type AggregateType { get; }
+    public Type? AggregateType { get; }
 
     /// <inheritdoc/>
     public override void GetObjectData(SerializationInfo info, StreamingContext context)

@@ -32,16 +32,16 @@ public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
     /// <exception cref="EventTypeNotSupported">
     /// If the invoke call was on (void) When(@event) but the type was not available.
     /// </exception>
-    public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        => binder?.Name == nameof(When) && args?.Length == 1 && args[0] is { }
-        ? When(args[0], out result)
+    public override bool TryInvokeMember(InvokeMemberBinder binder, object?[]? args, out object? result)
+        => binder is { Name: nameof(When) } && args is { Length: 1 } && args[0] is { }
+        ? When(args[0]!, out result)
         : base.TryInvokeMember(binder, args, out result);
 
     /// <summary>Gets the supported event types.</summary>
-    public sealed override ReadOnlySet<Type> SupportedEventTypes => Supported;
+    public sealed override ReadOnlySet<Type> SupportedEventTypes => Supported!;
 
     /// <summary>Invokes the When(@event) method.</summary>
-    private bool When(object @event, out object result)
+    private bool When(object @event, out object? result)
     {
         var eventType = @event.GetType();
         if (Lookup.TryGetValue(eventType, out var when))
@@ -104,11 +104,11 @@ public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
 
     private static readonly Dictionary<Type, Action<TDispatcher, object>> Lookup = Init();
 #pragma warning disable S2743 // Static fields should not be used in generic types
-    // Intended behavior, should only be shared between the same dispatcher types. 
-    private static ReadOnlySet<Type> Supported;
+    // Intended behavior, should only be shared between the same dispatcher types.
+    private static ReadOnlySet<Type>? Supported;
 #pragma warning restore S2743 // Static fields should not be used in generic types
 #pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
     /// <remarks>We explicitly </remarks>
-    private const BindingFlags MethodSignature = BindingFlags.Public | BindingFlags.NonPublic| BindingFlags.Instance;
+    private const BindingFlags MethodSignature = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 #pragma warning restore S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
 }

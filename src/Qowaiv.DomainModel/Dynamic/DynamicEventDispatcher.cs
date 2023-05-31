@@ -14,6 +14,6 @@ public abstract class DynamicEventDispatcher: DynamicObject
     {
         Guard.NotNull(dispatcher, nameof(dispatcher));
         var type = typeof(DynamicEventDispatcher<>).MakeGenericType(dispatcher.GetType());
-        return (DynamicEventDispatcher)Activator.CreateInstance(type, dispatcher);
+        return (DynamicEventDispatcher)Activator.CreateInstance(type, dispatcher)!;
     }
 }

@@ -18,7 +18,7 @@ public class ReadOnlySet<T> : IEnumerable<T>
     public ReadOnlySet(IEnumerable<T> items)
     {
         Guard.NotNull(items, nameof(items));
-        foreach(var item in items)
+        foreach (var item in items)
         {
             collection.Add(item);
         }

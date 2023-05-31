@@ -12,7 +12,7 @@ internal static class Musts
         => must.Be(player == must.Subject.ActivePlayer, Messages.MustBeActive, must.Subject.ActivePlayer, player);
 
     public static Result<Game> Exist(this Must must, CountryId country)
-        => must.Exist(country, (g, id) => g.Countries.ById(id), new EntityNotFound(string.Format(Messages.CountryMustExist, country)));
+        => must.Exist(country, (g, id) => g.Countries.TryById(id), new EntityNotFound(string.Format(Messages.CountryMustExist, country)));
 
     public static Result<Game> BeOwned(this Must must, CountryId country, Player by)
        => must.Be(must.Subject.Countries.ById(country).Owner == by, Messages.MustBeOwnedBy, must.Subject.Countries.ById(country).Name, by);
