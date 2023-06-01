@@ -97,8 +97,8 @@ public abstract class CommandProcessor<TReturnType>
     /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
     [Pure]
     private MethodInfo? GetMethod(Type handlerType, Type commandType)
-        => handlerType.GetMethods().FirstOrDefault(m => WithCancelationToken(m, commandType))
-        ?? handlerType.GetMethods().FirstOrDefault(m => WithoutCancelationToken(m, commandType));
+        => handlerType.GetMethods().TryFind(m => WithCancelationToken(m, commandType))
+        ?? handlerType.GetMethods().TryFind(m => WithoutCancelationToken(m, commandType));
 
     [Pure]
     private bool WithCancelationToken(MethodInfo method, Type commandType)
