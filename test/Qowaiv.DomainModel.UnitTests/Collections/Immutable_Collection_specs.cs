@@ -1,11 +1,17 @@
-﻿namespace Collections.Immutable_Collection_specs;
+﻿using Qowaiv.DomainModel.UnitTests;
+
+namespace Collections.Immutable_Collection_specs;
 
 internal static class Help
 {
     public static readonly bool? NotTrue = default;
     public static Dummy FailingCreation() => throw new DivideByZeroException();
 }
+
+[EmptyTestClass]
 internal class Dummy { }
+
+[EmptyTestClass]
 internal class Other { }
 
 internal class Dummies : IEnumerable<Dummy>

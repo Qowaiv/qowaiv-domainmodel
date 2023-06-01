@@ -1,8 +1,4 @@
-﻿using ConquerClub.Domain;
-using ConquerClub.Domain.Handlers;
-using Qowaiv.DomainModel.Commands;
-using Troschuetz.Random.Generators;
-using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
+﻿using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
 
 namespace ConquerClub.UnitTests;
 
@@ -55,12 +51,12 @@ internal class TestProcessor : CommandProcessor<Result>
 {
     public TestProcessor(Buffer buffer, int seed)
     {
-        Rnd = new MT19937Generator(seed);
+        Rnd = new MersenneTwister(seed);
         Buffer = buffer;
     }
     
     public Buffer Buffer { get; private set; }
-    private MT19937Generator Rnd { get; }
+    private MersenneTwister Rnd { get; }
 
     protected override Type GenericHandlerType => typeof(CommandHandler<>);
     protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);

@@ -4,6 +4,7 @@
 /// <typeparam name="T">
 /// The type of items.
 /// </typeparam>
+[Inheritable]
 [DebuggerDisplay("Count: {Count}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 public class ReadOnlySet<T> : IEnumerable<T>
@@ -11,7 +12,7 @@ public class ReadOnlySet<T> : IEnumerable<T>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly HashSet<T> collection = new();
 
-    /// <summary>Creates a new instance of the <see cref="ReadOnlySet{T}"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ReadOnlySet{T}"/> class.</summary>
     /// <param name="items">
     /// The items it contains.
     /// </param>

@@ -1,10 +1,8 @@
-﻿using Troschuetz.Random;
-
-namespace ConquerClub.Domain;
+﻿namespace ConquerClub.Domain;
 
 public sealed partial class Game : AggregateRoot<Game, GameId>
 {
-    public static Result<Game> Start(Start start, IGenerator rnd)
+    public static Result<Game> Start(Start start, RandomSource rnd)
         => new Game(start.Game).ApplyEvents(
             new MapInitialized(
                 Continents: start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, c.Territories.ToArray())).ToArray(),
@@ -24,7 +22,7 @@ public sealed partial class Game : AggregateRoot<Game, GameId>
     public Result<Game> Attack(
         CountryId attacker,
         CountryId defender,
-        IGenerator rnd)
+        RandomSource rnd)
         => Must.BeInPhase(GamePhase.Attack)
         | (g => g.Must.Exist(attacker))
         | (g => g.Must.Exist(defender))
@@ -41,7 +39,7 @@ public sealed partial class Game : AggregateRoot<Game, GameId>
     public Result<Game> AutoAttack(
         CountryId attacker,
         CountryId defender,
-        IGenerator rnd)
+        RandomSource rnd)
         => Must.BeInPhase(GamePhase.Attack)
         | (g => g.Must.Exist(attacker))
         | (g => g.Must.Exist(defender))
@@ -231,7 +229,7 @@ public sealed partial class Game : AggregateRoot<Game, GameId>
         return new TurnStarted(Deployments: player.Army(deploy));
     }
 
-    private static IEnumerable<Army> RndArmies(int players, int countries, IGenerator rnd)
+    private static IEnumerable<Army> RndArmies(int players, int countries, RandomSource rnd)
     {
         var perCountry = countries / Math.Min(players, 3);
 

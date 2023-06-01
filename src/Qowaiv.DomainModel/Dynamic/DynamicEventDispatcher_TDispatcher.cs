@@ -19,6 +19,7 @@ namespace Qowaiv.DomainModel.Dynamic;
 ///
 /// It caches the available methods per type.
 /// </remarks>
+[Inheritable]
 public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
     where TDispatcher : class
 {
@@ -108,7 +109,7 @@ public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
     private static ReadOnlySet<Type>? Supported;
 #pragma warning restore S2743 // Static fields should not be used in generic types
 #pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
-    /// <remarks>We explicitly </remarks>
+    /// <remarks>The whole point is to find non-public When methods.</remarks>
     private const BindingFlags MethodSignature = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 #pragma warning restore S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
 }

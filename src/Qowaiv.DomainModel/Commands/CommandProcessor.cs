@@ -7,7 +7,7 @@ namespace Qowaiv.DomainModel.Commands;
 /// base on the type of the command.
 /// </summary>
 /// <typeparam name="TReturnType">
-/// The return type of the command handler methods
+/// The return type of the command handler methods.
 /// </typeparam>
 /// <remarks>
 /// It compiles (one time per command type) the expression to handle the
@@ -20,7 +20,7 @@ public abstract class CommandProcessor<TReturnType>
 
     /// <summary>The generic type definition of the command handlers to support.</summary>
     /// <remarks>
-    /// Something like <code>typeof(CommandHandler&lt;&gt;)</code>.
+    /// Something like `typeof(CommandHandler&lt;&gt;)`.
     /// </remarks>
     protected abstract Type GenericHandlerType { get; }
 
@@ -97,8 +97,8 @@ public abstract class CommandProcessor<TReturnType>
     /// <summary>Gets the <see cref="MethodInfo"/> for the handler method to call.</summary>
     [Pure]
     private MethodInfo? GetMethod(Type handlerType, Type commandType)
-        => handlerType.GetMethods().FirstOrDefault(m => WithCancelationToken(m, commandType))
-        ?? handlerType.GetMethods().FirstOrDefault(m => WithoutCancelationToken(m, commandType));
+        => handlerType.GetMethods().TryFind(m => WithCancelationToken(m, commandType))
+        ?? handlerType.GetMethods().TryFind(m => WithoutCancelationToken(m, commandType));
 
     [Pure]
     private bool WithCancelationToken(MethodInfo method, Type commandType)
@@ -120,10 +120,12 @@ public abstract class CommandProcessor<TReturnType>
     /// <summary>Gets an expression that calls the Handle method.</summary>
     /// <remarks>
     /// (handler, cmd, token) => ((HandlerType)handler).{HandlerMethod}((CommandType)cmd, token);
-    /// 
-    /// or if the token can not be consumed by the handler
-    /// 
+    ///
+    /// or if the token can not be consumed by the handler.
+    ///
+    /// <code>
     /// (handler, cmd, token) => ((HandlerType)handler).{HandlerMethod}((CommandType)cmd);
+    /// </code>
     /// </remarks>
     [Pure]
     private static Expression<Func<object, object, CancellationToken, TReturnType>> GetExpression(MethodInfo method)

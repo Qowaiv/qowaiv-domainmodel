@@ -1,9 +1,6 @@
-﻿using Qowaiv.Validation.Abstractions;
+﻿namespace ConquerClub.Domain.Handlers;
 
-namespace ConquerClub.Domain.Handlers
+public interface CommandHandler<in TCommand>
 {
-    public interface CommandHandler<in TCommand>
-    {
-        Result Handle(TCommand command);
-    }
+    Result Handle(TCommand command);
 }

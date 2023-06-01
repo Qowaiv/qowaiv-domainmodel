@@ -1,4 +1,6 @@
-﻿namespace Commands.CommandProcessor_specs;
+﻿using Qowaiv.DomainModel.UnitTests;
+
+namespace Commands.CommandProcessor_specs;
 
 interface CommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command); }
 interface CancelableCommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command, CancellationToken token); }
@@ -102,6 +104,7 @@ class InvalidReturnTypeProcessor : CommandProcessor<int>
     protected override object GetHandler(Type handlerType) => handler;
 }
 
+[EmptyTestClass]
 record EmptyCommand();
 
 class AsyncCommandHandler : CommandHandler<EmptyCommand>

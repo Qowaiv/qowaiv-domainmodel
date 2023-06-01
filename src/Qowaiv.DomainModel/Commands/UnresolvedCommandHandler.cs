@@ -21,7 +21,6 @@ public class UnresolvedCommandHandler : InvalidOperationException
     protected UnresolvedCommandHandler(SerializationInfo info, StreamingContext context)
         : base(info, context) { }
 
-
     /// <summary>When the type could not be resolved.</summary>
     [Pure]
     internal static UnresolvedCommandHandler Type(Type type)

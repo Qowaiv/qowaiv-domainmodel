@@ -1,72 +1,71 @@
 ﻿using FluentValidation;
-using Qowaiv.Validation.Abstractions;
 using Qowaiv.Validation.Fluent;
-using System;
 
-namespace Qowaiv.DomainModel.UnitTests.Models
+namespace Qowaiv.DomainModel.UnitTests.Models;
+
+public sealed class SimpleEventSourcedRoot : AggregateRoot<SimpleEventSourcedRoot, Guid>
 {
-    public sealed class SimpleEventSourcedRoot : AggregateRoot<SimpleEventSourcedRoot, Guid>
+    public SimpleEventSourcedRoot() : base(Guid.NewGuid(), new SimpleEventSourcedRootValidator()) { }
+
+    public bool Initialized { get; private set; }
+
+    public string? Name { get; private set; }
+
+    public Date DateOfBirth { get; private set; }
+
+    public bool IsWrong { get; private set; }
+
+    public Result<SimpleEventSourcedRoot> SetName(string name) => ApplyEvent(new NameUpdated { Name = name });
+
+    public Result<SimpleEventSourcedRoot> SetPerson(string name, Date dateOfBirth)
     {
-        public SimpleEventSourcedRoot() : base(Guid.NewGuid(), new SimpleEventSourcedRootValidator()) { }
-
-        public bool Initialized { get; private set; }
-
-        public string Name { get; private set; }
-
-        public Date DateOfBirth { get; private set; }
-
-        public bool IsWrong { get; private set; }
-
-        public Result<SimpleEventSourcedRoot> SetName(string name) => ApplyEvent(new NameUpdated { Name = name });
-
-        public Result<SimpleEventSourcedRoot> SetPerson(string name, Date dateOfBirth)
-        {
-            return ApplyEvents(
-                new NameUpdated { Name = name },
-                new DateOfBirthUpdated { DateOfBirth = dateOfBirth });
-        }
-
-        internal void When(NameUpdated @event)
-        {
-            Name = @event.Name;
-        }
-
-        internal void When(DateOfBirthUpdated @event)
-        {
-            DateOfBirth = @event.DateOfBirth;
-        }
-
-        internal void When(SimpleInitEvent @event)
-        {
-            Initialized = @event != null;
-        }
-
-        internal void When(InvalidEvent @event)
-        {
-            IsWrong = @event != null;
-        }
+        return ApplyEvents(
+            new NameUpdated { Name = name },
+            new DateOfBirthUpdated { DateOfBirth = dateOfBirth });
     }
 
-    public class SimpleEventSourcedRootValidator : ModelValidator<SimpleEventSourcedRoot>
+    internal void When(NameUpdated @event)
     {
-        public SimpleEventSourcedRootValidator()
-        {
-            RuleFor(m => m.IsWrong).Must(prop => !prop).WithMessage("Should not be wrong.");
-        }
+        Name = @event.Name;
     }
 
-    public class NameUpdated
+    internal void When(DateOfBirthUpdated @event)
     {
-        public string Name { get; set; }
+        DateOfBirth = @event.DateOfBirth;
     }
 
-    public class DateOfBirthUpdated
+    internal void When(SimpleInitEvent @event)
     {
-        public Date DateOfBirth { get; set; }
+        Initialized = @event != null;
     }
 
-    public class InvalidEvent { }
-
-
-    public class SimpleInitEvent { }
+    internal void When(InvalidEvent @event)
+    {
+        IsWrong = @event != null;
+    }
 }
+
+public class SimpleEventSourcedRootValidator : ModelValidator<SimpleEventSourcedRoot>
+{
+    public SimpleEventSourcedRootValidator()
+    {
+        RuleFor(m => m.IsWrong).Must(prop => !prop).WithMessage("Should not be wrong.");
+    }
+}
+
+public class NameUpdated
+{
+    public string? Name { get; init; }
+}
+
+public class DateOfBirthUpdated
+{
+    public Date DateOfBirth { get; init; }
+}
+
+[EmptyTestClass]
+public class InvalidEvent { }
+
+
+[EmptyTestClass]
+public class SimpleInitEvent { }
