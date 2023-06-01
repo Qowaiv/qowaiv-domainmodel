@@ -11,10 +11,16 @@ public class AggregateRootTest
         var buffer = Create(aggregateId, new SimpleInitEvent());
         var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid>(buffer);
 
-        Assert.AreEqual(aggregateId, aggregate.Id);
-        Assert.AreEqual(aggregateId, aggregate.Buffer.AggregateId);
-        Assert.AreEqual(1, aggregate.Version);
-        Assert.AreEqual(1, aggregate.Buffer.CommittedVersion);
+        aggregate.Should().BeEquivalentTo(new
+        {
+            Id = aggregateId,
+            Version = 1,
+            Buffer = new
+            {
+                AggregateId = aggregateId,
+                CommittedVersion = 1,
+            }
+        });
     }
 
     [Test]
@@ -24,16 +30,19 @@ public class AggregateRootTest
         var buffer = Create(aggregateId, new SimpleInitEvent(), new InvalidEvent());
         var aggregate = AggregateRoot.FromStorage<SimpleEventSourcedRoot, Guid>(buffer);
 
-        Assert.IsTrue(aggregate.IsWrong);
-        Assert.AreEqual(aggregateId, aggregate.Id);
-        Assert.AreEqual(aggregateId, aggregate.Buffer.AggregateId);
-        Assert.AreEqual(2, aggregate.Version);
-        Assert.AreEqual(2, aggregate.Buffer.CommittedVersion);
+        aggregate.Should().BeEquivalentTo(new
+        {
+            IsWrong = true,
+            Id = aggregateId,
+            Version = 2,
+            Buffer = new
+            {
+                AggregateId = aggregateId,
+                CommittedVersion = 2,
+            }
+        });
     }
 
-
-    private static EventBuffer<Guid> Create(Guid id, params object[] events)
-    {
-        return EventBuffer.FromStorage(id, events, o => o);
-    }
+    private static EventBuffer<Guid> Create(Guid id, params object[] events) 
+        => EventBuffer.FromStorage(id, events, o => o);
 }
