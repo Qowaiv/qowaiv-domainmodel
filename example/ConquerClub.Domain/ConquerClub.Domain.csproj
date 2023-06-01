@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+    <PackageReference Include="MathNet.Numerics.Signed" Version="5.0.0" />
     <PackageReference Include="Qowaiv" Version="6.4.1" />
     <PackageReference Include="Qowaiv.Validation.Fluent" Version="0.3.0" />
     <PackageReference Include="Qowaiv.Validation.Messages" Version="0.3.0" />

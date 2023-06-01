@@ -1,4 +1,5 @@
 ﻿using Qowaiv.DomainModel;
+using Qowaiv.DomainModel.UnitTests;
 
 namespace Event_buffer_specs;
 
@@ -48,7 +49,7 @@ public class Select_uncommitted
             .Add(new EmptyEvent())
             .Add(new EmptyEvent());
 
-        var selected = buffer.SelectUncommitted((id, version, @event) => version);
+        var selected = buffer.SelectUncommitted((_, version, _) => version);
 
         Assert.That(selected.Count(), Is.EqualTo(2));
         Assert.That(selected, Is.EqualTo(new[] { 4, 5 }));
@@ -144,6 +145,8 @@ public class Obsolete_is
         => Assert.That(() => EventBuffer<int>.FromStorage(1, 0, Array.Empty<object>(), e => e), Is.Not.Null);
 }
 
+[EmptyTestClass]
 internal record EmptyEvent();
+
 internal record StoredEvent(object Id, int Version, object Payload);
 

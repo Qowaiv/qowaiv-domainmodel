@@ -9,7 +9,7 @@ public sealed class SimpleEventSourcedRoot : AggregateRoot<SimpleEventSourcedRoo
 
     public bool Initialized { get; private set; }
 
-    public string Name { get; private set; }
+    public string? Name { get; private set; }
 
     public Date DateOfBirth { get; private set; }
 
@@ -55,15 +55,17 @@ public class SimpleEventSourcedRootValidator : ModelValidator<SimpleEventSourced
 
 public class NameUpdated
 {
-    public string Name { get; set; }
+    public string? Name { get; init; }
 }
 
 public class DateOfBirthUpdated
 {
-    public Date DateOfBirth { get; set; }
+    public Date DateOfBirth { get; init; }
 }
 
+[EmptyTestClass]
 public class InvalidEvent { }
 
 
+[EmptyTestClass]
 public class SimpleInitEvent { }

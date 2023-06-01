@@ -1,4 +1,5 @@
 ﻿using Qowaiv.DomainModel.TestTools;
+using Qowaiv.DomainModel.UnitTests;
 using Qowaiv.Globalization;
 using TestEvents;
 
@@ -160,9 +161,16 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
 
 namespace TestEvents
 {
+    [EmptyTestClass]
     internal class EmptyEvent { }
+
+    [EmptyTestClass]
     internal class SimpleEvent { public int Value { get; set; } }
+
+    [EmptyTestClass]
     internal class OtherEvent { public int Value { get; set; } }
+
+
     internal class Complex
     {
         public int Value { get; set; }

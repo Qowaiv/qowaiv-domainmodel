@@ -1,4 +1,3 @@
-﻿namespace ConquerClub.Domain.Events
-{
-    public record Finished();
-}
+﻿namespace ConquerClub.Domain.Events;
+
+public record Finished();

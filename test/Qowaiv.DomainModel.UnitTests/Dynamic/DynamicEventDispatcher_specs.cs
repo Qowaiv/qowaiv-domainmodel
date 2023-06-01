@@ -1,6 +1,9 @@
-﻿using Microsoft.CSharp.RuntimeBinder;
+﻿#pragma warning disable CA1822 // Mark members as static, methods are used for tests and need to be instance-based
+
+using Microsoft.CSharp.RuntimeBinder;
 using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.Dynamic;
+using Qowaiv.DomainModel.UnitTests;
 
 namespace Dynamic_event_dispatcher_specs;
 
@@ -30,9 +33,10 @@ public class Support_when_methods
     private static void AssertEventTypes<T>() where T : class, new()
     {
         var dynamic = new DynamicEventDispatcher<T>(new T());
-        Assert.AreEqual(1, dynamic.SupportedEventTypes.Count);
+        dynamic.SupportedEventTypes.Should().HaveCount(1);
     }
 
+    [EmptyTestClass]
     internal class DummyEvent { }
 
     public class Detected : Exception { }
@@ -108,7 +112,11 @@ public class Not_supported_when_methods
         internal void When(Base64FormattingOptions @event) => throw new NotSupportedException($"Not a valid event: {@event}.");
         internal void When(EnvironmentVariableTarget @event) => throw new NotSupportedException($"Not a valid event: {@event}.");
     }
+
+    [EmptyTestClass]
     internal class DummyEvent { }
+
+    [EmptyTestClass]
     internal class NotRegisteredEvent { }
 
     public class Detected : Exception { }
@@ -136,6 +144,7 @@ public class Can_be_created
         internal void When(DummyEvent _) => throw new Detected();
     }
 
+    [EmptyTestClass]
     internal class DummyEvent { }
 
     public class Detected : Exception { }

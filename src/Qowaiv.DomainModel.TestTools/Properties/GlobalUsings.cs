@@ -1,5 +1,5 @@
-﻿global using Qowaiv.DomainModel.Diagnostics.Contracts;
-global using Qowaiv.Validation.Abstractions;
+﻿global using Qowaiv.Validation.Abstractions;
+global using Qowaiv.Validation.Abstractions.Diagnostics.Contracts;
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
