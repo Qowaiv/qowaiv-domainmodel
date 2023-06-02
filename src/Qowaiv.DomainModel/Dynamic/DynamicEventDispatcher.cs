@@ -8,6 +8,12 @@ public abstract class DynamicEventDispatcher : DynamicObject
     /// <summary>Gets the supported event types.</summary>
     public abstract ReadOnlySet<Type> SupportedEventTypes { get; }
 
+    /// <summary>Invokes the When(@event) method.</summary>
+    /// <remarks>
+    /// To gain speed, this method bypasses the dynamic part.
+    /// </remarks>
+    public abstract void InvokeWhen(object? @event);
+
     /// <summary>Creates a new instance of the <see cref="DynamicEventDispatcher{TDispatcher}"/> class.</summary>
     [Pure]
     public static DynamicEventDispatcher New(object dispatcher)

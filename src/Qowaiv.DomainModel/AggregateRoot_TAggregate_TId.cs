@@ -46,6 +46,6 @@ public class AggregateRoot<TAggregate, TId> : AggregateRoot<TAggregate>
     internal void Replay(EventBuffer<TId> buffer)
     {
         Buffer = buffer;
-        Replay(buffer.AsEnumerable());
+        base.Replay(buffer);
     }
 }

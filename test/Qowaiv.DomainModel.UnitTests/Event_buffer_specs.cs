@@ -15,7 +15,7 @@ public class Creation
     public void Empty_with_initial_has_equals(int version)
         => EventBuffer.Empty(Guid.NewGuid(), version).Version.Should().Be(version);
 
-    [TestCase]
+    [Test]
     public void FromStorage_contains_all_events_as_committed()
     {
         var stored = new[] { new EmptyEvent(), new EmptyEvent(), new EmptyEvent() };
@@ -25,7 +25,7 @@ public class Creation
             .And.Subject.As<EventBuffer<Guid>>().CommittedVersion.Should().Be(3);
     }
 
-    [TestCase]
+    [Test]
     public void FromStorage_takes_initial_version_into_account()
     {
         var stored = new[] { new EmptyEvent(), new EmptyEvent(), new EmptyEvent() };
@@ -33,6 +33,16 @@ public class Creation
 
         buffer.Should().HaveCount(3)
          .And.Subject.As<EventBuffer<Guid>>().CommittedVersion.Should().Be(9);
+    }
+
+    [Test]
+    public void Append()
+    {
+        var buffer = EventBuffer.Empty(17);
+        for(var i = 0; i < 1000; i++)
+        {
+            buffer = buffer.Add(new EmptyEvent());
+        }
     }
 }
 

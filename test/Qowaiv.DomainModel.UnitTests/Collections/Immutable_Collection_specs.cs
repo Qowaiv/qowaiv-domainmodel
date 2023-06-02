@@ -66,6 +66,18 @@ public class Add
     [Test]
     public void String_is_not_considered_an_collection()
         => ImmutableCollection.Empty.Add("some string").Should().ContainSingle();
+
+    [Test]
+    public void Does_not_effect_shared_subs()
+    {
+        var root = ImmutableCollection.Empty.Add(1, 2);
+        var first = root.Add(4, 8, 16);
+        var second = root.Add(3, 4, 5);
+
+        root.Should().BeEquivalentTo(new[] { 1, 2 });
+        first.Should().BeEquivalentTo(new[] { 1, 2, 4, 8, 16 });
+        second.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5 });
+    }
 }
 
 public class If_not_true

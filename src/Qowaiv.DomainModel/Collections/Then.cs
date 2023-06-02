@@ -1,18 +1,13 @@
 ﻿namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Represents the conditional addition of an item/items, after the if-statement.</summary>
+[WillBeSealed]
 public class Then : ImmutableCollection
 {
     /// <summary>Initializes a new instance of the <see cref="Then"/> class.</summary>
     internal Then(bool done, ImmutableCollection predecessor)
-    {
-        Done = done;
-        Predecessor = predecessor;
-    }
-
-    /// <summary>The predecessor <see cref="ImmutableCollection"/>.</summary>
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private ImmutableCollection Predecessor { get; }
+        : base(predecessor.Count, predecessor.Buffer, predecessor.Locker)
+        => Done = done;
 
     /// <summary>The predecessor <see cref="ImmutableCollection"/>.</summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -22,8 +17,8 @@ public class Then : ImmutableCollection
     [Pure]
     public If ElseIf(bool condition)
         => Done
-        ? new If(IfState.Done, Predecessor)
-        : new If(condition, Predecessor);
+        ? new If(IfState.Done, this)
+        : new If(condition, this);
 
     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the item(s) to add
     /// if the condition was not met.</summary>
@@ -39,11 +34,6 @@ public class Then : ImmutableCollection
     [Pure]
     public ImmutableCollection Else<TElseItem>(Func<TElseItem> item) where TElseItem : class
         => Done || item is null
-        ? Predecessor
-        : Predecessor.Add(item());
-
-    /// <inheritdoc/>
-    [Pure]
-    internal override IEnumerable<object> Enumerate()
-        => Predecessor.Enumerate();
+        ? this
+        : Add(item());
 }

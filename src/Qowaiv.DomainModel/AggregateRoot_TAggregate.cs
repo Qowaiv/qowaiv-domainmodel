@@ -67,7 +67,10 @@ public abstract class AggregateRoot<TAggregate>
         updated.Replay(events);
 
         var result = updated.Validator.Validate(updated);
-        if (result.IsValid) { updated.AddEventsToBuffer(events); }
+        if (result.IsValid)
+        {
+            updated.AddEventsToBuffer(events);
+        }
         return result;
     }
 
@@ -78,15 +81,22 @@ public abstract class AggregateRoot<TAggregate>
     /// <summary>Loads the state of the aggregate root by replaying events.</summary>
     protected void Replay(IEnumerable<object> events)
     {
-        foreach (var @event in (events ?? Array.Empty<object>()).Where(IsSupported))
-        {
-            Dynamic.When(@event);
-        }
+        events ??= Array.Empty<object>();
 
-        // We only can determine if a event is supported for DynamicEventDispatcher.
-        bool IsSupported(object? @event)
-            => Dynamic is not DynamicEventDispatcher dispatcher
-            || dispatcher.SupportedEventTypes.Contains(@event?.GetType()!);
+        if (Dynamic is DynamicEventDispatcher dispatcher)
+        {
+            foreach (var @event in events)
+            {
+                dispatcher.InvokeWhen(@event);
+            }
+        }
+        else
+        {
+            foreach (var @event in events)
+            {
+                Dynamic.When(@event);
+            }
+        }
     }
 
     /// <summary>Root to define guarding conditions on.</summary>

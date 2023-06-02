@@ -26,6 +26,7 @@ public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId 
 /// <typeparam name="TId">
 /// The type of the identifier of the aggregate.
 /// </typeparam>
+[Inheritable]
 [DebuggerDisplay("{DebuggerDisplay}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 public class EventBuffer<TId> : IEnumerable<object>

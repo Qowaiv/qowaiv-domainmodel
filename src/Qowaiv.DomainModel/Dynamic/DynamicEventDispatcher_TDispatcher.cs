@@ -29,6 +29,15 @@ public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
 
     private readonly TDispatcher dispatcher;
 
+    /// <inheritdoc />
+    public override void InvokeWhen(object? @event)
+    {
+        if (@event is { } && Lookup.TryGetValue(@event.GetType(), out var when))
+        {
+            when(dispatcher, @event);
+        }
+    }
+
     /// <summary>Tries to invoke a (void) When(@event) method.</summary>
     /// <exception cref="EventTypeNotSupported">
     /// If the invoke call was on (void) When(@event) but the type was not available.
