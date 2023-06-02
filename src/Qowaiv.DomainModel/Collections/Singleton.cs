@@ -1,13 +1,18 @@
 ﻿namespace Qowaiv.DomainModel.Collections;
 
-internal sealed class Singleton : IEnumerator, IEnumerable
+/// <summary>Converts a single element into a set with one item.</summary>
+internal struct Singleton : IEnumerator
 {
-    public Singleton(object current) => Current = current;
+    /// <summary>Initializes a new instance of the <see cref="Singleton"/> struct.</summary>
+    public Singleton(object element) => Current = element;
 
+    /// <inheritdoc />
     public object Current { get; }
 
+    /// <summary>Indicates if <see cref="MoveNext()"/> has been called.</summary>
     private bool Done;
 
+    /// <inheritdoc />
     [Pure]
     public bool MoveNext()
     {
@@ -18,10 +23,6 @@ internal sealed class Singleton : IEnumerator, IEnumerable
         }
         else return false;
     }
-
-    /// <inheritdoc />
-    [Pure]
-    public IEnumerator GetEnumerator() => this;
 
     /// <inheritdoc />
     public void Reset() => throw new NotSupportedException();
