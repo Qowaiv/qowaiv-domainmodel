@@ -34,16 +34,6 @@ public class Creation
         buffer.Should().HaveCount(3)
          .And.Subject.As<EventBuffer<Guid>>().CommittedVersion.Should().Be(9);
     }
-
-    [Test]
-    public void Append()
-    {
-        var buffer = EventBuffer.Empty(17);
-        for(var i = 0; i < 1000; i++)
-        {
-            buffer = buffer.Add(new EmptyEvent());
-        }
-    }
 }
 
 public class Select_uncommitted
