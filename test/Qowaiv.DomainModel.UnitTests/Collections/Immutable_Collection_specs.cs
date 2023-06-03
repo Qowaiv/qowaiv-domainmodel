@@ -60,8 +60,9 @@ public class Add
         => ImmutableCollection.Empty.Add(null!).Should().BeEmpty();
 
     [Test]
-    public void Only_null_items_has_no_effect()
-        => ImmutableCollection.Empty.AddRange(null!, null!, null!).Should().BeEmpty();
+    public void Null_items_are_ignored()
+        => ImmutableCollection.Empty.AddRange(null!, 1, null!, 2, 3, null!, 4)
+        .Should().BeEquivalentTo(new[] { 1, 2, 3, 4 });
 
     [Test]
     public void String_is_not_considered_an_collection()
