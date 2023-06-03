@@ -25,17 +25,14 @@ public sealed class If
 
     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added item(s)
     /// if the condition is met.</summary>
-    /// <typeparam name="TEvent">
-    /// The Type of the event to add.
-    /// </typeparam>
     /// <remarks>
     /// Null, and null items are ignored.
     /// </remarks>
     [Pure]
-    public Then Then<TEvent>(Func<TEvent> item) where TEvent : class
+    public Then Then(Func<object> item)
         => State switch
         {
-            IfState.True => new Then(true, Collection.Add(item())),
+            IfState.True => new Then(true, Collection.Add<object>(item())),
             IfState.False => new Then(false, Collection),
             _ => new Then(true, Collection),
         };

@@ -5,42 +5,24 @@
 /// As a design choice, adding null is ignored. Also <see cref="IEnumerable"/>s
 /// are added as collections, expect for <see cref="string"/>.
 /// </remarks>
-[Inheritable]
 [DebuggerDisplay("Count: {Count}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
-public partial class ImmutableCollection : IReadOnlyCollection<object>
+public readonly struct ImmutableCollection : IReadOnlyCollection<object>
 {
     /// <summary>Gets an empty immutable collection.</summary>
-    public static readonly ImmutableCollection Empty = new(0, Array.Empty<object>(), new());
+    public static readonly ImmutableCollection Empty = new(AppendOnlyCollection.Empty);
 
-    internal readonly object[] Buffer;
-    internal readonly object Locker;
+    internal readonly AppendOnlyCollection Items;
 
-    /// <summary>Initializes a new instance of the <see cref="ImmutableCollection"/> class.</summary>
-    internal ImmutableCollection(int count, object[] buffer, object locker)
-    {
-        Count = count;
-        Buffer = buffer;
-        Locker = locker;
-    }
+    private object[] Buffer => Items.Buffer ?? Array.Empty<object>();
+
+    /// <summary>Initializes a new instance of the <see cref="ImmutableCollection"/> struct.</summary>
+    internal ImmutableCollection(AppendOnlyCollection items) => Items = items;
 
     /// <inheritdoc />
-    public int Count { get; }
+    public int Count => Items.Count;
 
-    /// <summary>Gets the capacity of the collection.</summary>
-    internal int Capacity => Buffer.Length;
-
-    /// <summary>Returns a specified range of contiguous elements from the collection.</summary>
-    [Pure]
-    public Enumerator Take(int count) => new(Buffer, Math.Min(count, Count));
-
-    /// <summary>
-    /// Bypasses a specified number of elements in the collection and then returns the remaining elements.
-    /// </summary>
-    [Pure]
-    public Enumerator Skip(int count) => new(Buffer, count, Count);
-
-    /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added items.</summary>
+     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added items.</summary>
     /// <remarks>
     /// Null, and null items are ignored.
     /// </remarks>
@@ -59,18 +41,7 @@ public partial class ImmutableCollection : IReadOnlyCollection<object>
     /// </remarks>
     [Pure]
     public ImmutableCollection Add<TItem>(TItem? item) where TItem : class
-    {
-        if (item is null)
-        {
-            return this;
-        }
-        else
-        {
-            return item is string || item is not IEnumerable enumerable
-                ? Append(new Singleton(item))
-                : Append(enumerable.GetEnumerator());
-        }
-    }
+        => new(Items.Add(item));
 
     /// <summary>Starts a conditional addition.</summary>
     [Pure]
@@ -79,6 +50,16 @@ public partial class ImmutableCollection : IReadOnlyCollection<object>
     /// <summary>Starts a conditional addition.</summary>
     [Pure]
     public If If(bool condition) => new(condition, this);
+
+    /// <summary>Returns a specified range of contiguous elements from the collection.</summary>
+    [Pure]
+    public Enumerator Take(int count) => new(Buffer, Math.Min(count, Count));
+
+    /// <summary>
+    /// Bypasses a specified number of elements in the collection and then returns the remaining elements.
+    /// </summary>
+    [Pure]
+    public Enumerator Skip(int count) => new(Buffer, count, Count);
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [Pure]
@@ -91,44 +72,4 @@ public partial class ImmutableCollection : IReadOnlyCollection<object>
     /// <inheritdoc />
     [Pure]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    /// <summary>Enumerator to iterate all elements in <see cref="ImmutableCollection"/>.</summary>
-    public struct Enumerator : IEnumerator<object>, IEnumerable<object>
-    {
-        private readonly object[] Array;
-        private readonly int End;
-        private int Index;
-
-        /// <summary>Initializes a new instance of the <see cref="Enumerator"/> struct.</summary>
-        public Enumerator(object[] array, int start, int end)
-        {
-            Array = array;
-            End = end;
-            Index = start - 1;
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="Enumerator"/> struct.</summary>
-        public Enumerator(object[] array, int count) : this(array, 0, count) { }
-
-        /// <inheritdoc />
-        public object Current => Array[Index];
-
-        /// <inheritdoc />
-        [Pure]
-        public bool MoveNext() => ++Index < End;
-
-        /// <inheritdoc />
-        public void Reset() => Index = -1;
-
-        /// <inheritdoc />
-        public void Dispose() { /* Nothing to dispose. */ }
-
-        /// <inheritdoc />
-        [Pure]
-        public IEnumerator<object> GetEnumerator() => this;
-
-        /// <inheritdoc />
-        [Pure]
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    }
 }

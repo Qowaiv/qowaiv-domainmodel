@@ -192,6 +192,31 @@ public class If_true
     }
 }
 
+public class Then
+{
+    [Test]
+    public void Add_is_executed_after_true_branch()
+    {
+        var events = ImmutableCollection.Empty
+           .If(true)
+               .Then(() => new Dummy())
+            .Add(new Dummy());
+
+        events.Should().HaveCount(2);
+    }
+
+    [Test]
+    public void Add_is_executed_after_false_branch()
+    {
+        var events = ImmutableCollection.Empty
+           .If(false)
+               .Then(() => new Dummy())
+            .Add(new Dummy());
+
+        events.Should().HaveCount(1);
+    }
+}
+
 public class Enumerables
 {
     [Test]
