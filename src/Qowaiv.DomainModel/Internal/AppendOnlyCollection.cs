@@ -99,19 +99,23 @@ internal readonly struct AppendOnlyCollection : IReadOnlyCollection<object>
     {
         var append = this;
 
-        while (iterator.MoveNext() && iterator.Current is { } element)
+        while (iterator.MoveNext())
         {
-            append = append.AddSingle(element);
+            if (iterator.Current is { } element)
+            {
+                append = append.AddSingle(element);
 #pragma warning disable S1227 // break statements should not be used except for switch cases
-#pragma warning disable S1751 // Loops with at most one iteration should be refactored
-            break; // results in the best performance.
-#pragma warning restore S1751 // Loops with at most one iteration should be refactored
+                break; // results in the best performance.
 #pragma warning restore S1227 // break statements should not be used except for switch cases
+            }
         }
 
-        while (iterator.MoveNext() && iterator.Current is { } element)
+        while (iterator.MoveNext())
         {
-            append = append.Ensure().Append(element);
+            if (iterator.Current is { } element)
+            {
+                append = append.Ensure().Append(element);
+            }
         }
         return append;
     }
