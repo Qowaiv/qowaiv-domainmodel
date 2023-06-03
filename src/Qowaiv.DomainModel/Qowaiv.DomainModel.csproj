@@ -8,7 +8,7 @@
     <Version>0.2.0</Version>
     <PackageReleaseNotes>
 NextRelease
-- Re-implemented ImmutableCollection. #34
+- Re-implemented ImmutableCollection. #34 (breaking)
 - Enable annotations. #31
 - Publish .NET 7.0. #29
 v0.2.0

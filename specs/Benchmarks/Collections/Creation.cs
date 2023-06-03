@@ -3,7 +3,7 @@
 [MemoryDiagnoser]
 public class Creation
 {
-    [Params(1000, 10_000, 100_000)]
+    [Params(1000, 10_000, 100_000, 200_000)]
     public int Count { get; set; }
 
     public Added[] Events { get; private set; } = Array.Empty<Added>();
