@@ -117,34 +117,6 @@ public class Debugger_display
     }
 }
 
-[Obsolete("Will be dropped.")]
-public class Obsolete_is
-{
-    [Test]
-    public void Ctor_with_id()
-        => Assert.That(() => new EventBuffer<int>(17), Is.Not.Null);
-
-    [Test]
-    public void Ctor_with_id_version()
-        => Assert.That(() => new EventBuffer<int>(17, version: 12), Is.Not.Null);
-
-    [Test]
-    public void ClearCommitted()
-        => Assert.That(() => EventBuffer.Empty(666).ClearCommitted(), Is.Not.Null);
-
-    [Test]
-    public void AddRange()
-       => Assert.That(() => EventBuffer.Empty(666).AddRange(Array.Empty<object>()), Is.Not.Null);
-
-    [Test]
-    public void FromStorage()
-        => Assert.That(() => EventBuffer<int>.FromStorage(1, Array.Empty<object>(), e => e), Is.Not.Null);
-
-    [Test]
-    public void FromStorage_with_version()
-        => Assert.That(() => EventBuffer<int>.FromStorage(1, 0, Array.Empty<object>(), e => e), Is.Not.Null);
-}
-
 [EmptyTestClass]
 internal record EmptyEvent();
 
