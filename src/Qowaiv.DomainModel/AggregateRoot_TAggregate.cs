@@ -14,7 +14,7 @@ public abstract class AggregateRoot<TAggregate>
     protected AggregateRoot(IValidator<TAggregate> validator)
     {
         Validator = Guard.NotNull(validator, nameof(validator));
-        Dynamic = new DynamicEventDispatcher<TAggregate>((TAggregate)this);
+        Dispatcher = new ExpressionCompilingEventDispatcher<TAggregate>((TAggregate)this);
     }
 
     /// <summary>The validator that ensures that after applying events the
@@ -28,9 +28,8 @@ public abstract class AggregateRoot<TAggregate>
     protected static ImmutableCollection Events => ImmutableCollection.Empty;
 #pragma warning restore S2743 // Static fields should not be used in generic types
 
-    /// <summary>Represents the aggregate root as a dynamic.</summary>
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    protected virtual dynamic Dynamic { get; }
+    /// <summary>The dynamic </summary>
+    protected virtual EventDispatcher Dispatcher { get; }
 
     /// <summary>Adds the events to the linked event buffer.</summary>
     /// <param name="events">
@@ -83,18 +82,18 @@ public abstract class AggregateRoot<TAggregate>
     {
         events ??= Array.Empty<object>();
 
-        if (Dynamic is DynamicEventDispatcher dispatcher)
+        if (Dispatcher is EventDispatcher dispatcher)
         {
             foreach (var @event in events)
             {
-                dispatcher.InvokeWhen(@event);
+                dispatcher.When(@event);
             }
         }
         else
         {
             foreach (var @event in events)
             {
-                Dynamic.When(@event);
+                Dispatcher.When(@event);
             }
         }
     }

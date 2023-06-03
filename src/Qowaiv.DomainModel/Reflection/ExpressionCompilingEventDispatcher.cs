@@ -1,8 +1,7 @@
-﻿using System.Dynamic;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Qowaiv.DomainModel.Dynamic;
+namespace Qowaiv.DomainModel.Reflection;
 
 /// <summary>A dynamic event dispatcher, is a extremely limited dynamic object
 /// that is capable of invoking instance methods with the signature When(@event).
@@ -20,17 +19,17 @@ namespace Qowaiv.DomainModel.Dynamic;
 /// It caches the available methods per type.
 /// </remarks>
 [Inheritable]
-public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
+public class ExpressionCompilingEventDispatcher<TDispatcher> : EventDispatcher
     where TDispatcher : class
 {
-    /// <summary>Initializes a new instance of the <see cref="DynamicEventDispatcher{TDispatcher}"/> class..</summary>
-    public DynamicEventDispatcher(TDispatcher dispatcher)
+    /// <summary>Initializes a new instance of the <see cref="ExpressionCompilingEventDispatcher{TDispatcher}"/> class..</summary>
+    public ExpressionCompilingEventDispatcher(TDispatcher dispatcher)
         => this.dispatcher = Guard.NotNull(dispatcher, nameof(dispatcher));
 
     private readonly TDispatcher dispatcher;
 
     /// <inheritdoc />
-    public override void InvokeWhen(object? @event)
+    public void When(object? @event)
     {
         if (@event is { } && Lookup.TryGetValue(@event.GetType(), out var when))
         {
@@ -38,30 +37,8 @@ public class DynamicEventDispatcher<TDispatcher> : DynamicEventDispatcher
         }
     }
 
-    /// <summary>Tries to invoke a (void) When(@event) method.</summary>
-    /// <exception cref="EventTypeNotSupported">
-    /// If the invoke call was on (void) When(@event) but the type was not available.
-    /// </exception>
-    public override bool TryInvokeMember(InvokeMemberBinder binder, object?[]? args, out object? result)
-        => binder is { Name: nameof(When) } && args is { Length: 1 } && args[0] is { }
-        ? When(args[0]!, out result)
-        : base.TryInvokeMember(binder, args, out result);
-
     /// <summary>Gets the supported event types.</summary>
-    public sealed override ReadOnlySet<Type> SupportedEventTypes => Supported!;
-
-    /// <summary>Invokes the When(@event) method.</summary>
-    private bool When(object @event, out object? result)
-    {
-        var eventType = @event.GetType();
-        if (Lookup.TryGetValue(eventType, out var when))
-        {
-            result = null;
-            when(dispatcher, @event);
-            return true;
-        }
-        throw new EventTypeNotSupported(eventType, typeof(TDispatcher));
-    }
+    public ReadOnlySet<Type> SupportedEventTypes => Supported!;
 
     /// <summary>Initializes all When(@event) methods.</summary>
     [Pure]
