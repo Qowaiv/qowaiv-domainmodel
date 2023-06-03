@@ -57,11 +57,11 @@ public class Add
 
     [Test]
     public void Null_item_has_no_effect()
-        => ImmutableCollection.Empty.Add<object>(null).Should().BeEmpty();
+        => ImmutableCollection.Empty.Add(null!).Should().BeEmpty();
 
     [Test]
     public void Only_null_items_has_no_effect()
-        => ImmutableCollection.Empty.Add(null, null, null).Should().BeEmpty();
+        => ImmutableCollection.Empty.AddRange(null!, null!, null!).Should().BeEmpty();
 
     [Test]
     public void String_is_not_considered_an_collection()
@@ -70,9 +70,9 @@ public class Add
     [Test]
     public void Does_not_effect_shared_subs()
     {
-        var root = ImmutableCollection.Empty.Add(1, 2);
-        var first = root.Add(4, 8, 16);
-        var second = root.Add(3, 4, 5);
+        var root = ImmutableCollection.Empty.AddRange(1, 2);
+        var first = root.AddRange(4, 8, 16);
+        var second = root.AddRange(3, 4, 5);
 
         root.Should().BeEquivalentTo(new[] { 1, 2 });
         first.Should().BeEquivalentTo(new[] { 1, 2, 4, 8, 16 });

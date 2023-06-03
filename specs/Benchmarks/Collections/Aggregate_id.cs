@@ -7,7 +7,9 @@ public sealed class Aggregate_id : AggregateRoot<Aggregate_id, int>
 
     public double Sum { get; private set; }
 
-    public Aggregate_id Add(object e) => ApplyEvent(e).Value;
+    public Aggregate_id AddEvent(object e) => ApplyEvent(e).Value;
+
+    public Aggregate_id AddEvents(object e) => ApplyEvents(e).Value;
 
     internal void When(Added e) => Sum += e.Addition;
 }

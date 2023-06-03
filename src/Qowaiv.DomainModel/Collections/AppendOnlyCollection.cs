@@ -4,12 +4,15 @@ namespace Qowaiv.DomainModel.Collections;
 
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 [DebuggerDisplay("Count = {Count}, Capacity = {Buffer.Length}")]
-internal readonly struct AppendOnlyCollection : IEnumerable<object>
+internal readonly struct AppendOnlyCollection : IReadOnlyCollection<object>
 {
     public static readonly AppendOnlyCollection Empty = new(0, Array.Empty<object>());
 
     /// <remarks>Internal from .NET.</remarks>
     private const int MaxCapacity = 0X7FFFFFC7;
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private readonly object[] Buffer;
 
     /// <summary>Initializes a new instance of the <see cref="AppendOnlyCollection"/> struct.</summary>
     private AppendOnlyCollection(int count, object[] buffer)
@@ -18,8 +21,8 @@ internal readonly struct AppendOnlyCollection : IEnumerable<object>
         Buffer = buffer;
     }
 
-    public readonly int Count;
-    internal readonly object[]? Buffer;
+    /// <inheritdoc />
+    public int Count { get; }
 
     /// <summary>Creates a new <see cref="AppendOnlyCollection"/> with the added item(s).</summary>
     /// <param name="item">
@@ -31,8 +34,7 @@ internal readonly struct AppendOnlyCollection : IEnumerable<object>
     [Pure]
     public AppendOnlyCollection Add(object? item)
     {
-        var added = Buffer is null ? Empty : this;
-
+        var added = this;
         if (item is IEnumerable elements && item is not string)
         {
             foreach (var element in elements)

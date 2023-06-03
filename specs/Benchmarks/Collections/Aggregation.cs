@@ -2,7 +2,7 @@
 
 public class Aggregation
 {
-    [Params(100, 1_000, 10_000)]
+    [Params(/*100,*/ 10_000/*, 10_000*/)]
     public int Count { get; set; }
 
     private object[] Events = System.Array.Empty<object>();
@@ -16,12 +16,23 @@ public class Aggregation
     }
 
     [Benchmark]
-    public double Aggregate()
+    public double Aggregate_ApplyEvent()
     {
         var aggregate = new Aggregate_id();
         foreach(var e in Events)
         {
-            aggregate = aggregate.Add(e);
+            aggregate = aggregate.AddEvent(e);
+        }
+        return aggregate.Sum;
+    }
+
+    [Benchmark]
+    public double Aggregate_ApplyEvents()
+    {
+        var aggregate = new Aggregate_id();
+        foreach (var e in Events)
+        {
+            aggregate = aggregate.AddEvents(e);
         }
         return aggregate.Sum;
     }

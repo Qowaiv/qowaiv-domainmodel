@@ -26,7 +26,8 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
     public bool MoveNext() => ++Index < End;
 
     /// <inheritdoc />
-    public void Reset() => Index = -1;
+    [ExcludeFromCodeCoverage/* Required for backward comparability. */]
+    public void Reset() => throw new NotSupportedException();
 
     /// <inheritdoc />
     public void Dispose() { /* Nothing to dispose. */ }
@@ -37,5 +38,6 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
 
     /// <inheritdoc />
     [Pure]
+    [ExcludeFromCodeCoverage/* Required for backward comparability. */]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

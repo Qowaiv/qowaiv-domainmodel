@@ -39,7 +39,7 @@ public abstract class AggregateRoot<TAggregate>
     /// This method is only called if after applying the events, the aggregate
     /// is still valid.
     /// </remarks>
-    protected abstract void AddEventsToBuffer(IEnumerable<object> events);
+    protected abstract void AddEventsToBuffer(IReadOnlyCollection<object> events);
 
     /// <summary>Clones the current instance.</summary>
     /// <remarks>
@@ -50,7 +50,8 @@ public abstract class AggregateRoot<TAggregate>
 
     /// <summary>Applies a single event.</summary>
     [Pure]
-    protected Result<TAggregate> ApplyEvent(object @event) => ApplyEvents(@event);
+    protected Result<TAggregate> ApplyEvent(object @event)
+        => Apply(new Singleton(Guard.NotNull(@event, nameof(@event))));
 
     /// <summary>Applies the events.</summary>
     [Pure]
@@ -61,14 +62,16 @@ public abstract class AggregateRoot<TAggregate>
     [Pure]
     protected Result<TAggregate> Apply(IEnumerable<object> events)
     {
+        Guard.NotNull(events, nameof(events));
+
         var updated = Clone();
-        events = Guard.HasAny(events, nameof(events)).Select(PreProcessEvent);
-        updated.Replay(events);
+        var append = AppendOnlyCollection.Empty.Add(events.Select(PreProcessEvent));
+        updated.Replay(append);
 
         var result = updated.Validator.Validate(updated);
         if (result.IsValid)
         {
-            updated.AddEventsToBuffer(events);
+            updated.AddEventsToBuffer(append);
         }
         return result;
     }
@@ -80,21 +83,9 @@ public abstract class AggregateRoot<TAggregate>
     /// <summary>Loads the state of the aggregate root by replaying events.</summary>
     protected void Replay(IEnumerable<object> events)
     {
-        events ??= Array.Empty<object>();
-
-        if (Dispatcher is EventDispatcher dispatcher)
+        foreach (var @event in Guard.NotNull(events, nameof(events)))
         {
-            foreach (var @event in events)
-            {
-                dispatcher.When(@event);
-            }
-        }
-        else
-        {
-            foreach (var @event in events)
-            {
-                Dispatcher.When(@event);
-            }
+            Dispatcher.When(@event);
         }
     }
 

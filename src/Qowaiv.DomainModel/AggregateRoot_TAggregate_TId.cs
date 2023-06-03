@@ -30,7 +30,7 @@ public class AggregateRoot<TAggregate, TId> : AggregateRoot<TAggregate>
     public EventBuffer<TId> Buffer { get; protected set; }
 
     /// <inheritdoc/>
-    protected override void AddEventsToBuffer(IEnumerable<object> events)
+    protected override void AddEventsToBuffer(IReadOnlyCollection<object> events)
         => Buffer = Buffer.Add(events);
 
     /// <inheritdoc/>

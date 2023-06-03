@@ -20,13 +20,6 @@ public readonly struct ImmutableCollection : IReadOnlyCollection<object>
     /// <inheritdoc />
     public int Count => Items.Count;
 
-     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added items.</summary>
-    /// <remarks>
-    /// Null, and null items are ignored.
-    /// </remarks>
-    [Pure]
-    public ImmutableCollection Add(params object?[] items) => Add<object[]>(items!);
-
     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added item(s).</summary>
     /// <param name="item">
     /// The item(s) to add.
@@ -38,8 +31,15 @@ public readonly struct ImmutableCollection : IReadOnlyCollection<object>
     /// Null, and null items are ignored.
     /// </remarks>
     [Pure]
-    public ImmutableCollection Add<TItem>(TItem? item) where TItem : class
+    public ImmutableCollection Add(object item)
         => new(Items.Add(item));
+
+    /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added items.</summary>
+    /// <remarks>
+    /// Null, and null items are ignored.
+    /// </remarks>
+    [Pure]
+    public ImmutableCollection AddRange(params object[] items) => Add(items);
 
     /// <summary>Starts a conditional addition.</summary>
     [Pure]
