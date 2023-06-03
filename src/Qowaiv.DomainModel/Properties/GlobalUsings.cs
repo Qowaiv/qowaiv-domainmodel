@@ -1,6 +1,7 @@
 ﻿global using Qowaiv.DomainModel;
 global using Qowaiv.DomainModel.Collections;
 global using Qowaiv.DomainModel.Diagnostics;
+global using Qowaiv.DomainModel.Internal;
 global using Qowaiv.DomainModel.Reflection;
 global using Qowaiv.Validation.Abstractions;
 global using Qowaiv.Validation.Abstractions.Diagnostics.Contracts;

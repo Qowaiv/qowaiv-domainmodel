@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Qowaiv.DomainModel.Collections;
+namespace Qowaiv.DomainModel.Internal;
 
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 [DebuggerDisplay("Count = {Count}, Capacity = {Buffer.Length}")]
