@@ -1,9 +1,9 @@
 ﻿namespace Benchmarks.Collections;
 
 [MemoryDiagnoser]
-public class Creation
+public class BatchCreation
 {
-    [Params(1000, 10_000, 100_000, 200_000)]
+    [Params(1000, 10_000, 100_000)]
     public int Count { get; set; }
 
     public Added[] Events { get; private set; } = Array.Empty<Added>();
@@ -23,10 +23,7 @@ public class Creation
     public List<object> List()
     {
         var list = new List<object>();
-        foreach (var e in Events.OfType<object>())
-        {
-            list.Add(e);
-        }
+        list.AddRange(Events.OfType<object>());
         return list;
     }
 
@@ -34,10 +31,6 @@ public class Creation
     public EventBuffer<int> EventBuffer()
     {
         var buffer = Qowaiv.DomainModel.EventBuffer.Empty(17);
-        foreach (var e in Events)
-        {
-            buffer = buffer.Add(e);
-        }
-        return buffer;
+        return buffer.Add(Events);
     }
 }
