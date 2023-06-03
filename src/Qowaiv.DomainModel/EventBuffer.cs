@@ -38,7 +38,7 @@ public static class EventBuffer
     /// </param>
     [Pure]
     public static EventBuffer<TId> Empty<TId>(TId aggregateId, int version)
-        => new(aggregateId, offset: version, committed: version, ImmutableCollection.Empty);
+        => new(aggregateId, offset: version, committed: version, AppendOnlyCollection.Empty);
 
     /// <summary>Creates an event buffer from some storage.</summary>
     /// <typeparam name="TId">

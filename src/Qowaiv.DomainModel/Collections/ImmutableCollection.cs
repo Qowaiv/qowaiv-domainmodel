@@ -5,7 +5,7 @@
 /// As a design choice, adding null is ignored. Also <see cref="IEnumerable"/>s
 /// are added as collections, expect for <see cref="string"/>.
 /// </remarks>
-[DebuggerDisplay("Count: {Count}")]
+[DebuggerDisplay("Count = {Count}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 public readonly struct ImmutableCollection : IReadOnlyCollection<object>
 {
@@ -13,8 +13,6 @@ public readonly struct ImmutableCollection : IReadOnlyCollection<object>
     public static readonly ImmutableCollection Empty = new(AppendOnlyCollection.Empty);
 
     internal readonly AppendOnlyCollection Items;
-
-    private object[] Buffer => Items.Buffer ?? Array.Empty<object>();
 
     /// <summary>Initializes a new instance of the <see cref="ImmutableCollection"/> struct.</summary>
     internal ImmutableCollection(AppendOnlyCollection items) => Items = items;
@@ -51,19 +49,9 @@ public readonly struct ImmutableCollection : IReadOnlyCollection<object>
     [Pure]
     public If If(bool condition) => new(condition, this);
 
-    /// <summary>Returns a specified range of contiguous elements from the collection.</summary>
-    [Pure]
-    public Enumerator Take(int count) => new(Buffer, Math.Min(count, Count));
-
-    /// <summary>
-    /// Bypasses a specified number of elements in the collection and then returns the remaining elements.
-    /// </summary>
-    [Pure]
-    public Enumerator Skip(int count) => new(Buffer, count, Count);
-
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [Pure]
-    public Enumerator GetEnumerator() => new(Buffer, Count);
+    public Enumerator GetEnumerator() => Items.GetEnumerator();
 
     /// <inheritdoc />
     [Pure]

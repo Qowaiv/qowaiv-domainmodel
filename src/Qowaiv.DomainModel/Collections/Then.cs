@@ -1,7 +1,7 @@
 ﻿namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Represents the conditional addition of an item/items, after the if-statement.</summary>
-[DebuggerDisplay("Count: {Count}")]
+[DebuggerDisplay("Count = {Count}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 public sealed class Then : IReadOnlyCollection<object>
 {

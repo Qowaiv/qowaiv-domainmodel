@@ -8,9 +8,9 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
     private int Index;
 
     /// <summary>Initializes a new instance of the <see cref="Enumerator"/> struct.</summary>
-    internal Enumerator(object[] array, int start, int end)
+    internal Enumerator(object[]? array, int start, int end)
     {
-        Array = array;
+        Array = array ?? System.Array.Empty<object>();
         End = end;
         Index = start - 1;
     }

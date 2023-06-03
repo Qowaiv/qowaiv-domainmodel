@@ -2,25 +2,24 @@
 
 namespace Qowaiv.DomainModel.Collections;
 
-[DebuggerDisplay("Count = {Count}, Capacity = {Buffer?.Length}")]
-internal readonly struct AppendOnlyCollection
+[DebuggerTypeProxy(typeof(CollectionDebugView))]
+[DebuggerDisplay("Count = {Count}, Capacity = {Buffer.Length}")]
+internal readonly struct AppendOnlyCollection : IEnumerable<object>
 {
-    public static readonly AppendOnlyCollection Empty = new(0, Array.Empty<object>(), new());
+    public static readonly AppendOnlyCollection Empty = new(0, Array.Empty<object>());
 
     /// <remarks>Internal from .NET.</remarks>
     private const int MaxCapacity = 0X7FFFFFC7;
 
     /// <summary>Initializes a new instance of the <see cref="AppendOnlyCollection"/> struct.</summary>
-    private AppendOnlyCollection(int count, object[] buffer, object locker)
+    private AppendOnlyCollection(int count, object[] buffer)
     {
         Count = count;
         Buffer = buffer;
-        Locker = locker;
     }
 
     public readonly int Count;
-    internal readonly object[] Buffer;
-    internal readonly object Locker;
+    internal readonly object[]? Buffer;
 
     /// <summary>Creates a new <see cref="AppendOnlyCollection"/> with the added item(s).</summary>
     /// <param name="item">
@@ -32,94 +31,82 @@ internal readonly struct AppendOnlyCollection
     [Pure]
     public AppendOnlyCollection Add(object? item)
     {
-        if (item is null)
+        var added = Buffer is null ? Empty : this;
+
+        if (item is IEnumerable elements && item is not string)
         {
-            return this;
+            foreach (var element in elements)
+            {
+                added = added.Append(element);
+            }
+            return added;
         }
         else
         {
-            return item is string || item is not IEnumerable enumerable
-                ? Append(new Singleton(item))
-                : Append(enumerable.GetEnumerator());
+            return added.Append(item);
         }
-    }
-
-    [Pure]
-    private AppendOnlyCollection Append(IEnumerator iterator)
-    {
-        var count = Count;
-        var buffer = Buffer ?? Array.Empty<object>();
-        var capacity = buffer.Length;
-        var locker = Locker ?? new();
-        var clone = true;
-
-        if (count < capacity && buffer[count] is null)
-        {
-            lock (locker)
-            {
-                if (buffer[count] is null)
-                {
-                    while (count < capacity && iterator.MoveNext())
-                    {
-                        if (iterator.Current is { } item)
-                        {
-                            buffer[count++] = item;
-                        }
-                    }
-                    clone = count == capacity;
-                }
-            }
-        }
-
-        if (clone)
-        {
-            var copy = new object[capacity];
-            Array.Copy(buffer, copy, count);
-            buffer = copy;
-            locker = new();
-        }
-
-        return Append(iterator, count, buffer, capacity, locker);
     }
 
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static AppendOnlyCollection Append(
-        IEnumerator iterator,
-        int count,
-        object[] buffer,
-        int capacity,
-        object locker)
+    private AppendOnlyCollection Append(object? element)
     {
-        while (iterator.MoveNext())
+        if (element is null)
         {
-            if (iterator.Current is not { } item)
-            {
-                continue;
-            }
-            else if (count >= capacity)
-            {
-                buffer = Grow(buffer);
-                capacity = buffer.Length;
-                locker = new();
-            }
-            buffer[count++] = item;
+            return this;
         }
-        return new(count, buffer, locker);
+        else if (Buffer!.Length <= Count || Buffer[Count] is not null)
+        {
+            return Copy(Buffer, element);
+        }
+
+        lock (Buffer)
+        {
+            if (Buffer.Length > Count && Buffer[Count] is null)
+            {
+                Buffer[Count] = element;
+                return new(Count + 1, Buffer);
+            }
+        }
+        return Copy(Buffer, element);
     }
 
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static object[] Grow(object[] array)
+    private AppendOnlyCollection Copy(object[] buffer, object element)
     {
-        int capacity = array.Length == 0 ? 128 : 2 * array.Length;
+        int capacity = buffer.Length == 0 ? 8 : 2 * buffer.Length;
 
         // Allow the list to grow to maximum possible capacity (~2G elements) before encountering overflow.
         // Note that this check works even when _items.Length overflowed thanks to the (uint) cast
         if ((uint)capacity > MaxCapacity) capacity = MaxCapacity;
 
-        var grown = new object[capacity];
-        Array.Copy(array, grown, array.Length);
-        return grown;
+        var copy = new object[capacity];
+        Array.Copy(buffer, copy, Count);
+        copy[Count] = element;
+
+        return new(Count + 1, copy);
     }
+
+    /// <summary>Returns a specified range of contiguous elements from the collection.</summary>
+    [Pure]
+    public Enumerator Take(int count) => new(Buffer, Math.Min(count, Count));
+
+    /// <summary>
+    /// Bypasses a specified number of elements in the collection and then returns the remaining elements.
+    /// </summary>
+    [Pure]
+    public Enumerator Skip(int count) => new(Buffer, count, Count);
+
+    /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
+    [Pure]
+    public Enumerator GetEnumerator() => new(Buffer, Count);
+
+    /// <inheritdoc />
+    [Pure]
+    IEnumerator<object> IEnumerable<object>.GetEnumerator() => GetEnumerator();
+
+    /// <inheritdoc />
+    [Pure]
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

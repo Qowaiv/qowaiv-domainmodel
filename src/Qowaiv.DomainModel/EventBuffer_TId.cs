@@ -30,11 +30,11 @@ public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId 
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 public readonly struct EventBuffer<TId> : IEnumerable<object>
 {
-    private readonly ImmutableCollection Buffer;
+    private readonly AppendOnlyCollection Buffer;
     private readonly int Offset;
 
     /// <summary>Initializes a new instance of the <see cref="EventBuffer{TId}"/> struct.</summary>
-    internal EventBuffer(TId aggregateId, int offset, int committed, ImmutableCollection buffer)
+    internal EventBuffer(TId aggregateId, int offset, int committed, AppendOnlyCollection buffer)
     {
         AggregateId = aggregateId;
         CommittedVersion = committed;
@@ -72,7 +72,7 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
     /// </remarks>
     [Pure]
     public EventBuffer<TId> Add(object @event)
-        => new(AggregateId, Offset, CommittedVersion, Buffer.Add<object>(@event));
+        => new(AggregateId, Offset, CommittedVersion, Buffer.Add(@event));
 
     /// <summary>Marks all events as being committed.</summary>
     [Pure]
@@ -98,9 +98,13 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
         return Uncommitted.Select((@event, index) => convert(self.AggregateId, self.CommittedVersion + index + 1, @event));
     }
 
+    /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
+    [Pure]
+    public Enumerator GetEnumerator() => Buffer.GetEnumerator();
+
     /// <inheritdoc/>
     [Pure]
-    public IEnumerator<object> GetEnumerator() => Buffer.GetEnumerator();
+    IEnumerator<object> IEnumerable<object>.GetEnumerator() => GetEnumerator();
 
     /// <inheritdoc/>
     [Pure]
