@@ -9,7 +9,8 @@
     <PackageReleaseNotes>
 NextRelease
 - Re-implemented ImmutableCollection. #34 (breaking)
-- EventStream as struct. #34
+- EventStream as struct. #34 (breaking)
+- EventDispatcher without dynamics. #34 (breaking)
 - Enable annotations. #31
 - Publish .NET 7.0. #29
 v0.2.0
