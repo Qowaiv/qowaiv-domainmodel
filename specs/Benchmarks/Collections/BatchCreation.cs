@@ -6,26 +6,14 @@ public class BatchCreation
     [Params(1000, 10_000, 100_000)]
     public int Count { get; set; }
 
-    public Added[] Events { get; private set; } = Array.Empty<Added>();
+    public IReadOnlyCollection<object> Events { get; private set; } = Array.Empty<object>();
 
     [GlobalSetup]
-    public void Setup()
-    {
-        var rnd = new Random(Count);
-        Events = new Added[Count];
-        for (int i = 0; i < Count; i++)
-        {
-            Events[i] = new Added(rnd.NextDouble());
-        }
-    }
+    public void Setup() => Events = Added.Random(Count);
 
-    [Benchmark(Description = "List", Baseline = true)]
-    public List<object> List()
-    {
-        var list = new List<object>();
-        list.AddRange(Events.OfType<object>());
-        return list;
-    }
+    [Benchmark(Baseline = true)]
+    public List<object> List() 
+        => new(Events.Where(o => o is { }));
 
     [Benchmark(Description = "Event Buffer")]
     public EventBuffer<int> EventBuffer()

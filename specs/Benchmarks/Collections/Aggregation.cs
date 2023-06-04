@@ -5,14 +5,12 @@ public class Aggregation
     [Params(/*100,*/ 10_000/*, 10_000*/)]
     public int Count { get; set; }
 
-    private object[] Events = System.Array.Empty<object>();
+    private IReadOnlyCollection<object> Events = Array.Empty<object>();
 
     [GlobalSetup]
     public void Setup()
     {
-        var creation = new Creation() { Count = Count };
-        creation.Setup();
-        Events = creation.Events;
+        Events = Added.Random(Count);
     }
 
     [Benchmark]

@@ -1,4 +1,6 @@
-﻿namespace Benchmarks.Collections;
+﻿using System.Linq;
+
+namespace Benchmarks.Collections;
 
 [MemoryDiagnoser]
 public class Creation
@@ -6,24 +8,35 @@ public class Creation
     [Params(1000, 10_000, 100_000, 200_000)]
     public int Count { get; set; }
 
-    public Added[] Events { get; private set; } = Array.Empty<Added>();
+    public IReadOnlyCollection<object> Events { get; private set; } = Array.Empty<Added>();
 
     [GlobalSetup]
     public void Setup()
     {
-        var rnd = new Random(Count);
-        Events = new Added[Count];
-        for (int i = 0; i < Count; i++)
-        {
-            Events[i] = new Added(rnd.NextDouble());
-        }
+        Events = Added.Random(Count);
     }
 
-    [Benchmark(Description = "List", Baseline = true)]
+    [Benchmark(Baseline = true)]
     public List<object> List()
     {
         var list = new List<object>();
-        foreach (var e in Events.OfType<object>())
+        
+        foreach (var e in Events)
+        {
+            if (e is not null)
+            {
+                list.Add(e);
+            }
+        }
+        return list;
+    }
+
+    [Benchmark]
+    public List<object> List_with_where_clause()
+    {
+        var list = new List<object>();
+
+        foreach (var e in Events.Where(e => e is { }))
         {
             list.Add(e);
         }

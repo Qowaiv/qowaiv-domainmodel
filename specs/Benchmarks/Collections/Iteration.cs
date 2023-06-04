@@ -12,11 +12,10 @@ public class Iteration
     [GlobalSetup]
     public void Setup()
     {
-        var creation = new Creation() { Count = Count };
-        creation.Setup();
-        array = creation.Events;
-        list = creation.List();
-        buffer = creation.EventBuffer();
+        var events = Added.Random(Count);
+        list = events.ToList();
+        array = list.ToArray();
+        buffer = Qowaiv.DomainModel.EventBuffer.Empty(17).Add(events);
     }
 
     [Benchmark(Description = "array", Baseline = true)]
