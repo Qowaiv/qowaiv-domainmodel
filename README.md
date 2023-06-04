@@ -61,6 +61,17 @@ if you apply all your changes via the `Apply`, and `ApplyEvents` methods
 (as you should), it will create an updated copy that represents the new state,
 leaving the initial instance unchanged.
 
+It is possible to override the `TAggregate Clone()` method, and implement this
+behavior, for instance to use one of the many _deep clone_ packages to do the
+trick. This might be beneficial for aggregate roots that have a lot of events
+(think thousands, or more).
+
+## Event dispatcher
+The aggregate root has an event dispatcher that by default uses compiled
+expressions to execute matching non-public `When(@event)` methods. This is
+extremely fast, but if desired, by implementing a own `EventDispatcher`, the
+behavior can be changed.
+
 ## Example 1
 A (simplified) real life example of a financial entry, using `AggregateRoot<TAggregate, TId>`:
 ``` C#

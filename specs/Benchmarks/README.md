@@ -2,9 +2,9 @@
 
 ## Event Buffer
 The `Qowaiv.DomainModel.EventBuffer<T>` is an append-only immutable collection.
-In this set of benchmarks, its compared with a `System.Collections.Generic.List<object`.
+In this set of benchmarks, its compared with `System.Collections.Generic.List<object>`.
 As the event buffer ensures `null` values are not added, for fairness, code is
-added to the list variants as well.
+added to the list benchmarks that check for nullability too.
 
 ### Creation
 By making both the event buffer and its only underlying append only collection
