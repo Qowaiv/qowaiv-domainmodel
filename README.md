@@ -210,7 +210,7 @@ var updated = buffer.MarkAllAsCommitted();
 
 ## Command Processor
 An approach often used when applying event sourcing is the [(command pattern)https://en.wikipedia.org/wiki/Command_pattern];
-every change on the domain(s) is triggerd by a command, which is handled by 
+every change on the domain(s) is triggered by a command, which is handled by 
 a single command handler.
 
 As it should be irrelevant to the sender of the command which handler handles
