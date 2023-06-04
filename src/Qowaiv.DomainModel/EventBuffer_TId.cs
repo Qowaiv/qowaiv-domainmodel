@@ -72,7 +72,7 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
     /// </remarks>
     [Pure]
     public EventBuffer<TId> Add(object @event)
-        => new(AggregateId, Offset, CommittedVersion, Buffer.Add(@event));
+        => new(AggregateId, Offset, CommittedVersion, (IsEmpty ? AppendOnlyCollection.Empty : Buffer).Add(@event));
 
     /// <summary>Marks all events as being committed.</summary>
     [Pure]

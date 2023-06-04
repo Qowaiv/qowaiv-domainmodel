@@ -82,6 +82,25 @@ public class IsEmpty
     public void False_for_non_empty_buffer() => EventBuffer.Empty(17).Add(new EmptyEvent()).IsEmpty.Should().BeFalse();
 }
 
+public class Default
+{
+    [Test]
+    public void can_be_queried()
+        => default(EventBuffer<int>).Should().BeEquivalentTo(Array.Empty<object>());
+
+    [Test]
+    public void Committed_can_be_queried()
+        => default(EventBuffer<int>).Committed.Should().BeEquivalentTo(Array.Empty<object>());
+
+    [Test]
+    public void Uncommitted_can_be_queried_with_Take()
+        => default(EventBuffer<int>).Uncommitted.Should().BeEquivalentTo(Array.Empty<object>());
+
+    [Test]
+    public void can_be_extended()
+        => default(EventBuffer<int>).Add(1).Should().BeEquivalentTo(new[] { 1 });
+}
+
 public class HasUncommitted
 {
     [Test]
