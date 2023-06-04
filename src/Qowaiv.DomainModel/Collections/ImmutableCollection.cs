@@ -7,14 +7,14 @@
 /// </remarks>
 [DebuggerDisplay("Count = {Count}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
-public readonly struct ImmutableCollection : IReadOnlyCollection<object>
+public sealed class ImmutableCollection : IReadOnlyCollection<object>
 {
     /// <summary>Gets an empty immutable collection.</summary>
     public static readonly ImmutableCollection Empty = new(AppendOnlyCollection.Empty);
 
     internal readonly AppendOnlyCollection Items;
 
-    /// <summary>Initializes a new instance of the <see cref="ImmutableCollection"/> struct.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ImmutableCollection"/> class.</summary>
     internal ImmutableCollection(AppendOnlyCollection items) => Items = items;
 
     /// <inheritdoc />
@@ -24,9 +24,6 @@ public readonly struct ImmutableCollection : IReadOnlyCollection<object>
     /// <param name="item">
     /// The item(s) to add.
     /// </param>
-    /// <typeparam name="TItem">
-    /// The type of the item(s).
-    /// </typeparam>
     /// <remarks>
     /// Null, and null items are ignored.
     /// </remarks>
