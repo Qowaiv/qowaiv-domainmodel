@@ -8,6 +8,7 @@
     <Version>0.2.0</Version>
     <PackageReleaseNotes>
 NextRelease
+- Renamed AggregateRoot to Aggregate. #35 (breaking)
 - Re-implemented ImmutableCollection. #34 (breaking)
 - EventStream as struct. #34 (breaking)
 - EventDispatcher without dynamics. #34 (breaking)
