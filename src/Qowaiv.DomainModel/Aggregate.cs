@@ -1,9 +1,9 @@
 ﻿namespace Qowaiv.DomainModel;
 
-/// <summary>Factory method for creating <see cref="AggregateRoot{TAggregate, TId}"/> from stored events.</summary>
-public static class AggregateRoot
+/// <summary>Factory method for creating <see cref="Aggregate{TAggregate, TId}"/> from stored events.</summary>
+public static class Aggregate
 {
-    /// <summary>Creates an <see cref="AggregateRoot{TAggregate, TId}"/> from committed events.</summary>
+    /// <summary>Creates an <see cref="Aggregate{TAggregate, TId}"/> from committed events.</summary>
     /// <typeparam name="TAggregate">
     /// The type of aggregate to create.
     /// </typeparam>
@@ -15,7 +15,7 @@ public static class AggregateRoot
     /// </param>
     [Pure]
     public static TAggregate FromStorage<TAggregate, TId>(EventBuffer<TId> buffer)
-        where TAggregate : AggregateRoot<TAggregate, TId>, new()
+        where TAggregate : Aggregate<TAggregate, TId>, new()
     {
         Guard.HasAny(buffer, nameof(buffer));
 

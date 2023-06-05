@@ -1,6 +1,6 @@
 ﻿namespace ConquerClub.Domain;
 
-public sealed partial class Game : AggregateRoot<Game, GameId>
+public sealed partial class Game : Aggregate<Game, GameId>
 {
     public Game() : this(GameId.Next()) { }
 

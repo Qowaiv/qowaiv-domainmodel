@@ -26,13 +26,13 @@ internal class Pre_processing_events_specs
         var buffer = EventBuffer.Empty(Guid.NewGuid())
             .Add(new Event1(Guid.NewGuid()));
 
-        var aggregate = AggregateRoot.FromStorage<SimpleAggregate, Guid>(buffer);
+        var aggregate = Aggregate.FromStorage<SimpleAggregate, Guid>(buffer);
         aggregate.Buffer.Cast<EventBase>()
             .Should().AllSatisfy(@event => @event.AggregateId.Should().NotBe(TestId));
     }
 }
 
-internal class SimpleAggregate : AggregateRoot<SimpleAggregate, Guid>
+internal class SimpleAggregate : Aggregate<SimpleAggregate, Guid>
 {
     public SimpleAggregate() : this(Guid.NewGuid()) { }
 

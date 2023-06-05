@@ -1,6 +1,6 @@
 ﻿namespace ConquerClub.Domain;
 
-public sealed partial class Game : AggregateRoot<Game, GameId>
+public sealed partial class Game : Aggregate<Game, GameId>
 {
     public static Result<Game> Start(Start start, RandomSource rnd)
         => new Game(start.Game).ApplyEvents(

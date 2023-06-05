@@ -4,14 +4,14 @@
 /// <typeparam name="TAggregate">
 /// The type of the aggregate root itself.
 /// </typeparam>
-public abstract class AggregateRoot<TAggregate>
-    where TAggregate : AggregateRoot<TAggregate>
+public abstract class Aggregate<TAggregate>
+    where TAggregate : Aggregate<TAggregate>
 {
-    /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate}"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Aggregate{TAggregate}"/> class.</summary>
     /// <param name="validator">
     /// A custom <paramref name="validator"/> to validate the aggregate.
     /// </param>
-    protected AggregateRoot(IValidator<TAggregate> validator)
+    protected Aggregate(IValidator<TAggregate> validator)
     {
         Validator = Guard.NotNull(validator, nameof(validator));
         Dispatcher = new ExpressionCompilingEventDispatcher<TAggregate>((TAggregate)this);

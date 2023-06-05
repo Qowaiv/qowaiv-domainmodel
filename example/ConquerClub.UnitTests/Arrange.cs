@@ -44,7 +44,7 @@ internal static class Arrange
         game.Add(new Deployed(Netherlands, Player.P1.Army(3)));
 
     public static Game Load(this Buffer buffer) =>
-        AggregateRoot.FromStorage<Game, GameId>(buffer.MarkAllAsCommitted());
+        Aggregate.FromStorage<Game, GameId>(buffer.MarkAllAsCommitted());
 }
 
 internal class TestProcessor : CommandProcessor<Result>

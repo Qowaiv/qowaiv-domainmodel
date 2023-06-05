@@ -7,17 +7,17 @@
 /// <typeparam name="TId">
 /// The type of the identifier.
 /// </typeparam>
-public class AggregateRoot<TAggregate, TId> : AggregateRoot<TAggregate>
-    where TAggregate : AggregateRoot<TAggregate, TId>, new()
+public class Aggregate<TAggregate, TId> : Aggregate<TAggregate>
+    where TAggregate : Aggregate<TAggregate, TId>, new()
 {
-    /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate, TId}"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Aggregate{TAggregate, TId}"/> class.</summary>
     /// <param name="validator">
     /// A custom <paramref name="validator"/> to validate the aggregate.
     /// </param>
     /// <param name="aggregateId">
     /// The identifier of the aggregate.
     /// </param>
-    protected AggregateRoot(TId aggregateId, IValidator<TAggregate> validator) : base(validator)
+    protected Aggregate(TId aggregateId, IValidator<TAggregate> validator) : base(validator)
         => Buffer = EventBuffer.Empty(aggregateId);
 
     /// <summary>Gets the identifier.</summary>

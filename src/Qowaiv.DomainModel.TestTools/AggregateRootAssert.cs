@@ -7,7 +7,7 @@ namespace Qowaiv.DomainModel.TestTools;
 /// <summary>Assertions on the aggregate root.</summary>
 public static class AggregateRootAssert
 {
-    /// <summary>Verifies that the <see cref="AggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
+    /// <summary>Verifies that the <see cref="Aggregate{TAggregate}"/> has the expected uncommitted events.</summary>
     /// <typeparam name="TAggregate">
     /// The type of the aggregate.
     /// </typeparam>
@@ -22,7 +22,7 @@ public static class AggregateRootAssert
     /// </param>
     [Assertion]
     public static void HasUncommittedEvents<TAggregate, TId>(Result<TAggregate> actualAggregate, params object[] expectedEvents)
-        where TAggregate : AggregateRoot<TAggregate, TId>, new()
+        where TAggregate : Aggregate<TAggregate, TId>, new()
     {
         Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
 
@@ -39,7 +39,7 @@ public static class AggregateRootAssert
         HasUncommittedEvents<TAggregate, TId>(actualAggregate.Value, expectedEvents);
     }
 
-    /// <summary>Verifies that the <see cref="AggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
+    /// <summary>Verifies that the <see cref="Aggregate{TAggregate}"/> has the expected uncommitted events.</summary>
     /// <typeparam name="TAggregate">
     /// The type of the aggregate.
     /// </typeparam>
@@ -54,7 +54,7 @@ public static class AggregateRootAssert
     /// </param>
     [Assertion]
     public static void HasUncommittedEvents<TAggregate, TId>(TAggregate actualAggregate, params object[] expectedEvents)
-        where TAggregate : AggregateRoot<TAggregate, TId>, new()
+        where TAggregate : Aggregate<TAggregate, TId>, new()
     {
         Assert.IsNotNull(actualAggregate, nameof(actualAggregate));
 

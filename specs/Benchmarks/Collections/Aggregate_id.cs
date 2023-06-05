@@ -1,6 +1,6 @@
 ﻿namespace Benchmarks.Collections;
 
-public sealed class Aggregate_id : AggregateRoot<Aggregate_id, int>
+public sealed class Aggregate_id : Aggregate<Aggregate_id, int>
 {
     public Aggregate_id()
         : base(default, Qowaiv.Validation.Abstractions.Validator.Empty<Aggregate_id>()) { }
