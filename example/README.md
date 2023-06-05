@@ -3,7 +3,7 @@
 
 On the [Conquer Club](https://www.conquerclub.com/) website you can play a game
 that is inspired by the board game RISK™. In this demo, (most of) the rules of
-that game have been implemented using Qowaiv's Aggregate Root, to give an
+that game have been implemented using Qowaiv's Aggregate, to give an
 impression on how a (not trivial) event sourced DDD solution could look like.
 
 ## Always valid

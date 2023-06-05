@@ -20,43 +20,45 @@ current state of an aggregate root can always be achieved by replaying these
 events. 
 
 ## Always Valid
-Aggregate roots should always be valid according to the boundaries of their
-domain. There are multiple ways to achieve this, but within Qowaiv Domain Model
-this is guaranteed via an implicitly triggered validator.
+The aggregate should always be valid according to the boundaries of their domain.
+There are multiple ways to achieve this, but within Qowaiv Domain Model this is
+guaranteed via an implicitly triggered validator.
+
 When a public method is called that would lead to a new aggregate state, the
 events describing the change are only added to the event buffer
-associated with the aggregate root if the new state is valid according to the
+associated with the aggregate if the new state is valid according to the
 rules specified in the validator.
 
-## Aggregate Root
-An Aggregate Root is the root of every Domain within a DDD context. When
-implementing a new aggregate root there are several steps that have to be taken.
+## Aggregate
+An aggregate is a cluster of associated objects that we treat as a unit for the
+purpose of data changes. When implementing an aggregate there are several steps
+that have to be taken.
 
-First, a new Aggregate Root should have a corresponding
+First, an aggregate should have a corresponding
 [IValidator<TAggragate>](https://github.com/Qowaiv/qowaiv-validation)
 implementation of choice. This implementation will safeguard any post conditions
-on the aggregate root.
+on the aggregate.
 
-Secondly, the actual class representing the aggregate root should be created. This class
+Secondly, the actual class representing the aggregate should be created. This class
 should inherit from one of two possible base classes:
 
-- `AggregateRoot<TAggregate>`
-- `AggregateRoot<TAggregate, TId>`
+- `Aggregate<TAggregate>`
+- `Aggregate<TAggregate, TId>`
 
-`AggregateRoot<TAggregate>` is a low level base class that provides a framework
+`Aggregate<TAggregate>` is a low level base class that provides a framework
 for handling the application of events. It has no event store of its own. Implementations
 of this class should override the `protected abstract void AddEventsToBuffer(params object[] events)`
 method to achieve persistence of events.
 
-The second option, `AggregateRoot<TAggregate, TId>`, inherits from
-`AggregateRoot<TAggregate>`. It has built-in identity support and systems for
+The second option, `Aggregate<TAggregate, TId>`, inherits from
+`Aggregate<TAggregate>`. It has built-in identity support and systems for
 storing events in the integrated `EventBuffer<TId>`. Events that should be
 persisted are added to this buffer, and it can return both the committed as
 well as the uncommitted events it contains.
 
 ### Immutability
 As immutability comes with tons of benefits in DDD scenarios, the
-`AggregateRoot<TAggregate>` is designed to be immutable; that is,
+`Aggregate<TAggregate>` is designed to be immutable; that is,
 if you apply all your changes via the `Apply`, and `ApplyEvents` methods
 (as you should), it will create an updated copy that represents the new state,
 leaving the initial instance unchanged.
@@ -67,15 +69,15 @@ trick. This might be beneficial for aggregate roots that have a lot of events
 (think thousands, or more).
 
 ## Event dispatcher
-The aggregate root has an event dispatcher that by default uses compiled
+Each aggregate has an event dispatcher that by default uses compiled
 expressions to execute matching non-public `When(@event)` methods. This is
 extremely fast, but if desired, by implementing a own `EventDispatcher`, the
 behavior can be changed.
 
 ## Example 1
-A (simplified) real life example of a financial entry, using `AggregateRoot<TAggregate, TId>`:
+A (simplified) real life example of a financial entry, using `Aggregate<TAggregate, TId>`:
 ``` C#
-public sealed class FinancialEntry : AggregateRoot<FinancialEntry, Guid>
+public sealed class FinancialEntry : Aggregate<FinancialEntry, Guid>
 {
     // Note that FinancialEntryValidator is passed in for validation purposes.
     // See the implementation of this class below.
@@ -188,6 +190,44 @@ public Result<Game> Attack(Country attacker, Country defender, AttackResult resu
         }));
 ```
 
+Alternatively:
+
+``` C#
+public Result<Game> Attack(Country attacker, Country defender, AttackResult result)
+{
+    var events = Events.
+
+    if (result.IsSuccess)
+    {
+        events = events.Add(new Conquered
+        {
+            From = result.Attacker,
+            To = result.Defender,
+            Armies = result.Attacker,
+        });
+    }
+    else
+    {
+        events = events.Add(new Attacked
+        {
+            Attacker = attacker,
+            Defender = defender,
+            Result = result,
+        });
+    }
+
+    if (result.IsSuccess && Countries(defender).Single())
+    {
+        events = events.Add(new PlayerEliminated 
+        {
+            Player = Countries(defender).Owner 
+        }));
+    }
+
+    return Apply(events);
+}
+```
+
 ## Event Buffer
 The `EventBuffer<TId>`, as used by `AggregateRoot<TAggregate, TId>` is an
 immutable collection with the following API:
@@ -209,7 +249,7 @@ var updated = buffer.MarkAllAsCommitted();
 ```
 
 ## Command Processor
-An approach often used when applying event sourcing is the [(command pattern)https://en.wikipedia.org/wiki/Command_pattern];
+An approach often used when applying event sourcing is the [command pattern](https://en.wikipedia.org/wiki/Command_pattern);
 every change on the domain(s) is triggered by a command, which is handled by 
 a single command handler.
 
