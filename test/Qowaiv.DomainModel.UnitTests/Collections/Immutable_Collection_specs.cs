@@ -79,6 +79,15 @@ public class Add
         first.Should().BeEquivalentTo(new[] { 1, 2, 4, 8, 16 });
         second.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5 });
     }
+
+    [Test]
+    public void with_plus_operator()
+    {
+        var collection = ImmutableCollection.Empty;
+        collection += 3;
+        collection += new[] { 6, 9 };
+        collection.Should().BeEquivalentTo(new[] { 3, 6, 9 });
+    }
 }
 
 public class If_not_true

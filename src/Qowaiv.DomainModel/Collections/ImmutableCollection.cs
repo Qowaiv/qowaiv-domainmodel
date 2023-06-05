@@ -57,4 +57,11 @@ public sealed class ImmutableCollection : IReadOnlyCollection<object>
     /// <inheritdoc />
     [Pure]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <summary>Adds an item to the collection.</summary>
+    /// <remarks>
+    /// Syntactic sugar.
+    /// </remarks>
+    public static ImmutableCollection operator +(ImmutableCollection collection, object item) 
+        => Guard.NotNull(collection, nameof(collection)).Add(item);
 }
