@@ -28,7 +28,7 @@ public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId 
 /// </typeparam>
 [DebuggerDisplay("{DebuggerDisplay}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
-public readonly struct EventBuffer<TId> : IEnumerable<object>
+public readonly struct EventBuffer<TId> : ICollection<object>
 {
     private readonly AppendOnlyCollection Buffer;
     private readonly int Offset;
@@ -98,6 +98,13 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
         return Uncommitted.Select((@event, index) => convert(self.AggregateId, self.CommittedVersion + index + 1, @event));
     }
 
+    /// <inheritdoc />
+    public void CopyTo(object[] array, int arrayIndex) => Buffer.CopyTo(array, arrayIndex);
+
+    /// <inheritdoc />
+    [Pure]
+    bool ICollection<object>.Contains(object item) => Buffer.Contains(item);
+
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [Pure]
     public Enumerator GetEnumerator() => Buffer.GetEnumerator();
@@ -116,4 +123,20 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
         => Version == CommittedVersion
         ? $"Version: {Version}, Aggregate: {AggregateId}"
         : $"Version: {Version} (Committed: {CommittedVersion}), Aggregate: {AggregateId}";
+
+    /// <inheritdoc />
+    int ICollection<object>.Count => Buffer.Count;
+
+    /// <inheritdoc />
+    bool ICollection<object>.IsReadOnly => true;
+
+    /// <inheritdoc />
+    void ICollection<object>.Add(object item) => throw new NotSupportedException();
+
+    /// <inheritdoc />
+    void ICollection<object>.Clear() => throw new NotSupportedException();
+
+    /// <inheritdoc />
+    [Pure]
+    bool ICollection<object>.Remove(object item) => throw new NotSupportedException();
 }
