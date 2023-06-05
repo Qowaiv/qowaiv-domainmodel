@@ -15,7 +15,7 @@ public class Creation
     public void Empty_with_initial_has_equals(int version)
         => EventBuffer.Empty(Guid.NewGuid(), version).Version.Should().Be(version);
 
-    [TestCase]
+    [Test]
     public void FromStorage_contains_all_events_as_committed()
     {
         var stored = new[] { new EmptyEvent(), new EmptyEvent(), new EmptyEvent() };
@@ -25,7 +25,7 @@ public class Creation
             .And.Subject.As<EventBuffer<Guid>>().CommittedVersion.Should().Be(3);
     }
 
-    [TestCase]
+    [Test]
     public void FromStorage_takes_initial_version_into_account()
     {
         var stored = new[] { new EmptyEvent(), new EmptyEvent(), new EmptyEvent() };
@@ -82,6 +82,25 @@ public class IsEmpty
     public void False_for_non_empty_buffer() => EventBuffer.Empty(17).Add(new EmptyEvent()).IsEmpty.Should().BeFalse();
 }
 
+public class Default
+{
+    [Test]
+    public void can_be_queried()
+        => default(EventBuffer<int>).Should().BeEquivalentTo(Array.Empty<object>());
+
+    [Test]
+    public void Committed_can_be_queried()
+        => default(EventBuffer<int>).Committed.Should().BeEquivalentTo(Array.Empty<object>());
+
+    [Test]
+    public void Uncommitted_can_be_queried_with_Take()
+        => default(EventBuffer<int>).Uncommitted.Should().BeEquivalentTo(Array.Empty<object>());
+
+    [Test]
+    public void can_be_extended()
+        => default(EventBuffer<int>).Add(1).Should().BeEquivalentTo(new[] { 1 });
+}
+
 public class HasUncommitted
 {
     [Test]
@@ -115,34 +134,6 @@ public class Debugger_display
 
         buffer.Should().HaveDebuggerDisplay("Version: 1, Aggregate: 1f8b5071-c03b-457d-b27f-442c5aac5785");
     }
-}
-
-[Obsolete("Will be dropped.")]
-public class Obsolete_is
-{
-    [Test]
-    public void Ctor_with_id()
-        => Assert.That(() => new EventBuffer<int>(17), Is.Not.Null);
-
-    [Test]
-    public void Ctor_with_id_version()
-        => Assert.That(() => new EventBuffer<int>(17, version: 12), Is.Not.Null);
-
-    [Test]
-    public void ClearCommitted()
-        => Assert.That(() => EventBuffer.Empty(666).ClearCommitted(), Is.Not.Null);
-
-    [Test]
-    public void AddRange()
-       => Assert.That(() => EventBuffer.Empty(666).AddRange(Array.Empty<object>()), Is.Not.Null);
-
-    [Test]
-    public void FromStorage()
-        => Assert.That(() => EventBuffer<int>.FromStorage(1, Array.Empty<object>(), e => e), Is.Not.Null);
-
-    [Test]
-    public void FromStorage_with_version()
-        => Assert.That(() => EventBuffer<int>.FromStorage(1, 0, Array.Empty<object>(), e => e), Is.Not.Null);
 }
 
 [EmptyTestClass]

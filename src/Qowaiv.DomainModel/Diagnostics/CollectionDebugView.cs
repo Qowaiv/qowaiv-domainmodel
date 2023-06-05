@@ -2,7 +2,7 @@
 
 /// <summary>Allows the debugger to display collections.</summary>
 [ExcludeFromCodeCoverage]
-internal class CollectionDebugView
+internal sealed class CollectionDebugView
 {
     /// <summary>Initializes a new instance of the <see cref="CollectionDebugView"/> class.</summary>
     /// <param name="enumeration">

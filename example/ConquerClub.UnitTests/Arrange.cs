@@ -49,10 +49,10 @@ internal static class Arrange
 
 internal class TestProcessor : CommandProcessor<Result>
 {
-    public TestProcessor(Buffer buffer, int seed)
+    public TestProcessor(Buffer? buffer, int seed)
     {
         Rnd = new MersenneTwister(seed);
-        Buffer = buffer;
+        Buffer = buffer ?? EventBuffer.Empty(GameId.Next());
     }
     
     public Buffer Buffer { get; private set; }

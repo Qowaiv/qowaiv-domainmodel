@@ -57,15 +57,28 @@ public class Add
 
     [Test]
     public void Null_item_has_no_effect()
-        => ImmutableCollection.Empty.Add<object>(null).Should().BeEmpty();
+        => ImmutableCollection.Empty.Add(null!).Should().BeEmpty();
 
     [Test]
-    public void Only_null_items_has_no_effect()
-        => ImmutableCollection.Empty.Add(null, null, null).Should().BeEmpty();
+    public void Null_items_are_ignored()
+        => ImmutableCollection.Empty.AddRange(null!, 1, null!, 2, 3, null!, 4)
+        .Should().BeEquivalentTo(new[] { 1, 2, 3, 4 });
 
     [Test]
     public void String_is_not_considered_an_collection()
         => ImmutableCollection.Empty.Add("some string").Should().ContainSingle();
+
+    [Test]
+    public void Does_not_effect_shared_subs()
+    {
+        var root = ImmutableCollection.Empty.AddRange(1, 2);
+        var first = root.AddRange(4, 8, 16);
+        var second = root.AddRange(3, 4, 5);
+
+        root.Should().BeEquivalentTo(new[] { 1, 2 });
+        first.Should().BeEquivalentTo(new[] { 1, 2, 4, 8, 16 });
+        second.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5 });
+    }
 }
 
 public class If_not_true
@@ -177,6 +190,31 @@ public class If_true
             .Else(Help.FailingCreation);
 
         events.Should().ContainSingle();
+    }
+}
+
+public class Then
+{
+    [Test]
+    public void Add_is_executed_after_true_branch()
+    {
+        var events = ImmutableCollection.Empty
+           .If(true)
+               .Then(() => new Dummy())
+            .Add(new Dummy());
+
+        events.Should().HaveCount(2);
+    }
+
+    [Test]
+    public void Add_is_executed_after_false_branch()
+    {
+        var events = ImmutableCollection.Empty
+           .If(false)
+               .Then(() => new Dummy())
+            .Add(new Dummy());
+
+        events.Should().HaveCount(1);
     }
 }
 
