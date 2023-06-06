@@ -103,7 +103,7 @@ public readonly struct EventBuffer<TId> : ICollection<object>
 
     /// <inheritdoc />
     [Pure]
-    bool ICollection<object>.Contains(object item) => Buffer.Contains(item);
+    public bool Contains(object item) => Buffer.Contains(item);
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [Pure]

@@ -1,5 +1,6 @@
-﻿using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.UnitTests;
+﻿using NUnit.Framework.Internal.Execution;
+using Qowaiv.DomainModel;
+using Qowaiv.DomainModel.UnitTests.Models;
 
 namespace Event_buffer_specs;
 
@@ -79,6 +80,9 @@ public class IsEmpty
     public void True_for_empty_buffer() => EventBuffer.Empty(17).IsEmpty.Should().BeTrue();
 
     [Test]
+    public void True_for_empty_buffer_with_offset() => EventBuffer.Empty(17, version: 2000).IsEmpty.Should().BeTrue();
+
+    [Test]
     public void False_for_non_empty_buffer() => EventBuffer.Empty(17).Add(new EmptyEvent()).IsEmpty.Should().BeFalse();
 }
 
@@ -136,8 +140,107 @@ public class Debugger_display
     }
 }
 
-[EmptyTestClass]
-internal record EmptyEvent();
+public class Implements_ICollection
+{
+    [Test]
+    public void returns_true_for_contained_events()
+    {
+        var @event = new EmptyEvent();
+        var buffer = EventBuffer.Empty(17).Add(@event);
+        buffer.Contains(@event).Should().BeTrue();
+    }
 
-internal record StoredEvent(object Id, int Version, object Payload);
+    [Test]
+    public void returns_false_for_contained_events()
+    {
+        var buffer = EventBuffer.Empty(17).Add(new EmptyEvent());
+        buffer.Contains(new object()).Should().BeFalse();
+    }
 
+    [Test]
+    public void Copies_events_to_other_array()
+    {
+        var @event0 = new EmptyEvent();
+        var @event1 = new EmptyEvent();
+        var buffer = EventBuffer.Empty(17).Add(@event0).Add(event1);
+
+        var array = new object[5];
+
+        buffer.CopyTo(array, 1);
+
+        array.Should().BeEquivalentTo(new object?[]
+        {
+            null,
+            event0,
+            event1,
+            null,
+            null
+        });
+    }
+
+    [Test]
+    public void Copies_nothing_when_empty()
+    {
+        var buffer = default(EventBuffer<int>);
+
+        var array = new object[5];
+
+        buffer.CopyTo(array, 1);
+
+        array.Should().BeEquivalentTo(new object?[]
+        {
+            null,
+            null,
+            null,
+            null,
+            null
+        });
+    }
+
+    /// <remarks>
+    /// This is only exposed when explicitly <see cref="ICollection{object}"/>.
+    /// </remarks>
+    public class Explicitly
+    {
+        [Test]
+        public void Is_read_only()
+        {
+            ICollection<object> collection = EventBuffer.Empty(17);
+            collection.IsReadOnly.Should().BeTrue();
+        }
+
+        [Test]
+        public void Count()
+        {
+            ICollection<object> collection = EventBuffer.Empty(17).Add(new[] { 1, 2, 3, 4 });
+            collection.Count.Should().Be(4);
+        }
+
+        public class Does_not_support
+        {
+            [Test]
+            public void Add()
+            {
+                ICollection<object> collection = EventBuffer.Empty(17);
+                collection.Invoking(c => c.Add(new EmptyEvent()))
+                    .Should().Throw<NotSupportedException>();
+            }
+
+            [Test]
+            public void Remove()
+            {
+                ICollection<object> collection = EventBuffer.Empty(17);
+                collection.Invoking(c => c.Remove(new EmptyEvent()))
+                    .Should().Throw<NotSupportedException>();
+            }
+
+            [Test]
+            public void Clear()
+            {
+                ICollection<object> collection = EventBuffer.Empty(17);
+                collection.Invoking(c => c.Clear())
+                    .Should().Throw<NotSupportedException>();
+            }
+        }
+    }
+}
