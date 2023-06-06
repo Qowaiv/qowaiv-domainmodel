@@ -28,7 +28,7 @@ public abstract class Aggregate<TAggregate>
     protected static ImmutableCollection Events => ImmutableCollection.Empty;
 #pragma warning restore S2743 // Static fields should not be used in generic types
 
-    /// <summary>The dynamic </summary>
+    /// <summary>The dispatcher that calls the methods that (re)play the different events.</summary>
     protected virtual EventDispatcher Dispatcher { get; }
 
     /// <summary>Adds the events to the linked event buffer.</summary>
