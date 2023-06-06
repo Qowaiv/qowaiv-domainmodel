@@ -143,6 +143,13 @@ public class Debugger_display
 public class Implements_ICollection
 {
     [Test]
+    public void Count_is_equal_to_buffer_count()
+    {
+        var collection = EventBuffer.Empty(17).Add(new[] { 1, 2, 3, 4 });
+        collection.Count.Should().Be(4);
+    }
+
+    [Test]
     public void returns_true_for_contained_events()
     {
         var @event = new EmptyEvent();
@@ -207,13 +214,6 @@ public class Implements_ICollection
         {
             ICollection<object> collection = EventBuffer.Empty(17);
             collection.IsReadOnly.Should().BeTrue();
-        }
-
-        [Test]
-        public void Count()
-        {
-            ICollection<object> collection = EventBuffer.Empty(17).Add(new[] { 1, 2, 3, 4 });
-            collection.Count.Should().Be(4);
         }
 
         public class Does_not_support

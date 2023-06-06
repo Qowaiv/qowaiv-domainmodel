@@ -28,7 +28,7 @@ public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId 
 /// </typeparam>
 [DebuggerDisplay("{DebuggerDisplay}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
-public readonly struct EventBuffer<TId> : ICollection<object>
+public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollection<object>
 {
     private readonly AppendOnlyCollection Buffer;
     private readonly int Offset;
@@ -50,6 +50,9 @@ public readonly struct EventBuffer<TId> : ICollection<object>
 
     /// <summary>Gets the committed version of the event buffer.</summary>
     public int CommittedVersion { get; }
+
+    /// <inheritdoc cref="IReadOnlyCollection{T}.Count" />
+    public int Count => Buffer.Count;
 
     /// <summary>Get all committed events in the event buffer.</summary>
     public IEnumerable<object> Committed => Buffer.Take(CommittedVersion - Offset);
@@ -123,9 +126,6 @@ public readonly struct EventBuffer<TId> : ICollection<object>
         => Version == CommittedVersion
         ? $"Version: {Version}, Aggregate: {AggregateId}"
         : $"Version: {Version} (Committed: {CommittedVersion}), Aggregate: {AggregateId}";
-
-    /// <inheritdoc />
-    int ICollection<object>.Count => Buffer.Count;
 
     /// <inheritdoc />
     bool ICollection<object>.IsReadOnly => true;
