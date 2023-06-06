@@ -71,11 +71,11 @@ public class Add
     [Test]
     public void Does_not_effect_shared_subs()
     {
-        var root = ImmutableCollection.Empty.AddRange(1, 2);
-        var first = root.AddRange(4, 8, 16);
-        var second = root.AddRange(3, 4, 5);
+        var parent = ImmutableCollection.Empty.AddRange(1, 2);
+        var first = parent.AddRange(4, 8, 16);
+        var second = parent.AddRange(3, 4, 5);
 
-        root.Should().BeEquivalentTo(new[] { 1, 2 });
+        parent.Should().BeEquivalentTo(new[] { 1, 2 });
         first.Should().BeEquivalentTo(new[] { 1, 2, 4, 8, 16 });
         second.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5 });
     }

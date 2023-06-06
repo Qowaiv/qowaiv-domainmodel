@@ -16,7 +16,7 @@ set up a Domain-Driven application.
 Within Qowaiv Domain Model, the choice has been made to only support DDD via
 Event Sourcing. In short: Event Sourcing describes the state of an aggregate
 (root) by the (domain) events that occurred within the domain. Getting the
-current state of an aggregate root can always be achieved by replaying these
+current state of an aggregate can always be achieved by replaying these
 events. 
 
 ## Always Valid

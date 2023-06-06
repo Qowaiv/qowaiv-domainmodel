@@ -22,7 +22,7 @@ public static class AggregateRoot
         => Aggregate.FromStorage<TAggregate, TId>(buffer);
 }
 
-/// <summary>Represents an (domain-driven design) aggregate root that is based on event sourcing.</summary>
+/// <summary>Represents an (domain-driven design) aggregate that is based on event sourcing.</summary>
 /// <typeparam name="TAggregate">
 /// The type of the aggregate root itself.
 /// </typeparam>
@@ -38,7 +38,7 @@ public abstract class AggregateRoot<TAggregate> : Aggregate<TAggregate>
     protected AggregateRoot(IValidator<TAggregate> validator) : base(validator) { }
 }
 
-/// <summary>Represents an (domain-driven design) aggregate root that is based on event sourcing.</summary>
+/// <summary>Represents an (domain-driven design) aggregate that is based on event sourcing.</summary>
 /// <typeparam name="TAggregate">
 /// The type of the aggregate root itself.
 /// </typeparam>

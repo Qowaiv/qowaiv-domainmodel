@@ -1,6 +1,6 @@
 ﻿namespace Qowaiv.DomainModel;
 
-/// <summary>Represents an (domain-driven design) aggregate root that is based on event sourcing.</summary>
+/// <summary>Represents an (domain-driven design) aggregate that is based on event sourcing.</summary>
 /// <typeparam name="TAggregate">
 /// The type of the aggregate root itself.
 /// </typeparam>
@@ -80,7 +80,7 @@ public abstract class Aggregate<TAggregate>
     [Pure]
     protected virtual object PreProcessEvent(object @event) => @event;
 
-    /// <summary>Loads the state of the aggregate root by replaying events.</summary>
+    /// <summary>Loads the state of the aggregate by replaying events.</summary>
     protected void Replay(IEnumerable<object> events)
     {
         foreach (var @event in Guard.NotNull(events, nameof(events)))
