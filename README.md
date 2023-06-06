@@ -20,7 +20,7 @@ current state of an aggregate root can always be achieved by replaying these
 events. 
 
 ## Always Valid
-The aggregate should always be valid according to the boundaries of their domain.
+The aggregate should always be valid according to the boundaries of its domain.
 There are multiple ways to achieve this, but within Qowaiv Domain Model this is
 guaranteed via an implicitly triggered validator.
 
