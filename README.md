@@ -71,7 +71,7 @@ trick. This might be beneficial for aggregate roots that have a lot of events
 ## Event dispatcher
 Each aggregate has an event dispatcher that by default uses compiled
 expressions to execute matching non-public `When(@event)` methods. This is
-extremely fast, but if desired, by implementing a own `EventDispatcher`, the
+extremely fast, but if desired, by implementing your own `EventDispatcher`, the
 behavior can be changed.
 
 ## Example 1
