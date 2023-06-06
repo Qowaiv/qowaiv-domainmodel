@@ -156,8 +156,8 @@ line with any other currency than the lines already added, nor add any financial
 entries that are not balanced. Both extremely important within this particular
 domain.
 
-Note that the decision to throw an exception, or deal with a
-`Result<TAggegate>` is up to the developer.
+Note that the decision to throw an exception, or to deal with a
+`Result<TAggregate>` gradually, is up to the developer.
 
 ## Example 2
 An advanced example (implementing ConquerClub) can be found at [example/README.md](example/README.md).
