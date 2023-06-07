@@ -1,5 +1,4 @@
-﻿using Qowaiv.DomainModel.UnitTests.Models;
-using Qowaiv.Validation.Guarding;
+﻿using Qowaiv.Validation.Guarding;
 using Qowaiv.Validation.Messages;
 
 namespace Must_specs

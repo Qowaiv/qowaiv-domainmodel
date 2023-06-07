@@ -1,11 +1,12 @@
-﻿using System.Diagnostics.Contracts;
+﻿using Qowaiv.DomainModel;
+using System.Diagnostics.Contracts;
 
-namespace Qowaiv.DomainModel.UnitTests.Models;
+namespace Models;
 
 internal sealed class AggregateStub : Aggregate<AggregateStub, int>
 {
     public AggregateStub()
-        : base(0, Validation.Abstractions.Validator.Empty<AggregateStub>()) { }
+        : base(0, Qowaiv.Validation.Abstractions.Validator.Empty<AggregateStub>()) { }
 
     [Pure]
     public AggregateStub Add(params object[] events)
