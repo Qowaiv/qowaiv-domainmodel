@@ -1,6 +1,4 @@
-﻿using Qowaiv.DomainModel.UnitTests;
-
-namespace Collections.Immutable_Collection_specs;
+﻿namespace Collections.Immutable_Collection_specs;
 
 internal static class Help
 {
@@ -78,6 +76,15 @@ public class Add
         parent.Should().BeEquivalentTo(new[] { 1, 2 });
         first.Should().BeEquivalentTo(new[] { 1, 2, 4, 8, 16 });
         second.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5 });
+    }
+
+    [Test]
+    public void with_plus_operator()
+    {
+        var collection = ImmutableCollection.Empty;
+        collection += 3;
+        collection += new[] { 6, 9 };
+        collection.Should().BeEquivalentTo(new[] { 3, 6, 9 });
     }
 }
 
