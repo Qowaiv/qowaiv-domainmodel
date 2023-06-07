@@ -10,7 +10,8 @@
 NextRelease
 - Renamed AggregateRoot to Aggregate. #35 (breaking)
 - Re-implemented ImmutableCollection. #34 (breaking)
-- EventStream as struct. #34 (breaking)
+- EventBuffer as struct. #34 (breaking)
+- EventBuffer implements ICollection&lt;object&gt;. #36
 - EventDispatcher without dynamics. #34 (breaking)
 - Enable annotations. #31
 - Publish .NET 7.0. #29
