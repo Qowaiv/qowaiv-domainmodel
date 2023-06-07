@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.DomainModel;
+﻿using System.Runtime.CompilerServices;
+
+namespace Qowaiv.DomainModel;
 
 /// <summary>A function to convert the event (payload) from the stored event.</summary>
 /// <typeparam name="TId">
@@ -20,7 +22,7 @@
 /// The converted event.
 /// </returns>
 [Pure]
-public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId aggregateId, int version, object @event);
+public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId aggregateId, long version, object @event);
 
 /// <summary>A buffer of events that should be added to an event stream.</summary>
 /// <typeparam name="TId">
@@ -30,11 +32,12 @@ public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId 
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollection<object>
 {
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly AppendOnlyCollection Buffer;
-    private readonly int Offset;
+    private readonly long Offset;
 
     /// <summary>Initializes a new instance of the <see cref="EventBuffer{TId}"/> struct.</summary>
-    internal EventBuffer(TId aggregateId, int offset, int committed, AppendOnlyCollection buffer)
+    internal EventBuffer(TId aggregateId, long offset, long committed, AppendOnlyCollection buffer)
     {
         AggregateId = aggregateId;
         CommittedVersion = committed;
@@ -46,10 +49,10 @@ public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollecti
     public TId AggregateId { get; }
 
     /// <summary>The version of the event buffer.</summary>
-    public int Version => Buffer.Count + Offset;
+    public long Version => Buffer.Count + Offset;
 
     /// <summary>Gets the committed version of the event buffer.</summary>
-    public int CommittedVersion { get; }
+    public long CommittedVersion { get; }
 
     /// <summary>Gets the number of events in the event buffer.</summary>
     /// <remarks>
@@ -59,10 +62,14 @@ public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollecti
     public int Count => Buffer.Count;
 
     /// <summary>Get all committed events in the event buffer.</summary>
-    public IEnumerable<object> Committed => Buffer.Take(CommittedVersion - Offset);
+    public IEnumerable<object> Committed => Buffer.Take(CommitedOffset());
 
     /// <summary>Get all uncommitted events in the event buffer.</summary>
-    public IEnumerable<object> Uncommitted => Buffer.Skip(CommittedVersion - Offset);
+    public IEnumerable<object> Uncommitted => Buffer.Skip(CommitedOffset());
+
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private int CommitedOffset() => checked((int)(CommittedVersion - Offset));
 
     /// <summary>Returns true if the event buffer contains at least one uncommitted event.</summary>
     public bool HasUncommitted => Version != CommittedVersion;

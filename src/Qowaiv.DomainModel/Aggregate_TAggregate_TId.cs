@@ -24,7 +24,7 @@ public class Aggregate<TAggregate, TId> : Aggregate<TAggregate>
     public TId Id => Buffer.AggregateId;
 
     /// <summary>Gets the version of aggregate.</summary>
-    public int Version => Buffer.Version;
+    public long Version => Buffer.Version;
 
     /// <summary>Gets the buffer with the recently added events.</summary>
     public EventBuffer<TId> Buffer { get; protected set; }
