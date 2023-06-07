@@ -1,6 +1,4 @@
-﻿using Models.Events;
-
-namespace Qowaiv.DomainModel.UnitTests.Models;
+﻿namespace Qowaiv.DomainModel.UnitTests.Models;
 
 public sealed class SimpleEventSourcedAggregate : Aggregate<SimpleEventSourcedAggregate, Guid>
 {

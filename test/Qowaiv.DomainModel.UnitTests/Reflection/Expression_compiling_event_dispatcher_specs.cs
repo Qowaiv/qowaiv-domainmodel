@@ -89,12 +89,6 @@ public class Not_supported_when_methods
             .Should().NotThrow();
     }
 
-
-    internal class WhenWithDummyEvent
-    {
-        internal void When(DummyEvent _) => throw new Detected();
-    }
-
     internal class WhenWithMultipleParameters
     {
         internal void When(DummyEvent @event, int other) => throw new NotSupportedException($"{@event} + {other}.");
