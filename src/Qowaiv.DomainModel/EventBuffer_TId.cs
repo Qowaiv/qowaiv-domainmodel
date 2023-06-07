@@ -42,7 +42,7 @@ public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollecti
         Buffer = buffer;
     }
 
-    /// <summary>Gets the identifier of the aggregate root.</summary>
+    /// <summary>Gets the identifier of the aggregate.</summary>
     public TId AggregateId { get; }
 
     /// <summary>The version of the event buffer.</summary>

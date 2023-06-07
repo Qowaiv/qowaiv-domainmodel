@@ -9,7 +9,7 @@ namespace Must_specs
         [Test]
         public void guards_expected_version()
         {
-            var aggregate = new SimpleEventSourcedRoot();
+            var aggregate = new SimpleEventSourcedAggregate();
             var result = aggregate.Must().HaveVersion(0);
 
             result.Should().BeValid().WithoutMessages();
@@ -18,7 +18,7 @@ namespace Must_specs
         [Test]
         public void raises_concurrency_issue()
         {
-            var aggregate = new SimpleEventSourcedRoot();
+            var aggregate = new SimpleEventSourcedAggregate();
             var result = aggregate.Must().HaveVersion(1);
 
             result.Should().BeInvalid().WithMessage(ConcurrencyIssue.VersionMismatch(1, 0));

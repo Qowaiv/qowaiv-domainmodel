@@ -1,17 +1,17 @@
 ﻿namespace Qowaiv.DomainModel;
 
-/// <summary>Represents an (domain-driven design) aggregate root that is based on event sourcing.</summary>
+/// <summary>Represents an (domain-driven design) aggregate that is based on event sourcing.</summary>
 /// <typeparam name="TAggregate">
 /// The type of the aggregate root itself.
 /// </typeparam>
-public abstract class AggregateRoot<TAggregate>
-    where TAggregate : AggregateRoot<TAggregate>
+public abstract class Aggregate<TAggregate>
+    where TAggregate : Aggregate<TAggregate>
 {
-    /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate}"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Aggregate{TAggregate}"/> class.</summary>
     /// <param name="validator">
     /// A custom <paramref name="validator"/> to validate the aggregate.
     /// </param>
-    protected AggregateRoot(IValidator<TAggregate> validator)
+    protected Aggregate(IValidator<TAggregate> validator)
     {
         Validator = Guard.NotNull(validator, nameof(validator));
         Dispatcher = new ExpressionCompilingEventDispatcher<TAggregate>((TAggregate)this);
@@ -28,7 +28,7 @@ public abstract class AggregateRoot<TAggregate>
     protected static ImmutableCollection Events => ImmutableCollection.Empty;
 #pragma warning restore S2743 // Static fields should not be used in generic types
 
-    /// <summary>The dynamic </summary>
+    /// <summary>The dispatcher that calls the methods that (re)play the different events.</summary>
     protected virtual EventDispatcher Dispatcher { get; }
 
     /// <summary>Adds the events to the linked event buffer.</summary>
@@ -80,7 +80,7 @@ public abstract class AggregateRoot<TAggregate>
     [Pure]
     protected virtual object PreProcessEvent(object @event) => @event;
 
-    /// <summary>Loads the state of the aggregate root by replaying events.</summary>
+    /// <summary>Loads the state of the aggregate by replaying events.</summary>
     protected void Replay(IEnumerable<object> events)
     {
         foreach (var @event in Guard.NotNull(events, nameof(events)))

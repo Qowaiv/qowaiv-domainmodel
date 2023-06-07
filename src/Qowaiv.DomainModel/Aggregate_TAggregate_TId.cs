@@ -1,29 +1,29 @@
 ﻿namespace Qowaiv.DomainModel;
 
-/// <summary>Represents an (domain-driven design) aggregate root that is based on event sourcing.</summary>
+/// <summary>Represents an (domain-driven design) aggregate that is based on event sourcing.</summary>
 /// <typeparam name="TAggregate">
-/// The type of the aggregate root itself.
+/// The type of the aggregate itself.
 /// </typeparam>
 /// <typeparam name="TId">
 /// The type of the identifier.
 /// </typeparam>
-public class AggregateRoot<TAggregate, TId> : AggregateRoot<TAggregate>
-    where TAggregate : AggregateRoot<TAggregate, TId>, new()
+public class Aggregate<TAggregate, TId> : Aggregate<TAggregate>
+    where TAggregate : Aggregate<TAggregate, TId>, new()
 {
-    /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate, TId}"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Aggregate{TAggregate, TId}"/> class.</summary>
     /// <param name="validator">
     /// A custom <paramref name="validator"/> to validate the aggregate.
     /// </param>
     /// <param name="aggregateId">
     /// The identifier of the aggregate.
     /// </param>
-    protected AggregateRoot(TId aggregateId, IValidator<TAggregate> validator) : base(validator)
+    protected Aggregate(TId aggregateId, IValidator<TAggregate> validator) : base(validator)
         => Buffer = EventBuffer.Empty(aggregateId);
 
     /// <summary>Gets the identifier.</summary>
     public TId Id => Buffer.AggregateId;
 
-    /// <summary>Gets the version of aggregate root.</summary>
+    /// <summary>Gets the version of aggregate.</summary>
     public int Version => Buffer.Version;
 
     /// <summary>Gets the buffer with the recently added events.</summary>
@@ -42,7 +42,7 @@ public class AggregateRoot<TAggregate, TId> : AggregateRoot<TAggregate>
         return cloned;
     }
 
-    /// <summary>Loads the state of the aggregate root by replaying events.</summary>
+    /// <summary>Loads the state of the aggregate by replaying events.</summary>
     internal void Replay(EventBuffer<TId> buffer)
     {
         Buffer = buffer;

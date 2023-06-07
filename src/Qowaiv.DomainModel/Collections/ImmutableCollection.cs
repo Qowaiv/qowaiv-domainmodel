@@ -28,7 +28,7 @@ public sealed class ImmutableCollection : IReadOnlyCollection<object>
     /// Null, and null items are ignored.
     /// </remarks>
     [Pure]
-    public ImmutableCollection Add(object item)
+    public ImmutableCollection Add(object? item)
         => new(Items.Add(item));
 
     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added items.</summary>
@@ -36,7 +36,7 @@ public sealed class ImmutableCollection : IReadOnlyCollection<object>
     /// Null, and null items are ignored.
     /// </remarks>
     [Pure]
-    public ImmutableCollection AddRange(params object[] items) => Add(items);
+    public ImmutableCollection AddRange(params object?[]? items) => Add(items);
 
     /// <summary>Starts a conditional addition.</summary>
     [Pure]

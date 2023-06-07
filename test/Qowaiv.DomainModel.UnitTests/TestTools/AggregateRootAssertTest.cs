@@ -162,9 +162,6 @@ namespace Qowaiv.DomainModel.UnitTests.TestTools
 namespace TestEvents
 {
     [EmptyTestClass]
-    internal class EmptyEvent { }
-
-    [EmptyTestClass]
     internal class SimpleEvent { public int Value { get; set; } }
 
     [EmptyTestClass]

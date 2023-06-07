@@ -28,7 +28,7 @@ public class Iteration
     public double List() => Sum(list);
 
     [Benchmark]
-    public double Aggregate() => AggregateRoot.FromStorage<Aggregate_id, int>(buffer).Sum;
+    public double Aggregate() => Qowaiv.DomainModel.Aggregate.FromStorage<Aggregate_id, int>(buffer).Sum;
 
     private static double Sum(IEnumerable<object> events)
     {

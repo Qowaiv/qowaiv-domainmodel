@@ -3,7 +3,7 @@
 /// <summary>Extensions on <see cref="Must{TSubject}"/>.</summary>
 public static class DomainModelExtensions
 {
-    /// <summary>Guards the <see cref="AggregateRoot{TAggregate, TId}"/> to have the expected version;
+    /// <summary>Guards the <see cref="Aggregate{TAggregate, TId}"/> to have the expected version;
     /// otherwise return a <see cref="ConcurrencyIssue"/>.
     /// </summary>
     /// <typeparam name="TAggregate">
@@ -22,7 +22,7 @@ public static class DomainModelExtensions
     /// </remarks>
     [Pure]
     public static Result<TAggregate> HaveVersion<TAggregate>(this Must<TAggregate> must, int expected)
-        where TAggregate : AggregateRoot<TAggregate>, new()
+        where TAggregate : Aggregate<TAggregate>, new()
     {
         Guard.NotNull(must, nameof(must));
         Guard.NotNegative(expected, nameof(expected));

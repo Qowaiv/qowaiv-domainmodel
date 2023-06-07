@@ -21,7 +21,7 @@ public static class EventBuffer
     /// The type of the identifier of the aggregate.
     /// </typeparam>
     /// <param name="aggregateId">
-    /// The identifier of the aggregate root.
+    /// The identifier of the aggregate.
     /// </param>
     [Pure]
     public static EventBuffer<TId> Empty<TId>(TId aggregateId) => Empty(aggregateId, 0);
@@ -31,7 +31,7 @@ public static class EventBuffer
     /// The type of the identifier of the aggregate.
     /// </typeparam>
     /// <param name="aggregateId">
-    /// The identifier of the aggregate root.
+    /// The identifier of the aggregate.
     /// </param>
     /// <param name="version">
     /// The initial version (offset).
@@ -48,7 +48,7 @@ public static class EventBuffer
     /// The type of the stored event.
     /// </typeparam>
     /// <param name="aggregateId">
-    /// The identifier of the aggregate root.
+    /// The identifier of the aggregate.
     /// </param>
     /// <param name="storedEvents">
     /// The stored events.
@@ -74,7 +74,7 @@ public static class EventBuffer
     /// The type of the stored event.
     /// </typeparam>
     /// <param name="aggregateId">
-    /// The identifier of the aggregate root.
+    /// The identifier of the aggregate.
     /// </param>
     /// <param name="initialVersion">
     /// The initial version (offset).
