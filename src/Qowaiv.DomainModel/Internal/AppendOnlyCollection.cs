@@ -48,6 +48,15 @@ internal readonly struct AppendOnlyCollection : IReadOnlyCollection<object>
         }
     }
 
+    /// <inheritdoc cref="ICollection.CopyTo(Array, int)" />
+    public void CopyTo(object[] array, int arrayIndex)
+    {
+        if (Count > 0)
+        {
+            Array.Copy(Buffer, 0, array, arrayIndex, Count);
+        }
+    }
+
     /// <summary>Returns a specified range of contiguous elements from the collection.</summary>
     [Pure]
     public Enumerator Take(int count) => new(Buffer, Math.Min(count, Count));

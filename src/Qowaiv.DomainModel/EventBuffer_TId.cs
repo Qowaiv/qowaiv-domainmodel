@@ -28,7 +28,7 @@ public delegate TStoredEvent ConvertToStoredEvent<in TId, out TStoredEvent>(TId 
 /// </typeparam>
 [DebuggerDisplay("{DebuggerDisplay}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
-public readonly struct EventBuffer<TId> : IEnumerable<object>
+public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollection<object>
 {
     private readonly AppendOnlyCollection Buffer;
     private readonly int Offset;
@@ -50,6 +50,13 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
 
     /// <summary>Gets the committed version of the event buffer.</summary>
     public int CommittedVersion { get; }
+
+    /// <summary>Gets the number of events in the event buffer.</summary>
+    /// <remarks>
+    /// This number is not the version. It can be lower when the event buffer has
+    /// been created using an initial version.
+    /// </remarks>
+    public int Count => Buffer.Count;
 
     /// <summary>Get all committed events in the event buffer.</summary>
     public IEnumerable<object> Committed => Buffer.Take(CommittedVersion - Offset);
@@ -98,6 +105,13 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
         return Uncommitted.Select((@event, index) => convert(self.AggregateId, self.CommittedVersion + index + 1, @event));
     }
 
+    /// <inheritdoc />
+    public void CopyTo(object[] array, int arrayIndex) => Buffer.CopyTo(array, arrayIndex);
+
+    /// <inheritdoc />
+    [Pure]
+    public bool Contains(object item) => Buffer.Contains(item);
+
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [Pure]
     public Enumerator GetEnumerator() => Buffer.GetEnumerator();
@@ -116,4 +130,17 @@ public readonly struct EventBuffer<TId> : IEnumerable<object>
         => Version == CommittedVersion
         ? $"Version: {Version}, Aggregate: {AggregateId}"
         : $"Version: {Version} (Committed: {CommittedVersion}), Aggregate: {AggregateId}";
+
+    /// <inheritdoc />
+    bool ICollection<object>.IsReadOnly => true;
+
+    /// <inheritdoc />
+    void ICollection<object>.Add(object item) => throw new NotSupportedException();
+
+    /// <inheritdoc />
+    void ICollection<object>.Clear() => throw new NotSupportedException();
+
+    /// <inheritdoc />
+    [Pure]
+    bool ICollection<object>.Remove(object item) => throw new NotSupportedException();
 }
