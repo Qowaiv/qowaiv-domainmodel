@@ -8,6 +8,7 @@
 public class AssertionFailed : Exception
 {
     /// <summary>Initializes a new instance of the <see cref="AssertionFailed"/> class.</summary>
+    [ExcludeFromCodeCoverage/* Justification = "Required for inheritance only." */]
     public AssertionFailed() : this("Assertion failed.") { }
 
     /// <summary>Initializes a new instance of the <see cref="AssertionFailed"/> class.</summary>
@@ -24,6 +25,7 @@ public class AssertionFailed : Exception
     /// The exception that is the cause of the current exception, or a null reference
     ///  if no inner exception is specified.
     /// </param>
+    [ExcludeFromCodeCoverage/* Justification = "Required for inheritance only." */]
     public AssertionFailed(string message, Exception innerException) : base(message, innerException) { }
 
     /// <summary>Initializes a new instance of the <see cref="AssertionFailed"/> class.</summary>
@@ -33,5 +35,6 @@ public class AssertionFailed : Exception
     /// <param name="context">
     /// An object that describes the source or destination of the serialized data.
     /// </param>
+    [ExcludeFromCodeCoverage/* Justification = "Required for inheritance only." */]
     protected AssertionFailed(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }
