@@ -62,6 +62,6 @@ public sealed class ImmutableCollection : IReadOnlyCollection<object>
     /// <remarks>
     /// Syntactic sugar.
     /// </remarks>
-    public static ImmutableCollection operator +(ImmutableCollection collection, object item) 
+    public static ImmutableCollection operator +(ImmutableCollection collection, object item)
         => Guard.NotNull(collection, nameof(collection)).Add(item);
 }

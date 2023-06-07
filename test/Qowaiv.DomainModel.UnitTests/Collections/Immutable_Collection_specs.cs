@@ -1,6 +1,4 @@
-﻿using Qowaiv.DomainModel.UnitTests;
-
-namespace Collections.Immutable_Collection_specs;
+﻿namespace Collections.Immutable_Collection_specs;
 
 internal static class Help
 {
