@@ -1,6 +1,4 @@
-﻿using NUnit.Framework.Internal.Execution;
-using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.UnitTests.Models;
+﻿using Qowaiv.DomainModel;
 
 namespace Event_buffer_specs;
 

@@ -1,7 +1,6 @@
 ﻿#pragma warning disable CA1822 // Mark members as static, methods are used for tests and need to be instance-based
 
 using Qowaiv.DomainModel.Reflection;
-using Qowaiv.DomainModel.UnitTests;
 
 namespace Relection.Expression_compiling_event_dispatcher_specs;
 

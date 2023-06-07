@@ -10,7 +10,7 @@ namespace Event_sourced_aggregate_specs
         public void from_buffer()
         {
             var id = Guid.Parse("58B82A50-B906-4178-87EC-A8C31B49368B");
-            var buffer = EventBuffer.Empty(id).Add(new NameUpdated { Name = "Jimi Hendrix" });
+            var buffer = EventBuffer.Empty(id).Add(new NameUpdated("Jimi Hendrix"));
 
             var replayed = Aggregate.FromStorage<SimpleEventSourcedAggregate, Guid>(buffer);
             replayed.Should().BeEquivalentTo(new
@@ -31,7 +31,7 @@ namespace Event_sourced_aggregate_specs
             var updated = origin.SetName("Jimi Hendrix").Should().BeValid().Value;
 
             updated.Name.Should().Be("Jimi Hendrix");
-            updated.Buffer.Uncommitted.Should().BeEquivalentTo(new[] { new NameUpdated { Name = "Jimi Hendrix" } });
+            updated.Buffer.Uncommitted.Should().BeEquivalentTo(new[] { new NameUpdated("Jimi Hendrix") });
         }
 
         [Test]
@@ -42,8 +42,8 @@ namespace Event_sourced_aggregate_specs
 
             updated.Buffer.Uncommitted.Should().BeEquivalentTo(new object[]
             {
-                new NameUpdated { Name = "Jimi Hendrix" },
-                new DateOfBirthUpdated { DateOfBirth = new Date(1942, 11, 27) },
+                new NameUpdated("Jimi Hendrix"),
+                new DateOfBirthUpdated(new Date(1942, 11, 27)),
             });
         }
 
@@ -69,7 +69,7 @@ namespace Event_sourced_aggregate_specs
         public void skips_unknown_event_types()
         {
             var aggregate = new TestApplyChangeAggregate();
-            var updated = aggregate.TestApplyChange(new NameUpdated()).Should().BeValid().Value;
+            var updated = aggregate.TestApplyChange(new NameUpdated("unknown")).Should().BeValid().Value;
             updated.Version.Should().Be(1);
         }
     }

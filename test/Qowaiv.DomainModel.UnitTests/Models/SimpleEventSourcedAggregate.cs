@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.DomainModel.UnitTests.Models;
+﻿using Models.Events;
+
+namespace Qowaiv.DomainModel.UnitTests.Models;
 
 public sealed class SimpleEventSourcedAggregate : Aggregate<SimpleEventSourcedAggregate, Guid>
 {
@@ -12,14 +14,12 @@ public sealed class SimpleEventSourcedAggregate : Aggregate<SimpleEventSourcedAg
 
     public bool IsWrong { get; private set; }
 
-    public Result<SimpleEventSourcedAggregate> SetName(string name) => ApplyEvent(new NameUpdated { Name = name });
+    public Result<SimpleEventSourcedAggregate> SetName(string name) => ApplyEvent(new NameUpdated(name));
 
-    public Result<SimpleEventSourcedAggregate> SetPerson(string name, Date dateOfBirth)
-    {
-        return ApplyEvents(
-            new NameUpdated { Name = name },
-            new DateOfBirthUpdated { DateOfBirth = dateOfBirth });
-    }
+    public Result<SimpleEventSourcedAggregate> SetPerson(string name, Date dateOfBirth) 
+        => ApplyEvents(
+            new NameUpdated(name),
+            new DateOfBirthUpdated(dateOfBirth));
 
     internal void When(NameUpdated @event)
     {
