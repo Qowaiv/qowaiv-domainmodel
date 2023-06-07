@@ -51,7 +51,11 @@ public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollecti
     /// <summary>Gets the committed version of the event buffer.</summary>
     public int CommittedVersion { get; }
 
-    /// <inheritdoc cref="IReadOnlyCollection{T}.Count" />
+    /// <summary>Gets the number of events in the event buffer.</summary>
+    /// <remarks>
+    /// This number is not the version. It can be lower when the event buffer has
+    /// been created using an initial version.
+    /// </remarks>
     public int Count => Buffer.Count;
 
     /// <summary>Get all committed events in the event buffer.</summary>
