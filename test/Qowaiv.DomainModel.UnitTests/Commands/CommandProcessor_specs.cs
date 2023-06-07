@@ -1,6 +1,4 @@
-﻿using Qowaiv.DomainModel.UnitTests;
-
-namespace Commands.CommandProcessor_specs;
+﻿namespace Commands.CommandProcessor_specs;
 
 interface CommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command); }
 interface CancelableCommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command, CancellationToken token); }

@@ -1,10 +1,9 @@
 ﻿using Qowaiv.DomainModel.TestTools;
-using Qowaiv.DomainModel.UnitTests;
 using Qowaiv.Globalization;
 using TestEvents;
 
 namespace Qowaiv.DomainModel.UnitTests.TestTools
-{ 
+{
     public class AggregateRootAssertTest
     {
         [Test]

@@ -1,6 +1,4 @@
-﻿using Qowaiv.DomainModel.Reflection;
-
-namespace Qowaiv.DomainModel;
+﻿namespace Qowaiv.DomainModel;
 
 /// <summary>Factory for creating <see cref="ExpressionCompilingEventDispatcher{TDispatcher}"/>'s.</summary>
 public interface EventDispatcher
