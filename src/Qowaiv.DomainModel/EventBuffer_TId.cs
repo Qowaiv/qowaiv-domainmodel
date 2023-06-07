@@ -62,14 +62,14 @@ public readonly struct EventBuffer<TId> : IReadOnlyCollection<object>, ICollecti
     public int Count => Buffer.Count;
 
     /// <summary>Get all committed events in the event buffer.</summary>
-    public IEnumerable<object> Committed => Buffer.Take(CommitedOffset());
+    public IEnumerable<object> Committed => Buffer.Take(CommittedOffset());
 
     /// <summary>Get all uncommitted events in the event buffer.</summary>
-    public IEnumerable<object> Uncommitted => Buffer.Skip(CommitedOffset());
+    public IEnumerable<object> Uncommitted => Buffer.Skip(CommittedOffset());
 
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private int CommitedOffset() => checked((int)(CommittedVersion - Offset));
+    private int CommittedOffset() => checked((int)(CommittedVersion - Offset));
 
     /// <summary>Returns true if the event buffer contains at least one uncommitted event.</summary>
     public bool HasUncommitted => Version != CommittedVersion;
