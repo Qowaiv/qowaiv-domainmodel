@@ -40,7 +40,7 @@ public class Throws_when
     [Test]
     public void hander_could_not_be_resolved()
     {
-        Action send = () => new InvalidReturnTypeProcessor(null).Send(new EmptyCommand());
+        Action send = () => new InvalidReturnTypeProcessor(null!).Send(new EmptyCommand());
         send.Should().Throw<UnresolvedCommandHandler>().WithMessage(
             "The command handler Commands.CommandProcessor_specs.SyncCommandHandler`1[Commands.CommandProcessor_specs.EmptyCommand] could not be resolved.");
     }
