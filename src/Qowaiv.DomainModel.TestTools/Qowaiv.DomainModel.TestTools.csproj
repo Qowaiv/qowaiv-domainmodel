@@ -8,6 +8,7 @@
     <Version>0.1.0</Version>
     <PackageReleaseNotes>
 NextRelease
+- Assertions helpers are FluentAssertion based. #35 (breaking)
 - Enable annotations. #31
 - Publish .NET 7.0. #29  
 v0.1.0
