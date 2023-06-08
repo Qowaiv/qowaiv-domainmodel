@@ -5,7 +5,7 @@ namespace System.Text;
 internal static class QowaivDomainModelStringBuilderExtensions
 {
     [Impure]
-    public static bool AppendEvents(this StringBuilder sb, int index, object exp, object act)
+    public static bool AppendEvents(this StringBuilder sb, long index, object exp, object act)
     {
         if (sb.AppendDifferentTypes(index, exp, act))
         {
@@ -19,7 +19,7 @@ internal static class QowaivDomainModelStringBuilderExtensions
     }
 
     [Impure]
-    public static bool AppendExtraEvents(this StringBuilder sb, IEnumerable<object> events, int offset, int skip, string prefix)
+    public static bool AppendExtraEvents(this StringBuilder sb, IEnumerable<object> events, long offset, int skip, string prefix)
     {
         var index = offset + skip;
 
@@ -36,7 +36,7 @@ internal static class QowaivDomainModelStringBuilderExtensions
     }
 
     [Impure]
-    private static bool AppendDifferentTypes(this StringBuilder sb, int index, object exp, object act)
+    private static bool AppendDifferentTypes(this StringBuilder sb, long index, object exp, object act)
     {
         var actType = act.GetType();
         var expType = exp.GetType();
@@ -50,7 +50,7 @@ internal static class QowaivDomainModelStringBuilderExtensions
     }
 
     [Impure]
-    private static bool AppendDifferentEvents(this StringBuilder sb, int index, object exp, object act)
+    private static bool AppendDifferentEvents(this StringBuilder sb, long index, object exp, object act)
     {
         var failure = false;
 
@@ -109,14 +109,14 @@ internal static class QowaivDomainModelStringBuilderExtensions
     }
 
     [Impure]
-    private static bool AppendIdenticalEvents(this StringBuilder sb, int index, object @event)
+    private static bool AppendIdenticalEvents(this StringBuilder sb, long index, object @event)
     {
         sb.AppendLine($"[{index}] {@event.GetType().Name}");
         return false;
     }
 
     [Impure]
-    private static bool AppendExpectedActual(this StringBuilder sb, int index, object expected, object actual)
+    private static bool AppendExpectedActual(this StringBuilder sb, long index, object expected, object actual)
     {
         var prefix = $"[{index}] ";
         var empty = new string(' ', prefix.Length);

@@ -1,7 +1,7 @@
 using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.TestTools;
 
-namespace TestTools.Aggregate_should_have_uncommitted_events_specs;
+namespace TestTools.Event_buffer_should_have_uncommitted_events_specs;
 
 public class Ensures
 {
@@ -98,7 +98,7 @@ public class Fails_on
     }
 
     [Test]
-    public void extra_messages()
+    public void extra_events()
     {
         var buffer = EventBuffer.Empty(Guid.NewGuid())
             .Add(new object[] {
