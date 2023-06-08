@@ -229,7 +229,7 @@ public Result<Game> Attack(Country attacker, Country defender, AttackResult resu
 ```
 
 ## Event Buffer
-The `EventBuffer<TId>`, as used by `AggregateRoot<TAggregate, TId>` is an
+The `EventBuffer<TId>`, as used by `Aggregate<TAggregate, TId>` is an
 immutable collection with the following API:
 
 ``` C#

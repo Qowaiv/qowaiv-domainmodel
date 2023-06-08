@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Qowaiv.Validation.Fluent;
 
-namespace Qowaiv.DomainModel.UnitTests.Models;
+namespace Models;
 
-public class SimpleEventSourcedAggregateValidator : ModelValidator<SimpleEventSourcedAggregate>
+public sealed class SimpleEventSourcedAggregateValidator : ModelValidator<SimpleEventSourcedAggregate>
 {
     public SimpleEventSourcedAggregateValidator()
     {

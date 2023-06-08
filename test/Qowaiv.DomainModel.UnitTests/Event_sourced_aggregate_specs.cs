@@ -1,5 +1,4 @@
 ﻿using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.UnitTests.Models;
 
 namespace Event_sourced_aggregate_specs
 {

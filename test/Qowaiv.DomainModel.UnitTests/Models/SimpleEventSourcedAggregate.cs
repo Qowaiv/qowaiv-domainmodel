@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.DomainModel.UnitTests.Models;
+﻿using Qowaiv.DomainModel;
+
+namespace Models;
 
 public sealed class SimpleEventSourcedAggregate : Aggregate<SimpleEventSourcedAggregate, Guid>
 {

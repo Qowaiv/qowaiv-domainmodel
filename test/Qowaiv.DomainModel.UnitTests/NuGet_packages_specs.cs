@@ -14,7 +14,7 @@ public class All_NuGet_Packages
         get
         {
             yield return typeof(Qowaiv.DomainModel.Aggregate).Assembly;
-            yield return typeof(Qowaiv.DomainModel.TestTools.AssertionFailed).Assembly;
+            yield return typeof(Qowaiv.DomainModel.TestTools.FluentAssertions.EventBufferAssertions<>).Assembly;
         }
     }
 }
