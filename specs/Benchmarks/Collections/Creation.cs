@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Benchmarks.Collections;
+﻿namespace Benchmarks.Collections;
 
 [MemoryDiagnoser]
 public class Creation
