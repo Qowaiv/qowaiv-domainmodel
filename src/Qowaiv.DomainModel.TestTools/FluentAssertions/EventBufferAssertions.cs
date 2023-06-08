@@ -16,7 +16,7 @@ public class EventBufferAssertions<TId> : GenericCollectionAssertions<EventBuffe
     /// <summary>Initializes a new instance of the <see cref="EventBufferAssertions{TId}"/> class.</summary>
     public EventBufferAssertions(EventBuffer<TId> subject) : base(subject) { }
 
-    /// <summary>Verifies that the <see cref="AggregateRoot{TAggregate}"/> has the expected uncommitted events.</summary>
+    /// <summary>Verifies that the <see cref="Aggregate{TAggregate}"/> has the expected uncommitted events.</summary>
     /// <param name="uncommitted">
     /// The expected uncommitted event messages.
     /// </param>
