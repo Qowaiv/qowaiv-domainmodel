@@ -21,12 +21,12 @@ public static class DomainModelExtensions
     /// extension.
     /// </remarks>
     [Pure]
-    public static Result<TAggregate> HaveVersion<TAggregate>(this Must<TAggregate> must, int expected)
+    public static Result<TAggregate> HaveVersion<TAggregate>(this Must<TAggregate> must, long expected)
         where TAggregate : Aggregate<TAggregate>, new()
     {
         Guard.NotNull(must, nameof(must));
         Guard.NotNegative(expected, nameof(expected));
-        int actual = ((dynamic)must.Subject).Version;
+        long actual = ((dynamic)must.Subject).Version;
         return must.Be(actual == expected, ConcurrencyIssue.VersionMismatch(expected, actual));
     }
 }
