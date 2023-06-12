@@ -5,8 +5,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <PackageReleaseNotes>
+v1.0.1
+- Reintroduce If() on Then(). #40
 v1.0.0
 - Renamed AggregateRoot to Aggregate. #35 (breaking)
 - Re-implemented ImmutableCollection. #34 (breaking)
