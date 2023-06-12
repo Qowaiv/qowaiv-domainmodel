@@ -12,6 +12,7 @@ public sealed class ImmutableCollection : IReadOnlyCollection<object>
     /// <summary>Gets an empty immutable collection.</summary>
     public static readonly ImmutableCollection Empty = new(AppendOnlyCollection.Empty);
 
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     internal readonly AppendOnlyCollection Items;
 
     /// <summary>Initializes a new instance of the <see cref="ImmutableCollection"/> class.</summary>
@@ -44,7 +45,7 @@ public sealed class ImmutableCollection : IReadOnlyCollection<object>
 
     /// <summary>Starts a conditional addition.</summary>
     [Pure]
-    public If If(bool condition) => new(condition, this);
+    public If If(bool condition) => new(condition, Items);
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [Pure]

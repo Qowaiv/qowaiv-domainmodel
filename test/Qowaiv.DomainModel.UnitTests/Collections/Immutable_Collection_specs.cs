@@ -200,28 +200,64 @@ public class If_true
     }
 }
 
-public class Then
+public class Then_
 {
-    [Test]
-    public void Add_is_executed_after_true_branch()
+    public class if_true
     {
-        var events = ImmutableCollection.Empty
-           .If(true)
-               .Then(() => new Dummy())
-            .Add(new Dummy());
+        private readonly Then IfTrue = ImmutableCollection
+            .Empty.If(true)
+                .Then(() => new Dummy());
 
-        events.Should().HaveCount(2);
+        [Test]
+        public void Adds_item() 
+            => IfTrue.Add(new Dummy())
+                .Should().HaveCount(2);
+
+        [Test]
+        public void Adds_range_of_items()
+            => IfTrue.AddRange(new Dummy(), new Dummy())
+                .Should().HaveCount(3);
+
+        [Test]
+        public void If_true_adds()
+            => IfTrue.If(true)
+                .Then(() => new Dummy())
+            .Should().HaveCount(2);
+
+        [Test]
+        public void If_false_does_not_add()
+            => IfTrue.If(false)
+                .Then(() => new Dummy())
+            .Should().HaveCount(1);
     }
 
-    [Test]
-    public void Add_is_executed_after_false_branch()
+    public class if_false
     {
-        var events = ImmutableCollection.Empty
-           .If(false)
-               .Then(() => new Dummy())
-            .Add(new Dummy());
+        private readonly Then IfFalse = ImmutableCollection
+          .Empty.If(false)
+              .Then(() => new Dummy());
 
-        events.Should().HaveCount(1);
+        [Test]
+        public void Adds_item()
+            => IfFalse.Add(new Dummy())
+                .Should().HaveCount(1);
+
+        [Test]
+        public void Adds_range_of_items()
+            => IfFalse.AddRange(new Dummy(), new Dummy())
+                .Should().HaveCount(2);
+
+        [Test]
+        public void If_true_adds()
+            => IfFalse.If(true)
+                .Then(() => new Dummy())
+            .Should().HaveCount(1);
+
+        [Test]
+        public void If_false_does_not_add()
+            => IfFalse.If(false)
+                .Then(() => new Dummy())
+            .Should().BeEmpty();
     }
 }
 

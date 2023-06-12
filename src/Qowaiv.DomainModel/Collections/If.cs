@@ -5,11 +5,11 @@
 public sealed class If
 {
     /// <summary>Initializes a new instance of the <see cref="If"/> class.</summary>
-    internal If(bool condition, ImmutableCollection collection)
+    internal If(bool condition, AppendOnlyCollection collection)
         : this(condition ? IfState.True : IfState.False, collection) { }
 
     /// <summary>Initializes a new instance of the <see cref="If"/> class.</summary>
-    internal If(IfState state, ImmutableCollection collection)
+    internal If(IfState state, AppendOnlyCollection collection)
     {
         State = state;
         Collection = collection;
@@ -21,7 +21,7 @@ public sealed class If
 
     /// <summary>The parent <see cref="ImmutableCollection"/>.</summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    internal ImmutableCollection Collection { get; }
+    internal AppendOnlyCollection Collection { get; }
 
     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added item(s)
     /// if the condition is met.</summary>

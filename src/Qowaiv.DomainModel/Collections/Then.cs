@@ -6,13 +6,14 @@
 public sealed class Then : IReadOnlyCollection<object>
 {
     /// <summary>Initializes a new instance of the <see cref="Then"/> class.</summary>
-    internal Then(bool done, ImmutableCollection item)
+    internal Then(bool done, AppendOnlyCollection item)
     {
         Items = item;
         Done = done;
     }
 
-    private readonly ImmutableCollection Items;
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private readonly AppendOnlyCollection Items;
 
     /// <summary>The predecessor <see cref="ImmutableCollection"/>.</summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -29,7 +30,7 @@ public sealed class Then : IReadOnlyCollection<object>
     /// Null, and null items are ignored.
     /// </remarks>
     [Pure]
-    public ImmutableCollection Add(object? item) => Items.Add(item!);
+    public ImmutableCollection Add(object? item) => new(Items.Add(item));
 
     /// <summary>Creates a new <see cref="ImmutableCollection"/> with the added items.</summary>
     /// <remarks>
@@ -37,6 +38,14 @@ public sealed class Then : IReadOnlyCollection<object>
     /// </remarks>
     [Pure]
     public ImmutableCollection AddRange(params object?[]? items) => Add(items);
+
+    /// <summary>Starts a conditional addition.</summary>
+    [Pure]
+    public If If(bool? condition) => If(condition == true);
+
+    /// <summary>Starts a conditional addition.</summary>
+    [Pure]
+    public If If(bool condition) => new(condition, Items);
 
     /// <summary>Adds else-if condition.</summary>
     [Pure]
@@ -59,8 +68,8 @@ public sealed class Then : IReadOnlyCollection<object>
     [Pure]
     public ImmutableCollection Else<TElseItem>(Func<TElseItem> item) where TElseItem : class
         => Done || item is null
-        ? Items
-        : Items.Add(item());
+        ? new(Items)
+        : new(Items.Add(item()));
 
     /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()" />
     [Pure]
