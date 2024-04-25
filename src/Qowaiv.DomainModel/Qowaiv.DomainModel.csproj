@@ -8,8 +8,8 @@
     <Version>1.1.0</Version>
     <PackageReleaseNotes>
 v1.1.0
+- Expose supported event types via Aggregate.SupportedEventTypes(). #41
 - Publish .NET 8.0.
-- Expose supported event types via Aggregate.SupportedEventTypes().
 v1.0.1
 - Reintroduce If() on Then(). #40
 v1.0.0
