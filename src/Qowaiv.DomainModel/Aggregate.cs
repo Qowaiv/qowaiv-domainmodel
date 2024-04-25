@@ -1,4 +1,6 @@
-﻿namespace Qowaiv.DomainModel;
+﻿using System.Reflection;
+
+namespace Qowaiv.DomainModel;
 
 /// <summary>Factory method for creating <see cref="Aggregate{TAggregate, TId}"/> from stored events.</summary>
 public static class Aggregate
@@ -23,4 +25,22 @@ public static class Aggregate
         aggregate.Replay(buffer);
         return aggregate;
     }
+
+    /// <inheritdoc cref="EventDispatcher.SupportedEventTypes" />
+    [Pure]
+    public static ReadOnlySet<Type> SupportedEventTypes<TAggregate>()
+        where TAggregate : Aggregate<TAggregate>, new()
+    {
+        return Dispatcher(new TAggregate()).SupportedEventTypes;
+
+        EventDispatcher Dispatcher(TAggregate aggregate)
+            => (EventDispatcher)typeof(TAggregate)
+                .GetProperty(nameof(Dispatcher), NonPublic)!
+                .GetValue(aggregate)!;
+    }
+
+#pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
+    // We own the code.
+    private const BindingFlags NonPublic = BindingFlags.Instance | BindingFlags.NonPublic;
+#pragma warning restore S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
 }
