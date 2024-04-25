@@ -19,18 +19,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="AsyncFixer" Version="1.*">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*-*">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="*">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+   </ItemGroup>
+   <ItemGroup Label="Analyzers">
+    <PackageReference Include="AsyncFixer" Version="*" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*-*" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- for code coverage an proper debugging -->
