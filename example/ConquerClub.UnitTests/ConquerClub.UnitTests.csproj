@@ -4,18 +4,23 @@
   
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <OutputType>library</OutputType>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Label="TestTools">
+    <PackageReference Include="coverlet.collector" Version="*" PrivateAssets="all" />
+    <PackageReference Include="coverlet.msbuild" Version="*" PrivateAssets="all" />
     <PackageReference Include="FluentAssertions" Version="6.*" />
-    <PackageReference Include="FluentAssertions.Analyzers" Version="0.*">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="nunit" Version="3.*" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <PackageReference Include="NUnit" Version="4.*" />
+    <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
     <PackageReference Include="Qowaiv.Validation.TestTools" Version="0.3.0" />
+  </ItemGroup>
+
+  <!-- We do not want to report on this during a PR/Release build. -->
+  <ItemGroup Label="Analyzers" Condition="'$(Configuration)'=='DEBUG'">
+    <PackageReference Include="FluentAssertions.Analyzers" Version="*" PrivateAssets="all" />
+    <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,8 +4,10 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <OutputType>library</OutputType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>1.1.1</Version>
+    <PackageId>Qowaiv.DomainModel</PackageId>
     <PackageReleaseNotes>
 v1.1.1
 - CommandProcessor made thread-safe. #42
@@ -52,6 +54,8 @@ v0.0.2
 v0.0.1
 - Initial release
     </PackageReleaseNotes>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
   </PropertyGroup>
 
   <ItemGroup>

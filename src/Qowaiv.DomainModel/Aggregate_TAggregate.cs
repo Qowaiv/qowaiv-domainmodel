@@ -23,10 +23,7 @@ public abstract class Aggregate<TAggregate>
     protected IValidator<TAggregate> Validator { get; }
 
     /// <summary>Gets an <see cref="ImmutableCollection.Empty"/> collection.</summary>
-#pragma warning disable S2743 // Static fields should not be used in generic types
-    // FP: nothing is shared, by design.
     protected static ImmutableCollection Events => ImmutableCollection.Empty;
-#pragma warning restore S2743 // Static fields should not be used in generic types
 
     /// <summary>The dispatcher that calls the methods that (re)play the different events.</summary>
     protected virtual EventDispatcher Dispatcher { get; }
