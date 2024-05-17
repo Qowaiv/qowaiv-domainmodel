@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Collections.Concurrent;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Qowaiv.DomainModel.Commands;
@@ -16,7 +17,7 @@ namespace Qowaiv.DomainModel.Commands;
 public abstract class CommandProcessor<TReturnType>
 {
     /// <summary>Gets the command types sent at least once by the command processor.</summary>
-    public IReadOnlyCollection<object> CommandTypes => handlers.Keys;
+    public IReadOnlyCollection<object> CommandTypes => [..handlers.Keys];
 
     /// <summary>The generic type definition of the command handlers to support.</summary>
     /// <remarks>
@@ -142,5 +143,5 @@ public abstract class CommandProcessor<TReturnType>
         return Expression.Lambda<Func<object, object, CancellationToken, TReturnType>>(body, handler, cmd, token);
     }
 
-    private readonly Dictionary<Type, Func<object, object, CancellationToken, TReturnType>> handlers = new();
+    private readonly ConcurrentDictionary<Type, Func<object, object, CancellationToken, TReturnType>> handlers = new();
 }

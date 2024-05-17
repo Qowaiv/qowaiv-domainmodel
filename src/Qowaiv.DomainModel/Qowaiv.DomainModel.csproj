@@ -5,8 +5,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <PackageReleaseNotes>
+v1.1.1
+- CommandProcessor made thread-safe. #42
 v1.1.0
 - Expose supported event types via Aggregate.SupportedEventTypes(). #41
 - Publish .NET 8.0.
