@@ -1,3 +1,3 @@
 ﻿namespace ConquerClub.Domain.Events;
 
-public record Finished();
+public sealed record Finished();
