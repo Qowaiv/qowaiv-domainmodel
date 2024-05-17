@@ -19,54 +19,45 @@ public static class Dice
         return combat;
     }
 
-    private static AttackResult Roll(this AttackResult combat, RandomSource rnd)
-    {
-        int roll;
-        if (combat.Attacker >= 4)
-        {
-            roll = combat.Defender >= 2 ? Roll3v2(rnd) : Roll3v1(rnd);
-        }
-        else if (combat.Attacker >= 3)
-        {
-            roll = combat.Defender >= 2 ? Roll2v2(rnd) : Roll2v1(rnd);
-        }
-        else if (combat.Attacker >= 2)
-        {
-            roll = combat.Defender >= 2 ? Roll1v2(rnd) : Roll1v1(rnd);
-        }
-        else return combat;
-
-        return roll switch
+    private static AttackResult Roll(this AttackResult combat, RandomSource rnd) 
+        => RollDelta(combat, rnd) is { } roll
+        ? roll switch
         {
             +2 => new AttackResult(combat.Attacker - 0, combat.Defender - 2),
             +1 => new AttackResult(combat.Attacker - 0, combat.Defender - 1),
             -2 => new AttackResult(combat.Attacker - 2, combat.Defender - 0),
             -1 => new AttackResult(combat.Attacker - 1, combat.Defender - 0),
             _ => new AttackResult(combat.Attacker - 1, combat.Defender - 1),
-        };
-    }
+        }
+        : combat;
+
+    private static int? RollDelta(AttackResult combat, RandomSource rnd) => combat.Attacker switch
+    {
+        var a when a >= 4 => combat.Defender >= 2 ? Roll3v2(rnd) : Roll3v1(rnd),
+        var a when a >= 3 => combat.Defender >= 2 ? Roll2v2(rnd) : Roll2v1(rnd),
+        var a when a >= 2 => combat.Defender >= 2 ? Roll1v2(rnd) : Roll1v1(rnd),
+        _ => null,
+    };
 
     /// <remarks>+37,2% =33,6% -29,3% E: 54,0%</remarks>
-    private static int Roll3v2(RandomSource rnd)
+    private static int Roll3v2(RandomSource rnd) => rnd.Next(2890 + 2611 + 2275) switch
     {
-        var threshold = rnd.Next(2890 + 2611 + 2275);
-        if (threshold < 2890) return +2;
-        else if (threshold < 2890 + 2611) return 0;
-        else return -2;
-    }
+        var t when t < 2890 => +2,
+        var t when t < 2890 + 2611 => 0,
+        _ => -2,
+    };
 
     /// <remarks>+66,0% -34,0%</remarks>
     private static int Roll3v1(RandomSource rnd)
         => rnd.Next(855 + 441) < 855 ? +1 : -1;
 
     /// <remarks>+22,8% =32,4% -44,8% E: 39,0%</remarks>
-    private static int Roll2v2(RandomSource rnd)
+    private static int Roll2v2(RandomSource rnd) => rnd.Next(295 + 420 + 581) switch
     {
-        var threshold = rnd.Next(295 + 420 + 581);
-        if (threshold < 295) return +2;
-        else if (threshold < 295 + 420) return 0;
-        else return -2;
-    }
+        var t when t < 295 => +2,
+        var t when t < 295 + 420 => 0,
+        _ => -2,
+    };
 
     /// <remarks>+57,9% -42,1%</remarks>
     private static int Roll2v1(RandomSource rnd)
