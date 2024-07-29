@@ -16,7 +16,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="NUnit" Version="4.*" />
     <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
-    <PackageReference Include="Qowaiv.TestTools" Version="6.4.0" />
+    <PackageReference Include="Qowaiv.TestTools" Version="7.0.0" />
     <PackageReference Include="Qowaiv.Validation.TestTools" Version="0.3.0" />
   </ItemGroup>
 
