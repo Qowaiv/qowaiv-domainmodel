@@ -59,11 +59,14 @@ public abstract class Aggregate<TAggregate>
     [Pure]
     protected Result<TAggregate> Apply(IEnumerable<object> events)
     {
-        Guard.NotNull(events, nameof(events));
-
         var updated = Clone();
-        var append = AppendOnlyCollection.Empty.Add(events.Select(PreProcessEvent));
-        updated.Replay(append);
+        var append = AppendOnlyCollection.Empty;
+
+        foreach (var @event in Guard.NotNull(events, nameof(events)).Select(updated.PreProcessEvent))
+        {
+            updated.Dispatcher.When(@event);
+            append = append.Add(@event);
+        }
 
         var result = updated.Validator.Validate(updated);
         if (result.IsValid)
