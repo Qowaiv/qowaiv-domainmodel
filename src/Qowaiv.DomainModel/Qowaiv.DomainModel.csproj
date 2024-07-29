@@ -6,9 +6,11 @@
     <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <OutputType>library</OutputType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <PackageId>Qowaiv.DomainModel</PackageId>
     <PackageReleaseNotes>
+v1.1.2
+- Aggregate: PreProcessEvent in applied scope. #44
 v1.1.1
 - CommandProcessor made thread-safe. #42
 v1.1.0

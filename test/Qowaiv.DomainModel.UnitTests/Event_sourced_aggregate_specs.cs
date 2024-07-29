@@ -1,4 +1,5 @@
-﻿using Qowaiv.DomainModel;
+﻿using NUnit.Framework.Internal.Execution;
+using Qowaiv.DomainModel;
 
 namespace Event_sourced_aggregate_specs
 {
@@ -70,6 +71,21 @@ namespace Event_sourced_aggregate_specs
             var updated = aggregate.TestApplyChange(new NameUpdated("unknown")).Should().BeValid().Value;
             updated.Version.Should().Be(1);
         }
+
+        [Test]
+        public void pre_processed_in_applied_scope()
+        {
+            var aggregate = new TestPreProcessEventAggregate();
+            var updated = aggregate
+                .TestPreprocessEvents(new NameUpdated("Jimi Hendrix"), new NameUpdated("unknown"))
+                .Should().BeValid().Value;
+
+            updated.Buffer.Uncommitted.Should().BeEquivalentTo(new object[]
+            {
+                new NameUpdated("Jimi Hendrix"),
+                new NameUpdated("Jimi Hendrix"),
+            });
+        }
     }
 
     internal class TestApplyChangeAggregate : Aggregate<TestApplyChangeAggregate, Guid>
@@ -78,5 +94,32 @@ namespace Event_sourced_aggregate_specs
             : base(Guid.NewGuid(), Qowaiv.Validation.Abstractions.Validator.Empty<TestApplyChangeAggregate>()) { }
 
         public Result<TestApplyChangeAggregate> TestApplyChange(object @event) => ApplyEvent(@event);
+    }
+
+    internal class TestPreProcessEventAggregate : Aggregate<TestPreProcessEventAggregate, Guid>
+    {
+        private string Name = string.Empty;
+        
+        public TestPreProcessEventAggregate()
+            : base(Guid.NewGuid(), Qowaiv.Validation.Abstractions.Validator.Empty<TestPreProcessEventAggregate>()) { }
+
+        public Result<TestPreProcessEventAggregate> TestPreprocessEvents(params object[] events) => ApplyEvents(events);
+
+        protected override object PreProcessEvent(object @event)
+        {
+            if (@event is not NameUpdated e)
+            {
+                return @event;
+            }
+
+            var newName = Name == string.Empty ? e.Name : Name;
+            return new NameUpdated(newName);
+        }
+
+
+        internal void When(NameUpdated @event)
+        {
+            Name = @event.Name;
+        }
     }
 }
