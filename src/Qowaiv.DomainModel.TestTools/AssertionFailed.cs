@@ -27,14 +27,4 @@ public class AssertionFailed : Exception
     /// </param>
     [ExcludeFromCodeCoverage/* Justification = "Required for inheritance only." */]
     public AssertionFailed(string message, Exception innerException) : base(message, innerException) { }
-
-    /// <summary>Initializes a new instance of the <see cref="AssertionFailed"/> class.</summary>
-    /// <param name="info">
-    /// The object that holds the serialized object data.
-    /// </param>
-    /// <param name="context">
-    /// An object that describes the source or destination of the serialized data.
-    /// </param>
-    [ExcludeFromCodeCoverage/* Justification = "Required for inheritance only." */]
-    protected AssertionFailed(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }
