@@ -79,13 +79,13 @@ public class Fails_on
             .Add(new object[]
             {
                 new EmptyEvent(),
-                new ComplexEvent(17, "Same", new DateTime(2017, 06, 11)),
+                new ComplexEvent(17, "Same", new Date(2017, 06, 11)),
                 new SimpleEvent(0),
             });
 
         buffer.Invoking(b => b.Should().HaveUncommittedEvents(
                 new EmptyEvent(),
-                new ComplexEvent(23, "Same", new DateTime(1980, 06, 30)),
+                new ComplexEvent(23, "Same", new Date(1980, 06, 30)),
                 new SimpleEvent(0)
         ))
         .Should().Throw<AssertionFailed>()

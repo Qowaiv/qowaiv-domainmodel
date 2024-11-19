@@ -1,33 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\props\nopackage.props" />
+  <Import Project="../../props/nopackage.props" />
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
     <OutputType>library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="6.12.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
-    <PackageReference Include="NUnit" Version="4.*" />
-    <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
-    <PackageReference Include="Qowaiv.TestTools" Version="7.2.0" />
-    <PackageReference Include="Qowaiv.Validation.TestTools" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Label="Analyzers">
-    <PackageReference Include="FluentAssertions.Analyzers" Version="*" PrivateAssets="all" />
-    <PackageReference Include="NUnit.Analyzers" Version="*" PrivateAssets="all" />
+    <Compile Include="../../shared/Guard.cs" Link="Guard.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj" />
+    <ProjectReference Include="../../src/Qowaiv.DomainModel/Qowaiv.DomainModel.csproj" />
+    <ProjectReference Include="../../src/Qowaiv.DomainModel.TestTools/Qowaiv.DomainModel.TestTools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Test tools">
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="Qowaiv.TestTools" />
+    <PackageReference Include="Qowaiv.Validation.TestTools" />
+  </ItemGroup>
+
+  <ItemGroup Label="Build tools">
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" PrivateAssets="all" />
+    <PackageReference Include="NUnit3TestAdapter" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- We do not want to report on this during a PR/Release build. -->
+  <ItemGroup Label="Analyzers" Condition="'$(Configuration)'=='DEBUG'">
+    <PackageReference Include="FluentAssertions.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

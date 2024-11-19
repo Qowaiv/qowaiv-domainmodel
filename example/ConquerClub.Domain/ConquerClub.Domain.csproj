@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\props\nopackage.props" />
+  <Import Project="../../props/nopackage.props" />
   
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -8,18 +8,18 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
+    <Compile Include="../../shared/Guard.cs" Link="Guard.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
+    <ProjectReference Include="../../src/Qowaiv.DomainModel/Qowaiv.DomainModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics.Signed" Version="5.0.0" />
-    <PackageReference Include="Qowaiv" Version="7.2.0" />
-    <PackageReference Include="Qowaiv.Validation.Fluent" Version="2.0.0" />
-    <PackageReference Include="Qowaiv.Validation.Messages" Version="1.0.0" />
+    <PackageReference Include="MathNet.Numerics.Signed" />
+    <PackageReference Include="Qowaiv" />
+    <PackageReference Include="Qowaiv.Validation.Fluent" />
+    <PackageReference Include="Qowaiv.Validation.Messages" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,17 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../../props/nopackage.props" />
+  
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.*" />
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+
+  <ItemGroup Label="Analyzers">
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
+    <ProjectReference Include="../../src/Qowaiv.DomainModel/Qowaiv.DomainModel.csproj" />
   </ItemGroup>
 
 </Project>

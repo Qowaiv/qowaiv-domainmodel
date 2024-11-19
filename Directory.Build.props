@@ -1,0 +1,41 @@
+<Project>
+
+  <PropertyGroup>
+    <ProductName>Qowaiv Domain Model</ProductName>
+    <Description>Qowaiv implements common, universal domain objects. These types form the base of your domain model.</Description>
+    <Authors>
+      <![CDATA[
+Corniel Nobel;
+Jack Kester;
+Jur Balledux;
+Marcel Strik;
+Patrick Evers
+]]>
+    </Authors>
+    <Owners>Qowaiv community</Owners>
+    <PackageTags>qowaiv domain model</PackageTags>
+    <Company>Qowaiv community</Company>
+    <Copyright>Copyright © Qowaiv community 2013-current</Copyright>
+    <LangVersion>preview</LangVersion>
+    <IsPublishable>false</IsPublishable>
+    <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <ItemGroup Label="Code generation">
+    <PackageReference Include="PolySharp" PrivateAssets="all" />
+    <PackageReference Include="Qowaiv.Diagnostics.Contracts" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Label="Analyzers">
+    <PackageReference Include="AsyncFixer" PrivateAssets="all" />
+    <PackageReference Include="DotNetProjectFile.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Label="Additional files">
+    <AdditionalFiles Include="*.csproj" Visible="false" />
+  </ItemGroup>
+
+</Project>
