@@ -1,4 +1,4 @@
-﻿using Qowaiv.Validation.Messages;
+using Qowaiv.Validation.Messages;
 
 namespace ConquerClub.Domain;
 

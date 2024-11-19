@@ -1,4 +1,4 @@
-﻿# Qowaiv..DomainModel.TestTools
+# Qowaiv..DomainModel.TestTools
 
 ## Package
 This package contains helpers to make writing unit tests for Aggregates easier.

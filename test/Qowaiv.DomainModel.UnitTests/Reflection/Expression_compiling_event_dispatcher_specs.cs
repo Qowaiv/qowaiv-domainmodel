@@ -1,4 +1,4 @@
-﻿#pragma warning disable CA1822 // Mark members as static, methods are used for tests and need to be instance-based
+#pragma warning disable CA1822 // Mark members as static, methods are used for tests and need to be instance-based
 
 using Qowaiv.DomainModel.Reflection;
 

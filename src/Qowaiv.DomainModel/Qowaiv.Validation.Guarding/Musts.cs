@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.Validation.Guarding;
+namespace Qowaiv.Validation.Guarding;
 
 /// <summary>Extensions on <see cref="Must{TSubject}"/>.</summary>
 public static class DomainModelExtensions

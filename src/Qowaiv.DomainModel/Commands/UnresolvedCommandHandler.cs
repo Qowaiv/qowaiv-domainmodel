@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Commands;
+namespace Qowaiv.DomainModel.Commands;
 
 /// <summary>The exception that is thrown when a command handler could not be resolved.</summary>
 [Serializable]

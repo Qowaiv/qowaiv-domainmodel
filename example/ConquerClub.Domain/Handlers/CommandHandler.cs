@@ -1,4 +1,4 @@
-﻿namespace ConquerClub.Domain.Handlers;
+namespace ConquerClub.Domain.Handlers;
 
 public interface CommandHandler<in TCommand>
 {

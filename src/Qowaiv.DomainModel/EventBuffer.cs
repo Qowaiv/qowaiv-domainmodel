@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel;
+namespace Qowaiv.DomainModel;
 
 /// <summary>A function to convert the stored event to the event (payload).</summary>
 /// <typeparam name="TStoredEvent">

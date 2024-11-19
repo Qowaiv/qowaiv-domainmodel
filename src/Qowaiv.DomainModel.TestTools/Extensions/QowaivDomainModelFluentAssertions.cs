@@ -1,4 +1,4 @@
-﻿using Qowaiv.DomainModel;
+using Qowaiv.DomainModel;
 using Qowaiv.DomainModel.TestTools.FluentAssertions;
 using System.Diagnostics.Contracts;
 

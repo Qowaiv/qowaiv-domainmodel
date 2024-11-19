@@ -1,4 +1,4 @@
-﻿using static ConquerClub.UnitTests.Arrange;
+using static ConquerClub.UnitTests.Arrange;
 using Commands = ConquerClub.Domain.Commands;
 
 namespace Deploy_specs;

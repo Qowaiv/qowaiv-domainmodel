@@ -1,4 +1,4 @@
-﻿using Qowaiv.Validation.Guarding;
+using Qowaiv.Validation.Guarding;
 
 namespace ConquerClub.Domain.Handlers;
 

@@ -1,4 +1,4 @@
-﻿namespace ConquerClub.Domain;
+namespace ConquerClub.Domain;
 
 /// <summary>Represents the (default) dice based attack.</summary>
 public static class Dice

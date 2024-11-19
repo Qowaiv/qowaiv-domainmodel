@@ -1,4 +1,4 @@
-﻿#pragma warning disable S1210 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
+#pragma warning disable S1210 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
 // Players should be sortable, but less than, or greater than has no meaning here.
 using Qowaiv;
 

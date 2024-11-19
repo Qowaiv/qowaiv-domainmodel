@@ -1,4 +1,4 @@
-﻿global using ConquerClub.Domain;
+global using ConquerClub.Domain;
 global using ConquerClub.Domain.Commands;
 global using ConquerClub.Domain.Events;
 global using ConquerClub.Domain.Handlers;

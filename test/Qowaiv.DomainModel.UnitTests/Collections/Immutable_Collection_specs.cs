@@ -1,4 +1,4 @@
-﻿namespace Collections.Immutable_Collection_specs;
+namespace Collections.Immutable_Collection_specs;
 
 internal static class Help
 {

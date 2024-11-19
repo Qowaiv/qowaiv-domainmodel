@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Collections;
+namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Represents the conditional addition of an item/items, after the if-statement.</summary>
 [DebuggerDisplay("Count = {Count}")]

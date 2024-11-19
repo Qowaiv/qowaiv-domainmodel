@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Collections;
+namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Represents an (else)-if state.</summary>
 internal enum IfState

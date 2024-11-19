@@ -1,4 +1,4 @@
-﻿using Qowaiv.DomainModel;
+using Qowaiv.DomainModel;
 
 namespace Pre_processing_events_specs;
 

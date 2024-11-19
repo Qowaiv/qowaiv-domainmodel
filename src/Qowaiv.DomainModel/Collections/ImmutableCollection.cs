@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Collections;
+namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Represents an immutable collection.</summary>
 /// <remarks>

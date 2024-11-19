@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.TestTools;
+namespace Qowaiv.DomainModel.TestTools;
 
 /// <summary>Assert exception.</summary>
 /// <remarks>

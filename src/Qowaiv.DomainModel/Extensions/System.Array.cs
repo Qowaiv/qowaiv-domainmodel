@@ -1,4 +1,4 @@
-﻿namespace System.Linq;
+namespace System.Linq;
 
 /// <summary>Extensions on arrays.</summary>
 internal static class QowaivDomainModelArrayExtensions

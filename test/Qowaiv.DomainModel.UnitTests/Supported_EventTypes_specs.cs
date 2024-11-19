@@ -1,4 +1,4 @@
-﻿using Qowaiv.DomainModel;
+using Qowaiv.DomainModel;
 
 namespace Supported_EventTypes_specs;
 

@@ -1,4 +1,4 @@
-﻿# Qowaiv.DomainModel
+# Qowaiv.DomainModel
 Qowaiv Domain Model is a library containing the (abstract) building blocks to
 set up a Domain-Driven application.
 

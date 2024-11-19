@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Collections;
+namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Represents the start of an (logical) if-statement.</summary>
 [DebuggerDisplay("If: {State}")]

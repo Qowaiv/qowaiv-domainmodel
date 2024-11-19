@@ -1,4 +1,4 @@
-﻿global using Qowaiv.Diagnostics.Contracts;
+global using Qowaiv.Diagnostics.Contracts;
 global using Qowaiv.DomainModel;
 global using Qowaiv.DomainModel.Collections;
 global using Qowaiv.DomainModel.Diagnostics;

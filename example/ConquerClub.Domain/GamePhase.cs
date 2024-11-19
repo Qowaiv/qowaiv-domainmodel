@@ -1,4 +1,4 @@
-﻿namespace ConquerClub.Domain
+namespace ConquerClub.Domain
 {
     public enum GamePhase
     {

@@ -1,4 +1,4 @@
-﻿namespace Benchmarks.Collections;
+namespace Benchmarks.Collections;
 
 public sealed class Aggregate_id : Aggregate<Aggregate_id, int>
 {
