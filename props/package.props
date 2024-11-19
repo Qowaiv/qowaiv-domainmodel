@@ -9,7 +9,7 @@
 
   <PropertyGroup Label="Package info">
     <IsPackable>true</IsPackable>
-    <EnablePackageValidation>true</EnablePackageValidation>
+    <EnablePackageValidation>false</EnablePackageValidation>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageIconUrl>https://github.com/Qowaiv/qowaiv-domainmodel/blob/master/design/package-icon.png</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -18,8 +18,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Qowaiv/qowaiv-domainmodel</RepositoryUrl>
     <DefineConstants>CONTRACTS_FULL</DefineConstants>
-    <!-- We ship package versions for obsolete target frameworks too -->
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <CheckEolTargetFramework>true</CheckEolTargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

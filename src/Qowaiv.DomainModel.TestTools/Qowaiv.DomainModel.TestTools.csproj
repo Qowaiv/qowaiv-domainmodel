@@ -39,6 +39,7 @@ v0.0.1
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.2" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.*" PrivateAssets="all" />
+    <PackageReference Include="Qowaiv.Diagnostics.Contracts" Version="2.0.3" PrivateAssets="all" />
   </ItemGroup>
   
 </Project>

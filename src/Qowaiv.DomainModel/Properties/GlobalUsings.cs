@@ -1,10 +1,10 @@
-﻿global using Qowaiv.DomainModel;
+﻿global using Qowaiv.Diagnostics.Contracts;
+global using Qowaiv.DomainModel;
 global using Qowaiv.DomainModel.Collections;
 global using Qowaiv.DomainModel.Diagnostics;
 global using Qowaiv.DomainModel.Internal;
 global using Qowaiv.DomainModel.Reflection;
 global using Qowaiv.Validation.Abstractions;
-global using Qowaiv.Validation.Abstractions.Diagnostics.Contracts;
 global using Qowaiv.Validation.Guarding;
 global using Qowaiv.Validation.Messages;
 global using System;

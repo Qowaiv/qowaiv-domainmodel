@@ -82,6 +82,7 @@ v0.0.1
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Qowaiv.Diagnostics.Contracts" Version="2.0.3" PrivateAssets="all" />
     <PackageReference Include="Qowaiv.Validation.Abstractions" Version="1.0.0" />
     <PackageReference Include="Qowaiv.Validation.Guarding" Version="1.0.0" />
   </ItemGroup>
