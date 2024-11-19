@@ -14,4 +14,4 @@ jobs:
       with:
         dotnet-version: '9.0.x'
     - name: Test with .NET
-      run: dotnet test Qowaiv.DomainModel.sln --configuration Release
+      run: dotnet test Qowaiv.DomainModel.sln  --configuration Release
