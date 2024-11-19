@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Collections;
+namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Represents a read-only set of items.</summary>
 /// <typeparam name="T">

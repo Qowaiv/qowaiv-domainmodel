@@ -1,3 +1,3 @@
-﻿namespace ConquerClub.Domain.Events;
+namespace ConquerClub.Domain.Events;
 
 public record Deployed(CountryId Country, Army Army);

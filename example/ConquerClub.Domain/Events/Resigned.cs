@@ -1,4 +1,4 @@
-﻿namespace ConquerClub.Domain.Events
+namespace ConquerClub.Domain.Events
 {
     public record Resigned(Player Player);
 }

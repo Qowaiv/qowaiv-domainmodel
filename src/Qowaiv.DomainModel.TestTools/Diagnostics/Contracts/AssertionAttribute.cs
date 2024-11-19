@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.TestTools.Diagnostics.Contracts;
+namespace Qowaiv.DomainModel.TestTools.Diagnostics.Contracts;
 
 /// <summary>To mark a method explicitly as impure.</summary>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]

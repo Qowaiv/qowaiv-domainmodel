@@ -1,4 +1,4 @@
-﻿using Benchmarks.Collections;
+using Benchmarks.Collections;
 
 namespace Benchmarks;
 

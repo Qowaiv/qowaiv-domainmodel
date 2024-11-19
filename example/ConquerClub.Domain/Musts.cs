@@ -1,4 +1,4 @@
-﻿using Qowaiv.Validation.Messages;
+using Qowaiv.Validation.Messages;
 using Must = Qowaiv.Validation.Guarding.Must<ConquerClub.Domain.Game>;
 
 namespace ConquerClub.Domain;

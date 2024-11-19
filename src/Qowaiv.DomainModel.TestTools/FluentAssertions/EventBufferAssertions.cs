@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using FluentAssertions.Collections;
 using Qowaiv.DomainModel.TestTools.Diagnostics.Contracts;
 using System.Text;

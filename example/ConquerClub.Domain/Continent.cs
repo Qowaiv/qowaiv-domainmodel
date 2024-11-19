@@ -1,4 +1,4 @@
-﻿using ConquerClub.Domain.Diagnostics;
+using ConquerClub.Domain.Diagnostics;
 
 namespace ConquerClub.Domain;
 

@@ -1,4 +1,4 @@
-﻿namespace ConquerClub.Domain;
+namespace ConquerClub.Domain;
 
 /// <summary>Represents a region/country/territory.</summary>
 public sealed class Country

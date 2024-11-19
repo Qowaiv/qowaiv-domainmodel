@@ -1,4 +1,4 @@
-﻿namespace Benchmarks.Collections;
+namespace Benchmarks.Collections;
 
 public class Aggregation
 {

@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Collections;
+namespace Qowaiv.DomainModel.Collections;
 
 /// <summary>Enumerator to iterate all elements in <see cref="ImmutableCollection"/>.</summary>
 public struct Enumerator : IEnumerator<object>, IEnumerable<object>

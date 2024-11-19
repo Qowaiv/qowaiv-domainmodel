@@ -1,4 +1,4 @@
-﻿using static ConquerClub.UnitTests.Arrange;
+using static ConquerClub.UnitTests.Arrange;
 
 namespace Game_specs;
 

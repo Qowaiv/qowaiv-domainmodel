@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel;
+namespace Qowaiv.DomainModel;
 
 /// <summary>Represents an (domain-driven design) aggregate that is based on event sourcing.</summary>
 /// <typeparam name="TAggregate">

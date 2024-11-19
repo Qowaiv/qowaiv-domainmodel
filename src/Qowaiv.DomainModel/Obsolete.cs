@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel;
+namespace Qowaiv.DomainModel;
 
 /// <summary>Factory method for creating <see cref="AggregateRoot{TAggregate, TId}"/> from stored events.</summary>
 [ExcludeFromCodeCoverage/* Justification = To help converting only. */]

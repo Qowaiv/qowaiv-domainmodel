@@ -1,4 +1,4 @@
-﻿global using FluentAssertions;
+global using FluentAssertions;
 global using Models;
 global using Models.Events;
 global using NUnit.Framework;

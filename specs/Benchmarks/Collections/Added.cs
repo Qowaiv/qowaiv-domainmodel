@@ -1,4 +1,4 @@
-﻿using Qowaiv.DomainModel.Collections;
+using Qowaiv.DomainModel.Collections;
 
 namespace Benchmarks.Collections;
 

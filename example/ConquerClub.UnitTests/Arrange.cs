@@ -1,4 +1,4 @@
-﻿using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
+using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
 
 namespace ConquerClub.UnitTests;
 

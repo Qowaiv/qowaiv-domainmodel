@@ -1,4 +1,4 @@
-﻿namespace ConquerClub.Domain.Commands;
+namespace ConquerClub.Domain.Commands;
 
 public record Reinforce(
     CountryId From,

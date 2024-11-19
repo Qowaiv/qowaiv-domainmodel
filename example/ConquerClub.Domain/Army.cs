@@ -1,4 +1,4 @@
-﻿using Qowaiv;
+using Qowaiv;
 using System.Text.RegularExpressions;
 
 namespace ConquerClub.Domain;

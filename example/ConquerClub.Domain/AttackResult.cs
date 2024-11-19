@@ -1,4 +1,4 @@
-﻿namespace ConquerClub.Domain;
+namespace ConquerClub.Domain;
 
 /// <summary>Represents the outcome of an attack.</summary>
 [DebuggerDisplay("{DebuggerDisplay}")]

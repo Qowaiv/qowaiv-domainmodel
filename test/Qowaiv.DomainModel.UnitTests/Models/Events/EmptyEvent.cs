@@ -1,4 +1,4 @@
-﻿namespace Models.Events;
+namespace Models.Events;
 
 [EmptyTestClass]
 public sealed record EmptyEvent();

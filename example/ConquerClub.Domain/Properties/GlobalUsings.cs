@@ -1,4 +1,4 @@
-﻿global using ConquerClub.Domain.Commands;
+global using ConquerClub.Domain.Commands;
 global using ConquerClub.Domain.Events;
 global using ConquerClub.Domain.Validation;
 global using MathNet.Numerics.Random;

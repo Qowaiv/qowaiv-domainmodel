@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.TestTools.Diagnostics;
+namespace Qowaiv.DomainModel.TestTools.Diagnostics;
 
 /// <summary>Allows the debugger to display collections.</summary>
 [ExcludeFromCodeCoverage]

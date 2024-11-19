@@ -1,4 +1,4 @@
-﻿# Benchmarks
+# Benchmarks
 
 ## Event Buffer
 The `Qowaiv.DomainModel.EventBuffer<T>` is an append-only immutable collection.

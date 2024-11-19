@@ -1,4 +1,4 @@
-﻿using Qowaiv.DomainModel;
+using Qowaiv.DomainModel;
 using System.Diagnostics.Contracts;
 
 namespace Models;

@@ -1,4 +1,4 @@
-﻿namespace Models.Events;
+namespace Models.Events;
 
 public sealed class ArrayEvent
 {

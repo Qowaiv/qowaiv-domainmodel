@@ -1,4 +1,4 @@
-﻿namespace Qowaiv.DomainModel.Internal;
+namespace Qowaiv.DomainModel.Internal;
 
 /// <summary>Converts a single element into a set with one item.</summary>
 internal struct Singleton : IReadOnlyCollection<object>, IEnumerator<object>
