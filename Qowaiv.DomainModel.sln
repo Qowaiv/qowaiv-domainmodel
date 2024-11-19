@@ -3,50 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 15.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A4C3C9FF-4EED-41FE-8849-C896429254B5}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		LICENSE.md = LICENSE.md
-		README.md = README.md
-		ReleaseNotes.md = ReleaseNotes.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{696E5B2C-1F1D-4ACD-BBD4-40594FC7BF11}"
-	ProjectSection(SolutionItems) = preProject
-		props\common.props = props\common.props
-		props\nopackage.props = props\nopackage.props
-		props\package.props = props\package.props
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel", "src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj", "{18493140-5089-4862-AB96-7813E3A8AAF0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.UnitTests", "test\Qowaiv.DomainModel.UnitTests\Qowaiv.DomainModel.UnitTests.csproj", "{EDFE004D-ED15-4A2C-AE63-C17245E87D9D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C036985A-F17D-405A-B3FD-37F30FA154FB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8E1F869D-393B-4F6C-A3C0-1D1D336F9FA8}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\test.yaml = .github\workflows\test.yaml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{F74D9EF2-39B5-40EB-8C44-1D6015C38D70}"
-	ProjectSection(SolutionItems) = preProject
-		build\Qowaiv.snk = build\Qowaiv.snk
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Qowaiv.DomainModel.TestTools", "src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj", "{8564A273-F643-4C6B-80E1-5D7DCB7F9767}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "design", "design", "{E9A5D722-EEAA-4BF5-BD0A-BDECA579275E}"
-	ProjectSection(SolutionItems) = preProject
-		design\package-icon.png = design\package-icon.png
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Conquer Club example", "Conquer Club example", "{458A70D6-AEA3-45E8-A789-EB5AB3B1600D}"
-	ProjectSection(SolutionItems) = preProject
-		example\README.md = example\README.md
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConquerClub.Domain", "example\ConquerClub.Domain\ConquerClub.Domain.csproj", "{51F553DB-472D-4982-9554-A32810CB4026}"
 EndProject
@@ -55,6 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "specs", "specs", "{EF15A9A7-ED24-4621-81F3-0AA3D72DF2ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "specs\Benchmarks\Benchmarks.csproj", "{11805EE6-7C12-4E4E-80AA-255EF6E10502}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = ".net", ".net.csproj", "{AEE436DC-36C6-42EC-AE12-31E45FCC2D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,17 +51,16 @@ Global
 		{11805EE6-7C12-4E4E-80AA-255EF6E10502}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11805EE6-7C12-4E4E-80AA-255EF6E10502}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11805EE6-7C12-4E4E-80AA-255EF6E10502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE436DC-36C6-42EC-AE12-31E45FCC2D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE436DC-36C6-42EC-AE12-31E45FCC2D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE436DC-36C6-42EC-AE12-31E45FCC2D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE436DC-36C6-42EC-AE12-31E45FCC2D46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{696E5B2C-1F1D-4ACD-BBD4-40594FC7BF11} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
 		{EDFE004D-ED15-4A2C-AE63-C17245E87D9D} = {EF15A9A7-ED24-4621-81F3-0AA3D72DF2ED}
-		{C036985A-F17D-405A-B3FD-37F30FA154FB} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
-		{8E1F869D-393B-4F6C-A3C0-1D1D336F9FA8} = {C036985A-F17D-405A-B3FD-37F30FA154FB}
-		{F74D9EF2-39B5-40EB-8C44-1D6015C38D70} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
-		{E9A5D722-EEAA-4BF5-BD0A-BDECA579275E} = {A4C3C9FF-4EED-41FE-8849-C896429254B5}
 		{51F553DB-472D-4982-9554-A32810CB4026} = {458A70D6-AEA3-45E8-A789-EB5AB3B1600D}
 		{2B600398-B1B7-4185-BB42-88CEA7CAF69D} = {458A70D6-AEA3-45E8-A789-EB5AB3B1600D}
 		{11805EE6-7C12-4E4E-80AA-255EF6E10502} = {EF15A9A7-ED24-4621-81F3-0AA3D72DF2ED}
