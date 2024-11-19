@@ -11,10 +11,8 @@
     <PackageVersion Include="coverlet.collector" Version="*" />
     <PackageVersion Include="DotNetProjectFile.Analyzers" Version="*" />
     <PackageVersion Include="DotNetProjectFile.Analyzers.Sdk" Version="*" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageVersion Include="Qowaiv.Diagnostics.Contracts" Version="2.0.3" />
-    <PackageVersion Include="Qowaiv.Validation.Abstractions" Version="1.0.0" />
-    <PackageVersion Include="Qowaiv.Validation.Guarding" Version="1.0.0" />
     <PackageVersion Include="FluentAssertions" Version="6.12.2" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="*" />
     <PackageVersion Include="MathNet.Numerics.Signed" Version="5.0.0" />
@@ -28,11 +26,12 @@
     <PackageVersion Include="Qowaiv.Analyzers.CSharp" Version="*" />
     <PackageVersion Include="Qowaiv.Diagnostics.Contracts" Version="2.0.3" />
     <PackageVersion Include="Qowaiv.TestTools" Version="7.2.0" />
+    <PackageVersion Include="Qowaiv.Validation.Abstractions" Version="1.0.0" />
     <PackageVersion Include="Qowaiv.Validation.Fluent" Version="2.0.0" />
+    <PackageVersion Include="Qowaiv.Validation.Guarding" Version="1.0.0" />
     <PackageVersion Include="Qowaiv.Validation.Messages" Version="1.0.0" />
     <PackageVersion Include="Qowaiv.Validation.TestTools" Version="1.0.0" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="*" />
     <PackageVersion Include="StyleCop.Analyzers" Version="*-*" />
   </ItemGroup>
-
 </Project>

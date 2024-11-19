@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\props\package.props" />
+  <Import Project="../../props/package.props" />
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
@@ -65,7 +65,7 @@ v0.0.1
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
+    <Compile Include="../../shared/Guard.cs" Link="Guard.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -82,7 +82,6 @@ v0.0.1
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" />
-    <PackageReference Include="Qowaiv.Diagnostics.Contracts" PrivateAssets="all" />
     <PackageReference Include="Qowaiv.Validation.Abstractions" />
     <PackageReference Include="Qowaiv.Validation.Guarding" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 <Project>
 
   <PropertyGroup>
+    <ProductName>Qowaiv Domain Model</ProductName>
     <Description>Qowaiv implements common, universal domain objects. These types form the base of your domain model.</Description>
     <Authors>
       <![CDATA[
@@ -18,6 +19,7 @@ Patrick Evers
     <LangVersion>preview</LangVersion>
     <IsPublishable>false</IsPublishable>
     <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup Label="Code generation">

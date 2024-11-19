@@ -1,15 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\props\nopackage.props" />
+  <Import Project="../../props/nopackage.props" />
   
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
     <OutputType>library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj" />
-    <ProjectReference Include="..\ConquerClub.Domain\ConquerClub.Domain.csproj" />
+    <ProjectReference Include="../../src/Qowaiv.DomainModel.TestTools/Qowaiv.DomainModel.TestTools.csproj" />
+    <ProjectReference Include="../ConquerClub.Domain/ConquerClub.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="Test tools">

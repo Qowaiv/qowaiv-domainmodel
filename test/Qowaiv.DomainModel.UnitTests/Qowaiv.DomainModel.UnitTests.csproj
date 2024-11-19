@@ -1,19 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\props\nopackage.props" />
+  <Import Project="../../props/nopackage.props" />
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <IsTestProject>true</IsTestProject>
     <OutputType>library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\shared\Guard.cs" Link="Guard.cs" />
+    <Compile Include="../../shared/Guard.cs" Link="Guard.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel\Qowaiv.DomainModel.csproj" />
-    <ProjectReference Include="..\..\src\Qowaiv.DomainModel.TestTools\Qowaiv.DomainModel.TestTools.csproj" />
+    <ProjectReference Include="../../src/Qowaiv.DomainModel/Qowaiv.DomainModel.csproj" />
+    <ProjectReference Include="../../src/Qowaiv.DomainModel.TestTools/Qowaiv.DomainModel.TestTools.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="Test tools">
