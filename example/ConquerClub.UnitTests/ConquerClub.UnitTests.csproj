@@ -10,11 +10,11 @@
   <ItemGroup Label="TestTools">
     <PackageReference Include="coverlet.collector" Version="*" PrivateAssets="all" />
     <PackageReference Include="coverlet.msbuild" Version="*" PrivateAssets="all" />
-    <PackageReference Include="FluentAssertions" Version="6.*" />
+    <PackageReference Include="FluentAssertions" Version="6.12.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="NUnit" Version="4.*" />
     <PackageReference Include="NUnit3TestAdapter" Version="*" PrivateAssets="all" />
-    <PackageReference Include="Qowaiv.Validation.TestTools" Version="0.3.0" />
+    <PackageReference Include="Qowaiv.Validation.TestTools" Version="1.0.0" />
   </ItemGroup>
 
   <!-- We do not want to report on this during a PR/Release build. -->
