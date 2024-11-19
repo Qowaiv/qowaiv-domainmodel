@@ -17,10 +17,6 @@ public class UnresolvedCommandHandler : InvalidOperationException
     public UnresolvedCommandHandler(string message, Exception innerException)
         : base(message, innerException) { }
 
-    /// <summary>Initializes a new instance of the <see cref="UnresolvedCommandHandler"/> class.</summary>
-    protected UnresolvedCommandHandler(SerializationInfo info, StreamingContext context)
-        : base(info, context) { }
-
     /// <summary>When the type could not be resolved.</summary>
     [Pure]
     internal static UnresolvedCommandHandler Type(Type type)
