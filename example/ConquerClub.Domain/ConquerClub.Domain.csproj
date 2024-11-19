@@ -3,7 +3,7 @@
   <Import Project="..\..\props\nopackage.props" />
   
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <OutputType>library</OutputType>
   </PropertyGroup>
   
@@ -17,9 +17,9 @@
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics.Signed" Version="5.0.0" />
-    <PackageReference Include="Qowaiv" Version="7.0.1" />
-    <PackageReference Include="Qowaiv.Validation.Fluent" Version="1.0.0" />
-    <PackageReference Include="Qowaiv.Validation.Messages" Version="0.3.1" />
+    <PackageReference Include="Qowaiv" Version="7.2.0" />
+    <PackageReference Include="Qowaiv.Validation.Fluent" Version="2.0.0" />
+    <PackageReference Include="Qowaiv.Validation.Messages" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

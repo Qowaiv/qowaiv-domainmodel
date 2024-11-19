@@ -3,12 +3,16 @@
   <Import Project="..\..\props\package.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
     <OutputType>library</OutputType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.1.2</Version>
+    <Version>2.0.0</Version>
     <PackageId>Qowaiv.DomainModel</PackageId>
     <PackageReleaseNotes>
+      <![CDATA[
+V2.0.0
+- Add .NET 9.0 target.
+- Drop .NET 5.0, NET6.0, NET7.0 targets. (BREAKING)
 v1.1.2
 - Aggregate: PreProcessEvent in applied scope. #44
 v1.1.1
@@ -23,7 +27,7 @@ v1.0.0
 - Re-implemented ImmutableCollection. #34 (breaking)
 - EventBuffer and Aggregate Version are of type long. #39 (breaking)
 - EventBuffer as struct. #34 (breaking)
-- EventBuffer implements IReadOnlyCollection&lt;object&gt; and ICollection&lt;object&gt;. #36
+- EventBuffer implements IReadOnlyCollection<object> and ICollection<object>. #36
 - EventDispatcher without dynamics. #34 (breaking)
 - Enable annotations. #31
 - Publish .NET 7.0. #29
@@ -38,11 +42,11 @@ v0.1.5
 v0.1.4
 - Support optional cancellation token on command handler. #20
 v0.1.3
-- Introduction of CommandHandler&lt;TReturnType&gt;. #16
+- Introduction of CommandHandler<TReturnType>. #16
 - Decorate pure methods with attribute. #17
 v0.1.2
 - Fix issue with iterating EventBuffer.SelectUncommitted multiple times. #16 
-- Improved API for EventBuffer&lt;T&gt;. #15
+- Improved API for EventBuffer<T>. #15
 v0.1.1
 - Bug fix AggregateRoot.FromStorage. #14
 v0.1.0
@@ -55,6 +59,7 @@ v0.0.2
 - Conditionally built Event Collection
 v0.0.1
 - Initial release
+]]>
     </PackageReleaseNotes>
     <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
   </PropertyGroup>
@@ -77,8 +82,9 @@ v0.0.1
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="0.3.0" />
-    <PackageReference Include="Qowaiv.Validation.Guarding" Version="0.3.1" />
+    <PackageReference Include="Qowaiv.Diagnostics.Contracts" Version="2.0.3" PrivateAssets="all" />
+    <PackageReference Include="Qowaiv.Validation.Abstractions" Version="1.0.0" />
+    <PackageReference Include="Qowaiv.Validation.Guarding" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
