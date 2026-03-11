@@ -1,4 +1,3 @@
-using NUnit.Framework.Internal.Execution;
 using Qowaiv.DomainModel;
 
 namespace Event_sourced_aggregate_specs

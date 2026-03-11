@@ -15,5 +15,4 @@ global using System.Diagnostics.CodeAnalysis;
 global using System.Diagnostics.Contracts;
 global using System.Globalization;
 global using System.Linq;
-global using System.Runtime.Serialization;
 global using System.Threading;

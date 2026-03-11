@@ -1,5 +1,4 @@
 using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.TestTools;
 
 namespace TestTools.Event_buffer_should_have_uncommitted_events_specs;
 
