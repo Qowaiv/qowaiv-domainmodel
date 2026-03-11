@@ -11,6 +11,3 @@ global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Globalization;
 global using System.Linq;
-global using ContinentId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForContinent>;
-global using CountryId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForCountry>;
-global using GameId = Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>;

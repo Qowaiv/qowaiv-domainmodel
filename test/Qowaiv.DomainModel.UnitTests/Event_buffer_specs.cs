@@ -1,4 +1,5 @@
 using Qowaiv.DomainModel;
+using AwesomeAssertions;
 
 namespace Event_buffer_specs;
 

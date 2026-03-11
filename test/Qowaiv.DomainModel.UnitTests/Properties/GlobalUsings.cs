@@ -1,4 +1,4 @@
-global using FluentAssertions;
+global using AwesomeAssertions;
 global using Models;
 global using Models.Events;
 global using NUnit.Framework;
@@ -7,6 +7,7 @@ global using Qowaiv.DomainModel.Collections;
 global using Qowaiv.DomainModel.Commands;
 global using Qowaiv.DomainModel.UnitTests;
 global using Qowaiv.Validation.Abstractions;
+global using Qowaiv.Validation.TestTools;
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;

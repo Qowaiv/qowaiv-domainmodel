@@ -1,15 +1,13 @@
 using Qowaiv;
+using Qowaiv.Customization;
 
 namespace ConquerClub.Domain;
 
-[Serializable]
-public sealed class ForGame : Qowaiv.Identifiers.StringIdBehavior
-{
-    public override object Next() => Uuid.NewUuid().ToString();
-}
+[Id<StringIdBehavior, string>]
+public readonly partial struct GameId;
 
-[Serializable]
-public sealed class ForContinent : Qowaiv.Identifiers.Int32IdBehavior { }
+[Id<Int32IdBehavior, int>]
+public readonly partial struct ContinentId;
 
-[Serializable]
-public sealed class ForCountry : Qowaiv.Identifiers.Int32IdBehavior { }
+[Id<Int32IdBehavior, int>]
+public readonly partial struct CountryId;
