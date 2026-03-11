@@ -3,13 +3,42 @@
   <Import Project="../../props/package.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0;net10.0</TargetFrameworks>
     <OutputType>library</OutputType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>2.0.0</Version>
     <PackageId>Qowaiv.DomainModel</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../shared/Guard.cs" Link="Guard.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="QowaivDomainModelMessages.Designer.cs">
+      <DependentUpon>QowaivDomainModelMessages.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <EmbeddedResource Update="QowaivDomainModelMessages.resx">
+      <LastGenOutput>QowaivDomainModelMessages.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" />
+    <PackageReference Include="Qowaiv.Validation.Abstractions" />
+    <PackageReference Include="Qowaiv.Validation.Guarding" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Version>3.0.0</Version>
+    <PackageValidationBaselineVersion>2.0.0</PackageValidationBaselineVersion>
     <PackageReleaseNotes>
       <![CDATA[
+v3.0.0
+- Add .NET 10.0 target.
+- Drop NET9.0 targets. (BREAKING)
 V2.0.0
 - Add .NET 9.0 target.
 - Drop .NET 5.0, NET6.0, NET7.0 targets. (BREAKING)
@@ -61,29 +90,6 @@ v0.0.1
 - Initial release
 ]]>
     </PackageReleaseNotes>
-    <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="../../shared/Guard.cs" Link="Guard.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="QowaivDomainModelMessages.Designer.cs">
-      <DependentUpon>QowaivDomainModelMessages.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <EmbeddedResource Update="QowaivDomainModelMessages.resx">
-      <LastGenOutput>QowaivDomainModelMessages.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" />
-    <PackageReference Include="Qowaiv.Validation.Abstractions" />
-    <PackageReference Include="Qowaiv.Validation.Guarding" />
-  </ItemGroup>
 
 </Project>

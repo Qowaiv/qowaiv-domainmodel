@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Conquer Club example/">
+    <Project Path="example/ConquerClub.Domain/ConquerClub.Domain.csproj" />
+    <Project Path="example/ConquerClub.UnitTests/ConquerClub.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/specs/">
+    <Project Path="specs/Benchmarks/Benchmarks.csproj" />
+    <Project Path="test/Qowaiv.DomainModel.UnitTests/Qowaiv.DomainModel.UnitTests.csproj" />
+  </Folder>
+  <Project Path=".net.csproj" />
+  <Project Path="src/Qowaiv.DomainModel.TestTools/Qowaiv.DomainModel.TestTools.csproj" />
+  <Project Path="src/Qowaiv.DomainModel/Qowaiv.DomainModel.csproj" />
+</Solution>

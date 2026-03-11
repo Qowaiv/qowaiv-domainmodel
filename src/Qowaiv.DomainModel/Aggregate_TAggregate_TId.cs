@@ -7,6 +7,7 @@ namespace Qowaiv.DomainModel;
 /// <typeparam name="TId">
 /// The type of the identifier.
 /// </typeparam>
+[Mutable]
 public class Aggregate<TAggregate, TId> : Aggregate<TAggregate>
     where TAggregate : Aggregate<TAggregate, TId>, new()
 {

@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="../../props/nopackage.props" />
-  
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <IsTestProject>true</IsTestProject>
     <OutputType>library</OutputType>
   </PropertyGroup>

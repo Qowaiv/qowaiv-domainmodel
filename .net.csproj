@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
   </PropertyGroup>
   
   <ItemGroup>
     <None Include="build/**" />
     <None Include="design/**" />
+    <None Include="example/README.md" />
     <None Include="shared/**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="example/README.md" />
-    <AdditionalFiles Include="props/**" />
   </ItemGroup>
   
   <ItemGroup>

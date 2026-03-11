@@ -1,12 +1,12 @@
 <Project>
 
-  <PropertyGroup Condition="'$(CompileConfig)' != 'DEBUG'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateSBOM>true</GenerateSBOM>
   </PropertyGroup>
 
   <PropertyGroup Label="Package info">
     <IsPackable>true</IsPackable>
-    <EnablePackageValidation>false</EnablePackageValidation>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageIconUrl>https://github.com/Qowaiv/qowaiv-domainmodel/blob/master/design/package-icon.png</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -16,6 +16,11 @@
     <RepositoryUrl>https://github.com/Qowaiv/qowaiv-domainmodel</RepositoryUrl>
     <DefineConstants>CONTRACTS_FULL</DefineConstants>
     <CheckEolTargetFramework>true</CheckEolTargetFramework>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <EnableStrictModeForCompatibleFrameworksInPackage>true</EnableStrictModeForCompatibleFrameworksInPackage>
+    <EnableStrictModeForBaselineValidation>true</EnableStrictModeForBaselineValidation>
+    <ApiCompatGenerateSuppressionFile>true</ApiCompatGenerateSuppressionFile>
+    <ApiCompatEnableRuleAttributesMustMatch>true</ApiCompatEnableRuleAttributesMustMatch>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,19 +41,13 @@
     <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
-  <PropertyGroup Label="Signing">
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)../build/Qowaiv.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-
   <ItemGroup Label="Analyzers">
     <PackageReference Include="Qowaiv.Analyzers.CSharp" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup Label="Additional files">
-    <AdditionalFiles Include="../../props/package.props" Link="Properties/package.props" />
+  <ItemGroup>
+    <PackageReference PrivateAssets="all" Include="Microsoft.Sbom.Targets" />
   </ItemGroup>
 
 </Project>
