@@ -6,17 +6,9 @@ internal static class QowaivDomainModelStringBuilderExtensions
 {
     [Impure]
     public static bool AppendEvents(this StringBuilder sb, long index, object exp, object act)
-    {
-        if (sb.AppendDifferentTypes(index, exp, act))
-        {
-            return true;
-        }
-        else if (sb.AppendDifferentEvents(index, exp, act))
-        {
-            return true;
-        }
-        else return sb.AppendIdenticalEvents(index, act);
-    }
+        => sb.AppendDifferentTypes(index, exp, act)
+        || sb.AppendDifferentEvents(index, exp, act)
+        || sb.AppendIdenticalEvents(index, act);
 
     [Impure]
     public static bool AppendExtraEvents(this StringBuilder sb, IEnumerable<object> events, long offset, int skip, string prefix)
@@ -41,12 +33,8 @@ internal static class QowaivDomainModelStringBuilderExtensions
         var actType = act.GetType();
         var expType = exp.GetType();
 
-        if (actType != expType)
-        {
-            return sb.AppendExpectedActual(index, expType, actType);
-        }
-
-        return false;
+        return actType != expType &&
+            sb.AppendExpectedActual(index, expType, actType);
     }
 
     [Impure]
@@ -100,12 +88,7 @@ internal static class QowaivDomainModelStringBuilderExtensions
         sbExp.Append(" }");
         sbAct.Append(" }");
 
-        if (failure)
-        {
-            return sb.AppendExpectedActual(index, sbExp, sbAct);
-        }
-
-        return false;
+        return failure && sb.AppendExpectedActual(index, sbExp, sbAct);
     }
 
     [Impure]

@@ -43,12 +43,9 @@ public class EventBufferAssertions<TId>(EventBuffer<TId> subject)
         failure |= sb.AppendExtraEvents(actualEvents, offset, shared, "Extra:  ");
         failure |= sb.AppendExtraEvents(uncommitted, offset, shared, "Missing: ");
 
-        if (failure)
-        {
-            throw new AssertionFailed(sb.Insert(0, "The uncommitted events where different than expected." + Environment.NewLine).ToString());
-        }
-
-        return new(this);
+        return failure
+            ? throw new AssertionFailed(sb.Insert(0, "The uncommitted events where different than expected." + Environment.NewLine).ToString())
+            : new(this);
     }
 
     /// <inheritdoc />
