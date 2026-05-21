@@ -248,7 +248,7 @@
         "type": "Project",
         "dependencies": {
           "AwesomeAssertions": "[9.4.0, )",
-          "Qowaiv.DomainModel": "[3.0.1, )"
+          "Qowaiv.DomainModel": "[2.0.0, )"
         }
       },
       "Qowaiv": {
