@@ -59,7 +59,7 @@ internal class TestProcessor : CommandProcessor<Result>
     private MersenneTwister Rnd { get; }
 
     protected override Type GenericHandlerType => typeof(CommandHandler<>);
-    protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);
+    protected override string HandlerMethod => nameof(CommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType)
         => new GameCommandHandler(Rnd,
             load: id => Buffer.Load(),

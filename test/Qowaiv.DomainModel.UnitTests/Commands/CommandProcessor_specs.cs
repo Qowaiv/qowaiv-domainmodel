@@ -72,7 +72,7 @@ internal class AsyncCommandProcessor : CommandProcessor<Task<Result<string>>>
     private readonly object handler;
     public AsyncCommandProcessor(object handler) => this.handler = handler;
     protected override Type GenericHandlerType => typeof(CommandHandler<>);
-    protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);
+    protected override string HandlerMethod => nameof(CommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
 
@@ -81,7 +81,7 @@ internal class CancelableCommandProcessor : CommandProcessor<Task<Result<string>
     private readonly object handler;
     public CancelableCommandProcessor(object handler) => this.handler = handler;
     protected override Type GenericHandlerType => typeof(CancelableCommandHandler<>);
-    protected override string HandlerMethod => nameof(CancelableCommandHandler<object>.Handle);
+    protected override string HandlerMethod => nameof(CancelableCommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
 internal class SyncCommandProcessor : CommandProcessor<string>
@@ -89,7 +89,7 @@ internal class SyncCommandProcessor : CommandProcessor<string>
     private readonly object handler;
     public SyncCommandProcessor(object handler) => this.handler = handler;
     protected override Type GenericHandlerType => typeof(SyncCommandHandler<>);
-    protected override string HandlerMethod => nameof(SyncCommandHandler<object>.Handle);
+    protected override string HandlerMethod => nameof(SyncCommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
 
@@ -98,7 +98,7 @@ internal class InvalidReturnTypeProcessor : CommandProcessor<int>
     private readonly object handler;
     public InvalidReturnTypeProcessor(object handler) => this.handler = handler;
     protected override Type GenericHandlerType => typeof(SyncCommandHandler<>);
-    protected override string HandlerMethod => nameof(SyncCommandHandler<object>.Handle);
+    protected override string HandlerMethod => nameof(SyncCommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
 
