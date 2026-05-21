@@ -33,7 +33,7 @@ public static class Aggregate
     {
         return Dispatcher(new TAggregate()).SupportedEventTypes;
 
-        EventDispatcher Dispatcher(TAggregate aggregate)
+        static EventDispatcher Dispatcher(TAggregate aggregate)
             => (EventDispatcher)typeof(TAggregate)
                 .GetProperty(nameof(Dispatcher), NonPublic)!
                 .GetValue(aggregate)!;
