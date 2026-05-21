@@ -1,4 +1,4 @@
-name: .NET 9.0 Build & Test
+name: .NET 10.0 Build & Test
 
 on: [push]
 
