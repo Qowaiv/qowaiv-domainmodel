@@ -1,7 +1,6 @@
 #pragma warning disable S1210 // "Equals" and the comparison operators should be overridden when implementing "IComparable"
 // Players should be sortable, but less than, or greater than has no meaning here.
 using Qowaiv;
-using System.Diagnostics.Contracts;
 
 namespace ConquerClub.Domain;
 
@@ -71,6 +70,7 @@ public readonly struct Player(byte id) : IEquatable<Player>, IComparable<Player>
     public static explicit operator byte(Player player) => player.Id;
 
     /// <summary>Parses the player.</summary>
+    [Pure]
     public static Player Parse(string str)
     {
         if (string.IsNullOrEmpty(str) || nameof(Neutral).Equals(str, StringComparison.InvariantCultureIgnoreCase))
@@ -85,11 +85,14 @@ public readonly struct Player(byte id) : IEquatable<Player>, IComparable<Player>
     }
 
     /// <summary>Serializes the <see cref="Player"/> as JSON string.</summary>
+    [Pure]
     public string ToJson() => ToString();
 
     /// <summary>Deserializes the <see cref="Player"/> from a JSON number.</summary>
+    [Pure]
     public static Player FromJson(long json) => new((byte)json);
 
     /// <summary>Deserializes the <see cref="Player"/> from a JSON string.</summary>
+    [Pure]
     public static Player FromJson(string json) => Parse(json);
 }

@@ -2,6 +2,7 @@ namespace ConquerClub.Domain;
 
 public sealed partial class Game : Aggregate<Game, GameId>
 {
+    [Pure]
     public static Result<Game> Start(Start start, RandomSource rnd)
         => new Game(start.Game).ApplyEvents(
             new MapInitialized(
@@ -11,6 +12,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
             new ArmiesInitialized([.. RndArmies(start.Players, start.Countries.Length, rnd)]))
         | (g => g.ApplyEvent(g.StartTurn(Player.P1)));
 
+    [Pure]
     public Result<Game> Deploy(CountryId country, Army army)
         => Must.BeInPhase(GamePhase.Deploy)
         | (g => g.Must.BeActivePlayer(army.Owner))
@@ -19,6 +21,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         | (g => g.Must.NotExceedArmyBuffer(army))
         | (g => g.ApplyEvent(new Deployed(country, army)));
 
+    [Pure]
     public Result<Game> Attack(
         CountryId attacker,
         CountryId defender,
@@ -36,6 +39,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
                 Countries.ById(defender).Army,
                 rnd)));
 
+    [Pure]
     public Result<Game> AutoAttack(
         CountryId attacker,
         CountryId defender,
@@ -53,6 +57,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
                Countries.ById(defender).Army,
                rnd)));
 
+    [Pure]
     private Result<Game> Attack(
         CountryId attacker,
         CountryId defender,
@@ -67,6 +72,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
             : Apply(events);
     }
 
+    [Pure]
     public Result<Game> Advance(Army to)
         => Must.BeInPhase(GamePhase.Advance)
         | (g => g.Must.BeActivePlayer(to.Owner))
@@ -74,6 +80,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         | (g => g.Must.NotExceedArmyBuffer(to))
         | (g => g.ApplyEvent(new Advanced(to)));
 
+    [Pure]
     public Result<Game> Reinforce(CountryId from, CountryId to, Army army)
         => Must.BeInPhase(GamePhase.Reinforce)
         | (g => g.Must.Exist(from))
@@ -83,6 +90,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         | (g => g.Must.BeReachable(to, by: from))
         | (g => g.ApplyEvent(new Reinforced(from, to, army)));
 
+    [Pure]
     public Result<Game> Resign()
         => Apply(Events
             .Add(new Resigned(ActivePlayer))
@@ -90,7 +98,9 @@ public sealed partial class Game : Aggregate<Game, GameId>
                 .Then(() => Events.Add(new Finished()))
             .Else(() => StartTurn(NextPlayer)));
 
+    [Pure]
     private bool ConquerCountryWillKillPlayer(CountryId country) => Countries.Count(c => c.Owner == Countries.ById(country).Owner) == 1;
+    
     private bool KillPlayerWillFinishGame => Countries.ActivePlayers().Count() == 2;
 
     internal void When(MapInitialized @event)
@@ -217,6 +227,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         }
     }
 
+    [Pure]
     private TurnStarted StartTurn(Player player)
     {
         var countries = Countries.Count(c => c.Owner == player);
@@ -225,6 +236,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         return new TurnStarted(Deployments: player.Army(deploy));
     }
 
+    [Pure]
     private static IEnumerable<Army> RndArmies(int players, int countries, RandomSource rnd)
     {
         var perCountry = countries / Math.Min(players, 3);

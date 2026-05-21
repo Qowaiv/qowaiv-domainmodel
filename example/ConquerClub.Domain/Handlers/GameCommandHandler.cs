@@ -25,39 +25,47 @@ public class GameCommandHandler :
     public Func<GameId, Result<Game>> Load { get; }
     public Func<Game, Result> Save { get; }
 
+    [Impure]
     public Result Handle(Start command)
         => Game.Start(command, Rnd)
             | (g => Save(g));
 
+    [Impure]
     public Result Handle(Deploy command)
          => ExecuteAndSave(command, g => g.Deploy(
             command.Country,
             command.Army));
 
+    [Impure]
     public Result Handle(AutoAttack command)
         => ExecuteAndSave(command, g => g.AutoAttack(
             command.Attacker,
             command.Defender,
             Rnd));
 
+    [Impure]
     public Result Handle(Attack command)
         => ExecuteAndSave(command, g => g.Attack(
             command.Attacker,
             command.Defender,
             Rnd));
 
+    [Impure]
     public Result Handle(Advance command)
         => ExecuteAndSave(command, g => g.Advance(command.To));
 
+    [Impure]
     public Result Handle(Reinforce command)
         => ExecuteAndSave(command, g => g.Reinforce(
             command.From,
             command.To,
             command.Army));
 
+    [Impure]
     public Result Handle(Resign command)
         => ExecuteAndSave(command, g => g.Resign());
 
+    [Impure]
     private Result ExecuteAndSave<TCommand>(TCommand command, Func<Game, Result<Game>> act) where TCommand : Command
         => Load(command.Game)
         | (g => g.Must().HaveVersion(command.ExpectedVersion))

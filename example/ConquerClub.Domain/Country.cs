@@ -27,5 +27,6 @@ public sealed class Country
     public Army Army { get; internal set; }
 
     /// <inheritdoc/>
+    [Pure]
     public override string ToString() => $"{Name} ({Id}), Army: {Army}";
 }
