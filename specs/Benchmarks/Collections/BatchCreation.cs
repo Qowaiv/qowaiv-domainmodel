@@ -6,7 +6,7 @@ public class BatchCreation
     [Params(1000, 10_000, 100_000)]
     public int Count { get; set; }
 
-    public IReadOnlyCollection<object> Events { get; private set; } = Array.Empty<object>();
+    public IReadOnlyCollection<object> Events { get; private set; } = [];
 
     [GlobalSetup]
     public void Setup() => Events = Added.Random(Count);

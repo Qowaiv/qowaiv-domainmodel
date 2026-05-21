@@ -49,8 +49,8 @@ internal static class QowaivDomainModelStringBuilderExtensions
 
         foreach (var prop in properties)
         {
-            var e = prop.GetValue(exp, Array.Empty<object>());
-            var a = prop.GetValue(act, Array.Empty<object>());
+            var e = prop.GetValue(exp, []);
+            var a = prop.GetValue(act, []);
 
             if (prop.PropertyType.IsArray)
             {

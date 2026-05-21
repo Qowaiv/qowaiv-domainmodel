@@ -27,7 +27,7 @@ public sealed class Continent : IEnumerable<Country>
         => Countries.All(r => r.Owner == Countries[0].Owner) ? Countries[0].Owner : Player.Neutral;
 
     /// <summary>Gets the number of regions on the continent.</summary>
-    public IReadOnlyList<Country> Countries { get; internal set; } = Array.Empty<Country>();
+    public IReadOnlyList<Country> Countries { get; internal set; } = [];
 
     /// <inheritdoc/>
     public override string ToString() => $"{Name} ({Id}), bonus {Bonus}, {Countries.Count} countries";

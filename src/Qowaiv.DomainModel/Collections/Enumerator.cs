@@ -10,7 +10,7 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
     /// <summary>Initializes a new instance of the <see cref="Enumerator"/> struct.</summary>
     internal Enumerator(object[]? array, int start, int end)
     {
-        Array = array ?? System.Array.Empty<object>();
+        Array = array ?? [];
         End = end;
         Index = start - 1;
     }

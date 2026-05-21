@@ -6,7 +6,7 @@ public class Creation
     [Params(1000, 10_000, 100_000, 200_000)]
     public int Count { get; set; }
 
-    public IReadOnlyCollection<object> Events { get; private set; } = Array.Empty<Added>();
+    public IReadOnlyCollection<object> Events { get; private set; } = [];
 
     [GlobalSetup]
     public void Setup()

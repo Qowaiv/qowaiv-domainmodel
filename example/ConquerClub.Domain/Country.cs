@@ -12,7 +12,7 @@ public sealed class Country
     /// <summary>Gets the continent of the region.</summary>
     public Continent? Continent { get; internal set; }
 
-    public IReadOnlyList<Country> Borders { get; internal set; } = Array.Empty<Country>();
+    public IReadOnlyList<Country> Borders { get; internal set; } = [];
 
     /// <summary>Gets the identifier of the region.</summary>
     public CountryId Id { get; }

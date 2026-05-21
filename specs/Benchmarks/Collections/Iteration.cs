@@ -5,7 +5,7 @@ public class Iteration
     [Params(1000, 10_000, 100_000)]
     public int Count { get; set; }
 
-    private object[] array = System.Array.Empty<object>();
+    private object[] array = [];
     private List<object> list = new();
     private EventBuffer<int> buffer = Qowaiv.DomainModel.EventBuffer.Empty(17);
 

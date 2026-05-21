@@ -6,7 +6,7 @@ namespace Qowaiv.DomainModel.Internal;
 [DebuggerDisplay("Count = {Count}, Capacity = {Buffer.Length}")]
 internal readonly struct AppendOnlyCollection : IReadOnlyCollection<object>
 {
-    public static readonly AppendOnlyCollection Empty = new(0, Array.Empty<object>());
+    public static readonly AppendOnlyCollection Empty = new(0, []);
 
     /// <remarks>Internal from .NET.</remarks>
     private const int MaxCapacity = 0X7FFFFFC7;
