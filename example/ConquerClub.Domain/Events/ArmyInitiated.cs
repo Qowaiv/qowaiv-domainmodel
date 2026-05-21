@@ -1,3 +1,3 @@
 namespace ConquerClub.Domain.Events;
 
-public record ArmyInitiated(CountryId Country, Army Army);
+public sealed record ArmyInitiated(CountryId Country, Army Army);

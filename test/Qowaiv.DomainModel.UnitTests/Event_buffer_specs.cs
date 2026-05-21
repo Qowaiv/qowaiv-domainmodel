@@ -50,8 +50,8 @@ public class Select_uncommitted
 
         var selected = buffer.SelectUncommitted((_, version, _) => version);
 
-        Assert.That(selected.Count(), Is.EqualTo(2));
-        Assert.That(selected, Is.EqualTo(new[] { 4, 5 }));
+        selected.Should().HaveCount(2)
+            .And.BeEquivalentTo([4, 5]);
     }
 
     [Test]

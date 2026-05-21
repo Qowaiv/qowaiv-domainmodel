@@ -1,3 +1,3 @@
 namespace ConquerClub.Domain.Events;
 
-public record ArmiesInitialized(params Army[] Armies);
+public sealed record ArmiesInitialized(params Army[] Armies);

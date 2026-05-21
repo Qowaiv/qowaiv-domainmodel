@@ -1,9 +1,9 @@
 namespace ConquerClub.Domain.Events;
 
-public record MapInitialized(
+public sealed record MapInitialized(
     IReadOnlyCollection<ContinentInitialized> Continents,
     IReadOnlyCollection<CountryInitialized> Countries);
 
-public record CountryInitialized(string Name, IReadOnlyCollection<CountryId> Borders);
+public sealed record CountryInitialized(string Name, IReadOnlyCollection<CountryId> Borders);
 
-public record ContinentInitialized(string Name, int Bonus, IReadOnlyCollection<CountryId> Territories);
+public sealed record ContinentInitialized(string Name, int Bonus, IReadOnlyCollection<CountryId> Territories);

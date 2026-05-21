@@ -48,7 +48,7 @@ public abstract class Aggregate<TAggregate>
     /// <summary>Applies a single event.</summary>
     [Pure]
     protected Result<TAggregate> ApplyEvent(object @event)
-        => Apply(new Singleton(Guard.NotNull(@event, nameof(@event))));
+        => Apply([Guard.NotNull(@event, nameof(@event))]);
 
     /// <summary>Applies the events.</summary>
     [Pure]

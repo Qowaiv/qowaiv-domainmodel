@@ -5,7 +5,7 @@
 namespace ConquerClub.Domain.Diagnostics;
 
 /// <summary>Allows the debugger to display collections.</summary>
-internal class CollectionDebugView
+internal sealed class CollectionDebugView
 {
     /// <summary>Initializes a new instance of the <see cref="CollectionDebugView"/> class.Constructor.</summary>
     /// <param name="enumeration">

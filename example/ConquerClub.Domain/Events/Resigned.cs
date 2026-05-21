@@ -1,3 +1,3 @@
 namespace ConquerClub.Domain.Events;
 
-public record Resigned(Player Player);
+public sealed record Resigned(Player Player);

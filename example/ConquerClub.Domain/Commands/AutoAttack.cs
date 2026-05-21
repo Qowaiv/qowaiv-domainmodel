@@ -1,6 +1,6 @@
 namespace ConquerClub.Domain.Commands;
 
-public record AutoAttack(
+public sealed record AutoAttack(
     CountryId Attacker,
     CountryId Defender,
     GameId Game,
