@@ -1,16 +1,15 @@
 namespace ConquerClub.Domain;
 
-public sealed partial class Game : Aggregate<Game, GameId>
+[Mutable]
+public sealed partial class Game(GameId id) : Aggregate<Game, GameId>(id, new GameValidator())
 {
     public Game() : this(GameId.Next()) { }
 
-    public Game(GameId id) : base(id, new GameValidator()) { }
-
     public Settings Settings { get; private set; } = new(0, 0, false);
 
-    public IReadOnlyList<Continent> Continents { get; private set; } = Array.Empty<Continent>();
+    public IReadOnlyList<Continent> Continents { get; private set; } = [];
 
-    public IReadOnlyList<Country> Countries { get; private set; } = Array.Empty<Country>();
+    public IReadOnlyList<Country> Countries { get; private set; } = [];
 
     /// <summary>Gets the current round.</summary>
     public int Round { get; private set; } = 1;

@@ -1,9 +1,10 @@
-using FluentAssertions;
-using FluentAssertions.Collections;
+using AwesomeAssertions;
+using AwesomeAssertions.Collections;
+using AwesomeAssertions.Execution;
 using Qowaiv.DomainModel.TestTools.Diagnostics.Contracts;
 using System.Text;
 
-namespace Qowaiv.DomainModel.TestTools.FluentAssertions;
+namespace Qowaiv.DomainModel.TestTools.AwesomeAssertions;
 
 /// <summary>Assertions on <see cref="EventBuffer{TId}"/>.</summary>
 /// <typeparam name="TId">
@@ -11,11 +12,9 @@ namespace Qowaiv.DomainModel.TestTools.FluentAssertions;
 /// </typeparam>
 [Inheritable]
 [CLSCompliant(false)]
-public class EventBufferAssertions<TId> : GenericCollectionAssertions<EventBuffer<TId>, object, EventBufferAssertions<TId>>
+public class EventBufferAssertions<TId>(EventBuffer<TId> subject)
+    : GenericCollectionAssertions<EventBuffer<TId>, object, EventBufferAssertions<TId>>(subject, AssertionChain.GetOrCreate())
 {
-    /// <summary>Initializes a new instance of the <see cref="EventBufferAssertions{TId}"/> class.</summary>
-    public EventBufferAssertions(EventBuffer<TId> subject) : base(subject) { }
-
     /// <summary>Verifies that the <see cref="Aggregate{TAggregate}"/> has the expected uncommitted events.</summary>
     /// <param name="uncommitted">
     /// The expected uncommitted event messages.
@@ -44,12 +43,9 @@ public class EventBufferAssertions<TId> : GenericCollectionAssertions<EventBuffe
         failure |= sb.AppendExtraEvents(actualEvents, offset, shared, "Extra:  ");
         failure |= sb.AppendExtraEvents(uncommitted, offset, shared, "Missing: ");
 
-        if (failure)
-        {
-            throw new AssertionFailed(sb.Insert(0, "The uncommitted events where different than expected." + Environment.NewLine).ToString());
-        }
-
-        return new(this);
+        return failure
+            ? throw new AssertionFailed(sb.Insert(0, "The uncommitted events where different than expected." + Environment.NewLine).ToString())
+            : new(this);
     }
 
     /// <inheritdoc />

@@ -2,5 +2,5 @@ namespace Models.Events;
 
 public sealed class ArrayEvent
 {
-    public int[] Numbers { get; init; } = Array.Empty<int>();
+    public int[] Numbers { get; init; } = [];
 }

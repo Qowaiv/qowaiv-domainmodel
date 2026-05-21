@@ -4,8 +4,8 @@ namespace Qowaiv.DomainModel;
 public interface EventDispatcher
 {
     /// <summary>Gets the supported event types.</summary>
-    public abstract ReadOnlySet<Type> SupportedEventTypes { get; }
+    ReadOnlySet<Type> SupportedEventTypes { get; }
 
     /// <summary>Invokes the When(@event) method.</summary>
-    public abstract void When(object? @event);
+    void When(object? @event);
 }

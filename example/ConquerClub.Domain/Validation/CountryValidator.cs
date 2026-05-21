@@ -1,14 +1,13 @@
 using FluentValidation;
 using Qowaiv.Validation.Fluent;
 
-namespace ConquerClub.Domain.Validation
+namespace ConquerClub.Domain.Validation;
+
+internal sealed class CountryValidator : ModelValidator<Country>
 {
-    internal class CountryValidator : ModelValidator<Country>
+    public CountryValidator()
     {
-        public CountryValidator()
-        {
-            RuleFor(c => c.Army).NotEmpty();
-            RuleFor(c => c.Owner).NotUnknown();
-        }
+        RuleFor(c => c.Army).NotEmpty();
+        RuleFor(c => c.Owner).NotUnknown();
     }
 }

@@ -50,8 +50,8 @@ public class Select_uncommitted
 
         var selected = buffer.SelectUncommitted((_, version, _) => version);
 
-        Assert.That(selected.Count(), Is.EqualTo(2));
-        Assert.That(selected, Is.EqualTo(new[] { 4, 5 }));
+        selected.Should().HaveCount(2)
+            .And.BeEquivalentTo([4, 5]);
     }
 
     [Test]
@@ -63,12 +63,12 @@ public class Select_uncommitted
             .Add(new EmptyEvent());
 
         var selected = buffer.SelectUncommitted((id, version, @event) => new StoredEvent(id, version, @event));
-        selected.Should().BeEquivalentTo(new[]
-        {
+        selected.Should().BeEquivalentTo(
+        [
             new StoredEvent("my-id-007", 1, new EmptyEvent()),
             new StoredEvent("my-id-007", 2, new EmptyEvent()),
             new StoredEvent("my-id-007", 3, new EmptyEvent()),
-        });
+        ]);
     }
 }
 
@@ -100,7 +100,7 @@ public class Default
 
     [Test]
     public void can_be_extended()
-        => default(EventBuffer<int>).Add(1).Should().BeEquivalentTo(new[] { 1 });
+        => default(EventBuffer<int>).Add(1).Should().BeEquivalentTo([1]);
 }
 
 public class HasUncommitted
@@ -144,7 +144,7 @@ public class Implements_ICollection
     public void Count_is_equal_to_buffer_count()
     {
         var collection = EventBuffer.Empty(17).Add(new[] { 1, 2, 3, 4 });
-        collection.Count.Should().Be(4);
+        collection.Should().HaveCount(4);
     }
 
     [Test]

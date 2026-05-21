@@ -1,12 +1,12 @@
 using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.TestTools.FluentAssertions;
+using Qowaiv.DomainModel.TestTools.AwesomeAssertions;
 using System.Diagnostics.Contracts;
 
-namespace FluentAssertions;
+namespace AwesomeAssertions;
 
 /// <summary>Contains extension methods for custom assertions in unit tests.</summary>
 [DebuggerNonUserCode]
-public static class QowaivDomainModelFluentAssertions
+public static class QowaivDomainModelAwesomeAssertions
 {
     /// <summary>
     /// Returns an <see cref="EventBufferAssertions{TId}"/> object that can be used to assert the

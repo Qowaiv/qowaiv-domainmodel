@@ -1,3 +1,3 @@
 namespace ConquerClub.Domain.Events;
 
-public record Conquered(CountryId Attacker, CountryId Defender);
+public sealed record Conquered(CountryId Attacker, CountryId Defender);

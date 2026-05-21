@@ -5,16 +5,16 @@ public class Iteration
     [Params(1000, 10_000, 100_000)]
     public int Count { get; set; }
 
-    private object[] array = System.Array.Empty<object>();
-    private List<object> list = new();
+    private object[] array = [];
+    private List<object> list = [];
     private EventBuffer<int> buffer = Qowaiv.DomainModel.EventBuffer.Empty(17);
 
     [GlobalSetup]
     public void Setup()
     {
         var events = Added.Random(Count);
-        list = events.ToList();
-        array = list.ToArray();
+        list = [.. events];
+        array = [.. list];
         buffer = Qowaiv.DomainModel.EventBuffer.Empty(17).Add(events);
     }
 

@@ -1,6 +1,6 @@
 namespace ConquerClub.Domain.Commands;
 
-public record Start(
+public sealed record Start(
     Country[] Countries,
     Continent[] Continents,
     int RoundLimit,
@@ -8,6 +8,6 @@ public record Start(
     GameId Game)
     : Command(Game, 0);
 
-public record Country(string Name, CountryId[] Borders);
+public sealed record Country(string Name, CountryId[] Borders);
 
-public record Continent(string Name, int Bonus, CountryId[] Territories);
+public sealed record Continent(string Name, int Bonus, CountryId[] Territories);

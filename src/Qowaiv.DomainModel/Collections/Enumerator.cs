@@ -10,7 +10,7 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
     /// <summary>Initializes a new instance of the <see cref="Enumerator"/> struct.</summary>
     internal Enumerator(object[]? array, int start, int end)
     {
-        Array = array ?? System.Array.Empty<object>();
+        Array = array ?? [];
         End = end;
         Index = start - 1;
     }
@@ -19,7 +19,7 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
     internal Enumerator(object[] array, int count) : this(array, 0, count) { }
 
     /// <inheritdoc />
-    public object Current => Array[Index];
+    public readonly object Current => Array[Index];
 
     /// <inheritdoc />
     [Pure]
@@ -30,11 +30,11 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
     public void Reset() => throw new NotSupportedException();
 
     /// <inheritdoc />
-    public void Dispose() { /* Nothing to dispose. */ }
+    public readonly void Dispose() { /* Nothing to dispose. */ }
 
     /// <inheritdoc />
     [Pure]
-    public IEnumerator<object> GetEnumerator() => this;
+    public readonly IEnumerator<object> GetEnumerator() => this;
 
     /// <inheritdoc />
     [Pure]

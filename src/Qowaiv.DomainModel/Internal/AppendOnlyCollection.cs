@@ -6,7 +6,7 @@ namespace Qowaiv.DomainModel.Internal;
 [DebuggerDisplay("Count = {Count}, Capacity = {Buffer.Length}")]
 internal readonly struct AppendOnlyCollection : IReadOnlyCollection<object>
 {
-    public static readonly AppendOnlyCollection Empty = new(0, Array.Empty<object>());
+    public static readonly AppendOnlyCollection Empty = new(0, []);
 
     /// <remarks>Internal from .NET.</remarks>
     private const int MaxCapacity = 0X7FFFFFC7;
@@ -32,21 +32,13 @@ internal readonly struct AppendOnlyCollection : IReadOnlyCollection<object>
     /// Null, and null items are ignored.
     /// </remarks>
     [Pure]
-    public AppendOnlyCollection Add(object? item)
+    public AppendOnlyCollection Add(object? item) => item switch
     {
-        if (item is null)
-        {
-            return this;
-        }
-        if (item is IEnumerable enumerable && item is not string)
-        {
-            return AddRange(enumerable.GetEnumerator());
-        }
-        else
-        {
-            return AddSingle(item);
-        }
-    }
+        null => this,
+        string str => AddSingle(str),
+        IEnumerable enumerable => AddRange(enumerable.GetEnumerator()),
+        _ => AddSingle(item),
+    };
 
     /// <inheritdoc cref="ICollection.CopyTo(Array, int)" />
     public void CopyTo(object[] array, int arrayIndex)

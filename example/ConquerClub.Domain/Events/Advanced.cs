@@ -1,4 +1,3 @@
-namespace ConquerClub.Domain.Events
-{
-    public record Advanced(Army To);
-}
+namespace ConquerClub.Domain.Events;
+
+public sealed record Advanced(Army To);

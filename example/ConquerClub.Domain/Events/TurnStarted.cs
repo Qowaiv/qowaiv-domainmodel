@@ -1,4 +1,3 @@
-namespace ConquerClub.Domain.Events
-{
-    public record TurnStarted(Army Deployments);
-}
+namespace ConquerClub.Domain.Events;
+
+public sealed record TurnStarted(Army Deployments);

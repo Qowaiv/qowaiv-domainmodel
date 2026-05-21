@@ -7,7 +7,7 @@ public class Odds
     [Test]
     public void For_3_vs_2_are_2890_wins_2611_draws_2275_losses()
     {
-        var outcome = TwoDice(Get2Out3().ToArray(), Get2Out2().ToArray());
+        var outcome = TwoDice([.. Get2Out3()], [.. Get2Out2()]);
         outcome.Should().Be(new DiceOutcome(2890, 2611, 2275));
 
         GenerateTwo(outcome, "3v2");
@@ -16,7 +16,7 @@ public class Odds
     [Test]
     public void For_3_vs_1_are_855_wins_441_losses()
     {
-        var outcome = OneDice(Get2Out3().ToArray(), Get1Out1().ToArray());
+        var outcome = OneDice([.. Get2Out3()], [.. Get1Out1()]);
         outcome.Should().Be(new DiceOutcome(855, 0, 441));
 
         GenerateOne(outcome, "3v1");
@@ -25,7 +25,7 @@ public class Odds
     [Test]
     public void For_2_vs_2_are_295_wins_420_draws_581_losses()
     {
-        var outcome = TwoDice(Get2Out2().ToArray(), Get2Out2().ToArray());
+        var outcome = TwoDice([.. Get2Out2()], [.. Get2Out2()]);
         outcome.Should().Be(new DiceOutcome(295, 420, 581));
 
         GenerateTwo(outcome, "2v2");
@@ -34,7 +34,7 @@ public class Odds
     [Test]
     public void For_2_vs_1_are_125_wins_91_losses()
     {
-        var outcome = OneDice(Get2Out2().ToArray(), Get1Out1().ToArray());
+        var outcome = OneDice([.. Get2Out2()], [.. Get1Out1()]);
         outcome.Should().Be(new DiceOutcome(125, 0, 91));
 
         GenerateOne(outcome, "2v1");
@@ -42,7 +42,7 @@ public class Odds
     [Test]
     public void For_1_vs_2_are_55_wins_161_losses()
     {
-        var outcome = OneDice(Get1Out1().ToArray(), Get2Out2().ToArray());
+        var outcome = OneDice([.. Get1Out1()], [.. Get2Out2()]);
         outcome.Should().Be(new DiceOutcome(55, 0, 161));
 
         GenerateOne(outcome, "1v2");
@@ -51,7 +51,7 @@ public class Odds
     [Test]
     public void For_1_vs_1_are_15_wins_21_losses()
     {
-        var outcome = OneDice(Get1Out1().ToArray(), Get1Out1().ToArray());
+        var outcome = OneDice([.. Get1Out1()], [.. Get1Out1()]);
         outcome.Should().Be(new DiceOutcome(15, 0, 21));
 
         GenerateOne(outcome, "1v1");
@@ -72,14 +72,9 @@ public class Odds
                     var all = (new[] { a, b, c }).OrderByDescending(i => i).Take(2).ToArray();
                     var dice = new DicePair(all[0], all[1]);
 
-                    if (lookup.ContainsKey(dice))
-                    {
-                        lookup[dice]++;
-                    }
-                    else
-                    {
-                        lookup[dice] = 1;
-                    }
+                    lookup[dice] = lookup.TryGetValue(dice, out var count)
+                        ? count + 1
+                        : 1;
                 }
             }
         }
@@ -115,9 +110,7 @@ public class Odds
         }
     }
     private static IEnumerable<Distribution> Get1Out1()
-    {
-        return Roll().Select(d => new Distribution(new DicePair(d, 0), 1));
-    }
+        => Roll().Select(d => new Distribution(new DicePair(d, 0), 1));
 
     private static DiceOutcome TwoDice(Distribution[] attackers, Distribution[] defenders)
     {
@@ -218,48 +211,27 @@ public class Odds
         Console.WriteLine(sb);
     }
 
-    private readonly struct DiceOutcome
+    private readonly struct DiceOutcome(int win, int draw, int loss)
     {
-        public DiceOutcome(int win, int draw, int loss)
-        {
-            Win = win;
-            Draw = draw;
-            Loss = loss;
-        }
-
-        public int Win { get; }
-        public int Draw { get; }
-        public int Loss { get; }
+        public int Win { get; } = win;
+        public int Draw { get; } = draw;
+        public int Loss { get; } = loss;
         public int Total => Win + Draw + Loss;
 
         public override string ToString() => $"+{Win} ={Draw} -{Loss}";
     }
 
-    internal readonly struct Distribution
+    internal readonly struct Distribution(DicePair dice, int frequency)
     {
-        public Distribution(DicePair dice, int frequency)
-        {
-            Dice = dice;
-            Frequency = frequency;
-        }
+        public DicePair Dice { get; } = dice;
 
-        public DicePair Dice { get; }
-        public int Frequency { get; }
+        public int Frequency { get; } = frequency;
 
         public override string ToString() => $"{Dice}: {Frequency}";
     }
 
-    internal readonly struct DicePair
+    internal readonly record struct DicePair(int Hi, int Lo)
     {
-        public DicePair(int hi, int lo)
-        {
-            Hi = hi;
-            Lo = lo;
-        }
-
-        public int Hi { get; }
-        public int Lo { get; }
-
         public override string ToString() => $"{Hi}{Lo}";
     }
 }

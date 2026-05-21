@@ -1,4 +1,4 @@
-using Buffer = Qowaiv.DomainModel.EventBuffer<Qowaiv.Identifiers.Id<ConquerClub.Domain.ForGame>>;
+using Buffer = Qowaiv.DomainModel.EventBuffer<ConquerClub.Domain.GameId>;
 
 namespace ConquerClub.UnitTests;
 
@@ -32,13 +32,13 @@ internal static class Arrange
         => EventBuffer.Empty(Game_Id)
         .Add(new SettingsInitialized(2, roundLimit, false))
         .Add(new MapInitialized(
-            Continents: new[] { new ContinentInitialized("Benelux", 3, new[] { Netherlands, Belgium, Luxembourg })},
-            Countries: new[]
-            {
-                new CountryInitialized("Netherlands", new []{ Belgium }),
-                new CountryInitialized("Belgium", new []{ Netherlands, Luxembourg }),
-                new CountryInitialized("Luxembourg", new []{ Belgium }),
-            }));
+            Continents: [new ContinentInitialized("Benelux", 3, [Netherlands, Belgium, Luxembourg])],
+            Countries:
+            [
+                new CountryInitialized("Netherlands", [Belgium]),
+                new CountryInitialized("Belgium", [Netherlands, Luxembourg]),
+                new CountryInitialized("Luxembourg", [Belgium]),
+            ]));
 
     public static Buffer Deploy(this Buffer game) =>
         game.Add(new Deployed(Netherlands, Player.P1.Army(3)));
@@ -47,25 +47,19 @@ internal static class Arrange
         Aggregate.FromStorage<Game, GameId>(buffer.MarkAllAsCommitted());
 }
 
-internal class TestProcessor : CommandProcessor<Result>
+internal class TestProcessor(Buffer? buffer, int seed) : CommandProcessor<Result>
 {
-    public TestProcessor(Buffer? buffer, int seed)
-    {
-        Rnd = new MersenneTwister(seed);
-        Buffer = buffer ?? EventBuffer.Empty(GameId.Next());
-    }
-    
-    public Buffer Buffer { get; private set; }
-    private MersenneTwister Rnd { get; }
+    public Buffer Buffer { get; private set; } = buffer ?? EventBuffer.Empty(GameId.Next());
+
+    private MersenneTwister Rnd { get; } = new MersenneTwister(seed);
 
     protected override Type GenericHandlerType => typeof(CommandHandler<>);
-    protected override string HandlerMethod => nameof(CommandHandler<object>.Handle);
+
+    protected override string HandlerMethod => nameof(CommandHandler<>.Handle);
+
     protected override object GetHandler(Type handlerType)
-        => new GameCommandHandler(Rnd,
-            load: id => Buffer.Load(),
-            save: game =>
-            {
-                Buffer = game.Buffer;
-                return Result.OK;
-            });
+        => new GameCommandHandler(
+        Rnd,
+        load: id => Buffer.Load(),
+        save: game => { Buffer = game.Buffer; return Result.OK; });
 }

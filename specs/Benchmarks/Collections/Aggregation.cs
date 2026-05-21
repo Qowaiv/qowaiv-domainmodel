@@ -2,16 +2,14 @@ namespace Benchmarks.Collections;
 
 public class Aggregation
 {
-    [Params(/*100,*/ 10_000/*, 10_000*/)]
+    [Params(100, 10_000)]
     public int Count { get; set; }
 
-    private IReadOnlyCollection<object> Events = Array.Empty<object>();
+    private IReadOnlyCollection<object> Events = [];
 
     [GlobalSetup]
     public void Setup()
-    {
-        Events = Added.Random(Count);
-    }
+        => Events = Added.Random(Count);
 
     [Benchmark]
     public double Aggregate_ApplyEvent()

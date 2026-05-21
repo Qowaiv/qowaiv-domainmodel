@@ -1,6 +1,6 @@
 namespace ConquerClub.Domain.Commands;
 
-public record Deploy(
+public sealed record Deploy(
     CountryId Country,
     Army Army,
     GameId Game,

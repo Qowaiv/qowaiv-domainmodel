@@ -4,6 +4,7 @@ namespace ConquerClub.Domain;
 
 /// <summary>Represents a continent/super-region.</summary>
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
+[Mutable]
 public sealed class Continent : IEnumerable<Country>
 {
     internal Continent(ContinentId id, string name, int bonus)
@@ -27,20 +28,24 @@ public sealed class Continent : IEnumerable<Country>
         => Countries.All(r => r.Owner == Countries[0].Owner) ? Countries[0].Owner : Player.Neutral;
 
     /// <summary>Gets the number of regions on the continent.</summary>
-    public IReadOnlyList<Country> Countries { get; internal set; } = Array.Empty<Country>();
+    public IReadOnlyList<Country> Countries { get; internal set; } = [];
 
     /// <inheritdoc/>
+    [Pure]
     public override string ToString() => $"{Name} ({Id}), bonus {Bonus}, {Countries.Count} countries";
 
     /// <inheritdoc/>
+    [Pure] 
     public IEnumerator<Country> GetEnumerator() => Countries.GetEnumerator();
 
     /// <inheritdoc/>
+    [Pure]
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
 public static class ContinentExtensions
 {
+    [Pure]
     public static Continent? ById(this IEnumerable<Continent> continents, ContinentId id)
         => continents.FirstOrDefault(c => c.Id == id);
 }

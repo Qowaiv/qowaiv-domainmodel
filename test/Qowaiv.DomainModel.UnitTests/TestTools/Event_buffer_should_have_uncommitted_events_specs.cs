@@ -1,5 +1,4 @@
 using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.TestTools;
 
 namespace TestTools.Event_buffer_should_have_uncommitted_events_specs;
 
@@ -26,10 +25,10 @@ public class Ensures
     public void Structure_of_uncommitted_events_containing_arrays()
     {
         var buffer = EventBuffer.Empty(Guid.NewGuid())
-            .Add(new ArrayEvent { Numbers = new[] { 17 } });
+            .Add(new ArrayEvent { Numbers = [17] });
 
         buffer.Should().HaveUncommittedEvents(
-           new ArrayEvent { Numbers = new[] { 17 } });
+           new ArrayEvent { Numbers = [17] });
     }
 }
 
@@ -42,7 +41,7 @@ public class Fails_on
 
         buffer
             .Invoking(b => b.Should().HaveUncommittedEvents(buffer, new EmptyEvent()))
-            .Should().Throw<AssertionFailed>()
+            .Should().Throw<Qowaiv.DomainModel.TestTools.AssertionFailed>()
             .WithMessage("There where no uncommitted events.");
     }
 
@@ -62,7 +61,7 @@ public class Fails_on
                 new OtherEvent(1),
                 new SimpleEvent(2)
             ))
-            .Should().Throw<AssertionFailed>()
+            .Should().Throw<Qowaiv.DomainModel.TestTools.AssertionFailed>()
             .WithMessage(@"The uncommitted events where different than expected.
 [0] EmptyEvent
 [1] Expected: Models.Events.OtherEvent
@@ -88,7 +87,7 @@ public class Fails_on
                 new ComplexEvent(23, "Same", new Date(1980, 06, 30)),
                 new SimpleEvent(0)
         ))
-        .Should().Throw<AssertionFailed>()
+        .Should().Throw<Qowaiv.DomainModel.TestTools.AssertionFailed>()
         .WithMessage(@"The uncommitted events where different than expected.
 [0] EmptyEvent
 [1] Expected: { Value: 23, Date: 06/30/1980 00:00:00 }
@@ -111,7 +110,7 @@ public class Fails_on
                 new EmptyEvent(),
                 new SimpleEvent(3)
         ))
-        .Should().Throw<AssertionFailed>()
+        .Should().Throw<Qowaiv.DomainModel.TestTools.AssertionFailed>()
         .WithMessage(@"The uncommitted events where different than expected.
 [0] EmptyEvent
 [1] SimpleEvent
@@ -134,7 +133,7 @@ public class Fails_on
             new SimpleEvent(5),
             new OtherEvent(9)
         ))
-        .Should().Throw<AssertionFailed>()
+        .Should().Throw<Qowaiv.DomainModel.TestTools.AssertionFailed>()
         .WithMessage(@"The uncommitted events where different than expected.
 [0] EmptyEvent
 [1] OtherEvent
@@ -147,10 +146,10 @@ public class Fails_on
     public void different_messages()
     {
         var buffer = EventBuffer.Empty(Guid.NewGuid())
-          .Add(new ArrayEvent { Numbers = new[] { 17 } });
+          .Add(new ArrayEvent { Numbers = [17] });
 
-        buffer.Invoking(b => b.Should().HaveUncommittedEvents(new ArrayEvent { Numbers = new[] { 18 } }))
-        .Should().Throw<AssertionFailed>()
+        buffer.Invoking(b => b.Should().HaveUncommittedEvents(new ArrayEvent { Numbers = [18] }))
+        .Should().Throw<Qowaiv.DomainModel.TestTools.AssertionFailed>()
         .WithMessage(@"The uncommitted events where different than expected.
 [0] Expected: { Numbers: [ 18 ] }
     Actual:   { Numbers: [ 17 ] }

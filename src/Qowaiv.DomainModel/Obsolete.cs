@@ -28,14 +28,9 @@ public static class AggregateRoot
 /// </typeparam>
 [ExcludeFromCodeCoverage/* Justification = To help converting only. */]
 [Obsolete("use Aggregate<TAggregate> instead.")]
-public abstract class AggregateRoot<TAggregate> : Aggregate<TAggregate>
+public abstract class AggregateRoot<TAggregate>(IValidator<TAggregate> validator) : Aggregate<TAggregate>(validator)
     where TAggregate : AggregateRoot<TAggregate>
 {
-    /// <summary>Initializes a new instance of the <see cref="AggregateRoot{TAggregate}"/> class.</summary>
-    /// <param name="validator">
-    /// A custom <paramref name="validator"/> to validate the aggregate.
-    /// </param>
-    protected AggregateRoot(IValidator<TAggregate> validator) : base(validator) { }
 }
 
 /// <summary>Represents an (domain-driven design) aggregate that is based on event sourcing.</summary>

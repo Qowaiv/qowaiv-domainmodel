@@ -5,8 +5,11 @@ using Qowaiv;
 namespace ConquerClub.Domain;
 
 /// <summary>Represents a player identifier.</summary>
-public readonly struct Player : IEquatable<Player>, IComparable<Player>
+public readonly struct Player(byte id) : IEquatable<Player>, IComparable<Player>
 {
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private readonly byte Id = id;
+
     /// <summary>Represents the neutral <see cref="Player"/>.</summary>
     public static readonly Player Neutral;
 
@@ -22,39 +25,40 @@ public readonly struct Player : IEquatable<Player>, IComparable<Player>
     /// <summary>Gets player P3.</summary>
     public static readonly Player P3 = new(3);
 
-    /// <summary>Creates a new instance of the <see cref="Player"/> struct.</summary>
-    public Player(byte id) => Id = id;
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly byte Id;
-
     /// <summary>Creates an army for the player.</summary>
+    [Pure]
     public Army Army(int size) 
         => size == 0
         ? Domain.Army.None
         : new(this, Guard.Positive(size, nameof(size)));
 
+    [Pure]
     public bool IsOther(Player other) => !Equals(other);
 
     /// <inheritdoc/>
+    [Pure]
     public override bool Equals(object? obj) => obj is Player other && Equals(other);
 
     /// <inheritdoc/>
+    [Pure] 
     public bool Equals(Player other) => Id == other.Id;
 
     /// <inheritdoc/>
+    [Pure] 
     public int CompareTo(Player other) => Id.CompareTo(other.Id);
 
     /// <inheritdoc/>
+    [Pure]
     public override int GetHashCode() => Id;
 
     /// <inheritdoc/>
-    public override string ToString()
+    [Pure]
+    public override string ToString() => this switch
     {
-        if (this == Neutral) return nameof(Neutral);
-        else if (this == Unknown) return nameof(Unknown);
-        else return $"P{Id}";
-    }
+        _ when this == Neutral => nameof(Neutral),
+        _ when this == Unknown => nameof(Unknown),
+        _ => $"P{Id}",
+    };
 
     /// <summary>Returns true if the two <see cref="Player"/>'s are equal.</summary>
     public static bool operator ==(Player l, Player r) => l.Equals(r);
@@ -66,6 +70,7 @@ public readonly struct Player : IEquatable<Player>, IComparable<Player>
     public static explicit operator byte(Player player) => player.Id;
 
     /// <summary>Parses the player.</summary>
+    [Pure]
     public static Player Parse(string str)
     {
         if (string.IsNullOrEmpty(str) || nameof(Neutral).Equals(str, StringComparison.InvariantCultureIgnoreCase))
@@ -80,11 +85,14 @@ public readonly struct Player : IEquatable<Player>, IComparable<Player>
     }
 
     /// <summary>Serializes the <see cref="Player"/> as JSON string.</summary>
+    [Pure]
     public string ToJson() => ToString();
 
     /// <summary>Deserializes the <see cref="Player"/> from a JSON number.</summary>
+    [Pure]
     public static Player FromJson(long json) => new((byte)json);
 
     /// <summary>Deserializes the <see cref="Player"/> from a JSON string.</summary>
+    [Pure]
     public static Player FromJson(string json) => Parse(json);
 }

@@ -8,36 +8,36 @@ public class Start_Game
     [Test]
     public void With_two_players_includes_third_neutral_player()
     {
-        var command = new Commands.Start(
+        var command = new Start(
             Game: Game_Id,
             Players: 2,
             RoundLimit: 10,
-            Continents: new[]
-            {
+            Continents:
+            [
                 new Commands.Continent(
                     Name: "Benelux",
                     Bonus: 3,
-                    Territories: new []
-                    {
+                    Territories:
+                    [
                         Netherlands,
                         Belgium,
                         Luxembourg,
-                    }),
-            },
-            Countries: new[]
-            {
-                new Commands.Country("Netherlands", new []{ Belgium }),
-                new Commands.Country("Belgium", new []{ Netherlands, Luxembourg }),
-                new Commands.Country("Luxembourg", new []{ Belgium }),
-            });
+                    ]),
+            ],
+            Countries:
+            [
+                new Commands.Country("Netherlands", [Belgium]),
+                new Commands.Country("Belgium", [Netherlands, Luxembourg]),
+                new Commands.Country("Luxembourg", [Belgium]),
+            ]);
 
         Handle(command).Should().BeValid()
-            .Value.Countries.Select(c => c.Owner).Should().BeEquivalentTo(new[]
-        {
+            .Value.Countries.Select(c => c.Owner).Should().BeEquivalentTo(
+        [
             Player.P1,
             Player.P2,
             Player.Neutral
-        });
+        ]);
     }
 }
 

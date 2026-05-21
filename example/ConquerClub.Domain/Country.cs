@@ -1,6 +1,7 @@
 namespace ConquerClub.Domain;
 
 /// <summary>Represents a region/country/territory.</summary>
+[Mutable]
 public sealed class Country
 {
     internal Country(CountryId id, string name)
@@ -12,7 +13,7 @@ public sealed class Country
     /// <summary>Gets the continent of the region.</summary>
     public Continent? Continent { get; internal set; }
 
-    public IReadOnlyList<Country> Borders { get; internal set; } = Array.Empty<Country>();
+    public IReadOnlyList<Country> Borders { get; internal set; } = [];
 
     /// <summary>Gets the identifier of the region.</summary>
     public CountryId Id { get; }
@@ -27,5 +28,6 @@ public sealed class Country
     public Army Army { get; internal set; }
 
     /// <inheritdoc/>
+    [Pure]
     public override string ToString() => $"{Name} ({Id}), Army: {Army}";
 }

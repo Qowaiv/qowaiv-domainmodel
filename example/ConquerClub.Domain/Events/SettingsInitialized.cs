@@ -1,4 +1,3 @@
-namespace ConquerClub.Domain.Events
-{
-    public record SettingsInitialized(int Players, int RoundLimit, bool FogOfWar);
-}
+namespace ConquerClub.Domain.Events;
+
+public sealed record SettingsInitialized(int Players, int RoundLimit, bool FogOfWar);

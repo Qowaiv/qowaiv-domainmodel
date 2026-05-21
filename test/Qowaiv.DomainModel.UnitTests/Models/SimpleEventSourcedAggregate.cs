@@ -22,22 +22,14 @@ public sealed class SimpleEventSourcedAggregate : Aggregate<SimpleEventSourcedAg
             new DateOfBirthUpdated(dateOfBirth));
 
     internal void When(NameUpdated @event)
-    {
-        Name = @event.Name;
-    }
+        => Name = @event.Name;
 
     internal void When(DateOfBirthUpdated @event)
-    {
-        DateOfBirth = @event.DateOfBirth;
-    }
+        => DateOfBirth = @event.DateOfBirth;
 
     internal void When(SimpleInitEvent @event)
-    {
-        Initialized = @event != null;
-    }
+        => Initialized = @event != null;
 
     internal void When(InvalidEvent @event)
-    {
-        IsWrong = @event != null;
-    }
+        => IsWrong = @event != null;
 }

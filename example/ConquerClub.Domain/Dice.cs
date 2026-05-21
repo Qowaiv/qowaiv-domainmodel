@@ -4,10 +4,12 @@ namespace ConquerClub.Domain;
 public static class Dice
 {
     /// <summary>Attack by rolling once.</summary>
+    [Pure]
     public static AttackResult Attack(Army attacker, Army defender, RandomSource rnd) =>
         new AttackResult(attacker, defender).Roll(rnd);
 
     /// <summary>Attack if the attacker has at least 4 left and defender has not been defeated.</summary>
+    [Pure]
     public static AttackResult AutoAttack(Army attacker, Army defender, RandomSource rnd)
     {
         var combat = new AttackResult(attacker, defender);
@@ -19,6 +21,7 @@ public static class Dice
         return combat;
     }
 
+    [Pure]
     private static AttackResult Roll(this AttackResult combat, RandomSource rnd) 
         => RollDelta(combat, rnd) is { } roll
         ? roll switch
@@ -31,6 +34,7 @@ public static class Dice
         }
         : combat;
 
+    [Pure]
     private static int? RollDelta(AttackResult combat, RandomSource rnd) => combat.Attacker switch
     {
         var a when a >= 4 => combat.Defender >= 2 ? Roll3v2(rnd) : Roll3v1(rnd),
@@ -40,6 +44,7 @@ public static class Dice
     };
 
     /// <remarks>+37,2% =33,6% -29,3% E: 54,0%</remarks>
+    [Pure]
     private static int Roll3v2(RandomSource rnd) => rnd.Next(2890 + 2611 + 2275) switch
     {
         var t when t < 2890 => +2,
@@ -48,10 +53,12 @@ public static class Dice
     };
 
     /// <remarks>+66,0% -34,0%</remarks>
+    [Pure]
     private static int Roll3v1(RandomSource rnd)
         => rnd.Next(855 + 441) < 855 ? +1 : -1;
 
     /// <remarks>+22,8% =32,4% -44,8% E: 39,0%</remarks>
+    [Pure]
     private static int Roll2v2(RandomSource rnd) => rnd.Next(295 + 420 + 581) switch
     {
         var t when t < 295 => +2,
@@ -60,14 +67,17 @@ public static class Dice
     };
 
     /// <remarks>+57,9% -42,1%</remarks>
+    [Pure]
     private static int Roll2v1(RandomSource rnd)
         => rnd.Next(125 + 91) < 125 ? +1 : -1;
 
     /// <remarks>+25,5% -74,5%</remarks>
+    [Pure]
     private static int Roll1v2(RandomSource rnd)
         => rnd.Next(55 + 161) < 55 ? +1 : -1;
 
     /// <remarks>+41,7% -58,3%</remarks>
+    [Pure]
     private static int Roll1v1(RandomSource rnd)
         => rnd.Next(15 + 21) < 15 ? +1 : -1;
 }

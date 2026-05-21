@@ -2,15 +2,17 @@ namespace ConquerClub.Domain;
 
 public sealed partial class Game : Aggregate<Game, GameId>
 {
+    [Pure]
     public static Result<Game> Start(Start start, RandomSource rnd)
         => new Game(start.Game).ApplyEvents(
             new MapInitialized(
-                Continents: start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, c.Territories.ToArray())).ToArray(),
-                Countries: start.Countries.Select(c => new CountryInitialized(c.Name, c.Borders.ToArray())).ToArray()),
+                Continents: [.. start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, [.. c.Territories]))],
+                Countries: [.. start.Countries.Select(c => new CountryInitialized(c.Name, [.. c.Borders]))]),
             new SettingsInitialized(start.Players, start.RoundLimit, false),
-            new ArmiesInitialized(RndArmies(start.Players, start.Countries.Length, rnd).ToArray()))
+            new ArmiesInitialized([.. RndArmies(start.Players, start.Countries.Length, rnd)]))
         | (g => g.ApplyEvent(g.StartTurn(Player.P1)));
 
+    [Pure]
     public Result<Game> Deploy(CountryId country, Army army)
         => Must.BeInPhase(GamePhase.Deploy)
         | (g => g.Must.BeActivePlayer(army.Owner))
@@ -19,6 +21,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         | (g => g.Must.NotExceedArmyBuffer(army))
         | (g => g.ApplyEvent(new Deployed(country, army)));
 
+    [Pure]
     public Result<Game> Attack(
         CountryId attacker,
         CountryId defender,
@@ -36,6 +39,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
                 Countries.ById(defender).Army,
                 rnd)));
 
+    [Pure]
     public Result<Game> AutoAttack(
         CountryId attacker,
         CountryId defender,
@@ -53,6 +57,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
                Countries.ById(defender).Army,
                rnd)));
 
+    [Pure]
     private Result<Game> Attack(
         CountryId attacker,
         CountryId defender,
@@ -67,6 +72,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
             : Apply(events);
     }
 
+    [Pure]
     public Result<Game> Advance(Army to)
         => Must.BeInPhase(GamePhase.Advance)
         | (g => g.Must.BeActivePlayer(to.Owner))
@@ -74,6 +80,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         | (g => g.Must.NotExceedArmyBuffer(to))
         | (g => g.ApplyEvent(new Advanced(to)));
 
+    [Pure]
     public Result<Game> Reinforce(CountryId from, CountryId to, Army army)
         => Must.BeInPhase(GamePhase.Reinforce)
         | (g => g.Must.Exist(from))
@@ -83,6 +90,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         | (g => g.Must.BeReachable(to, by: from))
         | (g => g.ApplyEvent(new Reinforced(from, to, army)));
 
+    [Pure]
     public Result<Game> Resign()
         => Apply(Events
             .Add(new Resigned(ActivePlayer))
@@ -90,18 +98,16 @@ public sealed partial class Game : Aggregate<Game, GameId>
                 .Then(() => Events.Add(new Finished()))
             .Else(() => StartTurn(NextPlayer)));
 
+    [Pure]
     private bool ConquerCountryWillKillPlayer(CountryId country) => Countries.Count(c => c.Owner == Countries.ById(country).Owner) == 1;
+    
     private bool KillPlayerWillFinishGame => Countries.ActivePlayers().Count() == 2;
 
     internal void When(MapInitialized @event)
     {
-        Continents = @event.Continents
-            .Select((c, id) => new Continent(ContinentId.Create(id), c.Name, c.Bonus))
-            .ToArray();
+        Continents = [.. @event.Continents.Select((c, id) => new Continent(ContinentId.Create(id), c.Name, c.Bonus))];
 
-        Countries = @event.Countries
-            .Select((c, id) => new Country(CountryId.Create(id), c.Name))
-            .ToArray();
+        Countries = [.. @event.Countries.Select((c, id) => new Country(CountryId.Create(id), c.Name))];
 
         LinkNeighborCountries(@event.Countries);
         LinkContinentsToCountries(@event.Continents);
@@ -184,7 +190,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         }
     }
 
-    internal void When(Finished @event) => Phase = GamePhase.Finished;
+    internal void When(Finished _) => Phase = GamePhase.Finished;
 
     private void LinkNeighborCountries(IEnumerable<CountryInitialized> countries)
     {
@@ -195,7 +201,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         }))
         {
             var country = Countries.ById(data.Country);
-            country.Borders = data.Borders.Select(id => Countries.ById(id)).ToArray();
+            country.Borders = [.. data.Borders.Select(id => Countries.ById(id))];
         }
     }
 
@@ -205,9 +211,9 @@ public sealed partial class Game : Aggregate<Game, GameId>
         {
             var continent = Continents.ById(data.Continent);
 
-            foreach (var id in data.Countries)
+            foreach (var cid in data.Countries)
             {
-                var country = Countries.ById(id);
+                var country = Countries.ById(cid);
                 country.Continent = continent;
             }
         }
@@ -217,10 +223,11 @@ public sealed partial class Game : Aggregate<Game, GameId>
     {
         foreach (var continent in Continents)
         {
-            continent.Countries = Countries.Where(c => c.Continent == continent).ToArray();
+            continent.Countries = [.. Countries.Where(c => c.Continent == continent)];
         }
     }
 
+    [Pure]
     private TurnStarted StartTurn(Player player)
     {
         var countries = Countries.Count(c => c.Owner == player);
@@ -229,6 +236,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         return new TurnStarted(Deployments: player.Army(deploy));
     }
 
+    [Pure]
     private static IEnumerable<Army> RndArmies(int players, int countries, RandomSource rnd)
     {
         var perCountry = countries / Math.Min(players, 3);
@@ -237,8 +245,8 @@ public sealed partial class Game : Aggregate<Game, GameId>
             .Range(0, countries)
             .Select(index =>
             {
-                var id = 1 + (index / perCountry);
-                return id == 3 && players == 2 || id > players ? 0 : id;
+                var cid = 1 + (index / perCountry);
+                return cid == 3 && players == 2 || cid > players ? 0 : cid;
             })
             .Select(id => id == 0 ? Player.Neutral : new Player((byte)id))
             .Select(player => player.Army(3))

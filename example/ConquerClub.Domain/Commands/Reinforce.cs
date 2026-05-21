@@ -1,6 +1,6 @@
 namespace ConquerClub.Domain.Commands;
 
-public record Reinforce(
+public sealed record Reinforce(
     CountryId From,
     CountryId To,
     Army Army,

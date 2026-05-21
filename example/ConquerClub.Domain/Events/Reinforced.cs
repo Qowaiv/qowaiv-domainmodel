@@ -1,3 +1,3 @@
 namespace ConquerClub.Domain.Events;
 
-public record Reinforced(CountryId From, CountryId To, Army Army);
+public sealed record Reinforced(CountryId From, CountryId To, Army Army);
