@@ -1,8 +1,8 @@
 namespace Commands.CommandProcessor_specs;
 
-interface CommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command); }
-interface CancelableCommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command, CancellationToken token); }
-interface SyncCommandHandler<TCommand> { string Handle(TCommand command); }
+internal interface CommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command); }
+internal interface CancelableCommandHandler<TCommand> { Task<Result<string>> Handle(TCommand command, CancellationToken token); }
+internal interface SyncCommandHandler<TCommand> { string Handle(TCommand command); }
 
 public class Cancelation_token
 {
@@ -67,7 +67,7 @@ public class Caches
     }
 }
 
-class AsyncCommandProcessor : CommandProcessor<Task<Result<string>>>
+internal class AsyncCommandProcessor : CommandProcessor<Task<Result<string>>>
 {
     private readonly object handler;
     public AsyncCommandProcessor(object handler) => this.handler = handler;
@@ -76,7 +76,7 @@ class AsyncCommandProcessor : CommandProcessor<Task<Result<string>>>
     protected override object GetHandler(Type handlerType) => handler;
 }
 
-class CancelableCommandProcessor : CommandProcessor<Task<Result<string>>>
+internal class CancelableCommandProcessor : CommandProcessor<Task<Result<string>>>
 {
     private readonly object handler;
     public CancelableCommandProcessor(object handler) => this.handler = handler;
@@ -84,7 +84,7 @@ class CancelableCommandProcessor : CommandProcessor<Task<Result<string>>>
     protected override string HandlerMethod => nameof(CancelableCommandHandler<object>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
-class SyncCommandProcessor : CommandProcessor<string>
+internal class SyncCommandProcessor : CommandProcessor<string>
 {
     private readonly object handler;
     public SyncCommandProcessor(object handler) => this.handler = handler;
@@ -93,7 +93,7 @@ class SyncCommandProcessor : CommandProcessor<string>
     protected override object GetHandler(Type handlerType) => handler;
 }
 
-class InvalidReturnTypeProcessor : CommandProcessor<int>
+internal class InvalidReturnTypeProcessor : CommandProcessor<int>
 {
     private readonly object handler;
     public InvalidReturnTypeProcessor(object handler) => this.handler = handler;
@@ -103,15 +103,15 @@ class InvalidReturnTypeProcessor : CommandProcessor<int>
 }
 
 [EmptyTestClass]
-record EmptyCommand();
+internal record EmptyCommand();
 
-class AsyncCommandHandler : CommandHandler<EmptyCommand>
+internal class AsyncCommandHandler : CommandHandler<EmptyCommand>
 {
     public Task<Result<string>> Handle(EmptyCommand command) => Result.For("AsyncCommandHandler.Handle()").AsTask();
 }
 
 #pragma warning disable S2325 // Methods and properties that don't access instance data should be static
-class AsyncCancelableCommandHandler : CancelableCommandHandler<EmptyCommand>
+internal class AsyncCancelableCommandHandler : CancelableCommandHandler<EmptyCommand>
 {
     public Task<Result<string>> Handle(EmptyCommand command) => throw new NotSupportedException("Use overload with token");
     public Task<Result<string>> Handle(EmptyCommand command, CancellationToken token) => Result.For("AsyncCancelableCommandHandler.Handle(token)").AsTask();
