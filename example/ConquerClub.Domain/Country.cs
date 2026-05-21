@@ -1,6 +1,7 @@
 namespace ConquerClub.Domain;
 
 /// <summary>Represents a region/country/territory.</summary>
+[Mutable]
 public sealed class Country
 {
     internal Country(CountryId id, string name)

@@ -8,7 +8,7 @@ public class Start_Game
     [Test]
     public void With_two_players_includes_third_neutral_player()
     {
-        var command = new Commands.Start(
+        var command = new Start(
             Game: Game_Id,
             Players: 2,
             RoundLimit: 10,

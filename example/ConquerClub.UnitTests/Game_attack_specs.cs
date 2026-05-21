@@ -8,7 +8,7 @@ public class Attack_can_not_be_applied_when_the
     [Test]
     public void current_phase_is_not_attack()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Netherlands,
             Defender: Belgium,
             Game: Game_Id,
@@ -21,7 +21,7 @@ public class Attack_can_not_be_applied_when_the
     [Test]
     public void attacking_country_is_unknown()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Unknown,
             Defender: Belgium,
             Game: Game_Id,
@@ -34,7 +34,7 @@ public class Attack_can_not_be_applied_when_the
     [Test]
     public void defending_country_is_unknown()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Netherlands,
             Defender: Unknown,
             Game: Game_Id,
@@ -47,7 +47,7 @@ public class Attack_can_not_be_applied_when_the
     [Test]
     public void attacking_country_is_not_owned_by_the_attacker()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Belgium,
             Defender: Luxembourg,
             Game: Game_Id,
@@ -60,7 +60,7 @@ public class Attack_can_not_be_applied_when_the
     [Test]
     public void defending_country_is_owned_by_the_attacker()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Netherlands,
             Defender: Netherlands,
             Game: Game_Id,
@@ -73,7 +73,7 @@ public class Attack_can_not_be_applied_when_the
     [Test]
     public void defending_country_can_not_be_reached_by_the_attacking_country()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Netherlands,
             Defender: Luxembourg,
             Game: Game_Id,
@@ -86,7 +86,7 @@ public class Attack_can_not_be_applied_when_the
     [Test]
     public void attacking_country_has_an_army_size_of_less_then_two()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Luxembourg,
             Defender: Belgium,
             Game: Game_Id,
@@ -114,7 +114,7 @@ public class Attack_can_only_be_applied_when
     [Test]
     public void none_of_the_guards_fail()
     {
-        var command = new Commands.Attack(
+        var command = new Attack(
             Attacker: Netherlands,
             Defender: Belgium,
             Game: Game_Id,
