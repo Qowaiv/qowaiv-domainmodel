@@ -110,8 +110,10 @@ class AsyncCommandHandler : CommandHandler<EmptyCommand>
     public Task<Result<string>> Handle(EmptyCommand command) => Result.For("AsyncCommandHandler.Handle()").AsTask();
 }
 
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static
 class AsyncCancelableCommandHandler : CancelableCommandHandler<EmptyCommand>
 {
     public Task<Result<string>> Handle(EmptyCommand command) => throw new NotSupportedException("Use overload with token");
     public Task<Result<string>> Handle(EmptyCommand command, CancellationToken token) => Result.For("AsyncCancelableCommandHandler.Handle(token)").AsTask();
 }
+#pragma warning restore S2325 // Methods and properties that don't access instance data should be static

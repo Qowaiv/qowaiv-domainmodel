@@ -72,14 +72,9 @@ public class Odds
                     var all = (new[] { a, b, c }).OrderByDescending(i => i).Take(2).ToArray();
                     var dice = new DicePair(all[0], all[1]);
 
-                    if (lookup.ContainsKey(dice))
-                    {
-                        lookup[dice]++;
-                    }
-                    else
-                    {
-                        lookup[dice] = 1;
-                    }
+                    lookup[dice] = lookup.TryGetValue(dice, out var count)
+                        ? count + 1
+                        : 1;
                 }
             }
         }

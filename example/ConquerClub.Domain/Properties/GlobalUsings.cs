@@ -2,6 +2,7 @@ global using ConquerClub.Domain.Commands;
 global using ConquerClub.Domain.Events;
 global using ConquerClub.Domain.Validation;
 global using MathNet.Numerics.Random;
+global using Qowaiv.Diagnostics.Contracts;
 global using Qowaiv.DomainModel;
 global using Qowaiv.Validation.Abstractions;
 global using System;
