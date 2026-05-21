@@ -22,6 +22,7 @@
     <EnableStrictModeForBaselineValidation>true</EnableStrictModeForBaselineValidation>
     <ApiCompatGenerateSuppressionFile>true</ApiCompatGenerateSuppressionFile>
     <ApiCompatEnableRuleAttributesMustMatch>true</ApiCompatEnableRuleAttributesMustMatch>
+    <ApiCompatEnableRuleCannotChangeParameterName>true</ApiCompatEnableRuleCannotChangeParameterName>
   </PropertyGroup>
 
   <ItemGroup>
