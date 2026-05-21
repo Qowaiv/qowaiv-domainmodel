@@ -63,12 +63,12 @@ public class Select_uncommitted
             .Add(new EmptyEvent());
 
         var selected = buffer.SelectUncommitted((id, version, @event) => new StoredEvent(id, version, @event));
-        selected.Should().BeEquivalentTo(new[]
-        {
+        selected.Should().BeEquivalentTo(
+        [
             new StoredEvent("my-id-007", 1, new EmptyEvent()),
             new StoredEvent("my-id-007", 2, new EmptyEvent()),
             new StoredEvent("my-id-007", 3, new EmptyEvent()),
-        });
+        ]);
     }
 }
 
@@ -100,7 +100,7 @@ public class Default
 
     [Test]
     public void can_be_extended()
-        => default(EventBuffer<int>).Add(1).Should().BeEquivalentTo(new[] { 1 });
+        => default(EventBuffer<int>).Add(1).Should().BeEquivalentTo([1]);
 }
 
 public class HasUncommitted

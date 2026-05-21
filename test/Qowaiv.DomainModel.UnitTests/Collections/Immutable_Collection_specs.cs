@@ -60,7 +60,7 @@ public class Add
     [Test]
     public void Null_items_are_ignored()
         => ImmutableCollection.Empty.AddRange(null!, 1, null!, 2, 3, null!, 4)
-        .Should().BeEquivalentTo(new[] { 1, 2, 3, 4 });
+        .Should().BeEquivalentTo([1, 2, 3, 4]);
 
     [Test]
     public void String_is_not_considered_an_collection()
@@ -73,9 +73,9 @@ public class Add
         var first = parent.AddRange(4, 8, 16);
         var second = parent.AddRange(3, 4, 5);
 
-        parent.Should().BeEquivalentTo(new[] { 1, 2 });
-        first.Should().BeEquivalentTo(new[] { 1, 2, 4, 8, 16 });
-        second.Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5 });
+        parent.Should().BeEquivalentTo([1, 2]);
+        first.Should().BeEquivalentTo([1, 2, 4, 8, 16]);
+        second.Should().BeEquivalentTo([1, 2, 3, 4, 5]);
     }
 
     [Test]
@@ -84,7 +84,7 @@ public class Add
         var collection = ImmutableCollection.Empty;
         collection += 3;
         collection += new[] { 6, 9 };
-        collection.Should().BeEquivalentTo(new[] { 3, 6, 9 });
+        collection.Should().BeEquivalentTo([3, 6, 9]);
     }
 }
 

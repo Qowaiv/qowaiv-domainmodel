@@ -95,12 +95,12 @@ public class Attack_can_not_be_applied_when_the
         Handle(command, BeneluxWithoutArmies()
             .Add(new ArmiesInitialized
             {
-                Armies = new[]
-            {
+                Armies =
+            [
                 Player.P1.Army(1),
                 Player.P2.Army(1),
                 Player.P1.Army(1),
-            }
+            ]
             })
             .Add(new TurnStarted(Player.P1.Army(3)))
             .Deploy())

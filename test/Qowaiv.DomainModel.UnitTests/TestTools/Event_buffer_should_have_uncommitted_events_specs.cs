@@ -25,10 +25,10 @@ public class Ensures
     public void Structure_of_uncommitted_events_containing_arrays()
     {
         var buffer = EventBuffer.Empty(Guid.NewGuid())
-            .Add(new ArrayEvent { Numbers = new[] { 17 } });
+            .Add(new ArrayEvent { Numbers = [17] });
 
         buffer.Should().HaveUncommittedEvents(
-           new ArrayEvent { Numbers = new[] { 17 } });
+           new ArrayEvent { Numbers = [17] });
     }
 }
 
@@ -146,9 +146,9 @@ public class Fails_on
     public void different_messages()
     {
         var buffer = EventBuffer.Empty(Guid.NewGuid())
-          .Add(new ArrayEvent { Numbers = new[] { 17 } });
+          .Add(new ArrayEvent { Numbers = [17] });
 
-        buffer.Invoking(b => b.Should().HaveUncommittedEvents(new ArrayEvent { Numbers = new[] { 18 } }))
+        buffer.Invoking(b => b.Should().HaveUncommittedEvents(new ArrayEvent { Numbers = [18] }))
         .Should().Throw<Qowaiv.DomainModel.TestTools.AssertionFailed>()
         .WithMessage(@"The uncommitted events where different than expected.
 [0] Expected: { Numbers: [ 18 ] }

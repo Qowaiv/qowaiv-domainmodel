@@ -63,7 +63,7 @@ public class Caches
         var processor = new AsyncCommandProcessor(new AsyncCommandHandler());
         processor.CommandTypes.Should().BeEmpty(because: "not called yet.");
         (await processor.Send(new EmptyCommand())).Should().BeValid();
-        processor.CommandTypes.Should().BeEquivalentTo(new[] { typeof(EmptyCommand) }, because: "empty command is supported.");
+        processor.CommandTypes.Should().BeEquivalentTo([typeof(EmptyCommand)], because: "empty command is supported.");
     }
 }
 

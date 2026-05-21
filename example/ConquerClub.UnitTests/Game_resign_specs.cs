@@ -11,12 +11,12 @@ public class Resign_result_in
         var buffer = BeneluxWithoutArmies()
             .Add(new ArmiesInitialized
             {
-                Armies = new[]
-                {
+                Armies =
+                [
                     Player.P1.Army(1),
                     Player.P2.Army(80),
                     Player.P3.Army(85),
-                }
+                ]
             })
             .Add(new TurnStarted(Player.P1.Army(3)));
         
@@ -25,7 +25,7 @@ public class Resign_result_in
         game.Phase.Should().Be(GamePhase.Deploy);
         game.Countries.ById(Netherlands).Army.Should().Be(Player.Neutral.Army(1));
         game.ActivePlayer.Should().Be(Player.P2);
-        game.ActivePlayers.Should().BeEquivalentTo(new[] { Player.P2, Player.P3 });
+        game.ActivePlayers.Should().BeEquivalentTo([Player.P2, Player.P3]);
     }
 
     [Test]

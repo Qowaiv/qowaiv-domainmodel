@@ -32,13 +32,13 @@ internal static class Arrange
         => EventBuffer.Empty(Game_Id)
         .Add(new SettingsInitialized(2, roundLimit, false))
         .Add(new MapInitialized(
-            Continents: new[] { new ContinentInitialized("Benelux", 3, new[] { Netherlands, Belgium, Luxembourg })},
-            Countries: new[]
-            {
-                new CountryInitialized("Netherlands", new []{ Belgium }),
-                new CountryInitialized("Belgium", new []{ Netherlands, Luxembourg }),
-                new CountryInitialized("Luxembourg", new []{ Belgium }),
-            }));
+            Continents: [new ContinentInitialized("Benelux", 3, [Netherlands, Belgium, Luxembourg])],
+            Countries:
+            [
+                new CountryInitialized("Netherlands", [Belgium]),
+                new CountryInitialized("Belgium", [Netherlands, Luxembourg]),
+                new CountryInitialized("Luxembourg", [Belgium]),
+            ]));
 
     public static Buffer Deploy(this Buffer game) =>
         game.Add(new Deployed(Netherlands, Player.P1.Army(3)));

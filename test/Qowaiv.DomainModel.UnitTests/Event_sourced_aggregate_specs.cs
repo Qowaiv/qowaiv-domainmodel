@@ -29,7 +29,7 @@ public class Applies_events
         var updated = origin.SetName("Jimi Hendrix").Should().BeValid().Value;
 
         updated.Name.Should().Be("Jimi Hendrix");
-        updated.Buffer.Uncommitted.Should().BeEquivalentTo(new[] { new NameUpdated("Jimi Hendrix") });
+        updated.Buffer.Uncommitted.Should().BeEquivalentTo([new NameUpdated("Jimi Hendrix")]);
     }
 
     [Test]
