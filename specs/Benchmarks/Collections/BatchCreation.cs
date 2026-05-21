@@ -12,8 +12,7 @@ public class BatchCreation
     public void Setup() => Events = Added.Random(Count);
 
     [Benchmark(Baseline = true)]
-    public List<object> List() 
-        => new(Events.Where(o => o is { }));
+    public List<object> List() => [.. Events.Where(o => o is { })];
 
     [Benchmark(Description = "Event Buffer")]
     public EventBuffer<int> EventBuffer()
