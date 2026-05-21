@@ -1,6 +1,6 @@
 namespace ConquerClub.Domain;
 
-[Mutable] // TODO: FP
+[Mutable]
 public sealed partial class Game(GameId id) : Aggregate<Game, GameId>(id, new GameValidator())
 {
     public Game() : this(GameId.Next()) { }

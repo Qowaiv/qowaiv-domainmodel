@@ -17,6 +17,7 @@
     <DefineConstants>CONTRACTS_FULL</DefineConstants>
     <CheckEolTargetFramework>true</CheckEolTargetFramework>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <EnablePackageValidation>true</EnablePackageValidation>
     <EnableStrictModeForCompatibleFrameworksInPackage>true</EnableStrictModeForCompatibleFrameworksInPackage>
     <EnableStrictModeForBaselineValidation>true</EnableStrictModeForBaselineValidation>
     <ApiCompatGenerateSuppressionFile>true</ApiCompatGenerateSuppressionFile>

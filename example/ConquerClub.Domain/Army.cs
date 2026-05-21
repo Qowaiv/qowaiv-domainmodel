@@ -9,10 +9,8 @@ namespace ConquerClub.Domain;
 /// The == and != use (like, <, >, <=, >=) <see cref="IComparable{Army}"/>
 /// to allow the comparison of the size of the army only.
 /// </remarks>
-public readonly struct Army : IEquatable<Army>, IComparable<Army>, IComparable<int>, IFormattable
+public readonly partial struct Army : IEquatable<Army>, IComparable<Army>, IComparable<int>, IFormattable
 {
-    private static readonly Regex Pattern = new(@"^(?<Player>[A-Z0-9]+)\.Army\((?<Size>[0-9]+)\)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
     /// <summary>Gets no army.</summary>
     public static readonly Army None;
 
@@ -139,7 +137,7 @@ public readonly struct Army : IEquatable<Army>, IComparable<Army>, IComparable<i
         }
         else
         {
-            var match = Pattern.Match(str);
+            var match = Pattern().Match(str);
             return match.Success
                 && int.TryParse(match.Groups[nameof(Size)].Value, out var size)
                 && size > 0
@@ -150,4 +148,7 @@ public readonly struct Army : IEquatable<Army>, IComparable<Army>, IComparable<i
 
     [Pure]
     public static Army FromJson(string? str) => Parse(str);
+    
+    [GeneratedRegex(@"^(?<Player>[A-Z0-9]+)\.Army\((?<Size>[0-9]+)\)$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "en-NL")]
+    private static partial Regex Pattern();
 }

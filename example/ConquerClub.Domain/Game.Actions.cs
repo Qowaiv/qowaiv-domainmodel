@@ -190,7 +190,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         }
     }
 
-    internal void When(Finished @event) => Phase = GamePhase.Finished;
+    internal void When(Finished _) => Phase = GamePhase.Finished;
 
     private void LinkNeighborCountries(IEnumerable<CountryInitialized> countries)
     {
@@ -211,9 +211,9 @@ public sealed partial class Game : Aggregate<Game, GameId>
         {
             var continent = Continents.ById(data.Continent);
 
-            foreach (var id in data.Countries)
+            foreach (var cid in data.Countries)
             {
-                var country = Countries.ById(id);
+                var country = Countries.ById(cid);
                 country.Continent = continent;
             }
         }
@@ -245,8 +245,8 @@ public sealed partial class Game : Aggregate<Game, GameId>
             .Range(0, countries)
             .Select(index =>
             {
-                var id = 1 + (index / perCountry);
-                return id == 3 && players == 2 || id > players ? 0 : id;
+                var cid = 1 + (index / perCountry);
+                return cid == 3 && players == 2 || cid > players ? 0 : cid;
             })
             .Select(id => id == 0 ? Player.Neutral : new Player((byte)id))
             .Select(player => player.Army(3))
