@@ -2,7 +2,11 @@ using Qowaiv.Validation.Guarding;
 
 namespace ConquerClub.Domain.Handlers;
 
-public class GameCommandHandler :
+public class GameCommandHandler(
+    RandomSource rnd,
+    Func<GameId, Result<Game>> load,
+    Func<Game, Result> save) :
+
     CommandHandler<Start>,
     CommandHandler<Deploy>,
     CommandHandler<AutoAttack>,
@@ -11,19 +15,9 @@ public class GameCommandHandler :
     CommandHandler<Reinforce>,
     CommandHandler<Resign>
 {
-    public GameCommandHandler(
-        RandomSource rnd,
-        Func<GameId, Result<Game>> load,
-        Func<Game, Result> save)
-    {
-        Rnd = rnd;
-        Load = load;
-        Save = save;
-    }
-
-    protected RandomSource Rnd { get; }
-    public Func<GameId, Result<Game>> Load { get; }
-    public Func<Game, Result> Save { get; }
+    protected RandomSource Rnd { get; } = rnd;
+    public Func<GameId, Result<Game>> Load { get; } = load;
+    public Func<Game, Result> Save { get; } = save;
 
     [Impure]
     public Result Handle(Start command)

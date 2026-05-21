@@ -47,25 +47,19 @@ internal static class Arrange
         Aggregate.FromStorage<Game, GameId>(buffer.MarkAllAsCommitted());
 }
 
-internal class TestProcessor : CommandProcessor<Result>
+internal class TestProcessor(Buffer? buffer, int seed) : CommandProcessor<Result>
 {
-    public TestProcessor(Buffer? buffer, int seed)
-    {
-        Rnd = new MersenneTwister(seed);
-        Buffer = buffer ?? EventBuffer.Empty(GameId.Next());
-    }
-    
-    public Buffer Buffer { get; private set; }
-    private MersenneTwister Rnd { get; }
+    public Buffer Buffer { get; private set; } = buffer ?? EventBuffer.Empty(GameId.Next());
+
+    private MersenneTwister Rnd { get; } = new MersenneTwister(seed);
 
     protected override Type GenericHandlerType => typeof(CommandHandler<>);
+
     protected override string HandlerMethod => nameof(CommandHandler<>.Handle);
+
     protected override object GetHandler(Type handlerType)
-        => new GameCommandHandler(Rnd,
-            load: id => Buffer.Load(),
-            save: game =>
-            {
-                Buffer = game.Buffer;
-                return Result.OK;
-            });
+        => new GameCommandHandler(
+        Rnd,
+        load: id => Buffer.Load(),
+        save: game => { Buffer = game.Buffer; return Result.OK; });
 }

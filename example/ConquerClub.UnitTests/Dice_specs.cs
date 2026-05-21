@@ -211,48 +211,27 @@ public class Odds
         Console.WriteLine(sb);
     }
 
-    private readonly struct DiceOutcome
+    private readonly struct DiceOutcome(int win, int draw, int loss)
     {
-        public DiceOutcome(int win, int draw, int loss)
-        {
-            Win = win;
-            Draw = draw;
-            Loss = loss;
-        }
-
-        public int Win { get; }
-        public int Draw { get; }
-        public int Loss { get; }
+        public int Win { get; } = win;
+        public int Draw { get; } = draw;
+        public int Loss { get; } = loss;
         public int Total => Win + Draw + Loss;
 
         public override string ToString() => $"+{Win} ={Draw} -{Loss}";
     }
 
-    internal readonly struct Distribution
+    internal readonly struct Distribution(Odds.DicePair dice, int frequency)
     {
-        public Distribution(DicePair dice, int frequency)
-        {
-            Dice = dice;
-            Frequency = frequency;
-        }
+        public DicePair Dice { get; } = dice;
 
-        public DicePair Dice { get; }
-        public int Frequency { get; }
+        public int Frequency { get; } = frequency;
 
         public override string ToString() => $"{Dice}: {Frequency}";
     }
 
-    internal readonly struct DicePair
+    internal readonly record struct DicePair(int Hi, int Lo)
     {
-        public DicePair(int hi, int lo)
-        {
-            Hi = hi;
-            Lo = lo;
-        }
-
-        public int Hi { get; }
-        public int Lo { get; }
-
         public override string ToString() => $"{Hi}{Lo}";
     }
 }

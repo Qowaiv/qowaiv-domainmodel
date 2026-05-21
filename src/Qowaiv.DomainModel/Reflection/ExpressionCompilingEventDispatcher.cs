@@ -19,14 +19,10 @@ namespace Qowaiv.DomainModel.Reflection;
 /// It caches the available methods per type.
 /// </remarks>
 [Inheritable]
-public class ExpressionCompilingEventDispatcher<TDispatcher> : EventDispatcher
+public class ExpressionCompilingEventDispatcher<TDispatcher>(TDispatcher dispatcher) : EventDispatcher
     where TDispatcher : class
 {
-    /// <summary>Initializes a new instance of the <see cref="ExpressionCompilingEventDispatcher{TDispatcher}"/> class..</summary>
-    public ExpressionCompilingEventDispatcher(TDispatcher dispatcher)
-        => this.dispatcher = Guard.NotNull(dispatcher, nameof(dispatcher));
-
-    private readonly TDispatcher dispatcher;
+    private readonly TDispatcher dispatcher = Guard.NotNull(dispatcher, nameof(dispatcher));
 
     /// <inheritdoc />
     public void When(object? @event)

@@ -5,16 +5,10 @@
 namespace ConquerClub.Domain.Diagnostics;
 
 /// <summary>Allows the debugger to display collections.</summary>
-internal sealed class CollectionDebugView
+internal sealed class CollectionDebugView(IEnumerable enumeration)
 {
-    /// <summary>Initializes a new instance of the <see cref="CollectionDebugView"/> class.Constructor.</summary>
-    /// <param name="enumeration">
-    /// The enumeration that has to be shown.
-    /// </param>
-    public CollectionDebugView(IEnumerable enumeration) => collection = enumeration;
-
     /// <summary>A reference to the enumeration to display.</summary>
-    private readonly IEnumerable collection;
+    private readonly IEnumerable collection = enumeration;
 
     /// <summary>Gets the array that is shown by the debugger.</summary>
     /// <remarks>

@@ -32,12 +32,10 @@ internal class Pre_processing_events_specs
     }
 }
 
-internal class SimpleAggregate : Aggregate<SimpleAggregate, Guid>
+internal class SimpleAggregate(Guid aggregateId)
+    : Aggregate<SimpleAggregate, Guid>(aggregateId, Qowaiv.Validation.Abstractions.Validator.Empty<SimpleAggregate>())
 {
     public SimpleAggregate() : this(Guid.NewGuid()) { }
-
-    public SimpleAggregate(Guid aggregateId)
-        : base(aggregateId, Qowaiv.Validation.Abstractions.Validator.Empty<SimpleAggregate>()) { }
 
     public Result<SimpleAggregate> Add1() => ApplyEvent(new Event1(Guid.NewGuid()));
     public Result<SimpleAggregate> Add2() => ApplyEvent(new Event1(Guid.NewGuid()));

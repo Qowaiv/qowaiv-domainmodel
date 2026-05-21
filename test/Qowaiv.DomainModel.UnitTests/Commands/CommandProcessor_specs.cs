@@ -67,36 +67,32 @@ public class Caches
     }
 }
 
-internal class AsyncCommandProcessor : CommandProcessor<Task<Result<string>>>
+internal class AsyncCommandProcessor(object handler) : CommandProcessor<Task<Result<string>>>
 {
-    private readonly object handler;
-    public AsyncCommandProcessor(object handler) => this.handler = handler;
+    private readonly object handler = handler;
     protected override Type GenericHandlerType => typeof(CommandHandler<>);
     protected override string HandlerMethod => nameof(CommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
 
-internal class CancelableCommandProcessor : CommandProcessor<Task<Result<string>>>
+internal class CancelableCommandProcessor(object handler) : CommandProcessor<Task<Result<string>>>
 {
-    private readonly object handler;
-    public CancelableCommandProcessor(object handler) => this.handler = handler;
+    private readonly object handler = handler;
     protected override Type GenericHandlerType => typeof(CancelableCommandHandler<>);
     protected override string HandlerMethod => nameof(CancelableCommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
-internal class SyncCommandProcessor : CommandProcessor<string>
+internal class SyncCommandProcessor(object handler) : CommandProcessor<string>
 {
-    private readonly object handler;
-    public SyncCommandProcessor(object handler) => this.handler = handler;
+    private readonly object handler = handler;
     protected override Type GenericHandlerType => typeof(SyncCommandHandler<>);
     protected override string HandlerMethod => nameof(SyncCommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
 }
 
-internal class InvalidReturnTypeProcessor : CommandProcessor<int>
+internal class InvalidReturnTypeProcessor(object handler) : CommandProcessor<int>
 {
-    private readonly object handler;
-    public InvalidReturnTypeProcessor(object handler) => this.handler = handler;
+    private readonly object handler = handler;
     protected override Type GenericHandlerType => typeof(SyncCommandHandler<>);
     protected override string HandlerMethod => nameof(SyncCommandHandler<>.Handle);
     protected override object GetHandler(Type handlerType) => handler;
