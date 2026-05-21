@@ -23,15 +23,17 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <Version>3.0.1</Version>
-    <PackageValidationBaselineVersion>3.0.0</PackageValidationBaselineVersion>
-    <PackageReleaseNotes>
+    <Version>2.0.0</Version>
+    <PackageValidationBaselineVersion>2.0.0</PackageValidationBaselineVersion>
+    <ToBeReleased>
       <![CDATA[
-v3.0.1
-- Update dependencies.
 v3.0.0
 - Add .NET 10.0 target.
 - Drop NET9.0 targets. (BREAKING)
+]]>
+    </ToBeReleased>
+    <PackageReleaseNotes>
+      <![CDATA[
 v2.0.0
 - Add .NET 9.0 target.
 - Drop .NET 5.0, NET6.0, NET7.0 targets. (BREAKING)
