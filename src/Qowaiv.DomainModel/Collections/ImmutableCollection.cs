@@ -13,7 +13,7 @@ public sealed class ImmutableCollection : IReadOnlyCollection<object>
     public static readonly ImmutableCollection Empty = new(AppendOnlyCollection.Empty);
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    internal readonly AppendOnlyCollection Items;
+    private readonly AppendOnlyCollection Items;
 
     /// <summary>Initializes a new instance of the <see cref="ImmutableCollection"/> class.</summary>
     internal ImmutableCollection(AppendOnlyCollection items) => Items = items;
