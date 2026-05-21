@@ -21,6 +21,7 @@ Patrick Evers
     <IsPublishable>false</IsPublishable>
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <NuGetAuditMode>all</NuGetAuditMode>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>

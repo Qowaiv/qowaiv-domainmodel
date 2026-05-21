@@ -6,19 +6,29 @@ insert_final_newline = true
 charset = utf-8
 
 # Code files
-[*.{cs,cshtml,ts}]
+[*.cs]
 indent_style = space
 indent_size = 4
 
 # Project files
-[*.{csproj,props,yaml}]
+[*.{csproj,props}]
 indent_style = space
 indent_size = 2
 
-# IDE warnings
-[*.cs]
+# Static coce analysis
+[*]
+vsspell_section_id = main
+vsspell_ignored_words_main = File:dictionary.dic
+
+csharp_style_expression_bodied_constructors = true
+csharp_style_expression_bodied_methods = true
+csharp_style_expression_bodied_operators = true
+csharp_style_expression_bodied_properties = true
+csharp_style_expression_bodied_indexers = true
 
 csharp_style_inlined_variable_declaration = true:warning # IDE0018: Inline variable declaration
 csharp_prefer_simple_default_expression = true:warning # IDE0034: Simplify 'default' expression
 dotnet_style_prefer_compound_assignment = true:warning # IDE0054: Use compound assignment
 csharp_style_unused_value_assignment_preference = discard_variable:warning # IDE0059: Unnecessary assignment of a value
+
+dotnet_diagnostic.VSSpell001.severity = silent # Correct spelling

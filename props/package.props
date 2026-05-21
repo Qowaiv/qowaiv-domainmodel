@@ -45,4 +45,8 @@
     <PackageReference Include="StyleCop.Analyzers.Unstable" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileFullPath)" />
+  </ItemGroup>
+
 </Project>
