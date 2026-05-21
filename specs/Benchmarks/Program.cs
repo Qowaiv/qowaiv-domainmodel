@@ -4,7 +4,7 @@ namespace Benchmarks;
 
 public static class Program
 {
-    public static void Main(params string[] args)
+    public static void Main()
     {
         BenchmarkRunner.Run<Creation>();
         BenchmarkRunner.Run<BatchCreation>();

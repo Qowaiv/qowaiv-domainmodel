@@ -228,7 +228,7 @@ public class Then_
         public void If_false_does_not_add()
             => IfTrue.If(false)
                 .Then(() => new Dummy())
-            .Should().HaveCount(1);
+            .Should().ContainSingle();
     }
 
     public class if_false
@@ -240,7 +240,7 @@ public class Then_
         [Test]
         public void Adds_item()
             => IfFalse.Add(new Dummy())
-                .Should().HaveCount(1);
+                .Should().ContainSingle();
 
         [Test]
         public void Adds_range_of_items()
@@ -251,7 +251,7 @@ public class Then_
         public void If_true_adds()
             => IfFalse.If(true)
                 .Then(() => new Dummy())
-            .Should().HaveCount(1);
+            .Should().ContainSingle();
 
         [Test]
         public void If_false_does_not_add()

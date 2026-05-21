@@ -221,7 +221,7 @@ public class Odds
         public override string ToString() => $"+{Win} ={Draw} -{Loss}";
     }
 
-    internal readonly struct Distribution(Odds.DicePair dice, int frequency)
+    internal readonly struct Distribution(DicePair dice, int frequency)
     {
         public DicePair Dice { get; } = dice;
 

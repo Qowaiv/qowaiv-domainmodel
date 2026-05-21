@@ -144,7 +144,7 @@ public class Implements_ICollection
     public void Count_is_equal_to_buffer_count()
     {
         var collection = EventBuffer.Empty(17).Add(new[] { 1, 2, 3, 4 });
-        collection.Count.Should().Be(4);
+        collection.Should().HaveCount(4);
     }
 
     [Test]

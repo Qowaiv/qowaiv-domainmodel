@@ -2,7 +2,7 @@ namespace Benchmarks.Collections;
 
 public class Aggregation
 {
-    [Params(/*100,*/ 10_000/*, 10_000*/)]
+    [Params(100, 10_000)]
     public int Count { get; set; }
 
     private IReadOnlyCollection<object> Events = [];

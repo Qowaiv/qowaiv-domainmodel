@@ -16,7 +16,7 @@ public class Replays_events
             Version = 1,
             Id = id,
         });
-        replayed.Buffer.Should().HaveCount(1);
+        replayed.Buffer.Should().ContainSingle();
     }
 }
 
