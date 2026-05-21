@@ -10,7 +10,7 @@ namespace Qowaiv.DomainModel.Collections;
 public class ReadOnlySet<T> : IEnumerable<T>
 {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private readonly HashSet<T> collection = new();
+    private readonly HashSet<T> collection = [];
 
     /// <summary>Initializes a new instance of the <see cref="ReadOnlySet{T}"/> class.</summary>
     /// <param name="items">
