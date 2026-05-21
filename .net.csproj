@@ -11,9 +11,5 @@
     <None Include="example/README.md" />
     <None Include="shared/**" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="DotNetProjectFile.Analyzers.Sdk" PrivateAssets="all" />
-  </ItemGroup>
 
 </Project>
