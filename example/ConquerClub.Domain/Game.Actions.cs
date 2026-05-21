@@ -5,10 +5,10 @@ public sealed partial class Game : Aggregate<Game, GameId>
     public static Result<Game> Start(Start start, RandomSource rnd)
         => new Game(start.Game).ApplyEvents(
             new MapInitialized(
-                Continents: start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, c.Territories.ToArray())).ToArray(),
-                Countries: start.Countries.Select(c => new CountryInitialized(c.Name, c.Borders.ToArray())).ToArray()),
+                Continents: [.. start.Continents.Select(c => new ContinentInitialized(c.Name, c.Bonus, [.. c.Territories]))],
+                Countries: [.. start.Countries.Select(c => new CountryInitialized(c.Name, [.. c.Borders]))]),
             new SettingsInitialized(start.Players, start.RoundLimit, false),
-            new ArmiesInitialized(RndArmies(start.Players, start.Countries.Length, rnd).ToArray()))
+            new ArmiesInitialized([.. RndArmies(start.Players, start.Countries.Length, rnd)]))
         | (g => g.ApplyEvent(g.StartTurn(Player.P1)));
 
     public Result<Game> Deploy(CountryId country, Army army)
@@ -95,13 +95,9 @@ public sealed partial class Game : Aggregate<Game, GameId>
 
     internal void When(MapInitialized @event)
     {
-        Continents = @event.Continents
-            .Select((c, id) => new Continent(ContinentId.Create(id), c.Name, c.Bonus))
-            .ToArray();
+        Continents = [.. @event.Continents.Select((c, id) => new Continent(ContinentId.Create(id), c.Name, c.Bonus))];
 
-        Countries = @event.Countries
-            .Select((c, id) => new Country(CountryId.Create(id), c.Name))
-            .ToArray();
+        Countries = [.. @event.Countries.Select((c, id) => new Country(CountryId.Create(id), c.Name))];
 
         LinkNeighborCountries(@event.Countries);
         LinkContinentsToCountries(@event.Continents);
@@ -195,7 +191,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
         }))
         {
             var country = Countries.ById(data.Country);
-            country.Borders = data.Borders.Select(id => Countries.ById(id)).ToArray();
+            country.Borders = [.. data.Borders.Select(id => Countries.ById(id))];
         }
     }
 
@@ -217,7 +213,7 @@ public sealed partial class Game : Aggregate<Game, GameId>
     {
         foreach (var continent in Continents)
         {
-            continent.Countries = Countries.Where(c => c.Continent == continent).ToArray();
+            continent.Countries = [.. Countries.Where(c => c.Continent == continent)];
         }
     }
 

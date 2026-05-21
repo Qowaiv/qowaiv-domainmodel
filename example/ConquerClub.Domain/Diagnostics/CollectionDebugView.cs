@@ -22,5 +22,5 @@ internal sealed class CollectionDebugView
     /// By doing this, it is always in sync with the current state of the enumeration.
     /// </remarks>
     [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-    public object[] Items => collection.Cast<object>().ToArray();
+    public object[] Items => [.. collection.Cast<object>()];
 }

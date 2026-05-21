@@ -7,7 +7,7 @@ public class Odds
     [Test]
     public void For_3_vs_2_are_2890_wins_2611_draws_2275_losses()
     {
-        var outcome = TwoDice(Get2Out3().ToArray(), Get2Out2().ToArray());
+        var outcome = TwoDice([.. Get2Out3()], [.. Get2Out2()]);
         outcome.Should().Be(new DiceOutcome(2890, 2611, 2275));
 
         GenerateTwo(outcome, "3v2");
@@ -16,7 +16,7 @@ public class Odds
     [Test]
     public void For_3_vs_1_are_855_wins_441_losses()
     {
-        var outcome = OneDice(Get2Out3().ToArray(), Get1Out1().ToArray());
+        var outcome = OneDice([.. Get2Out3()], [.. Get1Out1()]);
         outcome.Should().Be(new DiceOutcome(855, 0, 441));
 
         GenerateOne(outcome, "3v1");
@@ -25,7 +25,7 @@ public class Odds
     [Test]
     public void For_2_vs_2_are_295_wins_420_draws_581_losses()
     {
-        var outcome = TwoDice(Get2Out2().ToArray(), Get2Out2().ToArray());
+        var outcome = TwoDice([.. Get2Out2()], [.. Get2Out2()]);
         outcome.Should().Be(new DiceOutcome(295, 420, 581));
 
         GenerateTwo(outcome, "2v2");
@@ -34,7 +34,7 @@ public class Odds
     [Test]
     public void For_2_vs_1_are_125_wins_91_losses()
     {
-        var outcome = OneDice(Get2Out2().ToArray(), Get1Out1().ToArray());
+        var outcome = OneDice([.. Get2Out2()], [.. Get1Out1()]);
         outcome.Should().Be(new DiceOutcome(125, 0, 91));
 
         GenerateOne(outcome, "2v1");
@@ -42,7 +42,7 @@ public class Odds
     [Test]
     public void For_1_vs_2_are_55_wins_161_losses()
     {
-        var outcome = OneDice(Get1Out1().ToArray(), Get2Out2().ToArray());
+        var outcome = OneDice([.. Get1Out1()], [.. Get2Out2()]);
         outcome.Should().Be(new DiceOutcome(55, 0, 161));
 
         GenerateOne(outcome, "1v2");
@@ -51,7 +51,7 @@ public class Odds
     [Test]
     public void For_1_vs_1_are_15_wins_21_losses()
     {
-        var outcome = OneDice(Get1Out1().ToArray(), Get1Out1().ToArray());
+        var outcome = OneDice([.. Get1Out1()], [.. Get1Out1()]);
         outcome.Should().Be(new DiceOutcome(15, 0, 21));
 
         GenerateOne(outcome, "1v1");

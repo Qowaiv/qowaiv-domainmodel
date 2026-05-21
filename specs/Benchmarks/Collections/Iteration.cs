@@ -6,15 +6,15 @@ public class Iteration
     public int Count { get; set; }
 
     private object[] array = [];
-    private List<object> list = new();
+    private List<object> list = [];
     private EventBuffer<int> buffer = Qowaiv.DomainModel.EventBuffer.Empty(17);
 
     [GlobalSetup]
     public void Setup()
     {
         var events = Added.Random(Count);
-        list = events.ToList();
-        array = list.ToArray();
+        list = [.. events];
+        array = [.. list];
         buffer = Qowaiv.DomainModel.EventBuffer.Empty(17).Add(events);
     }
 
