@@ -6,7 +6,5 @@ namespace Models;
 public sealed class SimpleEventSourcedAggregateValidator : ModelValidator<SimpleEventSourcedAggregate>
 {
     public SimpleEventSourcedAggregateValidator()
-    {
-        RuleFor(m => m.IsWrong).Must(prop => !prop).WithMessage("Should not be wrong.");
-    }
+        => RuleFor(m => m.IsWrong).Must(prop => !prop).WithMessage("Should not be wrong.");
 }

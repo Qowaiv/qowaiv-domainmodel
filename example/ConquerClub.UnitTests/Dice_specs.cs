@@ -110,9 +110,7 @@ public class Odds
         }
     }
     private static IEnumerable<Distribution> Get1Out1()
-    {
-        return Roll().Select(d => new Distribution(new DicePair(d, 0), 1));
-    }
+        => Roll().Select(d => new Distribution(new DicePair(d, 0), 1));
 
     private static DiceOutcome TwoDice(Distribution[] attackers, Distribution[] defenders)
     {

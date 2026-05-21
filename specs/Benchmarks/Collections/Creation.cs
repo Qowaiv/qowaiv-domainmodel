@@ -10,9 +10,7 @@ public class Creation
 
     [GlobalSetup]
     public void Setup()
-    {
-        Events = Added.Random(Count);
-    }
+        => Events = Added.Random(Count);
 
     [Benchmark(Baseline = true)]
 #pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions

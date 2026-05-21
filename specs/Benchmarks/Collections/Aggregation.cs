@@ -9,9 +9,7 @@ public class Aggregation
 
     [GlobalSetup]
     public void Setup()
-    {
-        Events = Added.Random(Count);
-    }
+        => Events = Added.Random(Count);
 
     [Benchmark]
     public double Aggregate_ApplyEvent()

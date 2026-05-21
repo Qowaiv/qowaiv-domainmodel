@@ -117,7 +117,5 @@ internal class TestPreProcessEventAggregate : Aggregate<TestPreProcessEventAggre
 
 
     internal void When(NameUpdated @event)
-    {
-        Name = @event.Name;
-    }
+        => Name = @event.Name;
 }
