@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="../../props/package.props" />
 
@@ -36,6 +36,7 @@ v3.*
 v3.0.0
 - Add .NET 10.0 target.
 - Drop NET9.0 targets. (BREAKING)
+- Changed namespace of Assertions class. (BREAKING)
 v2.0.0
 - Add .NET 9.0 target.
 - Drop .NET 5.0, NET6.0, NET7.0 targets. (BREAKING)

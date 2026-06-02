@@ -1,5 +1,5 @@
 using Qowaiv.DomainModel;
-using Qowaiv.DomainModel.TestTools.AwesomeAssertions;
+using Qowaiv.DomainModel.TestTools;
 using System.Diagnostics.Contracts;
 
 namespace AwesomeAssertions;

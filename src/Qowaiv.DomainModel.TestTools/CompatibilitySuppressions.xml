@@ -17,7 +17,7 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0001</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.TestTools.AwesomeAssertions.EventBufferAssertions`1</Target>
+    <Target>T:Qowaiv.DomainModel.TestTools.EventBufferAssertions`1</Target>
     <Left>lib/net8.0/Qowaiv.DomainModel.TestTools.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.TestTools.dll</Right>
     <IsBaselineSuppression>true</IsBaselineSuppression>
@@ -45,7 +45,7 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0001</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.TestTools.AwesomeAssertions.EventBufferAssertions`1</Target>
+    <Target>T:Qowaiv.DomainModel.TestTools.EventBufferAssertions`1</Target>
     <Left>lib/net9.0/Qowaiv.DomainModel.TestTools.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.TestTools.dll</Right>
     <IsBaselineSuppression>true</IsBaselineSuppression>
@@ -85,7 +85,7 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0001</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.TestTools.AwesomeAssertions.EventBufferAssertions`1</Target>
+    <Target>T:Qowaiv.DomainModel.TestTools.EventBufferAssertions`1</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.TestTools.dll</Left>
     <Right>lib/netstandard2.0/Qowaiv.DomainModel.TestTools.dll</Right>
     <IsBaselineSuppression>true</IsBaselineSuppression>
@@ -138,7 +138,7 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.TestTools.AwesomeAssertions.EventBufferAssertions`1.#ctor(Qowaiv.DomainModel.EventBuffer{`0})$0:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Target>M:Qowaiv.DomainModel.TestTools.EventBufferAssertions`1.#ctor(Qowaiv.DomainModel.EventBuffer{`0})$0:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.TestTools.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.TestTools.dll</Right>
   </Suppression>
@@ -156,19 +156,19 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.TestTools.AwesomeAssertions.EventBufferAssertions`1:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Target>T:Qowaiv.DomainModel.TestTools.EventBufferAssertions`1:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.TestTools.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.TestTools.dll</Right>
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.TestTools.AwesomeAssertions.EventBufferAssertions`1:[T:System.Runtime.CompilerServices.NullableContextAttribute]</Target>
+    <Target>T:Qowaiv.DomainModel.TestTools.EventBufferAssertions`1:[T:System.Runtime.CompilerServices.NullableContextAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.TestTools.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.TestTools.dll</Right>
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.TestTools.AwesomeAssertions.EventBufferAssertions`1&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Target>T:Qowaiv.DomainModel.TestTools.EventBufferAssertions`1&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.TestTools.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.TestTools.dll</Right>
   </Suppression>
