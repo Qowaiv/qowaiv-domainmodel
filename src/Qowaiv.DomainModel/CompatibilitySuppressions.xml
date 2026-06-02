@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- https://learn.microsoft.com/dotnet/fundamentals/package-validation/diagnostic-ids -->
-<Suppressions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Suppressions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Suppression>
     <DiagnosticId>CP0001</DiagnosticId>
     <Target>T:Qowaiv.DomainModel.AggregateRoot</Target>
@@ -99,12 +99,6 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.Aggregate.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1})$0:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
     <Target>M:Qowaiv.DomainModel.Aggregate.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1})&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
@@ -112,6 +106,12 @@
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
     <Target>M:Qowaiv.DomainModel.Aggregate.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1})&lt;1&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0016</DiagnosticId>
+    <Target>M:Qowaiv.DomainModel.Aggregate.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1})$0:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
   </Suppression>
@@ -207,13 +207,7 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.EventBuffer.Empty``1(``0)&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.EventBuffer.Empty``1(``0)-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Target>M:Qowaiv.DomainModel.EventBuffer.Empty``1(``0,System.Int32)-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
   </Suppression>
@@ -225,7 +219,19 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.EventBuffer.Empty``1(``0,System.Int32)-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Target>M:Qowaiv.DomainModel.EventBuffer.Empty``1(``0)-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0016</DiagnosticId>
+    <Target>M:Qowaiv.DomainModel.EventBuffer.Empty``1(``0)&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0016</DiagnosticId>
+    <Target>M:Qowaiv.DomainModel.EventBuffer.FromStorage``2(``0,System.Collections.Generic.IEnumerable{``1},Qowaiv.DomainModel.ConvertFromStoredEvent{``1})-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
   </Suppression>
@@ -243,7 +249,7 @@
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.EventBuffer.FromStorage``2(``0,System.Collections.Generic.IEnumerable{``1},Qowaiv.DomainModel.ConvertFromStoredEvent{``1})-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
+    <Target>M:Qowaiv.DomainModel.EventBuffer.FromStorage``2(``0,System.Int32,System.Collections.Generic.IEnumerable{``1},Qowaiv.DomainModel.ConvertFromStoredEvent{``1})-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
   </Suppression>
@@ -256,12 +262,6 @@
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
     <Target>M:Qowaiv.DomainModel.EventBuffer.FromStorage``2(``0,System.Int32,System.Collections.Generic.IEnumerable{``1},Qowaiv.DomainModel.ConvertFromStoredEvent{``1})&lt;1&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.EventBuffer.FromStorage``2(``0,System.Int32,System.Collections.Generic.IEnumerable{``1},Qowaiv.DomainModel.ConvertFromStoredEvent{``1})-&gt;Qowaiv.DomainModel.EventBuffer&lt;TId&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
   </Suppression>
