@@ -29,11 +29,10 @@ public sealed class If
     /// Null, and null items are ignored.
     /// </remarks>
     [Pure]
-    public Then Then(Func<object> item)
-        => State switch
-        {
-            IfState.True => new Then(true, Collection.Add(item())),
-            IfState.False => new Then(false, Collection),
-            _ => new Then(true, Collection),
-        };
+    public Then Then(Func<object> item) => State switch
+    {
+        IfState.True => new Then(true, Collection.Add(item())),
+        IfState.False => new Then(false, Collection),
+        _ => new Then(true, Collection),
+    };
 }
