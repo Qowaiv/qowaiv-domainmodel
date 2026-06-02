@@ -4,6 +4,7 @@ namespace Qowaiv.DomainModel;
 /// <typeparam name="TAggregate">
 /// The type of the aggregate root itself.
 /// </typeparam>
+[Mutable]
 public abstract class Aggregate<TAggregate>
     where TAggregate : Aggregate<TAggregate>
 {

@@ -3,6 +3,48 @@
 <Suppressions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Suppression>
     <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot</Target>
+    <Left>lib/net8.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot`1</Target>
+    <Left>lib/net8.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot`2</Target>
+    <Left>lib/net8.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot</Target>
+    <Left>lib/net9.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot`1</Target>
+    <Left>lib/net9.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot`2</Target>
+    <Left>lib/net9.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
     <Target>T:System.Runtime.CompilerServices.IsExternalInit</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
@@ -12,6 +54,48 @@
     <Target>T:System.Runtime.CompilerServices.RequiresLocationAttribute</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot</Target>
+    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/netstandard2.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot`1</Target>
+    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/netstandard2.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Qowaiv.DomainModel.AggregateRoot`2</Target>
+    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/netstandard2.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0003</DiagnosticId>
+    <Target>Qowaiv.DomainModel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0e6640b5f269a3fc</Target>
+    <Left>lib/net8.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0003</DiagnosticId>
+    <Target>Qowaiv.DomainModel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0e6640b5f269a3fc</Target>
+    <Left>lib/net9.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0003</DiagnosticId>
+    <Target>Qowaiv.DomainModel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0e6640b5f269a3fc</Target>
+    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
+    <Right>lib/netstandard2.0/Qowaiv.DomainModel.dll</Right>
+    <IsBaselineSuppression>true</IsBaselineSuppression>
   </Suppression>
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
@@ -46,30 +130,6 @@
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
     <Target>M:Qowaiv.DomainModel.Aggregate`2.set_Buffer(Qowaiv.DomainModel.EventBuffer{`1})$0:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.AggregateRoot.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1}):[T:System.Runtime.CompilerServices.NullableContextAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.AggregateRoot.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1})&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.AggregateRoot.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1})&lt;1&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>M:Qowaiv.DomainModel.AggregateRoot.FromStorage``2(Qowaiv.DomainModel.EventBuffer{``1})$0:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
   </Suppression>
@@ -304,48 +364,6 @@
   <Suppression>
     <DiagnosticId>CP0016</DiagnosticId>
     <Target>T:Qowaiv.DomainModel.Aggregate`2&lt;1&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.AggregateRoot`1:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.AggregateRoot`1:[T:System.Runtime.CompilerServices.NullableContextAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.AggregateRoot`1&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.AggregateRoot`2:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.AggregateRoot`2:[T:System.Runtime.CompilerServices.NullableContextAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.AggregateRoot`2&lt;0&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
-    <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
-    <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
-  </Suppression>
-  <Suppression>
-    <DiagnosticId>CP0016</DiagnosticId>
-    <Target>T:Qowaiv.DomainModel.AggregateRoot`2&lt;1&gt;:[T:System.Runtime.CompilerServices.NullableAttribute]</Target>
     <Left>lib/netstandard2.0/Qowaiv.DomainModel.dll</Left>
     <Right>lib/net8.0/Qowaiv.DomainModel.dll</Right>
   </Suppression>

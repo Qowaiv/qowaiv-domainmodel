@@ -4,7 +4,7 @@ using AwesomeAssertions.Execution;
 using Qowaiv.DomainModel.TestTools.Diagnostics.Contracts;
 using System.Text;
 
-namespace Qowaiv.DomainModel.TestTools.AwesomeAssertions;
+namespace Qowaiv.DomainModel.TestTools;
 
 /// <summary>Assertions on <see cref="EventBuffer{TId}"/>.</summary>
 /// <typeparam name="TId">

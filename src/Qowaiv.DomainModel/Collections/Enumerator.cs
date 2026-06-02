@@ -39,5 +39,5 @@ public struct Enumerator : IEnumerator<object>, IEnumerable<object>
     /// <inheritdoc />
     [Pure]
     [ExcludeFromCodeCoverage/* Required for backward comparability. */]
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    readonly IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
