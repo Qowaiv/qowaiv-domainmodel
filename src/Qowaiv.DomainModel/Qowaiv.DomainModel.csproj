@@ -14,15 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="QowaivDomainModelMessages.Designer.cs">
-      <DependentUpon>QowaivDomainModelMessages.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <EmbeddedResource Update="QowaivDomainModelMessages.resx">
-      <LastGenOutput>QowaivDomainModelMessages.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
+    <Compile Update="QowaivDomainModelMessages.Designer.cs" DependentUpon="QowaivDomainModelMessages.resx" DesignTime="true" AutoGen="true" />
+    <EmbeddedResource Update="QowaivDomainModelMessages.resx" LastGenOutput="QowaivDomainModelMessages.Designer.cs" Generator="PublicResXFileCodeGenerator" />
   </ItemGroup>
 
   <ItemGroup>
