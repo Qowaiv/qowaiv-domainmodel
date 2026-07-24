@@ -1,5 +1,4 @@
 using static ConquerClub.UnitTests.Arrange;
-using Commands = ConquerClub.Domain.Commands;
 
 namespace Game_specs;
 

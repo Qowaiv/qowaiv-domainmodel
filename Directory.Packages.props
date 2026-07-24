@@ -6,17 +6,17 @@
     <CentralPackageVersionOverrideEnabled>true</CentralPackageVersionOverrideEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AwesomeAssertions" Version="9.4.0" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.5.0" />
     <PackageVersion Include="AwesomeAssertions.Analyzers" Version="9.0.8" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="MathNet.Numerics.Signed" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageVersion Include="NUnit" Version="4.6.1" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="6.2.0" />
-    <PackageVersion Include="Qowaiv" Version="8.0.0" />
+    <PackageVersion Include="Qowaiv" Version="8.1.0" />
     <PackageVersion Include="Qowaiv.TestTools" Version="8.0.0" />
     <PackageVersion Include="Qowaiv.Validation.Abstractions" Version="2.1.0" />
     <PackageVersion Include="Qowaiv.Validation.Fluent" Version="4.1.0" />
@@ -27,15 +27,15 @@
   </ItemGroup>
   <ItemGroup>
     <GlobalPackageReference Include="AsyncFixer" Version="2.1.0" />
-    <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.2" />
-    <GlobalPackageReference Include="DotNetProjectFile.Analyzers" Version="1.14.1" />
-    <GlobalPackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" />
-    <GlobalPackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.300" />
+    <GlobalPackageReference Include="DotNet.ReproducibleBuilds" Version="2.0.5" />
+    <GlobalPackageReference Include="DotNetProjectFile.Analyzers" Version="1.15.2" />
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.6.0" />
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.302" />
     <GlobalPackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" />
     <GlobalPackageReference Include="PolySharp" Version="1.16.0" />
-    <GlobalPackageReference Include="Qowaiv.Analyzers.CSharp" Version="2.4.0" />
+    <GlobalPackageReference Include="Qowaiv.Analyzers.CSharp" Version="2.5.1" />
     <GlobalPackageReference Include="Qowaiv.CodeGeneration.SingleValueObjects" Version="1.1.5" />
-    <GlobalPackageReference Include="Qowaiv.Diagnostics.Contracts" Version="2.0.6" />
-    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.27.0.140913" />
+    <GlobalPackageReference Include="Qowaiv.Diagnostics.Contracts" Version="2.1.0" />
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.30.0.144632" />
   </ItemGroup>
 </Project>
